@@ -1,20 +1,12 @@
 <body>
   <div class="parent-container">
-              <!-- container -->
-              <!-- put navbar and ticker here -->
-    <a routerLink="/"><h1>{{title}}</h1></a>
-    <div class= "row">
-      <!-- fake nav bar -->
-      <div class="col-md-4 col-lg-3 col-sm-6 offset-1">
-        <a routerLink="/portfolios" routerLinkactive="active" class="btn btn-primary">Portfolio List</a>
-      </div>
-      <div class="col-md-4 col-lg-3 col-sm-6">
-      </div>
-    </div>
-    <br>
-    <!-- <button type="button" class="btn btn-success">This button should be green</button> -->
-    <router-outlet>
 
-    </router-outlet>
+    <app-nav-bar></app-nav-bar>
+
+    <br>
+
+    <!-- router hooks here -->
+    <router-outlet></router-outlet>
+
   </div>
 </body>
