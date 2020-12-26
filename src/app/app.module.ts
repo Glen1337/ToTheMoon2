@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { PortfolioListComponent } from './portfolio-list/portfolio-list.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PortfolioListComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
