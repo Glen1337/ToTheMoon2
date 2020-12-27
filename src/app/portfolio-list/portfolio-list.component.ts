@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Portfolio } from '../Models/Portfolio';
 
 @Component({
   selector: 'portfolio-list',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortfolioListComponent implements OnInit {
 
-  constructor() { }
+  portfolios: Array<Portfolio> = [];
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    //this.portfolios$ 
+     this.route.data.subscribe( data => {
+      console.log(data);
+      this.portfolios = data.portfolios
+    });
+    
   }
 
 }
