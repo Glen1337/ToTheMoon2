@@ -15,9 +15,19 @@ export class PortfolioDataService {
   constructor(private http: HttpClient) { }
 
   getAllPortfolios(): Observable<Array<Portfolio>>{
-    return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`).pipe(
+    return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`)
+    .pipe(
       tap(_ => console.log('Getting list of portfolios')),
-      catchError(this.handleError<any>('getAllPortfolios')));
+      catchError(this.handleError<any>('getAllPortfolios'))
+    );
+  }
+
+  getPortfolio(id: number | string | null): Observable<Portfolio> {
+    return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`)
+    .pipe(
+      tap(_ => console.log('Getting portfolio '+id)),
+      catchError(this.handleError<any>('getPortfolio'))
+    );
   }
 
 

@@ -7,6 +7,7 @@ import { PortfolioListComponent } from './portfolio-list/portfolio-list.componen
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     PortfolioListComponent,
     LandingPageComponent,
     NavBarComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PortfolioComponent
   ],
   imports: [
     BrowserModule,

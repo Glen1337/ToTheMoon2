@@ -1,0 +1,22 @@
+<div class="container">
+    <h2>Portfolio</h2>
+    <a routerLink="/portfolios">Back to List</a>
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <table class="table">
+        <tr>
+        <th> Symbol </th>
+        <th> Cost Basis </th>
+        <th> Quantity </th>
+        <th> Current Price </th>
+        <th> Security Type</th>
+        <th></th>
+        </tr>
+        <tr *ngFor="let holding of portfolio.holdings">
+        <td>{{holding.symbol}}</td>
+        <td>{{holding.costBasis}}</td>
+        <td>{{holding.quantity}}</td>
+        <td>{{holding.currentPrice}}</td>
+        <td>{{holding.securityType}}</td>
+        </tr>
+    </table>
+</div>
