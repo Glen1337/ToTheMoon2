@@ -2,31 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Portfolio } from '../Models/Portfolio';
+import { Holding } from '../Models/Holding';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PortfolioDataService {
+export class HoldingServiceService {
 
-  // move this to config
-  private baseUrl = 'https://localhost:5001/api/'
+    // move this to config
+    private baseUrl = 'https://localhost:5001/api/'
 
   constructor(private http: HttpClient) { }
 
-  getAllPortfolios(): Observable<Array<Portfolio>>{
-    return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`)
-    .pipe(
-      tap(_ => console.log('Getting list of portfolios')),
-      catchError(this.handleError<any>('getAllPortfolios'))
-    );
-  }
+  addHolding(holding: Holding){
+    const hOptions = {
+      headers: new HttpHeaders({
+        //'Content-Type':  'application/json',
+      })
+    };
 
-  getPortfolio(id: number | string | null): Observable<Portfolio> {
-    return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`)
+    let url = `${this.baseUrl}Holdings`;
+
+    return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
-      tap(_ => console.log('Getting portfolio '+id)),
-      catchError(this.handleError<any>('getPortfolio'))
+      catchError(this.handleError('updateHero', holding))
     );
   }
 
@@ -43,5 +42,4 @@ export class PortfolioDataService {
       return of(result as T);
     };
   }
-
 }

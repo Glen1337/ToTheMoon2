@@ -24,31 +24,37 @@
 
     <div>
         <form class="form-group" [formGroup]="holdingForm" (ngSubmit)="onSubmitHolding()">
-          <h3>Buy a Stock</h3>
-    
-          <span>
+            <h3>Buy a Stock</h3>
+
+            <span>
             <label>Symbol: <input type="text" formControlName="holdingSymbolControl"></label>
-          </span>
-          <span>
+            </span>
+            <span>
             <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
-          </span>
-          <span>
+            </span>
+            <span>
             <label>Reinvest Divs? <input type="checkbox" formControlName="holdingDividendControl"></label>
-          </span>
-          <div>
+            </span>
+            <div>
             <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
-          </div>
-    
-          <!--Validation messages-->
-          <div *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)" class="alert alert-danger">
-            <div *ngIf="symbolControl!.errors!.required">
-              Symbol is required.
             </div>
-            <div *ngIf="symbolControl!.errors!.minlength || symbolControl!.errors!.minlength">
-              Symbol must be between 1 and 8 characters long.
-            </div>
-          </div>
     
+            <!--symbol validation messages-->
+            <div *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)" class="alert alert-danger">
+                <div *ngIf="symbolControl!.errors!.required">
+                    Symbol is required.
+                </div>
+                <div *ngIf="symbolControl!.errors!.minlength || symbolControl!.errors!.maxlength">
+                    Symbol must be between 1 and 8 characters long.
+                </div>
+            </div>
+
+            <!--quantity validation messages-->
+            <div *ngIf="quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)" class="alert alert-danger">
+                <div *ngIf="quantityControl!.errors!.min || quantityControl!.errors!.required">
+                    You can't buy zero shares.
+                </div>
+            </div>
         </form>
       </div>
 </div>

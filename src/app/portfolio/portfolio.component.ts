@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Holding } from '../Models/Holding';
 
 @Component({
   selector: 'app-portfolio',
@@ -14,7 +15,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class PortfolioComponent implements OnInit, OnDestroy {
 
   public portfolio = <Portfolio>{};
-  portfolioId: Number = 0;
+  portfolioId: number = 0;
   subscription1: Subscription = new Subscription;
   subscriptions: Subscription[] = [];
 
@@ -69,7 +70,15 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onSubmitHolding() {
-    console.log('submitting holding...');
+    let holding: Holding = {
+      quantity: this.quantityControl?.value,
+      reinvestDivs: this.dividendControl?.value,
+      symbol: this.symbolControl?.value,
+      portfolioId: this.portfolioId,
+      orderType: 'Buy',
+      securityType: 'Share'
+    }
+    console.log("Sending buy order to API: " + holding);
   }
 
 }
