@@ -6,6 +6,7 @@ import { Portfolio } from '../Models/Portfolio';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
+import { HoldingService } from '../Services/holding-data.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -36,7 +37,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   constructor(http: HttpClient,
     private location: Location,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private holdingService: HoldingService) { }
 
   ngOnInit(): void {
     this.subscription1 = this.route.data.subscribe( data => {
@@ -79,6 +81,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       securityType: 'Share'
     }
     console.log("Sending buy order to API: " + holding);
+    this.holdingService.addHolding(holding);
   }
 
 }

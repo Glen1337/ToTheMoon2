@@ -7,7 +7,7 @@ import { Holding } from '../Models/Holding';
 @Injectable({
   providedIn: 'root'
 })
-export class HoldingServiceService {
+export class HoldingService {
 
     // move this to config
     private baseUrl = 'https://localhost:5001/api/'
@@ -17,16 +17,18 @@ export class HoldingServiceService {
   addHolding(holding: Holding){
     const hOptions = {
       headers: new HttpHeaders({
-        //'Content-Type':  'application/json',
+        'Content-Type':  'application/json',
       })
     };
 
-    let url = `${this.baseUrl}Holdings`;
+    let url = `${this.baseUrl}holdings`;
 
     return this.http.post<Holding>(url, holding, hOptions)
-    .pipe(
-      catchError(this.handleError('updateHero', holding))
-    );
+    //.pipe(catchError(this.handleError("Post")))
+    .subscribe({
+      next(response) { console.log('Response:' + response); },
+      error(err) { console.error('Error2: ' + err );}
+    });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
