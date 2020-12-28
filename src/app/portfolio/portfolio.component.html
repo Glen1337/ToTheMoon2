@@ -19,4 +19,36 @@
         <td>{{holding.securityType}}</td>
         </tr>
     </table>
+    
+    <br>
+
+    <div>
+        <form class="form-group" [formGroup]="holdingForm" (ngSubmit)="onSubmitHolding()">
+          <h3>Buy a Stock</h3>
+    
+          <span>
+            <label>Symbol: <input type="text" formControlName="holdingSymbolControl"></label>
+          </span>
+          <span>
+            <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
+          </span>
+          <span>
+            <label>Reinvest Divs? <input type="checkbox" formControlName="holdingDividendControl"></label>
+          </span>
+          <div>
+            <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
+          </div>
+    
+          <!--Validation messages-->
+          <div *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)" class="alert alert-danger">
+            <div *ngIf="symbolControl!.errors!.required">
+              Symbol is required.
+            </div>
+            <div *ngIf="symbolControl!.errors!.minlength || symbolControl!.errors!.minlength">
+              Symbol must be between 1 and 8 characters long.
+            </div>
+          </div>
+    
+        </form>
+      </div>
 </div>

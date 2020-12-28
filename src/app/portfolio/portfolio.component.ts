@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-portfolio',
@@ -17,6 +18,21 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   subscription1: Subscription = new Subscription;
   subscriptions: Subscription[] = [];
 
+  public holdingForm = new FormGroup({
+    holdingSymbolControl: new FormControl('',
+      [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(8)
+      ]),
+    holdingQuantityControl: new FormControl('',
+      [
+        Validators.required,
+        Validators.min(1.00)
+      ]),
+    holdingDividendControl: new FormControl('')
+  });
+
   constructor(http: HttpClient,
     private location: Location,
     private route: ActivatedRoute) { }
@@ -27,12 +43,18 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       this.portfolio = data.portfolio
     },
     (error) => {
-      console.log(`Error getting portfolio list:${error}`);
+      console.log(`Error getting portfolio:${error}`);
     });
 
     this.subscriptions.push(this.subscription1)
     //this.subscriptions.push(this.subscription2)
   }
+
+  get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
+
+  get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
+
+  get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
@@ -44,6 +66,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.location.back();
+  }
+
+  onSubmitHolding() {
+    console.log('submitting holding...');
   }
 
 }
