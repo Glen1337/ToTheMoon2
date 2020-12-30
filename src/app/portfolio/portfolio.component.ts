@@ -75,13 +75,16 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let holding: Holding = {
       quantity: this.quantityControl?.value,
       reinvestDivs: this.dividendControl?.value,
-      symbol: this.symbolControl?.value,
-      portfolioId: this.portfolioId,
+      symbol: String(this.symbolControl?.value).trim(),
+      portfolioId: this.portfolio.portfolioId,
       orderType: 'Buy',
       securityType: 'Share'
     }
     console.log("Sending buy order to API: " + holding);
-    this.holdingService.addHolding(holding);
+    this.holdingService.addHolding(holding)
+      .subscribe(returnedHolding =>{
+        this.portfolio.holdings.push(returnedHolding);
+      });
   }
 
 }

@@ -14,7 +14,7 @@ export class HoldingService {
 
   constructor(private http: HttpClient) { }
 
-  addHolding(holding: Holding){
+  addHolding(holding: Holding): Observable<Holding> {
     const hOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -24,11 +24,14 @@ export class HoldingService {
     let url = `${this.baseUrl}holdings`;
 
     return this.http.post<Holding>(url, holding, hOptions)
-    //.pipe(catchError(this.handleError("Post")))
-    .subscribe({
-      next(response) { console.log('Response:' + response); },
-      error(err) { console.error('Error2: ' + err );}
-    });
+    .pipe(
+      tap((newHolding ) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
+      catchError<Holding, Observable<Holding>>(this.handleError("addHolding"))
+    );
+    // .subscribe({
+    //   next(response) { console.log('Response:' + response); },
+    //   error(err) { console.error('Error posting holding: ');}
+    // });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
