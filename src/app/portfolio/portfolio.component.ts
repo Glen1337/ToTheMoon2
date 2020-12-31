@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
+import { OrderConstants, SecurityConstants } from '../Models/Constants';
 
 @Component({
   selector: 'app-portfolio',
@@ -77,8 +78,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       reinvestDivs: this.dividendControl?.value,
       symbol: String(this.symbolControl?.value).trim(),
       portfolioId: this.portfolio.portfolioId,
-      orderType: 'Buy',
-      securityType: 'Share'
+      orderType: OrderConstants.Buy,
+      securityType: SecurityConstants.Share
     }
     console.log("Sending buy order to API: " + holding);
     this.holdingService.addHolding(holding)
