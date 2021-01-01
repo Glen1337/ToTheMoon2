@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Holding } from '../Models/Holding';
 
@@ -9,12 +9,16 @@ import { Holding } from '../Models/Holding';
 })
 export class HoldingService {
 
-    // move this to config
+    // move this to environment config
     private baseUrl = 'https://localhost:5001/api/'
 
   constructor(private http: HttpClient) { }
 
   addHolding(holding: Holding): Observable<Holding> {
+      // Setting request headers to JSON
+      // headers = new HttpHeaders()
+      // .set('Content-Type', 'application/json')
+      // .set('Accept', 'application/json');
     const hOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -25,7 +29,7 @@ export class HoldingService {
 
     return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
-      tap((newHolding ) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
+      tap((newHolding) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
       catchError<Holding, Observable<Holding>>(this.handleError("addHolding"))
     );
     // .subscribe({
@@ -41,9 +45,10 @@ export class HoldingService {
       console.error(error); // log to console instead
   
       // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
+      console.log(`(service) ${operation} failed: ${error.message}`);
   
       // Let the app keep running by returning an empty result.
+      return throwError(error);
       return of(result as T);
     };
   }

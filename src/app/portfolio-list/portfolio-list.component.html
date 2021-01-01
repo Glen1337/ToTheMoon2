@@ -1,21 +1,51 @@
 <div class="container">
-    <h2>Your Portfolios</h2>
-    <table class="table">
-        <tr>
-          <th> Type </th>
-          <!-- <th> Total Equity </th> -->
-          <th> Title </th>
-          <th> Created Date </th>
-          <th> # Holdings </th>
-          <th> Details </th>
-        </tr>
-        <tr *ngFor="let port of portfolios">
-          <td>{{port.type}}</td>
-          <!-- <td>{{port.totalMarketValue}}</td> -->
-          <td>{{port.title}}</td>
-          <td>{{port.creationDate}}</td>
-          <td>{{port.holdings.length}}</td>
-          <td><a [routerLink]="['/portfolio', port.portfolioId]">Portfolio Details</a></td>
-        </tr>
-      </table>
+  <h2>Your Portfolios</h2>
+  <table class="table">
+    <tr>
+      <th> Type </th>
+      <!-- <th> Total Equity </th> -->
+      <th> Title </th>
+      <th> Created Date </th>
+      <th> # Holdings </th>
+      <th> Details </th>
+    </tr>
+    <tr *ngFor="let port of portfolios">
+      <td>{{port.type}}</td>
+      <!-- <td>{{port.totalMarketValue}}</td> -->
+      <td>{{port.title}}</td>
+      <td>{{port.creationDate}}</td>
+      <td>{{port.holdings?.length}}</td>
+      <td><a [routerLink]="['/portfolio', port.portfolioId]">Portfolio Details</a></td>
+    </tr>
+  </table>
+  <br>
+
+  <div>
+    <form class="form-group" [formGroup]="portfolioForm" (ngSubmit)="onSubmitPortfolio()">
+        <h3>Create A New Portfolio</h3>
+
+        <span>
+        <label>Name: <input type="text" formControlName="portfolioTitleControl"></label>
+        </span>
+
+        <span>
+          <label>Type: <input type="text" formControlName="portfolioTypeControl"></label>
+        </span>
+
+        <span>
+        <button class="btn btn-primary" type="submit" [disabled]="!portfolioForm.valid">Create</button>
+        </span>
+
+        <!--title validation messages-->
+        <div *ngIf="portfolioTitleControl!.invalid && (portfolioTitleControl!.dirty || portfolioTitleControl!.touched)" class="alert alert-danger">
+          <div *ngIf="portfolioTitleControl!.errors!.required">
+              Title is required.
+          </div>
+          <div *ngIf="portfolioTitleControl!.errors!.minlength || portfolioTitleControl!.errors!.maxlength">
+              Symbol must be between 1 and 20 characters long.
+          </div>
+        </div>
+
+    </form>
+  </div>
 </div>

@@ -72,20 +72,23 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  onSubmitHolding() {
+  onSubmitHolding(): void {
     let holding: Holding = {
       quantity: this.quantityControl?.value,
-      reinvestDivs: this.dividendControl?.value,
+      reinvestDivs: this.dividendControl?.value ? true : false,
       symbol: String(this.symbolControl?.value).trim(),
       portfolioId: this.portfolio.portfolioId,
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
     }
     console.log("Sending buy order to API: " + holding);
+    
     this.holdingService.addHolding(holding)
-      .subscribe(returnedHolding =>{
-        this.portfolio.holdings.push(returnedHolding);
-      });
+      .subscribe(
+        (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
+        (error) => { console.log('Error in onSubmitHolding ' + error); },
+        () => { console.log(`holding add complete`); }
+      );
   }
 
 }
