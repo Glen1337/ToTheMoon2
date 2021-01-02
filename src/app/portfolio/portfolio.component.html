@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-lg-3 col-sm-8">
-            <h2>Portfolio</h2>
+            <h2>{{'Portfolio: ' + portfolio.title}}</h2>
         </div>
         <div class="col-md-4 col-lg-3 col-sm-8">
             <h4>Gain/Loss: {{financialifyNumber(portfolio.gainLoss)}}</h4>
@@ -47,7 +47,7 @@
             <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
             </span>
             <span>
-            <label>Reinvest Divs? <input type="checkbox" formControlName="holdingDividendControl"></label>
+            <label>Reinvest Dividends? <input type="checkbox" formControlName="holdingDividendControl"></label>
             </span>
             <div>
             <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
