@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,6 +20,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   public portfolio = <Portfolio>{};
   portfolioId: number = 0;
   subscription1: Subscription = new Subscription;
+  subscription2: Subscription = new Subscription;
   subscriptions: Subscription[] = [];
 
   public holdingForm = new FormGroup({
@@ -44,6 +46,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription1 = this.route.data.subscribe( data => {
       //console.log(data);
+      data.portfolio.holdings = this.AddDateStringsToHoldings(data.portfolio.holdings);
       this.portfolio = data.portfolio
     },
     (error) => {
@@ -51,7 +54,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(this.subscription1)
-    //this.subscriptions.push(this.subscription2)
   }
 
   get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
@@ -60,20 +62,14 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
-      });
-    }
-  }
-
   goBack(): void {
     this.location.back();
   }
 
   onSubmitHolding(): void {
     let holding: Holding = {
+      costBasis: 0,
+      currentPrice: 0,
       quantity: this.quantityControl?.value,
       reinvestDivs: this.dividendControl?.value ? true : false,
       symbol: String(this.symbolControl?.value).trim(),
@@ -83,12 +79,57 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
     console.log("Sending buy order to API: " + holding);
     
-    this.holdingService.addHolding(holding)
+    this.subscription2 = this.holdingService.addHolding(holding)
       .subscribe(
-        (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
+        (returnedHolding) => { 
+          returnedHolding = this.AddDateStringsToHolding(returnedHolding);
+          this.portfolio.holdings.push(returnedHolding);
+        },
         (error) => { console.log('Error in onSubmitHolding ' + error); },
         () => { console.log(`holding add complete`); }
       );
+
+      this.subscriptions.push(this.subscription2)
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions && this.subscriptions.length > 0) {
+      this.subscriptions.forEach((sub) => {
+        if (!sub.closed) { sub.unsubscribe(); }     
+      });
+    }
+  }
+
+  private AddDateStringsToHoldings(holdings: Holding[]): Holding[] {
+    holdings.forEach(holding =>{
+      if(holding.transactionDate) {
+        holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
+      } else {
+        holding.transactionDateString = '';
+      }
+    });
+    return holdings;
+  }
+
+  private AddDateStringsToHolding(holding: Holding): Holding {
+    if (holding.transactionDate) {
+      holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
+    } else {
+      holding.transactionDateString = '';
+    }
+    return holding;
+  }
+
+  financialifyNumber(input: number, prepend = '$'){
+    let nombre = parseFloat(input.toFixed(2));
+  
+    if (input > 0){
+      return `+${prepend}${nombre.toLocaleString()}`;
+    }else if (nombre < 0){
+      return `-${prepend}${Math.abs(nombre).toLocaleString()}`;
+    }else{
+      return `${prepend}0`;
+    }
   }
 
 }

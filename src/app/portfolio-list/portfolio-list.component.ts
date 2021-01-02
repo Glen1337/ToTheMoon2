@@ -15,6 +15,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   portfolios: Array<Portfolio> = [];
   subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
   subscriptions: Subscription[] = []
 
   public portfolioForm = new FormGroup({
@@ -38,23 +39,22 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-     this.subscription1 = this.route.data.subscribe( data => {
+     this.subscription1 = this.route.data.subscribe(data => {
       //console.log(data);
-      this.portfolios = data.portfolios
+      this.portfolios = this.AddDateStringsToPorts(data.portfolios);
     },
     (error) => {
       console.log(`Error getting portfolio list:${error}`);
     });
 
     this.subscriptions.push(this.subscription1)
-    //this.subscriptions.push(this.subscription2)
+    
   }
 
   onSubmitPortfolio(): void{
     let port: Portfolio = {
       title: String(this.portfolioTitleControl?.value).trim(),
       portfolioId: 0,
-      creationDate: new Date(),
       totalMarketValue: 0,
       gainLoss: 0,
       orders: [],
@@ -62,14 +62,18 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       type: String(this.portfolioTypeControl?.value).trim()
     }
 
-    console.log("Sending portfolio post to API: ");
-    console.log(port)
-    this.portfolioDataService.addPortfolio(port)
+    console.log("Sending portfolio post to API: ", port);
+
+    this.subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
-        (returnedPort) => { this.portfolios.push(returnedPort); },
+        (returnedPort) => { 
+          returnedPort = this.AddDateStringsToPort(returnedPort);
+          this.portfolios.push(returnedPort);
+        },
         (error) => { console.log('Error in onSubmitPortfolio: ' + error) },
         () => { console.log(`addportfolio completed`); }
       );
+    this.subscriptions.push(this.subscription2)
   }
     
   ngOnDestroy() {
@@ -78,6 +82,26 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         if (!sub.closed) { sub.unsubscribe(); }     
       });
     }
+  }
+
+  private AddDateStringsToPorts(ports: Portfolio[]): Portfolio[] {
+    ports.forEach(port =>{
+      if(port.creationDate) {
+        port.creationDateString = new Date(port.creationDate!).toLocaleString();
+      } else {
+        port.creationDateString = '';
+      }
+    });
+    return ports;
+  }
+
+  private AddDateStringsToPort(port: Portfolio): Portfolio {
+    if (port.creationDate) {
+      port.creationDateString = new Date(port.creationDate!).toLocaleString();
+    } else {
+      port.creationDateString = '';
+    }
+    return port;
   }
 
 }

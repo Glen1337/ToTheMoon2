@@ -1,13 +1,14 @@
 export interface Holding {
     holdingId?: number;
-    costBasis?: number;
+    costBasis: number;
     quantity: number;
     symbol: string;
     reinvestDivs: boolean;
     securityType: string;
     isOpen?: boolean;
-    currentPrice?: number;
+    currentPrice: number;
     transactionDate?: Date;
+    transactionDateString?: string
     orderType: string
     expirationDate?: Date;
     portfolioId: number;

@@ -13,8 +13,8 @@
       <td>{{port.type}}</td>
       <!-- <td>{{port.totalMarketValue}}</td> -->
       <td>{{port.title}}</td>
-      <td>{{port.creationDate}}</td>
-      <td>{{port.holdings?.length}}</td>
+      <td>{{port.creationDateString}}</td>
+      <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
       <td><a [routerLink]="['/portfolio', port.portfolioId]">Portfolio Details</a></td>
     </tr>
   </table>
@@ -43,6 +43,13 @@
           </div>
           <div *ngIf="portfolioTitleControl!.errors!.minlength || portfolioTitleControl!.errors!.maxlength">
               Symbol must be between 1 and 20 characters long.
+          </div>
+        </div>
+
+        <!--type validation messages-->
+        <div *ngIf="portfolioTypeControl!.invalid && (portfolioTypeControl!.dirty || portfolioTypeControl!.touched)" class="alert alert-danger">
+          <div *ngIf="portfolioTypeControl!.errors!.min || portfolioTypeControl!.errors!.required">
+              You can't buy zero shares.
           </div>
         </div>
 

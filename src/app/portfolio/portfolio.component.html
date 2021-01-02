@@ -4,26 +4,33 @@
             <h2>Portfolio</h2>
         </div>
         <div class="col-md-4 col-lg-3 col-sm-8">
-            <h4>Gain/Loss: {{portfolio.gainLoss}}</h4>
+            <h4>Gain/Loss: {{financialifyNumber(portfolio.gainLoss)}}</h4>
         </div>
     </div>
     <a routerLink="/portfolios">Back to List</a>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
     <table class="table">
         <tr>
-        <th> Symbol </th>
-        <th> Cost Basis </th>
-        <th> Quantity </th>
-        <th> Current Price </th>
-        <th> Security Type</th>
-        <th></th>
+            <th> Symbol </th>
+            <th> Cost Basis </th>
+            <th> Quantity </th>
+            <th> Current Price </th>
+            <th> Security Type</th>
+            <th> Transaction Time</th>
+            <th> Original Value</th>
+            <th> Current Value</th>
+            <th> Gain/Loss</th>
         </tr>
         <tr *ngFor="let holding of portfolio.holdings">
-        <td>{{holding.symbol}}</td>
-        <td>{{holding.costBasis}}</td>
-        <td>{{holding.quantity}}</td>
-        <td>{{holding.currentPrice}}</td>
-        <td>{{holding.securityType}}</td>
+            <td>{{holding.symbol}}</td>
+            <td>{{'$'+holding.costBasis}}</td>
+            <td>{{holding.quantity}}</td>
+            <td>{{'$'+holding.currentPrice}}</td>
+            <td>{{holding.securityType}}</td>
+            <td>{{holding.transactionDateString}}</td>
+            <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
+            <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
+            <td>{{financialifyNumber((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity))}}</td>
         </tr>
     </table>
     
