@@ -40,13 +40,11 @@ export class AuthButtonComponent implements OnInit {
   ngOnInit() {
     this.auth.user$.subscribe((profile) => {
         this.profileJson = JSON.stringify(profile, null, 2)
-        console.log("Profile: ")
-        console.log(profile);
+        console.log("Profile: ", profile)
     });
 
     this.auth.idTokenClaims$.subscribe((claims) => { 
-        console.log("ID Token Claims (Claims within the provided ID Token:)");
-        console.log(claims)
+        console.log("ID Token Claims (Claims within the provided ID Token:)", claims);
     });
   }
 

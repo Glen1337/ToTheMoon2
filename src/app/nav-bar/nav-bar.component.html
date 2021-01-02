@@ -4,12 +4,9 @@
             <div class="row">
                 <a class="navbar-brand" [routerLink]="['/']"><h1>{{title}}</h1></a>
             </div>
-            <div class= "row" *ngFor="let navItem of NavItems">
-                <div class="col-md-2 col-lg-2 col-sm-2">
+            <div class= "row">
+                <div class="col-md-1 col-lg-1 col-sm-1" *ngFor="let navItem of NavItems">
                     <a [routerLink]="navItem.link" routerLinkactive="active" class="btn btn-primary">{{navItem.label}}</a>
-                </div>
-                <div class="col-md-2 col-lg-2 col-sm-2">
-                    
                 </div>
             </div>
         </div>

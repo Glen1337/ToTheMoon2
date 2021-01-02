@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Portfolio } from '../Models/Portfolio';
 
@@ -50,6 +50,7 @@ export class PortfolioDataService {
       console.log(`(service) ${operation} failed: ${error.message}`);
   
       // Let the app keep running by returning an empty result.
+      return throwError(error);
       return of(result as T);
     };
   }

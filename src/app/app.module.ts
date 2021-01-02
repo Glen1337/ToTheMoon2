@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '@auth0/auth0-angular'
 import { AuthButtonComponent } from './auth/login-button';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { ResearchComponent } from './research/research.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     NavBarComponent,
     PageNotFoundComponent,
     PortfolioComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    ResearchComponent
   ],
   imports: [
     BrowserModule,

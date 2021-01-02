@@ -13,6 +13,7 @@ export class NavBarComponent implements OnInit {
   constructor() {
     this.NavItems = [
       { label: 'Portfolios', link: ['/portfolios'] },
+      { label: 'Research', link: ['/research'] },
     ];
   }
 
