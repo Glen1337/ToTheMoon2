@@ -1,5 +1,27 @@
 <div class="container">
     <div class="row">
-        <h2>Research An Equity</h2>
+        <!-- <h2>Research An Equity</h2> -->
     </div>
+    <div>
+        <form class="form-group" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+            <h3>Research a Stock</h3>
+
+            <span>
+                <label>Symbol: <input type="text" formControlName="researchSymbolControl"></label>
+            </span>
+            <span>
+                <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Get Data</button>
+            </span>
+    
+            <!--symbol validation messages-->
+            <div *ngIf="researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched)" class="alert alert-danger">
+                <div *ngIf="researchSymbolControl!.errors!.required">
+                    Symbol is required.
+                </div>
+                <div *ngIf="researchSymbolControl!.errors!.minlength || researchSymbolControl!.errors!.maxlength">
+                    Symbol must be between 1 and 8 characters long.
+                </div>
+            </div>
+        </form>
+      </div>
 </div>

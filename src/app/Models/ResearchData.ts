@@ -2,7 +2,7 @@ export interface ResearchData {
     data: IAgg[];
 }
 
-interface IAgg {
+export interface IAgg {
     time: Date;
     open: number;
     high: number;

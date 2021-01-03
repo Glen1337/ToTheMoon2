@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subscription } from 'rxjs';
@@ -29,7 +30,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     ])
   });
   
-  constructor(private route: ActivatedRoute, private portfolioDataService: PortfolioDataService) {
+  constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {
 
   }
 
