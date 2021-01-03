@@ -2,17 +2,17 @@
   <h2>Your Portfolios</h2>
   <table class="table">
     <tr>
-      <th> Type </th>
       <!-- <th> Total Equity </th> -->
       <th> Title </th>
+      <th> Type </th>
       <th> Created Date </th>
       <th> # Holdings </th>
       <th> Details </th>
     </tr>
     <tr *ngFor="let port of portfolios">
-      <td>{{port.type}}</td>
       <!-- <td>{{port.totalMarketValue}}</td> -->
       <td>{{port.title}}</td>
+      <td>{{port.type}}</td>
       <td>{{port.creationDateString}}</td>
       <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
       <td><a [routerLink]="['/portfolio', port.portfolioId]">Portfolio Details</a></td>

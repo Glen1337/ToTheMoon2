@@ -18,7 +18,7 @@ export class ResearchDataService {
 
     let options =  { params: new HttpParams().set('symbol', ticker.trim())}
 
-    return this.http.get<IAgg[]>(`${this.baseUrl}Research/`, options)
+    return this.http.get<IAgg[]>(`${this.baseUrl}research/`, options)
     .pipe(
       tap(_ => console.log(`Getting data for: ${ticker}`)),
       retry(2),

@@ -71,7 +71,8 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
           this.portfolios.push(returnedPort);
         },
         (error) => {
-          console.log('Error in onSubmitPortfolio: ' + error);
+          console.log('Error in onSubmitPortfolio: ', error);
+          // TODO assign user friendly error message string here
           return of([]);
         },
         () => { console.log(`addportfolio completed`); }

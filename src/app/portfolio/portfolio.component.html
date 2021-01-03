@@ -19,6 +19,7 @@
             <th> Quantity </th>
             <th> Current Price </th>
             <th> Security Type</th>
+            <th> Reinvesting Dividends?</th>
             <th> Transaction Time</th>
             <th> Original Value</th>
             <th> Current Value</th>
@@ -30,6 +31,7 @@
             <td>{{holding.quantity}}</td>
             <td>{{'$'+holding.currentPrice}}</td>
             <td>{{holding.securityType}}</td>
+            <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
             <td>{{holding.transactionDateString}}</td>
             <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
             <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>

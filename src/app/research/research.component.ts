@@ -33,7 +33,12 @@ export class ResearchComponent implements OnInit {
     let symbol: string = this.researchSymbolControl!.value;
     this.researchService.getHistoricalstockData(symbol).subscribe(data =>{
       console.log(data);
-    })
+      this.historicalStockData = data;
+    });
+  }
+
+  ConvertDate(date: Date){
+    return new Date(date).toLocaleString();
   }
 
 }

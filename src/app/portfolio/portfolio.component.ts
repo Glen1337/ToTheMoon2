@@ -77,7 +77,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
     }
-    console.log("Sending buy order to API: " + holding);
+    console.log("Sending order to API: ", holding);
     
     subscription2 = this.holdingService.addHolding(holding).subscribe(
       (returnedHolding) => { 
@@ -85,7 +85,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.portfolio.holdings.push(returnedHolding);
       },
       (error) => {
-        console.log('Error in onSubmitHolding ' + error);
+        console.log('Error in onSubmitHolding ', error);
+        // assign user friendly error message string here
         return of([]);
       },
       () => { console.log(`holding add complete`); }

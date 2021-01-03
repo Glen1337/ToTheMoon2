@@ -24,4 +24,22 @@
             </div>
         </form>
       </div>
+    <div>
+        <table class="table">
+            <tr>
+                <!-- <th> Total Equity </th> -->
+                <th> Data </th>
+                <th> Volume </th>
+                <th> Open </th>
+                <th> Close </th>
+            </tr>
+            <tr *ngFor="let row of historicalStockData">
+                <!-- <td>{{port.totalMarketValue}}</td> -->
+                <td>{{ConvertDate(row.time)}}</td>
+                <td>{{row.volume.toLocaleString()}}</td>
+                <td>{{row.open}}</td>
+                <td>{{row.close}}</td>
+            </tr>
+            </table>
+    </div>
 </div>
