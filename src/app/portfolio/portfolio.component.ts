@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
@@ -39,12 +39,17 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let subscription1: Subscription = new Subscription();
-    subscription1 = this.route.data.subscribe( data => {
-      data.portfolio.holdings = this.AddDateStringsToHoldings(data.portfolio.holdings);
-      this.portfolio = data.portfolio
-    },
-    (error) => { console.log(`Error getting portfolio:${error}`); },
-    () => { console.log("Portfolio retrieved"); });
+    subscription1 = this.route.data.subscribe(
+      (data) => {
+        data.portfolio.holdings = this.AddDateStringsToHoldings(data.portfolio.holdings);
+        this.portfolio = data.portfolio
+      },
+      (error) => {
+        console.log(`Error getting portfolio:${error}`);
+        return of([]);
+      },
+      () => { console.log("Portfolio retrieved"); }
+    );
 
     this.subscriptions.push(subscription1)
   }
@@ -74,17 +79,19 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
     console.log("Sending buy order to API: " + holding);
     
-    subscription2 = this.holdingService.addHolding(holding)
-      .subscribe(
-        (returnedHolding) => { 
-          returnedHolding = this.AddDateStringsToHolding(returnedHolding);
-          this.portfolio.holdings.push(returnedHolding);
-        },
-        (error) => { console.log('Error in onSubmitHolding ' + error); },
-        () => { console.log(`holding add complete`); }
-      );
+    subscription2 = this.holdingService.addHolding(holding).subscribe(
+      (returnedHolding) => { 
+        returnedHolding = this.AddDateStringsToHolding(returnedHolding);
+        this.portfolio.holdings.push(returnedHolding);
+      },
+      (error) => {
+        console.log('Error in onSubmitHolding ' + error);
+        return of([]);
+      },
+      () => { console.log(`holding add complete`); }
+    );
 
-      this.subscriptions.push(subscription2)
+    this.subscriptions.push(subscription2)
   }
 
   ngOnDestroy(): void {
@@ -115,16 +122,16 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     return holding;
   }
 
-  financialifyNumber(input: number, prepend = '') {
+  financialifyNumber(input: number, prependSymbol: string = '', addSign: boolean = false,) {
     let nombre: number = parseFloat(input.toFixed(2));
   
     if (nombre > 0) {
-      return `+${prepend}${nombre.toLocaleString()}`;
+      return `${(addSign ? '+' : '')}${prependSymbol}${nombre.toLocaleString()}`;
     }
     if (nombre < 0) {
-      return `-${prepend}${Math.abs(nombre).toLocaleString()}`;
+      return `${(addSign ? '-' : '')}${prependSymbol}${Math.abs(nombre).toLocaleString()}`;
     } else {
-      return `${prepend}0`;
+      return `${prependSymbol}0`;
     }
   }
 

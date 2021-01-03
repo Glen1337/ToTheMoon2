@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { Portfolio } from '../Models/Portfolio';
@@ -19,7 +19,7 @@ export class PortfolioDataService {
     .pipe(
       tap(_ => console.log('Getting list of portfolios')),
       retry(2),
-      catchError(this.handleError<any>('getAllPortfolios'))
+      catchError(this.handleError)
     );
   }
 
@@ -28,7 +28,7 @@ export class PortfolioDataService {
     .pipe(
       tap(_ => console.log('Getting portfolio '+id)),
       retry(2),
-      catchError(this.handleError<any>('getPortfolio'))
+      catchError(this.handleError)
     );
   }
 
@@ -39,25 +39,44 @@ export class PortfolioDataService {
     .pipe(
       tap((newPortfolio) => console.log(`Added a new holding with id: ${newPortfolio.portfolioId}`)),
       retry(2),
-      catchError<Portfolio, Observable<Portfolio>>(this.handleError("addPortfolio"))
+      catchError<Portfolio, Observable<Portfolio>>(this.handleError)
     );
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-  
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-  
-      // TODO: better job of transforming error for user consumption
-      console.log(`(service) ${operation} failed: ${error.message}`);
-  
-      // Return an observable with a user-facing error message.
-      return throwError(error);
-
-      // Let the app keep running by returning an empty result.
-      // return of(result as T);
-    };
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.log(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Something bad happened; please try again later.');
   }
 
 }
+
+
+
+
+// private handleError<T>(operation = 'operation', result?: T) {
+//   return (error: any): Observable<T> => {
+
+//     // TODO: send the error to remote logging infrastructure
+//     console.error(error); // log to console instead
+
+//     // TODO: better job of transforming error for user consumption
+//     console.log(`(service) ${operation} failed: ${error.message}`);
+
+//     // Return an observable with a user-facing error message.
+//     return throwError(error);
+
+//     // Let the app keep running by returning an empty result.
+//     // return of(result as T);
+//   };
+// }

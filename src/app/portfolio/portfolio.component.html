@@ -4,7 +4,10 @@
             <h2>{{'Portfolio: ' + portfolio.title}}</h2>
         </div>
         <div class="col-md-4 col-lg-3 col-sm-8">
-            <h4>Gain/Loss: {{financialifyNumber(portfolio.gainLoss,'$')}}</h4>
+            <h4>Gain/Loss: {{financialifyNumber(portfolio.gainLoss, '$', true)}}</h4>
+        </div>
+        <div class="col-md-4 col-lg-3 col-sm-8">
+            <h4>Market Value: {{financialifyNumber(portfolio.totalMarketValue, '$', false)}}</h4>
         </div>
     </div>
     <a routerLink="/portfolios">Back to List</a>
@@ -30,7 +33,7 @@
             <td>{{holding.transactionDateString}}</td>
             <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
             <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
-            <td>{{financialifyNumber((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity),'$')}}</td>
+            <td>{{financialifyNumber((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</td>
         </tr>
     </table>
     

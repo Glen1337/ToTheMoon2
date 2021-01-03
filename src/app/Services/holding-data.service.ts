@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { Holding } from '../Models/Holding';
@@ -31,7 +31,7 @@ export class HoldingService {
     .pipe(
       tap((newHolding) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
       retry(2),
-      catchError<Holding, Observable<Holding>>(this.handleError("addHolding"))
+      catchError<Holding, Observable<Holding>>(this.handleError)
     );
     // .subscribe({
     //   next(response) { console.log('Response:' + response); },
@@ -39,25 +39,41 @@ export class HoldingService {
     // });
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-  
-      if (error.error instanceof ErrorEvent) {
-        // A client-side or network error occurred. Handle it accordingly.
-        console.log('An error occurred:', error.error.message);
-        console.log(error); // log to console instead
-      } else {
-        // The backend returned an unsuccessful response code.
-        // The response body may contain clues as to what went wrong.
-        console.log(`Backend returned code ${error.status},`+`body was: ${error.error}`);
-      }
-      // TODO: better job of transforming error for user consumption
-      console.log(`(service) ${operation} failed: ${error.message}`);
-      
-      // Return an observable with a user-facing error message.
-      return throwError(error);
-      // Let the app keep running by returning an empty result.
-      // return of(result as T);
-    };
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.log(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Something bad happened; please try again later.');
   }
+
+  // private handleError<T>(operation = 'operation', result?: T) {
+  //   return (error: any): Observable<T> => {
+  
+  //     if (error.error instanceof ErrorEvent) {
+  //       // A client-side or network error occurred. Handle it accordingly.
+  //       console.log('An error occurred:', error.error.message);
+  //       console.log(error); // log to console instead
+  //     } else {
+  //       // The backend returned an unsuccessful response code.
+  //       // The response body may contain clues as to what went wrong.
+  //       console.log(`Backend returned code ${error.status},`+`body was: ${error.error}`);
+  //     }
+  //     // TODO: better job of transforming error for user consumption
+  //     console.log(`(service) ${operation} failed: ${error.message}`);
+      
+  //     // Return an observable with a user-facing error message.
+  //     return throwError(error);
+  //     // Let the app keep running by returning an empty result.
+  //     // return of(result as T);
+  //   };
+  // }
 }

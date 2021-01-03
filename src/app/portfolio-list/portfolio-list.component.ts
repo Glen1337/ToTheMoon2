@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 
@@ -30,7 +30,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   });
   
   constructor(private route: ActivatedRoute, private portfolioDataService: PortfolioDataService) {
-    
+
   }
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
@@ -40,8 +40,12 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription1 = this.route.data.subscribe(
       (data) => { this.portfolios = this.AddDateStringsToPorts(data.portfolios); },
-      (error) => { console.log(`Error getting portfolio list:${error}`); },
-      () => { console.log("Completed retrieval of portfolio list"); });
+      (error) => {
+        console.log(`Error getting portfolio list:${error}`);
+        return of([]);
+      },
+      () => { console.log("Completed retrieval of portfolio list");}
+    );
 
     this.subscriptions.push(this.subscription1)
   }
@@ -65,7 +69,10 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
           returnedPort = this.AddDateStringsToPort(returnedPort);
           this.portfolios.push(returnedPort);
         },
-        (error) => { console.log('Error in onSubmitPortfolio: ' + error) },
+        (error) => {
+          console.log('Error in onSubmitPortfolio: ' + error);
+          return of([]);
+        },
         () => { console.log(`addportfolio completed`); }
       );
     this.subscriptions.push(this.subscription2)
