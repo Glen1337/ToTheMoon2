@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { Holding } from '../Models/Holding';
 
 @Injectable({
@@ -30,6 +30,7 @@ export class HoldingService {
     return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
       tap((newHolding) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
+      retry(2),
       catchError<Holding, Observable<Holding>>(this.handleError("addHolding"))
     );
     // .subscribe({
@@ -56,7 +57,7 @@ export class HoldingService {
       // Return an observable with a user-facing error message.
       return throwError(error);
       // Let the app keep running by returning an empty result.
-      return of(result as T);
+      // return of(result as T);
     };
   }
 }

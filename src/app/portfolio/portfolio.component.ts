@@ -8,7 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
-import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,41 +18,35 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   public portfolio = <Portfolio>{};
   portfolioId: number = 0;
-  subscription1: Subscription = new Subscription;
-  subscription2: Subscription = new Subscription;
   subscriptions: Subscription[] = [];
 
   public holdingForm = new FormGroup({
-    holdingSymbolControl: new FormControl('',
-      [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(8)
-      ]),
-    holdingQuantityControl: new FormControl('',
-      [
-        Validators.required,
-        Validators.min(1.00)
-      ]),
+    holdingSymbolControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(8)
+    ]),
+    holdingQuantityControl: new FormControl('', [
+      Validators.required,
+      Validators.min(1.00)
+    ]),
     holdingDividendControl: new FormControl('')
   });
 
-  constructor(http: HttpClient,
-    private location: Location,
-    private route: ActivatedRoute,
-    private holdingService: HoldingService) { }
+  constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
+
+  }
 
   ngOnInit(): void {
-    this.subscription1 = this.route.data.subscribe( data => {
-      //console.log(data);
+    let subscription1: Subscription = new Subscription();
+    subscription1 = this.route.data.subscribe( data => {
       data.portfolio.holdings = this.AddDateStringsToHoldings(data.portfolio.holdings);
       this.portfolio = data.portfolio
     },
-    (error) => {
-      console.log(`Error getting portfolio:${error}`);
-    });
+    (error) => { console.log(`Error getting portfolio:${error}`); },
+    () => { console.log("Portfolio retrieved"); });
 
-    this.subscriptions.push(this.subscription1)
+    this.subscriptions.push(subscription1)
   }
 
   get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
@@ -67,6 +60,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onSubmitHolding(): void {
+    let subscription2: Subscription = new Subscription();
+
     let holding: Holding = {
       costBasis: 0,
       currentPrice: 0,
@@ -79,7 +74,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
     console.log("Sending buy order to API: " + holding);
     
-    this.subscription2 = this.holdingService.addHolding(holding)
+    subscription2 = this.holdingService.addHolding(holding)
       .subscribe(
         (returnedHolding) => { 
           returnedHolding = this.AddDateStringsToHolding(returnedHolding);
@@ -89,7 +84,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         () => { console.log(`holding add complete`); }
       );
 
-      this.subscriptions.push(this.subscription2)
+      this.subscriptions.push(subscription2)
   }
 
   ngOnDestroy(): void {
@@ -101,7 +96,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   private AddDateStringsToHoldings(holdings: Holding[]): Holding[] {
-    holdings.forEach(holding =>{
+    holdings.forEach(holding => {
       if(holding.transactionDate) {
         holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
       } else {
@@ -120,14 +115,15 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     return holding;
   }
 
-  financialifyNumber(input: number, prepend = '$'){
-    let nombre = parseFloat(input.toFixed(2));
+  financialifyNumber(input: number, prepend = '') {
+    let nombre: number = parseFloat(input.toFixed(2));
   
-    if (input > 0){
+    if (nombre > 0) {
       return `+${prepend}${nombre.toLocaleString()}`;
-    }else if (nombre < 0){
+    }
+    if (nombre < 0) {
       return `-${prepend}${Math.abs(nombre).toLocaleString()}`;
-    }else{
+    } else {
       return `${prepend}0`;
     }
   }

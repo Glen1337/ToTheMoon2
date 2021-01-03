@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, retry, tap } from 'rxjs/operators';
 import { Portfolio } from '../Models/Portfolio';
 
 @Injectable({
@@ -18,6 +18,7 @@ export class PortfolioDataService {
     return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`)
     .pipe(
       tap(_ => console.log('Getting list of portfolios')),
+      retry(2),
       catchError(this.handleError<any>('getAllPortfolios'))
     );
   }
@@ -26,6 +27,7 @@ export class PortfolioDataService {
     return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`)
     .pipe(
       tap(_ => console.log('Getting portfolio '+id)),
+      retry(2),
       catchError(this.handleError<any>('getPortfolio'))
     );
   }
@@ -36,6 +38,7 @@ export class PortfolioDataService {
     return this.http.post<Portfolio>(url, portfolio)
     .pipe(
       tap((newPortfolio) => console.log(`Added a new holding with id: ${newPortfolio.portfolioId}`)),
+      retry(2),
       catchError<Portfolio, Observable<Portfolio>>(this.handleError("addPortfolio"))
     );
   }
@@ -49,9 +52,11 @@ export class PortfolioDataService {
       // TODO: better job of transforming error for user consumption
       console.log(`(service) ${operation} failed: ${error.message}`);
   
-      // Let the app keep running by returning an empty result.
+      // Return an observable with a user-facing error message.
       return throwError(error);
-      return of(result as T);
+
+      // Let the app keep running by returning an empty result.
+      // return of(result as T);
     };
   }
 

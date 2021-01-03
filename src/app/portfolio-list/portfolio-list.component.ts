@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
-import { PortfolioListResolverService } from './portfolio-list-resolver.service';
 
 @Component({
   selector: 'portfolio-list',
@@ -19,36 +18,32 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []
 
   public portfolioForm = new FormGroup({
-    portfolioTitleControl: new FormControl('',
-      [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(20)
-      ]),
-    portfolioTypeControl: new FormControl('',
-      [
-        Validators.min(1.00),
-        Validators.maxLength(30)
-      ])
+    portfolioTitleControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(20)
+    ]),
+    portfolioTypeControl: new FormControl('',[
+      Validators.min(1.00),
+      Validators.maxLength(30)
+    ])
   });
   
-  constructor(private route: ActivatedRoute, private portfolioDataService: PortfolioDataService) { }
+  constructor(private route: ActivatedRoute, private portfolioDataService: PortfolioDataService) {
+    
+  }
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
+  
   get portfolioTypeControl() { return this.portfolioForm.get('portfolioTypeControl'); }
 
-
   ngOnInit(): void {
-     this.subscription1 = this.route.data.subscribe(data => {
-      //console.log(data);
-      this.portfolios = this.AddDateStringsToPorts(data.portfolios);
-    },
-    (error) => {
-      console.log(`Error getting portfolio list:${error}`);
-    });
+    this.subscription1 = this.route.data.subscribe(
+      (data) => { this.portfolios = this.AddDateStringsToPorts(data.portfolios); },
+      (error) => { console.log(`Error getting portfolio list:${error}`); },
+      () => { console.log("Completed retrieval of portfolio list"); });
 
     this.subscriptions.push(this.subscription1)
-    
   }
 
   onSubmitPortfolio(): void{

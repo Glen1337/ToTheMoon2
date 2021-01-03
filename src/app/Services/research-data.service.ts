@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResolveData } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ResearchData } from '../Models/ResearchData';
 
@@ -16,6 +15,6 @@ export class ResearchDataService {
 
   getData(ticker: string): Observable<ResearchData>{
     let symbol = ticker.trim().toUpperCase();
-    return this.http.get<ResearchData>(`${this.baseUrl}/Research/${ticker}`)
+    return this.http.get<ResearchData>(`${this.baseUrl}/Research/${ticker}`).pipe()
   }
 }
