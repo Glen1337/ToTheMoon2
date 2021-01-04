@@ -41,4 +41,8 @@ export class ResearchComponent implements OnInit {
     return new Date(date).toLocaleDateString();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
 }

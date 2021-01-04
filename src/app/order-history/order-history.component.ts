@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '../Models/Order';
 import { financialifyNumber } from'../Utilities/utilities';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-history',
@@ -13,15 +14,25 @@ export class OrderHistoryComponent implements OnInit {
 
   orders: Order[] = [];
   public financiafyNumber: any;
+  subscriptions: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private location: Location) {
     this.financiafyNumber = financialifyNumber;
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      (data) => { this.orders = data.orders; console.log(this.orders);}
+    let subscription1: Subscription = new Subscription();
+    
+    subscription1 = this.route.data.subscribe(
+      (data) => { this.orders = data.orders; console.log(this.orders);},
+      (error) => {
+        console.log(`Error getting order history: ${error}`);
+        return of([]);
+      },
+      () => { console.log("Order history retrieved"); }
     );
+
+    this.subscriptions.push(subscription1)
   }
 
   goBack(): void {
@@ -31,5 +42,13 @@ export class OrderHistoryComponent implements OnInit {
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');
   }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions && this.subscriptions.length > 0) {
+      this.subscriptions.forEach((sub) => {
+        if (!sub.closed) { sub.unsubscribe(); }     
+      });
+    }
+  } 
 
 }

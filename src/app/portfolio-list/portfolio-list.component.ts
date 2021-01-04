@@ -64,10 +64,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
     this.subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
-        (returnedPort) => { 
-          //returnedPort.creationDateString = new Date(returnedPort.creationDate!).toLocaleString();
-          this.portfolios.push(returnedPort);
-        },
+        (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
           console.log('Error in onSubmitPortfolio: ', error);
           // TODO assign user friendly error message string here

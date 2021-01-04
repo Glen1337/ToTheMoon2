@@ -53,7 +53,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       () => { console.log("Portfolio retrieved"); }
     );
 
-    this.subscriptions.push(subscription1)
+    this.subscriptions.push(subscription1);
   }
 
   get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
@@ -82,10 +82,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     console.log("Sending order to API: ", holding);
     
     subscription2 = this.holdingService.addHolding(holding).subscribe(
-      (returnedHolding) => { 
-        //returnedHolding.transactionDateString = new Date(returnedHolding.transactionDate!).toLocaleString();
-        this.portfolio.holdings.push(returnedHolding);
-      },
+      (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
       (error) => {
         console.log('Error in onSubmitHolding ', error);
         // TODO assign user friendly error message string here
@@ -107,18 +104,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         if (!sub.closed) { sub.unsubscribe(); }     
       });
     }
-  }
-
-  // private AddDateStringsToHoldings(holdings: Holding[]): Holding[] {
-  //   holdings.forEach(holding => {
-  //     if(holding.transactionDate) {
-  //       holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
-  //     } else {
-  //       holding.transactionDateString = '';
-  //     }
-  //   });
-  //   return holdings;
-  // }
+  } 
 
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');
