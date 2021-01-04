@@ -28,10 +28,12 @@
         <table class="table">
             <tr>
                 <!-- <th> Total Equity </th> -->
-                <th> Data </th>
+                <th> Date </th>
                 <th> Volume </th>
                 <th> Open </th>
                 <th> Close </th>
+                <th> High </th>
+                <th> Low </th>
             </tr>
             <tr *ngFor="let row of historicalStockData">
                 <!-- <td>{{port.totalMarketValue}}</td> -->
@@ -39,6 +41,8 @@
                 <td>{{row.volume.toLocaleString()}}</td>
                 <td>{{row.open}}</td>
                 <td>{{row.close}}</td>
+                <td>{{row.high}}</td>
+                <td>{{row.low}}</td>
             </tr>
             </table>
     </div>

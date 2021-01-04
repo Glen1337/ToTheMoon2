@@ -6,14 +6,14 @@
 // 3. Rounding if needed
 // 4. Prepends an optional symbol between the +/- and number (%,$,etc.)
 
-export function financialifyNumber(input: number, prepend = ''){
-    let nombre = parseFloat(input.toFixed(2));
-  
-    if (input > 0){
-      return `+${prepend}${nombre.toLocaleString()}`;
-    }else if (nombre < 0){
-      return `-${prepend}${Math.abs(nombre).toLocaleString()}`;
-    }else{
-      return '0';
-    }
+export function financialifyNumber(input: number, prependSymbol: string = '', addSign: boolean = false): string{
+  let nombre: number = parseFloat(input.toFixed(2));
+  if (nombre > 0) {
+    return `${(addSign ? '+' : '')}${prependSymbol}${nombre.toLocaleString()}`;
   }
+  if (nombre < 0) {
+    return `${(addSign ? '-' : '')}${prependSymbol}${Math.abs(nombre).toLocaleString()}`;
+  } else {
+    return `${prependSymbol}0`;
+  }
+}

@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,6 +20,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   public portfolio = <Portfolio>{};
   portfolioId: number = 0;
   subscriptions: Subscription[] = [];
+  public financiafy: any;
 
   public holdingForm = new FormGroup({
     holdingSymbolControl: new FormControl('', [
@@ -34,14 +36,14 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   });
 
   constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
-
+    this.financiafy = financialifyNumber;
   }
 
   ngOnInit(): void {
     let subscription1: Subscription = new Subscription();
     subscription1 = this.route.data.subscribe(
       (data) => {
-        data.portfolio.holdings = this.AddDateStringsToHoldings(data.portfolio.holdings);
+        data.portfolio.holdings = data.portfolio.holdings;
         this.portfolio = data.portfolio
       },
       (error) => {
@@ -81,7 +83,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     
     subscription2 = this.holdingService.addHolding(holding).subscribe(
       (returnedHolding) => { 
-        returnedHolding = this.AddDateStringsToHolding(returnedHolding);
+        //returnedHolding.transactionDateString = new Date(returnedHolding.transactionDate!).toLocaleString();
         this.portfolio.holdings.push(returnedHolding);
       },
       (error) => {
@@ -103,37 +105,19 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
   }
 
-  private AddDateStringsToHoldings(holdings: Holding[]): Holding[] {
-    holdings.forEach(holding => {
-      if(holding.transactionDate) {
-        holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
-      } else {
-        holding.transactionDateString = '';
-      }
-    });
-    return holdings;
-  }
+  // private AddDateStringsToHoldings(holdings: Holding[]): Holding[] {
+  //   holdings.forEach(holding => {
+  //     if(holding.transactionDate) {
+  //       holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
+  //     } else {
+  //       holding.transactionDateString = '';
+  //     }
+  //   });
+  //   return holdings;
+  // }
 
-  private AddDateStringsToHolding(holding: Holding): Holding {
-    if (holding.transactionDate) {
-      holding.transactionDateString = new Date(holding.transactionDate!).toLocaleString();
-    } else {
-      holding.transactionDateString = '';
-    }
-    return holding;
-  }
-
-  financialifyNumber(input: number, prependSymbol: string = '', addSign: boolean = false,) {
-    let nombre: number = parseFloat(input.toFixed(2));
-  
-    if (nombre > 0) {
-      return `${(addSign ? '+' : '')}${prependSymbol}${nombre.toLocaleString()}`;
-    }
-    if (nombre < 0) {
-      return `${(addSign ? '-' : '')}${prependSymbol}${Math.abs(nombre).toLocaleString()}`;
-    } else {
-      return `${prependSymbol}0`;
-    }
+  ConvertDate(date?: Date){
+    return(date ? new Date(date).toLocaleString() : '');
   }
 
 }

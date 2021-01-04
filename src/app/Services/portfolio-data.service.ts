@@ -26,6 +26,7 @@ export class PortfolioDataService {
   getPortfolio(id: number | string | null): Observable<Portfolio> {
     return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`)
     .pipe(
+      //map(p => ({...p, creationDateString: p.creationDate?.toLocaleString() })),
       tap(_ => console.log('Getting portfolio '+id)),
       retry(2),
       catchError(this.handleError)

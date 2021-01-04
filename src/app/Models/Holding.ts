@@ -8,7 +8,6 @@ export interface Holding {
     isOpen?: boolean;
     currentPrice: number;
     transactionDate?: Date;
-    transactionDateString?: string
     orderType: string
     expirationDate?: Date;
     portfolioId: number;

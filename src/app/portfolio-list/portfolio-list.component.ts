@@ -38,7 +38,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription1 = this.route.data.subscribe(
-      (data) => { this.portfolios = this.AddDateStringsToPorts(data.portfolios); },
+      (data) => { this.portfolios = data.portfolios; },
       (error) => {
         console.log(`Error getting portfolio list:${error}`);
         return of([]);
@@ -65,7 +65,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     this.subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
         (returnedPort) => { 
-          returnedPort = this.AddDateStringsToPort(returnedPort);
+          //returnedPort.creationDateString = new Date(returnedPort.creationDate!).toLocaleString();
           this.portfolios.push(returnedPort);
         },
         (error) => {
@@ -86,24 +86,19 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private AddDateStringsToPorts(ports: Portfolio[]): Portfolio[] {
-    ports.forEach(port =>{
-      if(port.creationDate) {
-        port.creationDateString = new Date(port.creationDate!).toLocaleString();
-      } else {
-        port.creationDateString = '';
-      }
-    });
-    return ports;
-  }
-
-  private AddDateStringsToPort(port: Portfolio): Portfolio {
-    if (port.creationDate) {
-      port.creationDateString = new Date(port.creationDate!).toLocaleString();
-    } else {
-      port.creationDateString = '';
-    }
-    return port;
+  // private AddDateStringsToPorts(ports: Portfolio[]): Portfolio[] {
+  //   ports.forEach(port =>{
+  //     if(port.creationDate) {
+  //       port.creationDateString = new Date(port.creationDate).toLocaleString();
+  //     } else {
+  //       port.creationDateString = '';
+  //     }
+  //   });
+  //   return ports;
+  // }
+  
+  ConvertDate(date?: Date){
+    return(date ? new Date(date).toLocaleString() : '');
   }
 
 }

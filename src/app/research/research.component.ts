@@ -38,7 +38,7 @@ export class ResearchComponent implements OnInit {
   }
 
   ConvertDate(date: Date){
-    return new Date(date).toLocaleString();
+    return new Date(date).toLocaleDateString();
   }
 
 }
