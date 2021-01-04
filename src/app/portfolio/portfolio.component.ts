@@ -86,7 +86,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log('Error in onSubmitHolding ', error);
-        // assign user friendly error message string here
+        // TODO assign user friendly error message string here
         return of([]);
       },
       () => { console.log(`holding add complete`); }

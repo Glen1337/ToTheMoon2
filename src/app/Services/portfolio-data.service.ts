@@ -14,7 +14,7 @@ export class PortfolioDataService {
 
   constructor(private http: HttpClient) { }
 
-  getAllPortfolios(): Observable<Array<Portfolio>>{
+  getAllPortfolios(): Observable<Array<Portfolio>> {
     return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`)
     .pipe(
       tap(_ => console.log('Getting list of portfolios')),

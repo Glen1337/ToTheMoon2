@@ -14,6 +14,7 @@ import { AuthModule } from '@auth0/auth0-angular'
 import { AuthButtonComponent } from './auth/login-button';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { ResearchComponent } from './research/research.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ResearchComponent } from './research/research.component';
     PageNotFoundComponent,
     PortfolioComponent,
     AuthButtonComponent,
-    ResearchComponent
+    ResearchComponent,
+    OrderHistoryComponent
   ],
   imports: [
     BrowserModule,

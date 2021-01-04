@@ -30,9 +30,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     ])
   });
   
-  constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {
-
-  }
+  constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {}
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
   
