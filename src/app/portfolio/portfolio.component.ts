@@ -97,6 +97,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription2)
   }
 
+  onDeleteHolding() {
+
+  }
+
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {

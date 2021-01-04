@@ -1,7 +1,26 @@
 <div class="container">
     <h2>Your Order History</h2>
     <table class="table">
-        <tr>
-        </tr>
-      </table>
+      <tr>
+        <!-- <th> Total Equity </th> -->
+        <th> Symbol </th>
+        <th> Quantity </th>
+        <th> Order Type </th>
+        <th> Date </th>
+        <th> Asset Type </th>
+        <th> Price </th>
+        <th> Total Amount </th>
+      </tr>
+      <tr *ngFor="let order of orders">
+        <!-- <td>{{port.totalMarketValue}}</td> -->
+        <td>{{order.symbol}}</td>
+        <td>{{order.quantity}}</td>
+        <td>{{order.orderType}}</td>
+        <td>{{ConvertDate(order.transactionDate)}}</td>
+        <td>{{order.securityType}}</td>
+        <td>{{financiafyNumber(order.price, '$')}}</td>
+        <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
+        <td></td>
+      </tr>
+    </table>
 </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Order } from '../Models/Order';
+import { financialifyNumber } from'../Utilities/utilities';
 
 @Component({
   selector: 'app-order-history',
@@ -9,16 +11,25 @@ import { Location } from '@angular/common';
 })
 export class OrderHistoryComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private location: Location) { }
+  orders: Order[] = [];
+  public financiafyNumber: any;
+
+  constructor(private route: ActivatedRoute, private location: Location) {
+    this.financiafyNumber = financialifyNumber;
+  }
 
   ngOnInit(): void {
     this.route.data.subscribe(
-      (data) => { console.log(data); }
+      (data) => { this.orders = data.orders; console.log(this.orders);}
     );
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  ConvertDate(date?: Date){
+    return(date ? new Date(date).toLocaleString() : '');
   }
 
 }

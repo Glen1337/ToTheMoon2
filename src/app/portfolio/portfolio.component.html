@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-lg-3 col-sm-8">
             <h2>{{'Portfolio: ' + portfolio.title}}</h2>
@@ -18,12 +18,13 @@
             <th> Cost Basis </th>
             <th> Quantity </th>
             <th> Current Price </th>
-            <th> Security Type</th>
-            <th> Reinvesting Dividends?</th>
-            <th> Transaction Time</th>
-            <th> Original Value</th>
-            <th> Current Value</th>
-            <th> Gain/Loss</th>
+            <th> Security Type </th>
+            <th> Reinvesting Dividends? </th>
+            <th> Transaction Time </th>
+            <th> Original Value </th>
+            <th> Current Value </th>
+            <th> Gain/Loss </th>
+            <th> Sell All </th>
         </tr>
         <tr *ngFor="let holding of portfolio.holdings">
             <td>{{holding.symbol}}</td>
@@ -36,6 +37,7 @@
             <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
             <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
             <td>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</td>
+            <td><button class="btn btn-primary">Sell All</button></td>
         </tr>
     </table>
     
