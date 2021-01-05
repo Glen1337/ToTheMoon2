@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, tap } from 'rxjs/operators';
+import { catchError, map, retry, tap } from 'rxjs/operators';
 import { IAgg, ResearchData } from '../Models/ResearchData';
 
 @Injectable({
@@ -16,10 +16,11 @@ export class ResearchDataService {
 
   getHistoricalstockData(ticker: string): Observable<IAgg[]>{
 
-    let options =  { params: new HttpParams().set('symbol', ticker.trim())}
+    let options =  { params: new HttpParams().set('symbol', ticker.trim()) }
 
     return this.http.get<IAgg[]>(`${this.baseUrl}research/`, options)
     .pipe(
+      //map((agg) => [agg.] ),
       tap(_ => console.log(`Getting data for: ${ticker}`)),
       retry(2),
       catchError(this.handleError)

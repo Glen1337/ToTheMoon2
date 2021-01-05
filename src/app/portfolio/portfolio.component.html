@@ -23,6 +23,7 @@
             <th> Transaction Time </th>
             <th> Original Value </th>
             <th> Current Value </th>
+            <th> Percentage Change </th>
             <th> Gain/Loss </th>
             <th> Sell All </th>
         </tr>
@@ -36,6 +37,7 @@
             <td>{{ConvertDate(holding.transactionDate)}}</td>
             <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
             <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
+            <td>{{financiafy(100*((holding.currentPrice - holding.costBasis)/holding.costBasis),'%', true)}}</td>
             <td>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</td>
             <td><button class="btn btn-primary">Sell All</button></td>
         </tr>
