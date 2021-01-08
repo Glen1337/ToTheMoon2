@@ -17,7 +17,7 @@ export class OrderHistoryDataService {
   getAllOrders(): Observable<Array<Order>>{
     return this.http.get<Array<Order>>(`${this.baseUrl}orders`)
     .pipe(
-      tap(_ => {console.log('In service, Getting list of historical orders');}),
+      tap(_ => {console.log('(service)Getting list of historical orders');}),
       retry(2),
       catchError(this.handleError)
     );

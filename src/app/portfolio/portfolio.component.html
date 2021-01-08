@@ -39,7 +39,7 @@
             <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
             <td>{{financiafy(100*((holding.currentPrice - holding.costBasis)/holding.costBasis),'%', true)}}</td>
             <td>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</td>
-            <td><button class="btn btn-primary">Sell All</button></td>
+            <td><button (click)="onDeleteHolding($event, holding.holdingId!)" class="btn btn-primary">Sell All</button></td>
         </tr>
     </table>
     

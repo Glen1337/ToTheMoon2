@@ -29,7 +29,7 @@ export class HoldingService {
 
     return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
-      tap((newHolding) => console.log(`Added a new holding with id: ${newHolding.holdingId}`)),
+      tap((newHolding) => console.log(`(service)Adding a new holding with id: ${newHolding.holdingId}`)),
       retry(2),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
@@ -37,6 +37,12 @@ export class HoldingService {
     //   next(response) { console.log('Response:' + response); },
     //   error(err) { console.error('Error posting holding: ');}
     // });
+  }
+
+  deleteHolding(id: number) {
+    let url = `${this.baseUrl}holdings/${id}`;
+    console.log("(service)Sending delete request to API for holding: " + id);
+    return this.http.delete(this.baseUrl)
   }
 
   private handleError(error: HttpErrorResponse) {

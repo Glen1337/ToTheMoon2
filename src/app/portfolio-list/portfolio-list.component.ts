@@ -40,7 +40,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     this.subscription1 = this.route.data.subscribe(
       (data) => { this.portfolios = data.portfolios; },
       (error) => {
-        console.log(`Error getting portfolio list:${error}`);
+        console.log(`(component)Error getting portfolio list:${error}`);
         return of([]);
       },
       () => { console.log("Completed retrieval of portfolio list");}
@@ -60,13 +60,13 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       type: String(this.portfolioTypeControl?.value).trim()
     }
 
-    console.log("Sending portfolio post to API: ", port);
+    console.log("(component)Sending portfolio post to API: ", port);
 
     this.subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
         (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
-          console.log('Error in onSubmitPortfolio: ', error);
+          console.log('(component)Error in onSubmitPortfolio: ', error);
           // TODO assign user friendly error message string here
           return of([]);
         },

@@ -46,7 +46,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.portfolio = data.portfolio
       },
       (error) => {
-        console.log(`Error getting portfolio:${error}`);
+        console.log(`(component)Error getting portfolio:${error}`);
         return of([]);
       },
       () => { console.log("Portfolio retrieved"); }
@@ -78,23 +78,25 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
     }
-    console.log("Sending order to API: ", holding);
+    console.log("(component)Sending order to API: ", holding);
     
     subscription2 = this.holdingService.addHolding(holding).subscribe(
       (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
       (error) => {
-        console.log('Error in onSubmitHolding ', error);
+        console.log('(component)Error in onSubmitHolding ', error);
         // TODO assign user friendly error message string here
         return of([]);
       },
-      () => { console.log(`holding add complete`); }
+      () => { console.log(`(component)holding add complete`); }
     );
 
     this.subscriptions.push(subscription2)
   }
 
-  onDeleteHolding() {
-
+  onDeleteHolding(event: any, holdingId: number) {
+    console.log(event);
+    console.log(holdingId);
+    this.holdingService.deleteHolding(holdingId);
   }
 
   ngOnDestroy(): void {
