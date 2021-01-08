@@ -26,10 +26,10 @@ export class OrderHistoryComponent implements OnInit {
     subscription1 = this.route.data.subscribe(
       (data) => { this.orders = data.orders; console.log(this.orders);},
       (error) => {
-        console.log(`Error getting order history: ${error}`);
+        console.log(`(component)Error getting order history: ${error}`);
         return of([]);
       },
-      () => { console.log("Order history retrieved"); }
+      () => { console.log("(component)Order history retrieved"); }
     );
 
     this.subscriptions.push(subscription1)

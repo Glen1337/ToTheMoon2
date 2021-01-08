@@ -9,8 +9,12 @@ import { Holding } from '../Models/Holding';
 })
 export class HoldingService {
 
-    // move this to environment config
-    private baseUrl = 'https://localhost:5001/api/'
+  // move this to environment config
+  private baseUrl = 'https://localhost:5001/api/'
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -33,16 +37,17 @@ export class HoldingService {
       retry(2),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
-    // .subscribe({
-    //   next(response) { console.log('Response:' + response); },
-    //   error(err) { console.error('Error posting holding: ');}
-    // });
   }
 
   deleteHolding(id: number) {
+    //this.httpOptions.set('Accept', 'application/json');
     let url = `${this.baseUrl}holdings/${id}`;
     console.log("(service)Sending delete request to API for holding: " + id);
-    return this.http.delete(this.baseUrl)
+    return this.http.delete<Holding>(url).pipe(
+      tap(_ => console.log(`(service)Deleting holding with id: ${id}`)),
+      retry(2),
+      catchError<Holding, Observable<Holding>>(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

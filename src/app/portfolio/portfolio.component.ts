@@ -94,9 +94,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onDeleteHolding(event: any, holdingId: number) {
-    console.log(event);
-    console.log(holdingId);
-    this.holdingService.deleteHolding(holdingId);
+    this.holdingService.deleteHolding(holdingId).subscribe(
+      (response) => {console.log(response);}
+    );
   }
 
   ngOnDestroy(): void {

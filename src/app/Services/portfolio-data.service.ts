@@ -12,22 +12,26 @@ export class PortfolioDataService {
   // move this to environment config
   private baseUrl = 'https://localhost:5001/api/'
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   constructor(private http: HttpClient) { }
 
   getAllPortfolios(): Observable<Array<Portfolio>> {
-    return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`)
+    return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`, this.httpOptions)
     .pipe(
-      tap(_ => console.log('Getting list of portfolios')),
+      tap(_ => console.log('(service)Getting list of portfolios')),
       retry(2),
       catchError(this.handleError)
     );
   }
 
   getPortfolio(id: number | string | null): Observable<Portfolio> {
-    return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`)
+    return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`, this.httpOptions)
     .pipe(
       //map(p => ({...p, creationDateString: p.creationDate?.toLocaleString() })),
-      tap(_ => console.log('Getting portfolio '+id)),
+      tap(_ => console.log('(service)Getting portfolio '+id)),
       retry(2),
       catchError(this.handleError)
     );
@@ -36,9 +40,9 @@ export class PortfolioDataService {
   addPortfolio(portfolio: Portfolio): Observable<Portfolio> {
     let url = `${this.baseUrl}portfolios`;
 
-    return this.http.post<Portfolio>(url, portfolio)
+    return this.http.post<Portfolio>(url, portfolio, this.httpOptions)
     .pipe(
-      tap((newPortfolio) => console.log(`Added a new holding with id: ${newPortfolio.portfolioId}`)),
+      tap((newPortfolio) => console.log(`(service)Added a new holding with id: ${newPortfolio.portfolioId}`)),
       retry(2),
       catchError<Portfolio, Observable<Portfolio>>(this.handleError)
     );
