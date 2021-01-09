@@ -4,11 +4,11 @@
     </div>
     <div class="row">
         <button class="btn btn-primary" (click)="goBack()">Back</button>
-      </div>
+    </div>
     <div>
         <form class="form-group" [formGroup]="researchForm" (ngSubmit)="onGetData()">
             <h3>Research a Stock</h3>
-
+            <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
             <span>
                 <label>Symbol: <input type="text" formControlName="researchSymbolControl"></label>
             </span>

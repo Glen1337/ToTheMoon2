@@ -50,7 +50,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
       },
       (error) => {
         console.log('(component)Error in getting research: ', error);
-        this.errorMsg = `Error: ${error}`;
+        this.errorMsg = `Error: ${error.error.title}`;
       },
       () => {"(component)Research retrieval complete"}
     );

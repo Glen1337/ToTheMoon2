@@ -49,6 +49,16 @@ export class PortfolioDataService {
     );
   }
 
+  deletePortfolio(id: number){
+    let url = `${this.baseUrl}portfolios/${id}`;
+    console.log("(service)Sending delete request to API for portfolio: " + id);
+    return this.http.delete<Portfolio>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`(service)Deleting portfolio with id: ${id}`)),
+      retry(2),
+      catchError<Portfolio, Observable<Portfolio>>(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

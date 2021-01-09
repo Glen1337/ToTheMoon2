@@ -9,6 +9,7 @@
       <th> Created Date </th>
       <th> # Holdings </th>
       <th> Details </th>
+      <th> Delete </th>
     </tr>
     <tr *ngFor="let port of portfolios">
       <!-- <td>{{port.totalMarketValue}}</td> -->
@@ -16,7 +17,8 @@
       <td>{{port.type}}</td>
       <td>{{ConvertDate(port.creationDate)}}</td>
       <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
-      <td><a [routerLink]="['/portfolio', port.portfolioId]">Portfolio Details</a></td>
+      <td><a [routerLink]="['/portfolio', port.portfolioId]"><button class="btn btn-primary">Portfolio Details</button></a></td>
+      <td><button class="btn btn-primary" (click)="deletePortfolio($event, port.portfolioId)">Remove</button></td>
     </tr>
   </table>
   <br>

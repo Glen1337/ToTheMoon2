@@ -104,14 +104,14 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let subscription3: Subscription = new Subscription();
 
     subscription3 = this.holdingService.deleteHolding(holdingId).subscribe(
-      (response) => { console.log(response); },
+      (response) => { console.log(`Holding deleted: ${holdingId}`); },
       (error) => { 
         this.errorMsg = `Error: ${error}`
         console.log('(component)Error in onSubmitHolding ', error);
       },
       () => { console.log(`(component)error deleting holding`); }
     );
-    
+
     this.subscriptions.push(subscription3)
   }
 

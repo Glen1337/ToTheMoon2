@@ -54,6 +54,25 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription1)
   }
 
+  deletePortfolio(event: any, portfolioId: number){
+    let subscription3: Subscription = new Subscription();
+    subscription3 = this.portfolioDataService.deletePortfolio(portfolioId).subscribe(
+      (response) => {
+        this.portfolios.forEach((port, index) => {
+          if(port.portfolioId === portfolioId) this.portfolios.splice(index,1);
+        });
+        console.log(`Portfolio deleted: ${portfolioId}`);
+      },
+      (error) => { 
+        this.errorMsg = `Error: ${error}`
+        console.log('(component)Error in deletePortfolio ', error);
+      },
+      () => { console.log(`(component)error deleting Portfolio`); }
+    );
+    
+    this.subscriptions.push(subscription3)
+  }
+
   onSubmitPortfolio(): void {
     let subscription2: Subscription = new Subscription();
 
