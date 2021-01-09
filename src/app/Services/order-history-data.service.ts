@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
@@ -12,10 +12,15 @@ export class OrderHistoryDataService {
   // move this to environment config
   private baseUrl = 'https://localhost:5001/api/'
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
+  };
+
   constructor(private http: HttpClient) { }
 
   getAllOrders(): Observable<Array<Order>>{
-    return this.http.get<Array<Order>>(`${this.baseUrl}orders`)
+    return this.http.get<Array<Order>>(`${this.baseUrl}orders`, this.httpOptions)
     .pipe(
       tap(_ => {console.log('(service)Getting list of historical orders');}),
       retry(2),

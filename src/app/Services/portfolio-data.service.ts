@@ -13,7 +13,8 @@ export class PortfolioDataService {
   private baseUrl = 'https://localhost:5001/api/'
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
   };
 
   constructor(private http: HttpClient) { }
@@ -64,8 +65,6 @@ export class PortfolioDataService {
   }
 
 }
-
-
 
 
 // private handleError<T>(operation = 'operation', result?: T) {

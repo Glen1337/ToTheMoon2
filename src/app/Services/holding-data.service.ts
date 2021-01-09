@@ -13,20 +13,20 @@ export class HoldingService {
   private baseUrl = 'https://localhost:5001/api/'
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
   };
 
   constructor(private http: HttpClient) { }
 
   addHolding(holding: Holding): Observable<Holding> {
       // Setting request headers to JSON
-      // headers = new HttpHeaders()
-      // .set('Content-Type', 'application/json')
-      // .set('Accept', 'application/json');
+      //headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
     const hOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-      })
+      }),
+      withCredentials: true
     };
 
     let url = `${this.baseUrl}holdings`;
@@ -40,10 +40,9 @@ export class HoldingService {
   }
 
   deleteHolding(id: number) {
-    //this.httpOptions.set('Accept', 'application/json');
     let url = `${this.baseUrl}holdings/${id}`;
     console.log("(service)Sending delete request to API for holding: " + id);
-    return this.http.delete<Holding>(url).pipe(
+    return this.http.delete<Holding>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting holding with id: ${id}`)),
       retry(2),
       catchError<Holding, Observable<Holding>>(this.handleError)
@@ -64,7 +63,7 @@ export class HoldingService {
     // Return an observable with a user-facing error message.
     return throwError(error);
   }
-
+}
   // private handleError<T>(operation = 'operation', result?: T) {
   //   return (error: any): Observable<T> => {
   
@@ -86,4 +85,3 @@ export class HoldingService {
   //     // return of(result as T);
   //   };
   // }
-}

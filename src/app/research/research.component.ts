@@ -2908,9 +2908,8 @@ export class ResearchComponent implements OnInit, AfterViewInit {
         18920844,
       ],
     ]);
-
     
-    //plot0
+    //plot0: candlestick
     let mapping = table.mapAs({'open':1, 'high':2, 'low':3, 'close':4, 'value':4});
     let plot0 = this.chart.plot(0);
     plot0.yGrid().stroke({dash:"2 14"});
@@ -2922,16 +2921,11 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     plot0.crosshair().xStroke('#ca68ff', 1.6, "round");
     plot0.crosshair().yStroke('#ca68ff', 1.6, "round");
 
-    // 2nd plot for EMAs on 1st chart
-    //EMA 100 on candlestick chart
+    // EMAs on 1st plot
     let ema15 = plot0.ema(mapping, 25).series();
-    ema15.colorScale("#ca68ff");
-
     let ema50 = plot0.ema(mapping, 100).series();
-    //ema50.stroke('2 purple');
-    //plot0.candlestick(mapping);
     
-    // plot1
+    // plot1: volume
     let volMapping = table.mapAs({'value': 5});
     let plot1 = this.chart.plot(1);
     plot1.yGrid().stroke({dash:"2 14"});
