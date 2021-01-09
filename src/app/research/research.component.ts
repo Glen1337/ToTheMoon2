@@ -5,6 +5,7 @@ import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { IAgg } from '../Models/ResearchData';
 import  'anychart';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-research',
@@ -16,6 +17,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   historicalStockData: IAgg[] = [];
   chart: anychart.charts.Stock;
   public errorMsg: string = "";
+  subscriptions: Subscription[] = [];
 
   @ViewChild('chartContainer') container!: ElementRef;
 
@@ -38,9 +40,10 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   get researchSymbolControl() { return this.researchForm.get('researchSymbolControl'); }
 
   onGetData(): void {
+    let subscription1: Subscription = new Subscription();
     let symbol: string = this.researchSymbolControl!.value;
 
-    this.researchService.getHistoricalstockData(symbol).subscribe(
+    subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe(
       (data) => {
         this.historicalStockData = data;
         this.ChartData(data);
@@ -51,6 +54,8 @@ export class ResearchComponent implements OnInit, AfterViewInit {
       },
       () => {"(component)Research retrieval complete"}
     );
+
+    this.subscriptions.push(subscription1);
   }
 
   private ChartData(inputData: any[]){
@@ -2974,5 +2979,13 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   goBack(): void {
     this.location.back();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions && this.subscriptions.length > 0) {
+      this.subscriptions.forEach((sub) => {
+        if (!sub.closed) { sub.unsubscribe(); }     
+      });
+    }
+  } 
 
 }

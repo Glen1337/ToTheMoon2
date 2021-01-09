@@ -69,6 +69,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  refresh(): void {
+    location.reload();
+  }
+
   onSubmitHolding(): void {
     let subscription2: Subscription = new Subscription();
 
@@ -97,7 +101,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onDeleteHolding(event: any, holdingId: number) {
-    this.holdingService.deleteHolding(holdingId).subscribe(
+    let subscription3: Subscription = new Subscription();
+
+    subscription3 = this.holdingService.deleteHolding(holdingId).subscribe(
       (response) => { console.log(response); },
       (error) => { 
         this.errorMsg = `Error: ${error}`
@@ -105,6 +111,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       () => { console.log(`(component)error deleting holding`); }
     );
+    
+    this.subscriptions.push(subscription3)
   }
 
   ngOnDestroy(): void {

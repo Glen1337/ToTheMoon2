@@ -13,6 +13,7 @@
     </div>
     <a routerLink="/portfolios">Back to List</a>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <button class="btn btn-primary" (click)="refresh()">Refresh</button>
     <table class="table">
         <tr>
             <th> Symbol </th>
@@ -49,20 +50,20 @@
     <div>
         <form class="form-group" [formGroup]="holdingForm" (ngSubmit)="onSubmitHolding()">
             <h3>Buy a Stock</h3>
-
-            <span>
-            <label>Symbol: <input type="text" formControlName="holdingSymbolControl"></label>
-            </span>
-            <span>
-            <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
-            </span>
-            <span>
-            <label>Reinvest Dividends? <input type="checkbox" formControlName="holdingDividendControl"></label>
-            </span>
-            <div>
-            <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
+            <div class="row">
+                <span>
+                <label>Symbol: <input type="text" formControlName="holdingSymbolControl"></label>
+                </span>
+                <span>
+                <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
+                </span>
+                <span>
+                <label>Reinvest Dividends? <input type="checkbox" formControlName="holdingDividendControl"></label>
+                </span>
+                <div>
+                <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
+                </div>
             </div>
-    
             <!--symbol validation messages-->
             <div *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)" class="alert alert-danger">
                 <div *ngIf="symbolControl!.errors!.required">

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 
@@ -14,8 +14,6 @@ import { PortfolioDataService } from '../Services/portfolio-data.service';
 export class PortfolioListComponent implements OnInit, OnDestroy {
 
   portfolios: Array<Portfolio> = [];
-  subscription1: Subscription = new Subscription();
-  subscription2: Subscription = new Subscription();
   subscriptions: Subscription[] = []
   public errorMsg: string = "";
 
@@ -38,7 +36,9 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   get portfolioTypeControl() { return this.portfolioForm.get('portfolioTypeControl'); }
 
   ngOnInit(): void {
-    this.subscription1 = this.route.data.subscribe(
+    let subscription1: Subscription = new Subscription();
+
+    subscription1 = this.route.data.subscribe(
       (data) => {
         this.portfolios = data.portfolios;
         if (data.portfolios.length === 0){
@@ -51,10 +51,12 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       () => { console.log("Completed retrieval of portfolio list");}
     );
 
-    this.subscriptions.push(this.subscription1)
+    this.subscriptions.push(subscription1)
   }
 
-  onSubmitPortfolio(): void{
+  onSubmitPortfolio(): void {
+    let subscription2: Subscription = new Subscription();
+
     let port: Portfolio = {
       title: String(this.portfolioTitleControl?.value).trim(),
       portfolioId: 0,
@@ -67,7 +69,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
     console.log("(component)Sending portfolio post to API: ", port);
 
-    this.subscription2 = this.portfolioDataService.addPortfolio(port)
+    subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
         (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
@@ -76,7 +78,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         },
         () => { console.log(`addportfolio completed`); }
       );
-    this.subscriptions.push(this.subscription2)
+    this.subscriptions.push(subscription2)
   }
     
   ngOnDestroy() {
@@ -87,17 +89,6 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private AddDateStringsToPorts(ports: Portfolio[]): Portfolio[] {
-  //   ports.forEach(port =>{
-  //     if(port.creationDate) {
-  //       port.creationDateString = new Date(port.creationDate).toLocaleString();
-  //     } else {
-  //       port.creationDateString = '';
-  //     }
-  //   });
-  //   return ports;
-  // }
-  
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');
   }
