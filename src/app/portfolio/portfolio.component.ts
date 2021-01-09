@@ -20,6 +20,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   portfolioId: number = 0;
   subscriptions: Subscription[] = [];
   public financiafy: any;
+  public errorMsg: string = "";
 
   public holdingForm = new FormGroup({
     holdingSymbolControl: new FormControl('', [
@@ -42,12 +43,15 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let subscription1: Subscription = new Subscription();
     subscription1 = this.route.data.subscribe(
       (data) => {
-        data.portfolio.holdings = data.portfolio.holdings;
-        this.portfolio = data.portfolio
+        if (Object.keys(data.portfolio).length == 0) {
+          this.errorMsg="Could not load Portfolio";
+        }else {
+          data.portfolio.holdings = data.portfolio.holdings;
+          this.portfolio = data.portfolio
+        }
       },
       (error) => {
         console.log(`(component)Error getting portfolio:${error}`);
-        return of([]);
       },
       () => { console.log("Portfolio retrieved"); }
     );
@@ -84,8 +88,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
       (error) => {
         console.log('(component)Error in onSubmitHolding ', error);
-        // TODO assign user friendly error message string here
-        return of([]);
+        this.errorMsg = `Error: ${error}`
       },
       () => { console.log(`(component)holding add complete`); }
     );
@@ -95,7 +98,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   onDeleteHolding(event: any, holdingId: number) {
     this.holdingService.deleteHolding(holdingId).subscribe(
-      (response) => {console.log(response);}
+      (response) => { console.log(response); },
+      (error) => { 
+        this.errorMsg = `Error: ${error}`
+        console.log('(component)Error in onSubmitHolding ', error);
+      },
+      () => { console.log(`(component)error deleting holding`); }
     );
   }
 

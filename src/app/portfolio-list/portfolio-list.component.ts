@@ -17,6 +17,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   subscriptions: Subscription[] = []
+  public errorMsg: string = "";
 
   public portfolioForm = new FormGroup({
     portfolioTitleControl: new FormControl('', [
@@ -38,10 +39,14 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription1 = this.route.data.subscribe(
-      (data) => { this.portfolios = data.portfolios; },
+      (data) => {
+        this.portfolios = data.portfolios;
+        if (data.portfolios.length === 0){
+          this.errorMsg = "Could not retrieve portfolios from server"
+        }
+      },
       (error) => {
         console.log(`(component)Error getting portfolio list:${error}`);
-        return of([]);
       },
       () => { console.log("Completed retrieval of portfolio list");}
     );
@@ -67,8 +72,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
           console.log('(component)Error in onSubmitPortfolio: ', error);
-          // TODO assign user friendly error message string here
-          return of([]);
+          this.errorMsg = `Error: ${error}`;
         },
         () => { console.log(`addportfolio completed`); }
       );

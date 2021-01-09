@@ -1,5 +1,6 @@
 <div class="container">
   <h2>Your Portfolios</h2>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
   <table class="table">
     <tr>
       <!-- <th> Total Equity </th> -->

@@ -7,12 +7,15 @@
 // 4. Prepends an optional symbol between the +/- and number (%,$,etc.)
 
 export function financialifyNumber(input: number, prependSymbol: string = '', addSign: boolean = false): string{
-  let nombre: number = parseFloat(input.toFixed(2));
-  if (nombre > 0) {
-    return `${(addSign ? '+' : '')}${prependSymbol}${nombre.toLocaleString()}`;
+  if (input === undefined) return '';
+  
+  let num: number = parseFloat(input.toFixed(2));
+  
+  if (num > 0) {
+    return `${(addSign ? '+' : '')}${prependSymbol}${num.toLocaleString()}`;
   }
-  if (nombre < 0) {
-    return `${(addSign ? '-' : '')}${prependSymbol}${Math.abs(nombre).toLocaleString()}`;
+  if (num < 0) {
+    return `${(addSign ? '-' : '')}${prependSymbol}${Math.abs(num).toLocaleString()}`;
   } else {
     return `${prependSymbol}0`;
   }

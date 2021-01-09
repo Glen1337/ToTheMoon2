@@ -15,6 +15,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
 
   historicalStockData: IAgg[] = [];
   chart: anychart.charts.Stock;
+  public errorMsg: string = "";
 
   @ViewChild('chartContainer') container!: ElementRef;
 
@@ -39,10 +40,17 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   onGetData(): void {
     let symbol: string = this.researchSymbolControl!.value;
 
-    this.researchService.getHistoricalstockData(symbol).subscribe(data => {
-      this.historicalStockData = data;
-      this.ChartData(data);
-    });
+    this.researchService.getHistoricalstockData(symbol).subscribe(
+      (data) => {
+        this.historicalStockData = data;
+        this.ChartData(data);
+      },
+      (error) => {
+        console.log('(component)Error in getting research: ', error);
+        this.errorMsg = `Error: ${error}`;
+      },
+      () => {"(component)Research retrieval complete"}
+    );
   }
 
   private ChartData(inputData: any[]){
@@ -57,7 +65,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
 
     let table = anychart.data.table();
     
-    //data
+    //table.addData(data);
     table.addData([
       [
         "8/7/2019",
