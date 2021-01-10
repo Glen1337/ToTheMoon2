@@ -6,7 +6,8 @@
             </div>
             <div class= "row">
                 <div class="col-md-1 col-lg-1 col-sm-1" *ngFor="let navItem of NavItems">
-                    <a [routerLink]="navItem.link" routerLinkactive="active" class="btn btn-primary">{{navItem.label}}</a>
+                    <!-- class="btn btn-primary" -->
+                    <h5><a [routerLink]="navItem.link" routerLinkactive="active">{{navItem.label}}</a></h5>
                 </div>
             </div>
         </div>

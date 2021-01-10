@@ -15,6 +15,7 @@ export class OrderHistoryComponent implements OnInit {
   orders: Order[] = [];
   public financiafyNumber: any;
   subscriptions: Subscription[] = [];
+  public errorMsg: string = "";
 
   constructor(private route: ActivatedRoute, private location: Location) {
     this.financiafyNumber = financialifyNumber;
@@ -30,6 +31,7 @@ export class OrderHistoryComponent implements OnInit {
       },
       (error) => {
         console.log(`(component)Error getting order history: ${error}`);
+        this.errorMsg = error.status;
       },
       () => { console.log("(component)Order history retrieved"); }
     );

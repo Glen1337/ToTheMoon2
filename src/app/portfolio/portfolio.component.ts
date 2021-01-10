@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
@@ -74,42 +74,64 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onSubmitHolding(): void {
-    let subscription2: Subscription = new Subscription();
+    let sub: Subscription = new Subscription();
+    let order$: Observable<Holding>;
 
     let holding: Holding = {
       costBasis: 0,
       currentPrice: 0,
       quantity: this.quantityControl?.value,
       reinvestDivs: this.dividendControl?.value ? true : false,
-      symbol: String(this.symbolControl?.value).trim(),
+      symbol: String(this.symbolControl?.value).trim().toUpperCase(),
       portfolioId: this.portfolio.portfolioId,
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
     }
     console.log("(component)Sending order to API: ", holding);
-    
-    subscription2 = this.holdingService.addHolding(holding).subscribe(
-      (returnedHolding) => { this.portfolio.holdings.push(returnedHolding); },
+
+    // is holding in list of holdings already?
+    let found = this.portfolio.holdings.find(existingHolding => existingHolding.symbol === holding.symbol);
+
+    if (found) {
+      order$ = this.holdingService.updateHolding(holding, found.holdingId!)
+    } else {
+      order$ = this.holdingService.addHolding(holding)
+    }
+
+    sub = order$.subscribe(
+      (returnedHolding) => {
+        if (!found) {
+          this.portfolio.holdings.push(returnedHolding);
+        }else{
+          let index: number = this.portfolio.holdings.indexOf(found);
+          this.portfolio.holdings[index].quantity += holding.quantity;
+        }
+      },
       (error) => {
         console.log('(component)Error in onSubmitHolding ', error);
-        this.errorMsg = `Error: ${error}`
+        this.errorMsg = `Error: ${error.status}`
       },
       () => { console.log(`(component)holding add complete`); }
     );
 
-    this.subscriptions.push(subscription2)
+    this.subscriptions.push(sub)
   }
 
   onDeleteHolding(event: any, holdingId: number) {
     let subscription3: Subscription = new Subscription();
 
     subscription3 = this.holdingService.deleteHolding(holdingId).subscribe(
-      (response) => { console.log(`Holding deleted: ${holdingId}`); },
-      (error) => { 
-        this.errorMsg = `Error: ${error}`
-        console.log('(component)Error in onSubmitHolding ', error);
+      (response) => {
+        console.log(`Holding deleted: ${holdingId}`);
+        this.portfolio.holdings.forEach((holding, index) => {
+          if(holding.holdingId === holdingId) this.portfolio.holdings.splice(index,1);
+        });
       },
-      () => { console.log(`(component)error deleting holding`); }
+      (error) => { 
+        this.errorMsg = `Error: ${error.status}`
+        console.log('(component)Error while deleting holding ', error);
+      },
+      () => { console.log(`(component)deleting holding - complete`); }
     );
 
     this.subscriptions.push(subscription3)

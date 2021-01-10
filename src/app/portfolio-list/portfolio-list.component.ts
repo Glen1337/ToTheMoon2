@@ -47,6 +47,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log(`(component)Error getting portfolio list:${error}`);
+        this.errorMsg = error.status;
       },
       () => { console.log("Completed retrieval of portfolio list");}
     );
@@ -64,7 +65,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         console.log(`Portfolio deleted: ${portfolioId}`);
       },
       (error) => { 
-        this.errorMsg = `Error: ${error}`
+        this.errorMsg = `Error: ${error.status}`
         console.log('(component)Error in deletePortfolio ', error);
       },
       () => { console.log(`(component)error deleting Portfolio`); }
@@ -93,7 +94,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
           console.log('(component)Error in onSubmitPortfolio: ', error);
-          this.errorMsg = `Error: ${error}`;
+          this.errorMsg = `Error: ${error.status}`;
         },
         () => { console.log(`addportfolio completed`); }
       );

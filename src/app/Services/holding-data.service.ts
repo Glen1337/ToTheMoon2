@@ -39,6 +39,16 @@ export class HoldingService {
     );
   }
 
+  updateHolding(holding: Holding, id?: number): Observable<Holding> {
+    let url = `${this.baseUrl}holdings/${id}`;
+
+    return this.http.put<Holding>(url, holding, this.httpOptions).pipe(
+      tap(_ => console.log(`(service)Updating holding with id: ${id}`)),
+      retry(2),
+      catchError<Holding, Observable<Holding>>(this.handleError)
+    );
+  }
+
   deleteHolding(id: number) {
     let url = `${this.baseUrl}holdings/${id}`;
     console.log("(service)Sending delete request to API for holding: " + id);
