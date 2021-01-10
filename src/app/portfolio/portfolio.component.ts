@@ -93,6 +93,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let found = this.portfolio.holdings.find(existingHolding => existingHolding.symbol === holding.symbol);
 
     if (found) {
+      holding.holdingId = found.holdingId;
       order$ = this.holdingService.updateHolding(holding, found.holdingId!)
     } else {
       order$ = this.holdingService.addHolding(holding)
@@ -104,7 +105,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.portfolio.holdings.push(returnedHolding);
         }else{
           let index: number = this.portfolio.holdings.indexOf(found);
-          this.portfolio.holdings[index].quantity += holding.quantity;
+          this.portfolio.holdings[index].quantity += Number(holding.quantity);
         }
       },
       (error) => {

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
+    <app-error *ngIf="errorMsg" [inputMessage]="errorMsg"></app-error>
     <div class="row">
         <div class="col-md-4 col-lg-3 col-sm-8">
             <h2>{{'Portfolio: ' + portfolio.title}}</h2>

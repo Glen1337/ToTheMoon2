@@ -18,6 +18,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   chart: anychart.charts.Stock;
   public errorMsg: string = "";
   subscriptions: Subscription[] = [];
+  visible: boolean = false;
 
   @ViewChild('chartContainer') container!: ElementRef;
 
@@ -47,6 +48,7 @@ export class ResearchComponent implements OnInit, AfterViewInit {
       (data) => {
         this.historicalStockData = data;
         this.ChartData(data);
+        this.visible = true;
       },
       (error) => {
         console.log('(component)Error in getting research: ', error);
@@ -2935,7 +2937,8 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     plot0.crosshair().yStroke('#ca68ff', 1.6, "round");
 
     // EMAs on 1st plot
-    let ema15 = plot0.ema(mapping, 25).series();
+    let ema15 = plot0.ema(mapping, 25).series();//.series();
+    //ema15.stroke('#bf360c');
     let ema50 = plot0.ema(mapping, 100).series();
     
     // plot1: volume
