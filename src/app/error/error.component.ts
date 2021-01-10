@@ -17,7 +17,6 @@ export class ErrorComponent implements OnInit {
 
   okClick(){
     this.inputMessage = '';
-    
   }
 
 }
