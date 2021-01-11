@@ -1,3 +1,43 @@
-<p>watchlist works!</p>
-<app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-lg-3 col-sm-8">
+            <h2>Watchlist</h2>
+        </div>
+    </div>
+    <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
+    <div>
+        <form class="form-group" [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">
+            <h4>Add an equity to your watchlist</h4>
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <label>Symbol: <input type="text" formControlName="watchItemSymbolControl"></label>
+                    <label>Outlook: 
+                        <!-- <input type="dropdown" formControlName="watchItemOutlookControl"> -->
+                        <select (change)="Select($event)" class="select" formControlName="watchItemOutlookControl">
+                            <option *ngFor="let choice of dropDownOptions" [ngValue]="choice">{{choice}}</option>
+                        </select> 
+                    </label>
 
+                    <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="!watchItemForm.valid">Add</button>
+                </div>
+            </div>
+            <!--Symbol validation messages-->
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12" *ngIf="watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)" class="alert alert-danger">
+                    <div *ngIf="watchItemSymbolControl?.errors?.required">
+                        Symbol is required.
+                    </div>
+                    <div *ngIf="watchItemSymbolControl?.errors?.maxlength">
+                        Symbol must be less than 8 characters long.
+                    </div>
+                </div>
+                <!--Outlook validation messages-->
+                <div *ngIf="watchItemOutlookControl?.invalid && (watchItemOutlookControl?.dirty || watchItemOutlookControl?.touched)" class="alert alert-danger">
+                    <div *ngIf="watchItemOutlookControl?.errors?.required">
+                        Outlook is required.
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

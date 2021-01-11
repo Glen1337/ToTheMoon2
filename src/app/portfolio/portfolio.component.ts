@@ -91,7 +91,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       portfolioId: this.portfolio.portfolioId,
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
-    }
+    };
     console.log("(component)Sending order to API: ", holding);
 
     // is holding in list of holdings already?

@@ -16,3 +16,8 @@ export class SecurityConstants {
     static readonly Call = 'Call';
     static readonly Put = 'Put';
 }
+
+export class OutlookConstants {
+    static readonly Positive = "Positive";
+    static readonly Negative = "Negative";
+}
