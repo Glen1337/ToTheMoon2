@@ -31,7 +31,7 @@ export class OrderHistoryComponent implements OnInit {
       },
       (error) => {
         console.log(`(component)Error getting order history: ${error}`);
-        this.errorMsg = `Error: ${error.error.title}`;
+        this.errorMsg = `${error.error.title}`;
       },
       () => { console.log("(component)Order history retrieved"); }
     );

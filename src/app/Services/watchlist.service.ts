@@ -20,11 +20,22 @@ export class WatchlistService {
   constructor(private http: HttpClient) { }
 
   getWatchList(): Observable<Array<WatchItem>> {
-    return this.http.get<Array<WatchItem>>(`${this.baseUrl}watchitems`, this.httpOptions)
+    let url = `${this.baseUrl}watchitems`;
+    return this.http.get<Array<WatchItem>>(url, this.httpOptions)
     .pipe(
-      tap(_ => console.log('(service)Getting list of portfolios')),
+      tap(_ => console.log('(service)Getting watchlist')),
       retry(2),
       catchError(this.handleError)
+    );
+  }
+
+  addWatchItem(watchItem: WatchItem): Observable<WatchItem> {
+    let url = `${this.baseUrl}watchitems`;
+
+    return this.http.post<WatchItem>(url, watchItem, this.httpOptions)
+    .pipe(
+      tap(() => console.log(`(service)Adding a new watch item with id: ${watchItem.watchItemId}`)),
+      catchError<WatchItem, Observable<WatchItem>>(this.handleError)
     );
   }
 

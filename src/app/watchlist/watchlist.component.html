@@ -4,6 +4,7 @@
             <h2>Watchlist</h2>
         </div>
     </div>
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
     <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div>
         <form class="form-group" [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">

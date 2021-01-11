@@ -36,13 +36,13 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   get portfolioTypeControl() { return this.portfolioForm.get('portfolioTypeControl'); }
 
   ngOnInit(): void {
-    let subscription1: Subscription = new Subscription();
+    let sub: Subscription = new Subscription();
 
-    subscription1 = this.route.data.subscribe(
+    sub = this.route.data.subscribe(
       (data) => {
         this.portfolios = data.portfolios;
         if (data.portfolios.length === 0){
-          this.errorMsg = "Could not retrieve portfolios from server"
+          //this.errorMsg = "Could not retrieve portfolios from server"
         }
       },
       (error) => {
@@ -52,7 +52,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       () => { console.log("Completed retrieval of portfolio list");}
     );
 
-    this.subscriptions.push(subscription1)
+    this.subscriptions.push(sub)
   }
 
   deletePortfolio(event: any, portfolioId: number){
@@ -65,7 +65,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         console.log(`Portfolio deleted: ${portfolioId}`);
       },
       (error) => { 
-        this.errorMsg = `Error: ${error.status}`
+        this.errorMsg = `${error.status}`
         console.log('(component)Error in deletePortfolio ', error);
       },
       () => { console.log(`(component)error deleting Portfolio`); }
@@ -94,7 +94,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         (returnedPort) => { this.portfolios.push(returnedPort); },
         (error) => {
           console.log('(component)Error in onSubmitPortfolio: ', error);
-          this.errorMsg = `Error: ${error.status}`;
+          this.errorMsg = `${error.status}`;
         },
         () => { console.log(`addportfolio completed`); }
       );

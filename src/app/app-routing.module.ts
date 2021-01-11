@@ -11,14 +11,15 @@ import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderHistoryResolverService } from './order-history/order-history-resolver.service';
 import { WatchlistComponent } from './watchlist/watchlist.component';
+import { WatchlistResolverService } from './watchlist/watchlist-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'portfolios', component: PortfolioListComponent, resolve: { portfolios: PortfolioListResolverService }, canActivate: [AuthGuard] },
   { path: 'portfolio/:id', component: PortfolioComponent, resolve: { portfolio: PortfolioResolverService }, canActivate: [AuthGuard] },
+  { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService }, canActivate: [AuthGuard] },
+  { path: 'watchlist', component: WatchlistComponent, resolve: { watchList: WatchlistResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
-  { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService}, canActivate: [AuthGuard] },
-  { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
