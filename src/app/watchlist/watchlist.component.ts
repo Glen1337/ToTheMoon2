@@ -78,7 +78,10 @@ export class WatchlistComponent implements OnInit{
         console.log('(component)Error in watchlist submit:', error)
         this.errorMsg = `${error.status}`;
       },
-      () => { console.log('(component)watch item added to watchlist'); }
+      () => { 
+        console.log('(component)watch item added to watchlist');
+        this.refreshMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
+      }
     );
 
     this.subscriptions.push(sub)
