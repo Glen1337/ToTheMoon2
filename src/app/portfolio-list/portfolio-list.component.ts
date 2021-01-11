@@ -100,6 +100,10 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       );
     this.subscriptions.push(subscription2)
   }
+
+  messageClick() {
+    this.errorMsg = '';
+ }
     
   ngOnDestroy() {
     if (this.subscriptions && this.subscriptions.length > 0) {

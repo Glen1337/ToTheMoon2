@@ -3,7 +3,7 @@
         <h2>Research An Equity</h2>
     </div>
     <div class="row">
-        <app-message *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
     <div>

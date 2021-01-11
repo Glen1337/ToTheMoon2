@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h2>Your Portfolios</h2>
-  <app-message *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+  <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
   <!-- <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div> -->
   <table class="table">
     <tr>

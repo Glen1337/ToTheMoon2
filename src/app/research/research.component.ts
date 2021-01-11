@@ -2983,6 +2983,10 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
 
+  messageClick() {
+    this.errorMsg = '';
+  }
+
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {

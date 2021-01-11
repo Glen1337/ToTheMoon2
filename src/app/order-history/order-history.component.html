@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Your Order History</h2>
-    <app-message *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+    <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
       <button class="btn btn-primary" (click)="goBack()">Back</button>
     </div>

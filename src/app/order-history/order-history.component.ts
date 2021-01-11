@@ -31,12 +31,16 @@ export class OrderHistoryComponent implements OnInit {
       },
       (error) => {
         console.log(`(component)Error getting order history: ${error}`);
-        this.errorMsg = error.status;
+        this.errorMsg = `Error: ${error.error.title}`;
       },
       () => { console.log("(component)Order history retrieved"); }
     );
 
     this.subscriptions.push(subscription1)
+  }
+
+  messageClick() {
+    this.errorMsg = '';
   }
 
   goBack(): void {
