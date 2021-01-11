@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h2>Your Portfolios</h2>
-  <app-error *ngIf="errorMsg" [inputMessage]="errorMsg"></app-error>
+  <app-message *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
   <!-- <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div> -->
   <table class="table">
     <tr>

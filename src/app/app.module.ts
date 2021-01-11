@@ -15,7 +15,7 @@ import { AuthButtonComponent } from './auth/login-button';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { ErrorComponent } from './error/error.component';
+import { MessageComponent } from './error/message.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { ErrorComponent } from './error/error.component';
     AuthButtonComponent,
     ResearchComponent,
     OrderHistoryComponent,
-    ErrorComponent
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +54,10 @@ import { ErrorComponent } from './error/error.component';
           },
           {
             uri: 'https://localhost:5001/api/orders*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://localhost:5001/api/WatchItems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           }
         ]

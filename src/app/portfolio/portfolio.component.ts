@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
@@ -20,7 +20,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   portfolioId: number = 0;
   subscriptions: Subscription[] = [];
   public financiafy: any;
-  public errorMsg: string = "";
+  public errorMsg: string = '';
+  public refreshMsg: string = '';
 
   public holdingForm = new FormGroup({
     holdingSymbolControl: new FormControl('', [
@@ -37,6 +38,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
     this.financiafy = financialifyNumber;
+  }
+
+  messageClick(){
+     this.refreshMsg = '';
+     this.errorMsg = '';
   }
 
   ngOnInit(): void {
@@ -104,8 +110,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         if (!found) {
           this.portfolio.holdings.push(returnedHolding);
         }else{
+          this.refreshMsg = `Please refresh to update Portfolio values.`;
           let index: number = this.portfolio.holdings.indexOf(found);
-          this.portfolio.holdings[index].quantity += Number(holding.quantity);
+          this.portfolio.holdings[index] = returnedHolding;
         }
       },
       (error) => {
@@ -127,6 +134,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.portfolio.holdings.forEach((holding, index) => {
           if(holding.holdingId === holdingId) this.portfolio.holdings.splice(index,1);
         });
+        this.refreshMsg = 'Please refresh to update Portfolio values.';
       },
       (error) => { 
         this.errorMsg = `Error: ${error.status}`

@@ -44,7 +44,7 @@ export class HoldingService {
 
     return this.http.put<Holding>(url, holding, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Updating holding with id: ${id}`)),
-      retry(2),
+      // retry(2),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }
