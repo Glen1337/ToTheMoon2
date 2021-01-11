@@ -14,11 +14,11 @@ import { Subscription } from 'rxjs';
 })
 export class ResearchComponent implements OnInit, AfterViewInit {
 
-  historicalStockData: IAgg[] = [];
-  chart: anychart.charts.Stock;
+  private chart: anychart.charts.Stock;
+  private subscriptions: Subscription[] = [];
+  public historicalStockData: IAgg[] = [];
   public errorMsg: string = "";
-  subscriptions: Subscription[] = [];
-  visible: boolean = false;
+  public visible: boolean = false;
 
   @ViewChild('chartContainer') container!: ElementRef;
 

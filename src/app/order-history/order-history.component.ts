@@ -12,9 +12,9 @@ import { of, Subscription } from 'rxjs';
 })
 export class OrderHistoryComponent implements OnInit {
 
-  orders: Order[] = [];
+  private subscriptions: Subscription[] = [];
+  public orders: Order[] = [];
   public financiafyNumber: any;
-  subscriptions: Subscription[] = [];
   public errorMsg: string = "";
 
   constructor(private route: ActivatedRoute, private location: Location) {

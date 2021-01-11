@@ -14,7 +14,8 @@ export class NavBarComponent implements OnInit {
     this.NavItems = [
       { label: 'Portfolios', link: ['/portfolios'] },
       { label: 'Research', link: ['/research'] },
-      { label: 'Orders', link: ['/orders'] }
+      { label: 'Orders', link: ['/orders'] },
+      { label: 'Watchlist', link: ['/watchlist']}
     ];
   }
 

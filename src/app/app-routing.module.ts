@@ -10,6 +10,7 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderHistoryResolverService } from './order-history/order-history-resolver.service';
+import { WatchlistComponent } from './watchlist/watchlist.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'portfolio/:id', component: PortfolioComponent, resolve: { portfolio: PortfolioResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
   { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService}, canActivate: [AuthGuard] },
+  { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 

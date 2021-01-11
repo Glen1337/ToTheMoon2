@@ -13,8 +13,8 @@ import { PortfolioDataService } from '../Services/portfolio-data.service';
 })
 export class PortfolioListComponent implements OnInit, OnDestroy {
 
-  portfolios: Array<Portfolio> = [];
-  subscriptions: Subscription[] = []
+  private subscriptions: Subscription[] = []
+  public portfolios: Array<Portfolio> = [];
   public errorMsg: string = "";
 
   public portfolioForm = new FormGroup({
