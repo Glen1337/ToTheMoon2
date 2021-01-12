@@ -1,34 +1,45 @@
 <div class="container-fluid">
     <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
-        <div class="col-md-4 col-lg-3 col-sm-8">
+        <div class="col-md-3 col-lg-3 col-sm-3">
             <h2>{{'Portfolio: ' + portfolio.title}}</h2>
         </div>
-        <div class="col-md-4 col-lg-3 col-sm-8">
-            <h4>Gain/Loss: {{financiafy(portfolio.gainLoss, '$', true)}}</h4>
+        <div class="col-md-3 col-lg-3 col-sm-3">
+            <h4 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
+                Gain/Loss: {{financiafy(portfolio.gainLoss, '$', true)}}
+            </h4>
         </div>
-        <div class="col-md-4 col-lg-3 col-sm-8">
-            <h4>Market Value: {{financiafy(portfolio.totalMarketValue, '$', false)}}</h4>
+        <div class="col-md-3 col-lg-3 col-sm-3">
+            <h4 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
+                Gain/Loss: {{financiafy((portfolio.gainLoss/portfolio.totalMarketValue)*100, '%', true)}}
+            </h4>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3">
+            <h4>
+                Market Value: {{financiafy(portfolio.totalMarketValue, '$', false)}}
+            </h4>
         </div>
     </div>
     <a routerLink="/portfolios">Back to List</a>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
     <button class="btn btn-primary" (click)="refresh()">Refresh</button>
     <table class="table">
-        <tr>
-            <th> Symbol </th>
-            <th> Cost Basis </th>
-            <th> Current Price </th>
-            <th> Quantity </th>
-            <th> Security Type </th>
-            <th> Reinvesting Dividends? </th>
-            <th> Transaction Time </th>
-            <th> Original Value </th>
-            <th> Current Value </th>
-            <th> Percentage Change </th>
-            <th> Gain/Loss </th>
-            <th> Sell All </th>
-        </tr>
+        <thead>
+            <tr>
+                <th> Symbol </th>
+                <th> Cost Basis </th>
+                <th> Current Price </th>
+                <th> Quantity </th>
+                <th> Security Type </th>
+                <th> Reinvesting Dividends? </th>
+                <th> Transaction Time </th>
+                <th> Original Value </th>
+                <th> Current Value </th>
+                <th> Percentage Change </th>
+                <th> Gain/Loss </th>
+                <th> Sell All </th>
+            </tr>
+        </thead>
         <tr *ngFor="let holding of portfolio.holdings">
             <td>{{holding.symbol}}</td>
             <td>{{'$'+holding.costBasis}}</td>
@@ -37,10 +48,14 @@
             <td>{{holding.securityType}}</td>
             <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
             <td>{{ConvertDate(holding.transactionDate)}}</td>
-            <td>{{'$'+(holding.costBasis * holding.quantity).toFixed(2)}}</td>
-            <td>{{'$'+(holding.currentPrice * holding.quantity).toFixed(2)}}</td>
-            <td>{{financiafy(100*((holding.currentPrice - holding.costBasis)/holding.costBasis),'%', true)}}</td>
-            <td>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</td>
+            <td>{{financiafy((holding.costBasis * holding.quantity), '$')}}</td>
+            <td>{{financiafy((holding.currentPrice * holding.quantity), '$')}}</td>
+            <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
+                {{financiafy(100*((holding.currentPrice - holding.costBasis)/holding.costBasis),'%', true)}}   
+            </td>
+            <td [ngClass]="((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) < 0) ? 'text-danger' : 'text-success'">
+                {{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}
+            </td>
             <td><button (click)="onDeleteHolding($event, holding.holdingId!)" class="btn btn-primary">Sell All</button></td>
         </tr>
     </table>

@@ -21,3 +21,12 @@ export class OutlookConstants {
     static readonly Positive = "Positive";
     static readonly Negative = "Negative";
 }
+
+export class PortfolioTypes {
+    static readonly Speculation = "Speculation";
+    static readonly Retirement = "Retirement";
+    static readonly Investment = "Investment";
+    static readonly SwingTrading = "Swing Trading";
+    static readonly DayTrading = "Day Trading";
+    static readonly Other = "Other";
+}

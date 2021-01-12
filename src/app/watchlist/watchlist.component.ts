@@ -38,7 +38,6 @@ export class WatchlistComponent implements OnInit{
     sub = this.route.data.subscribe(
       (data) => {
         this.watchList = data.watchList;
-        console.log(this.watchList);
         if (!data.watchList.length){
           //this.errorMsg = "Could not retrieve watchlist from server"
         }

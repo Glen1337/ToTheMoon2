@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
+import { PortfolioTypes } from '../Models/Constants';
 
 @Component({
   selector: 'portfolio-list',
@@ -28,6 +29,15 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       Validators.maxLength(30)
     ])
   });
+
+  portfolioTypes = [ 
+    PortfolioTypes.DayTrading,
+    PortfolioTypes.Investment,
+    PortfolioTypes.Retirement,
+    PortfolioTypes.SwingTrading,
+    PortfolioTypes.Other,
+    PortfolioTypes.Speculation,
+  ];
   
   constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {}
 
