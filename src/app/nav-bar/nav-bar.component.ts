@@ -18,7 +18,7 @@ export class NavBarComponent implements OnInit {
       { label: 'Company', link: ['/company'] },
       { label: 'Market', link: ['/market'] },
       { label: 'Watchlist', link: ['/watchlist'] },
-      { label: 'Watchlist', link: ['/options'] }
+      { label: 'Options', link: ['/options'] }
     ];
   }
 
