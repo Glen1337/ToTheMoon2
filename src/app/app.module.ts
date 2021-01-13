@@ -17,6 +17,10 @@ import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { MessageComponent } from './message/message.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
+import { TickerComponent } from './ticker/ticker.component';
+import { CompanyComponent } from './company/company.component';
+import { MarketComponent } from './market/market.component';
+import { OptionsComponent } from './options/options.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,11 @@ import { WatchlistComponent } from './watchlist/watchlist.component';
     ResearchComponent,
     OrderHistoryComponent,
     MessageComponent,
-    WatchlistComponent
+    WatchlistComponent,
+    TickerComponent,
+    CompanyComponent,
+    MarketComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,

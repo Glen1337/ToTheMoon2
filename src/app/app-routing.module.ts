@@ -12,6 +12,9 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderHistoryResolverService } from './order-history/order-history-resolver.service';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { WatchlistResolverService } from './watchlist/watchlist-resolver.service';
+import { CompanyComponent } from './company/company.component';
+import { MarketComponent } from './market/market.component';
+import { OptionsComponent } from './options/options.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -20,6 +23,9 @@ const routes: Routes = [
   { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService }, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, resolve: { watchList: WatchlistResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
+  { path: 'company', component: CompanyComponent },
+  { path: 'market', component: MarketComponent },
+  { path: 'options', component: OptionsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
