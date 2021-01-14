@@ -108,9 +108,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       (returnedHolding) => {
         if (!found) {
           this.portfolio.holdings.push(returnedHolding);
+          this.portfolio.totalMarketValue += (returnedHolding.quantity * returnedHolding.costBasis);
         }else{
-          this.refreshMsg = `Please refresh to update Portfolio values.`;
           let index: number = this.portfolio.holdings.indexOf(found);
+          this.portfolio.totalMarketValue += (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
           this.portfolio.holdings[index] = returnedHolding;
         }
       },
@@ -125,15 +126,17 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   onDeleteHolding(event: any, holdingId: number) {
-    let subscription3: Subscription = new Subscription();
+    let sub: Subscription = new Subscription();
 
-    subscription3 = this.holdingService.deleteHolding(holdingId).subscribe(
+    sub = this.holdingService.deleteHolding(holdingId).subscribe(
       (response) => {
         console.log(`Holding deleted: ${holdingId}`);
         this.portfolio.holdings.forEach((holding, index) => {
-          if(holding.holdingId === holdingId) this.portfolio.holdings.splice(index,1);
+          if(holding.holdingId === holdingId) {
+            this.portfolio.holdings.splice(index,1);
+            this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis);
+          }
         });
-        this.refreshMsg = 'Please refresh to update Portfolio values.';
       },
       (error) => { 
         this.errorMsg = `${error.status}`
@@ -142,7 +145,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       () => { console.log(`(component)deleting holding - complete`); }
     );
 
-    this.subscriptions.push(subscription3)
+    this.subscriptions.push(sub)
   }
 
   ngOnDestroy(): void {
