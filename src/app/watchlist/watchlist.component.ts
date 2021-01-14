@@ -44,7 +44,7 @@ export class WatchlistComponent implements OnInit{
       },
       (error) => {
         console.log(`(component)Error getting watchlist:${error}`);
-        this.errorMsg = error.status;
+        this.errorMsg = error.error;
       },
       () => { console.log("Completed retrieval of watchlist"); }
     );
@@ -75,7 +75,7 @@ export class WatchlistComponent implements OnInit{
       (addedWatchItem) => { this.watchList.push(addedWatchItem); },
       (error) => {
         console.log('(component)Error in watchlist submit:', error)
-        this.errorMsg = `${error.status}`;
+        this.errorMsg = `${error.error}`;
       },
       () => { 
         console.log('(component)watch item added to watchlist');

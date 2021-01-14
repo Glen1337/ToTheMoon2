@@ -117,7 +117,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log('(component)Error in onSubmitHolding ', error);
-        this.errorMsg = `${error.status}`
+        this.errorMsg = `${error.error}`
       },
       () => { console.log(`(component)holding add complete`); }
     );
@@ -139,7 +139,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         });
       },
       (error) => { 
-        this.errorMsg = `${error.status}`
+        this.errorMsg = `${error.error}`
         console.log('(component)Error while deleting holding ', error);
       },
       () => { console.log(`(component)deleting holding - complete`); }
