@@ -78,7 +78,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         this.errorMsg = `${error.error}`
         console.log('(component)Error in deletePortfolio ', error);
       },
-      () => { console.log(`(component)error deleting Portfolio`); }
+      () => { console.log(`(component)Delete Portfolio complete`); }
     );
     
     this.subscriptions.push(subscription3)

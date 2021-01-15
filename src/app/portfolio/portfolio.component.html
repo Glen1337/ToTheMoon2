@@ -51,7 +51,7 @@
             <td>{{financiafy((holding.costBasis * holding.quantity), '$')}}</td>
             <td>{{financiafy((holding.currentPrice * holding.quantity), '$')}}</td>
             <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
-                {{financiafy(100*((holding.currentPrice - holding.costBasis)/holding.costBasis),'%', true)}}   
+                {{financiafy(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100,'%', true)}}   
             </td>
             <td [ngClass]="((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) < 0) ? 'text-danger' : 'text-success'">
                 {{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}

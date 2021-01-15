@@ -5,7 +5,7 @@
         </div>
     </div>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
-    <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
+    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div>
         <form class="form-group" [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">
             <h4>Add an equity to your watchlist</h4>
