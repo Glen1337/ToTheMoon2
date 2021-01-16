@@ -57,6 +57,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log(`(component)Error getting portfolio:${error}`);
+        this.errorMsg = `${error.error}`
       },
       () => { console.log("Portfolio retrieved"); }
     );

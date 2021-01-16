@@ -40,6 +40,15 @@ export class ResearchDataService {
 
   }
 
+  getMarketInfo(){
+    return this.http.get<string>(`${this.baseUrl}research/market`, this.httpOptions)
+    .pipe(
+      tap(_ => console.log(`Getting market data`)),
+      retry(2),
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

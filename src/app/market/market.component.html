@@ -1,1 +1,37 @@
-<p>market works!</p>
+<div class="container">
+    <h2>Today's Market Performance</h2>
+    <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+    <div class="row">
+      <button class="btn btn-primary" (click)="goBack()">Back</button>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <h4>Federal Funds Rate: </h4>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5>{{marketData.federalFundsRate}}</h5>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <h4>Recession Factor: </h4>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5>{{marketData.recessionProbability}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <h4>Sector Map</h4>
+        <div *ngFor="let sector of marketData.sectorPerformances"class="col-lg-3 col-md-4 col-sm-6">
+                {{sector.name}} 
+                <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">(%{{sector.performance}})</span>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <h4>Earnings Announcements</h4>
+        <div *ngFor="let _ of _ "class="col-lg-3 col-md-4 col-sm-6">
+                {{_}} 
+                <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{_}})</span>
+        </div>
+    </div> -->
+
+</div>
