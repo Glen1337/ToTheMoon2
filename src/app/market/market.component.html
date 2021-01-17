@@ -21,10 +21,10 @@
         </div>
     </div>
     <h4>Sector Map</h4>
-    <div [ngClass]="'row-cols-'+this.marketData.sectorPerformances.length" class="row">
+    <div [ngClass]="'row row-cols-11'">
         <div *ngFor="let sector of marketData.sectorPerformances">
                 {{sector.name}} 
-                <span class="px-4 col" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
+                <span class="px-3 col" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
         </div>
     </div>
 
