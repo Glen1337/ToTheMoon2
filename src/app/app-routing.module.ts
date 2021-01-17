@@ -15,6 +15,7 @@ import { WatchlistResolverService } from './watchlist/watchlist-resolver.service
 import { CompanyComponent } from './company/company.component';
 import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
+import { MarketDataResolverService } from './market/market-data-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent, resolve: { watchList: WatchlistResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
   { path: 'company', component: CompanyComponent },
-  { path: 'market', component: MarketComponent },
+  { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
   { path: 'options', component: OptionsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
