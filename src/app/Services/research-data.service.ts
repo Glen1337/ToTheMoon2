@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
+import { MarketData } from '../Models/MarketData';
 import { IAgg, ResearchData } from '../Models/ResearchData';
 
 @Injectable({
@@ -41,7 +42,7 @@ export class ResearchDataService {
   }
 
   getMarketInfo(){
-    return this.http.get<string>(`${this.baseUrl}research/market`, this.httpOptions)
+    return this.http.get<MarketData>(`${this.baseUrl}research/market`, this.httpOptions)
     .pipe(
       tap(_ => console.log(`Getting market data`)),
       retry(2),

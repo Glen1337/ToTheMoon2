@@ -17,14 +17,22 @@
             <h4>Recession Factor: </h4>
         </div>
         <div class="col-sm-4 col-md-2 col-lg-2">
-            <h5>{{marketData.recessionProbability}}</h5>
+            <h5 >{{marketData.recessionProbability}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
+            <h4>Bitcoin: </h4>
+        </div>
+        <div class="col-sm-4 col-md-2 col-lg-2">
+            <h5>{{marketData.crypto?.price}}</h5>
         </div>
     </div>
     <h4>Sector Map</h4>
     <div [ngClass]="'row row-cols-11'">
         <div *ngFor="let sector of marketData.sectorPerformances">
                 {{sector.name}} 
-                <span class="px-3 col" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
+                <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance, '%', true)}})</span>
         </div>
     </div>
 

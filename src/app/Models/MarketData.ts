@@ -3,14 +3,19 @@ export interface MarketData {
     sectorPerformances: SectorPerformance[];
     recessionProbability: number;
     earnings: Earnings;
+    crypto: Crypt;
 }
 
 export interface SectorPerformance{
     type: string;
     name: string;
-    performance: string;
+    performance: number;
     lastUpdated: Date;
-    performancePercentage: number
+}
+
+export interface Crypt {
+    symbol: string;
+    price: number;
 }
 
 export interface Earnings {

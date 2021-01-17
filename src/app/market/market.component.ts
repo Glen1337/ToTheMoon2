@@ -12,7 +12,7 @@ import { financialifyNumber } from '../Utilities/utilities'
 export class MarketComponent implements OnInit {
 
   //marketDataJsonString: string = "";
-  marketData: MarketData = <MarketData>{};
+  public marketData: MarketData = <MarketData>{};
   errorMsg: string = "";
   financiafy: any;
 
@@ -23,10 +23,12 @@ export class MarketComponent implements OnInit {
   ngOnInit(): void {
     this.researchdataService.getMarketInfo().subscribe(
       (marketDataJson) => {
-        this.marketData = marketDataJson as any;
-        this.marketData.sectorPerformances.forEach(sp => {
-          sp.performancePercentage = parseFloat(sp.performance) * 100
-        });
+        this.marketData = marketDataJson;
+        console.log(typeof marketDataJson);
+        //this.marketData = marketDataJson as MarketData;
+        // this.marketData.sectorPerformances.forEach(sp => {
+        //   sp.performancePercentage = parseFloat(sp.performance) * 100
+        // });
       },
       (error) => {
         this.errorMsg = `${error.error}`
