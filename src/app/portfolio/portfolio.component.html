@@ -74,13 +74,13 @@
             <h3>Buy a Stock</h3>
             <div class="row">
                 <span>
-                <label>Symbol: <input type="text" formControlName="holdingSymbolControl"></label>
+                <label>Symbol: </label><input type="text" formControlName="holdingSymbolControl">
                 </span>
                 <span>
-                <label>Quantity: <input type="text" formControlName="holdingQuantityControl"></label>
+                <label>Quantity: </label><input type="text" formControlName="holdingQuantityControl">
                 </span>
                 <span>
-                <label>Reinvest Dividends? <input type="checkbox" formControlName="holdingDividendControl"></label>
+                <label>Reinvest Dividends? </label><input type="checkbox" formControlName="holdingDividendControl">
                 </span>
                 <div>
                 <button class="btn btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>

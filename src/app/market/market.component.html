@@ -5,26 +5,26 @@
       <button class="btn btn-primary" (click)="goBack()">Back</button>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
             <h4>Federal Funds Rate: </h4>
         </div>
-        <div class="col-sm-2 col-md-2 col-lg-2">
+        <div class="col-sm-4 col-md-2 col-lg-2">
             <h5>{{marketData.federalFundsRate}}</h5>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
             <h4>Recession Factor: </h4>
         </div>
-        <div class="col-sm-2 col-md-2 col-lg-2">
+        <div class="col-sm-4 col-md-2 col-lg-2">
             <h5>{{marketData.recessionProbability}}</h5>
         </div>
     </div>
     <h4>Sector Map</h4>
-    <div class="row">
-        <div *ngFor="let sector of marketData.sectorPerformances"class="col-lg-3 col-md-4 col-sm-6">
+    <div [ngClass]="'row-cols-'+this.marketData.sectorPerformances.length" class="row">
+        <div *ngFor="let sector of marketData.sectorPerformances">
                 {{sector.name}} 
-                <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
+                <span class="px-4 col" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
         </div>
     </div>
 

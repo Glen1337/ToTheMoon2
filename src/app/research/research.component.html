@@ -11,7 +11,7 @@
             <!-- <h3>Research a Stock</h3> -->
             <!-- <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div> -->
             <span>
-                <label>Symbol: <input type="text" formControlName="researchSymbolControl"></label>
+                <label>Symbol: </label><input type="text" formControlName="researchSymbolControl">
             </span>
             <span>
                 <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Get Data</button>
