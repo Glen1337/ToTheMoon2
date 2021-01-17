@@ -10,6 +10,7 @@ export interface SectorPerformance{
     name: string;
     performance: string;
     lastUpdated: Date;
+    performancePercentage: number
 }
 
 export interface Earnings {

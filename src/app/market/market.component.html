@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <h2>Today's Market Performance</h2>
     <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
@@ -11,6 +11,8 @@
         <div class="col-sm-2 col-md-2 col-lg-2">
             <h5>{{marketData.federalFundsRate}}</h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
             <h4>Recession Factor: </h4>
         </div>
@@ -18,11 +20,11 @@
             <h5>{{marketData.recessionProbability}}</h5>
         </div>
     </div>
+    <h4>Sector Map</h4>
     <div class="row">
-        <h4>Sector Map</h4>
         <div *ngFor="let sector of marketData.sectorPerformances"class="col-lg-3 col-md-4 col-sm-6">
                 {{sector.name}} 
-                <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">(%{{sector.performance}})</span>
+                <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performancePercentage, '%', true)}})</span>
         </div>
     </div>
 

@@ -5,11 +5,11 @@
                 <a class="navbar-brand" [routerLink]="['/']"><h1>{{title}}</h1></a>
             </div>
             <div class="bg-primary row">
-                <div class="col-md-1 col-lg-1 col-sm-1" *ngFor="let navItem of NavItems">
+                <div class="col-md-1 col-lg-1 col-sm-6 col-xs-6" *ngFor="let navItem of NavItems">
                     <!-- class="btn btn-primary" -->
                     <h5><a [ngClass]="'text-white'" [routerLink]="navItem.link" routerLinkactive="active">{{navItem.label}}</a></h5>
                 </div>
             </div>
         </div>
     <!-- </nav> -->
-</header>
+</header> 

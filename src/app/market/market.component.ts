@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
+import { financialifyNumber } from '../Utilities/utilities'
 
 @Component({
   selector: 'app-market',
@@ -13,12 +14,19 @@ export class MarketComponent implements OnInit {
   //marketDataJsonString: string = "";
   marketData: MarketData = <MarketData>{};
   errorMsg: string = "";
-  constructor(private researchdataService: ResearchDataService, private location: Location) { }
+  financiafy: any;
+
+  constructor(private researchdataService: ResearchDataService, private location: Location) { 
+    this.financiafy = financialifyNumber;
+  }
 
   ngOnInit(): void {
     this.researchdataService.getMarketInfo().subscribe(
       (marketDataJson) => {
         this.marketData = marketDataJson as any;
+        this.marketData.sectorPerformances.forEach(sp => {
+          sp.performancePercentage = parseFloat(sp.performance) * 100
+        });
       },
       (error) => {
         this.errorMsg = `${error.error}`
