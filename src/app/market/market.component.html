@@ -32,7 +32,7 @@
     <div [ngClass]="'row row-cols-11'">
         <div *ngFor="let sector of marketData.sectorPerformances">
                 {{sector.name}} 
-                <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance, '%', true)}})</span>
+                <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance * 100, '%', true)}})</span>
         </div>
     </div>
 

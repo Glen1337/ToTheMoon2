@@ -24,7 +24,7 @@ export class MarketComponent implements OnInit {
     this.researchdataService.getMarketInfo().subscribe(
       (marketDataJson) => {
         this.marketData = marketDataJson;
-        console.log(typeof marketDataJson);
+        //console.log(typeof marketDataJson);
         //this.marketData = marketDataJson as MarketData;
         // this.marketData.sectorPerformances.forEach(sp => {
         //   sp.performancePercentage = parseFloat(sp.performance) * 100
