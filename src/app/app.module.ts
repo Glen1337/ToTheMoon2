@@ -69,6 +69,10 @@ import { OptionsComponent } from './options/options.component';
           {
             uri: 'https://localhost:5001/api/watchitems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://localhost:5001/api/Options/Expiry*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
           }
         ]
       }
