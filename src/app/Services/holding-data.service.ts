@@ -49,7 +49,7 @@ export class HoldingService {
     );
   }
 
-  deleteHolding(id: number) {
+  deleteHolding(id: number): Observable<Holding> {
     let url = `${this.baseUrl}holdings/${id}`;
     console.log("(service)Sending delete request to API for holding: " + id);
     return this.http.delete<Holding>(url, this.httpOptions).pipe(

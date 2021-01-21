@@ -19,7 +19,7 @@ export class ResearchDataService {
 
   constructor(private http: HttpClient) { }
 
-  getHistoricalstockData(ticker: string): Observable<IAgg[]>{
+  public getHistoricalstockData(ticker: string): Observable<IAgg[]>{
   // let params: HttpParams = new HttpParams().set('symbol', ticker.trim());
   // let options =  { params: new HttpParams().set('symbol', ticker.trim()) }
 
@@ -37,11 +37,20 @@ export class ResearchDataService {
     );
   }
 
-  getCompanyInfo(symbol: string) {
-
+  public getCompanyStats(symbol: string): Observable<string> {
+    let options =  { 
+      headers: { 'Content-Type': 'application/json' },
+      params: new HttpParams().set('symbol', symbol.trim())
+    }
+  
+    return this.http.get<string>(`${this.baseUrl}research/CompanyStats`, options).pipe(
+      tap(_ => console.log('(service)Getting options chain ')),
+      retry(2),
+      catchError(this.handleError)
+    );
   }
 
-  getMarketInfo(){
+  public getMarketInfo(): Observable<MarketData>{
     return this.http.get<MarketData>(`${this.baseUrl}research/market`, this.httpOptions)
     .pipe(
       tap(_ => console.log(`Getting market data`)),

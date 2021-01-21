@@ -2,7 +2,7 @@
  @import '~bootstrap/dist/css/bootstrap.min.css';
  
  body {
-    background: rgb(110,110,110);
+    background: rgb(163, 163, 163);
     /* background: radial-gradient(circle, rgba(110,110,110,1) 5%, rgba(123,191,127,1) 40%, rgba(74,74,74,1) 70%); */
  }
 
