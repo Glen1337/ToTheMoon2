@@ -2,26 +2,28 @@
   <h2>Your Portfolios</h2>
   <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
   <!-- <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div> -->
-  <table class="table">
-    <tr>
-      <!-- <th> Total Equity </th> -->
-      <th> Title </th>
-      <th> Type </th>
-      <th> Created Date </th>
-      <th> # Holdings </th>
-      <th> Details </th>
-      <th> Delete </th>
-    </tr>
-    <tr *ngFor="let port of portfolios">
-      <!-- <td>{{port.totalMarketValue}}</td> -->
-      <td>{{port.title}}</td>
-      <td>{{port.type}}</td>
-      <td>{{ConvertDate(port.creationDate)}}</td>
-      <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
-      <td><a [routerLink]="['/portfolio', port.portfolioId]"><button class="btn btn-primary">Portfolio Details</button></a></td>
-      <td><button class="btn btn-primary" (click)="deletePortfolio($event, port.portfolioId)">Remove</button></td>
-    </tr>
-  </table>
+  <div class="table-responsive">
+    <table class="table">
+      <tr>
+        <!-- <th> Total Equity </th> -->
+        <th> Title </th>
+        <th> Type </th>
+        <th> Created Date </th>
+        <th> # Holdings </th>
+        <th> Details </th>
+        <th> Delete </th>
+      </tr>
+      <tr *ngFor="let port of portfolios">
+        <!-- <td>{{port.totalMarketValue}}</td> -->
+        <td>{{port.title}}</td>
+        <td>{{port.type}}</td>
+        <td>{{ConvertDate(port.creationDate)}}</td>
+        <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
+        <td><a [routerLink]="['/portfolio', port.portfolioId]"><button class="btn btn-primary">Portfolio Details</button></a></td>
+        <td><button class="btn btn-primary" (click)="deletePortfolio($event, port.portfolioId)">Remove</button></td>
+      </tr>
+    </table>
+  </div>
   <br>
 
   <div>

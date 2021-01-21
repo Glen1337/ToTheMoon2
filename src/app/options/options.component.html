@@ -8,7 +8,8 @@
     <button class="btn btn-primary" (click)="goBack()">Back</button>
     <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
         <div class="row">
-            <div class="col-md-6 col-sm-8 col-lg-4">
+            <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
+                <h4>Find An Option</h4>
                 <span>
                     <label> Symbol: </label><input type="text" formControlName="optionSymbolControl">
                 </span>
@@ -22,6 +23,18 @@
                         <option value="">{{chooseMsg}}</option>
                         <option *ngFor="let date of expiryDates" [ngValue]="date">{{date}}</option>
                     </select>
+                </span>
+            </div>
+            <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
+                <h4>Submit An Order</h4>
+                <span>
+                    <label> Name: </label><input type="text" formControlName="">
+                </span>
+                <span>
+                    <label> Strike: </label><input type="text" formControlName="">
+                </span>
+                <span>
+                    <label> Expriation: </label><input type="text" formControlName="">
                 </span>
             </div>
         </div>
@@ -41,15 +54,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-8 col-lg-4">
-                <button class="btn btn-block btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Options</button>
+            <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
+                <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Options</button>
             </div>
         </div>
     </form>
 
     <div class="row">
-        <div class="col-6">
-            <table class="table">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <table class="table table-dark">
                 <thead>
                     <h4>Calls</h4>
                     <tr>
@@ -88,45 +101,47 @@
                 </tr>
             </table>
         </div>
-        <div class="col-6">
-            <table class="table">
-                <thead>
-                    <h4>Puts</h4>
-                    <tr>
-                        <th> ID </th>
-                        <th> Side </th>
-                        <th> Strike Price </th>
-                        <th> Ask </th>
-                        <th> Bid </th>
-                        <th> Closing Price </th>
-                        <!-- <th> Contract Size</th> -->
-                        <th> Expiration Date </th>
-                        <th> Is Adjusted? </th>
-                        <th> Last Updated </th>
-                        <th> Open Interest </th>
-                        <!-- <th> Symbol </th> -->
-                        <th> Volume </th>
-                        <!-- <th> Type </th> -->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-dark">
+                    <thead>
+                        <h4>Puts</h4>
+                        <tr>
+                            <th> ID </th>
+                            <th> Side </th>
+                            <th> Strike Price </th>
+                            <th> Ask </th>
+                            <th> Bid </th>
+                            <th> Closing Price </th>
+                            <!-- <th> Contract Size</th> -->
+                            <th> Expiration Date </th>
+                            <th> Is Adjusted? </th>
+                            <th> Last Updated </th>
+                            <th> Open Interest </th>
+                            <!-- <th> Symbol </th> -->
+                            <th> Volume </th>
+                            <!-- <th> Type </th> -->
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let option of putChain">
+                        <td>{{option.id}}</td>
+                        <td>{{option.side}}</td>
+                        <td>{{option.strikePrice}}</td>
+                        <td>{{option.ask}}</td>
+                        <td>{{option.bid}}</td>
+                        <td>{{option.closingPrice}}</td>
+                        <!-- <td>{{option.contractSize}}</td> -->
+                        <td>{{option.expirationDate}}</td>
+                        <td>{{option.isAdjusted}}</td>
+                        <td>{{option.lastUpdated}}</td>
+                        <td>{{option.openInterest}}</td>
+                        <!-- <td>{{option.symbol}}</td> -->
+                        <td>{{option.volume}}</td>
+                        <!-- <td>{{option.type}}</td> -->
+                        <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
                     </tr>
-                </thead>
-                <tr *ngFor="let option of putChain">
-                    <td>{{option.id}}</td>
-                    <td>{{option.side}}</td>
-                    <td>{{option.strikePrice}}</td>
-                    <td>{{option.ask}}</td>
-                    <td>{{option.bid}}</td>
-                    <td>{{option.closingPrice}}</td>
-                    <!-- <td>{{option.contractSize}}</td> -->
-                    <td>{{option.expirationDate}}</td>
-                    <td>{{option.isAdjusted}}</td>
-                    <td>{{option.lastUpdated}}</td>
-                    <td>{{option.openInterest}}</td>
-                    <!-- <td>{{option.symbol}}</td> -->
-                    <td>{{option.volume}}</td>
-                    <!-- <td>{{option.type}}</td> -->
-                    <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
-                </tr>
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 

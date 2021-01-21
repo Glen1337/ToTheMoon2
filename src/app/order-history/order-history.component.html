@@ -4,27 +4,29 @@
     <div class="row">
       <button class="btn btn-primary" (click)="goBack()">Back</button>
     </div>
-    <table class="table">
-      <tr>
-        <!-- <th> Total Equity </th> -->
-        <th> Symbol </th>
-        <th> Quantity </th>
-        <th> Order Type </th>
-        <th> Date/Time </th>
-        <th> Asset Type </th>
-        <th> Price </th>
-        <th> Total Amount </th>
-      </tr>
-      <tr *ngFor="let order of orders">
-        <!-- <td>{{port.totalMarketValue}}</td> -->
-        <td>{{order.symbol}}</td>
-        <td>{{order.quantity}}</td>
-        <td>{{order.orderType}}</td>
-        <td>{{ConvertDate(order.transactionDate)}}</td>
-        <td>{{order.securityType}}</td>
-        <td>{{financiafyNumber(order.price, '$')}}</td>
-        <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
-        <td></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <!-- <th> Total Equity </th> -->
+          <th> Symbol </th>
+          <th> Quantity </th>
+          <th> Order Type </th>
+          <th> Date/Time </th>
+          <th> Asset Type </th>
+          <th> Price </th>
+          <th> Total Amount </th>
+        </tr>
+        <tr *ngFor="let order of orders">
+          <!-- <td>{{port.totalMarketValue}}</td> -->
+          <td>{{order.symbol}}</td>
+          <td>{{order.quantity}}</td>
+          <td>{{order.orderType}}</td>
+          <td>{{ConvertDate(order.transactionDate)}}</td>
+          <td>{{order.securityType}}</td>
+          <td>{{financiafyNumber(order.price, '$')}}</td>
+          <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
 </div>
