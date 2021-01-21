@@ -6,17 +6,129 @@
         <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
-    <div>
-        <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
-            <span>
-                <label>Symbol: </label><input type="text" formControlName="optionSymbolControl">
-            </span>
-            <span>
-                <button class="btn btn-primary" [disabled]="optionSymbolControl?.invalid">Get Expirys</button>
-            </span>
-            <!-- <span>
-                <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
-            </span> -->
-        </form>
+    <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-lg-4">
+                <span>
+                    <label> Symbol: </label><input type="text" formControlName="optionSymbolControl">
+                </span>
+                <span>
+                    <button class="btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Get Expirys</button>
+                </span>
+
+                <span>
+                    <label>Type: </label>
+                    <select formControlName="optionExpiryControl">
+                        <option value="">{{chooseMsg}}</option>
+                        <option *ngFor="let date of expiryDates" [ngValue]="date">{{date}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-lg-4">
+                <!-- <span>
+                    <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
+                </span> -->
+                <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="alert alert-danger">
+                    <div *ngIf="optionSymbolControl?.errors?.required">
+                        Please enter a Stock Symbol to find Options for.
+                    </div>
+                    <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">
+                        Symbol must be between 1 and 8 characters long.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-lg-4">
+                <button class="btn btn-block btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Options</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                    <h4>Calls</h4>
+                    <tr>
+                        <th> ID </th>
+                        <th> Side </th>
+                        <th> Strike Price </th>
+                        <th> Ask </th>
+                        <th> Bid </th>
+                        <th> Closing Price </th>
+                        <!-- <th> Contract Size</th> -->
+                        <th> Expiration Date </th>
+                        <th> Is Adjusted? </th>
+                        <th> Last Updated </th>
+                        <th> Open Interest </th>
+                        <!-- <th> Symbol </th> -->
+                        <th> Volume </th>
+                        <!-- <th> Type </th> -->
+                    </tr>
+                </thead>
+                <tr *ngFor="let option of callChain">
+                    <td>{{option.id}}</td>
+                    <td>{{option.side}}</td>
+                    <td>{{option.strikePrice}}</td>
+                    <td>{{option.ask}}</td>
+                    <td>{{option.bid}}</td>
+                    <td>{{option.closingPrice}}</td>
+                    <!-- <td>{{option.contractSize}}</td> -->
+                    <td>{{option.expirationDate}}</td>
+                    <td>{{option.isAdjusted}}</td>
+                    <td>{{option.lastUpdated}}</td>
+                    <td>{{option.openInterest}}</td>
+                    <!-- <td>{{option.symbol}}</td> -->
+                    <td>{{option.volume}}</td>
+                    <!-- <td>{{option.type}}</td> -->
+                    <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                    <h4>Puts</h4>
+                    <tr>
+                        <th> ID </th>
+                        <th> Side </th>
+                        <th> Strike Price </th>
+                        <th> Ask </th>
+                        <th> Bid </th>
+                        <th> Closing Price </th>
+                        <!-- <th> Contract Size</th> -->
+                        <th> Expiration Date </th>
+                        <th> Is Adjusted? </th>
+                        <th> Last Updated </th>
+                        <th> Open Interest </th>
+                        <!-- <th> Symbol </th> -->
+                        <th> Volume </th>
+                        <!-- <th> Type </th> -->
+                    </tr>
+                </thead>
+                <tr *ngFor="let option of putChain">
+                    <td>{{option.id}}</td>
+                    <td>{{option.side}}</td>
+                    <td>{{option.strikePrice}}</td>
+                    <td>{{option.ask}}</td>
+                    <td>{{option.bid}}</td>
+                    <td>{{option.closingPrice}}</td>
+                    <!-- <td>{{option.contractSize}}</td> -->
+                    <td>{{option.expirationDate}}</td>
+                    <td>{{option.isAdjusted}}</td>
+                    <td>{{option.lastUpdated}}</td>
+                    <td>{{option.openInterest}}</td>
+                    <!-- <td>{{option.symbol}}</td> -->
+                    <td>{{option.volume}}</td>
+                    <!-- <td>{{option.type}}</td> -->
+                    <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
+                </tr>
+            </table>
+        </div>
     </div>
+
+    
 </div>

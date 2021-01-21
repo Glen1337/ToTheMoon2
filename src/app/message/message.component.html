@@ -6,6 +6,6 @@
         <h5 *ngIf="inputWarningMessage">{{'Warning: ' + inputWarningMessage}}</h5>
     </div>
     <div [ngClass]="'d-flex align-items-stretch col-md-2 col-lg-2 col-sm-2 col-xs-2'">
-        <button (click)="okClick()" [ngClass]="{'btn alert':true, 'alert-warning' : isError, 'alert-primary' : isNotice }">OK</button>
+        <button (click)="okClick()" [ngClass]="{'btn alert':true, 'alert-danger' : isError, 'alert-primary' : isNotice, 'alert-warning' : isError }">OK</button>
     </div>
 </div>

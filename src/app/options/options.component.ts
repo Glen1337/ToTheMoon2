@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
+import { Option } from '../Models/Option';
 
 @Component({
   selector: 'app-options',
@@ -13,6 +14,11 @@ export class OptionsComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
   public errorMsg: string = "";
+  public expiryDates: string[] = [];
+  public optionChain: Option[] = [];
+  public callChain: Option[] = [];
+  public putChain: Option[] = [];
+  public chooseMsg: string = '';
 
   public optionsForm = new FormGroup({
     optionSymbolControl: new FormControl('', [
@@ -50,11 +56,39 @@ export class OptionsComponent implements OnInit {
     }
   } 
 
-  public submitForm(): void{
+  public getExpirys(): void {
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-    this.optionsDataService.getExpiryDates(symbol).subscribe(expirations => {
-      console.log(expirations);
-    });
+    this.optionsDataService.getExpiryDates(symbol).subscribe(
+      (dates) => {
+        this.expiryDates = dates;
+        this.chooseMsg = "Choose an Exp.Date";
+      },
+      (error) => {
+        console.log('(component)Error getting options expiry dates: ', error);
+        this.errorMsg = `${error.error}`;
+      },
+      () => {"(component)Option Expiry Dates complete"}
+    );
+  }
+
+  public submitForm(): void {
+    let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
+    let expiry = this.optionExpiryControl?.value;
+    this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
+      (chain) => {
+        this.optionChain = chain;
+        this.callChain = chain.filter(o => o.side=="call");
+        this.putChain = chain.filter(o => o.side=="put");
+      },
+      (error) => {
+        console.log('(component)Error getting options chain: ', error);
+        this.errorMsg = `${error.error}`;
+      },
+      () => {"(component)Option Chain retrieved"}
+    );
+  }
+
+  public choose(event: any, id: string){
 
   }
 
