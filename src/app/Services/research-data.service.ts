@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
+import { CompanyResearch } from '../Models/CompanyResearch';
 import { MarketData } from '../Models/MarketData';
 import { IAgg, ResearchData } from '../Models/ResearchData';
 
@@ -37,13 +38,13 @@ export class ResearchDataService {
     );
   }
 
-  public getCompanyStats(symbol: string): Observable<string> {
+  public getCompanyStats(symbol: string): Observable<CompanyResearch> {
     let options =  { 
       headers: { 'Content-Type': 'application/json' },
       params: new HttpParams().set('symbol', symbol.trim())
     }
   
-    return this.http.get<string>(`${this.baseUrl}research/CompanyStats`, options).pipe(
+    return this.http.get<CompanyResearch>(`${this.baseUrl}research/CompanyStats`, options).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
       retry(2),
       catchError(this.handleError)

@@ -57,8 +57,10 @@ export class OptionsComponent implements OnInit {
   } 
 
   public getExpirys(): void {
+    let sub: Subscription = new Subscription();
+
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-    this.optionsDataService.getExpiryDates(symbol).subscribe(
+    sub = this.optionsDataService.getExpiryDates(symbol).subscribe(
       (dates) => {
         this.expiryDates = dates;
         this.chooseMsg = "Choose an Exp.Date";
@@ -69,12 +71,15 @@ export class OptionsComponent implements OnInit {
       },
       () => {"(component)Option Expiry Dates complete"}
     );
+    this.subscriptions.push(sub)
   }
 
   public submitForm(): void {
+    let sub: Subscription = new Subscription();
+    
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
     let expiry = this.optionExpiryControl?.value;
-    this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
+    sub = this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
       (chain) => {
         this.optionChain = chain;
         this.callChain = chain.filter(o => o.side=="call");
@@ -86,6 +91,7 @@ export class OptionsComponent implements OnInit {
       },
       () => {"(component)Option Chain retrieved"}
     );
+    this.subscriptions.push(sub)
   }
 
   public choose(event: any, id: string){

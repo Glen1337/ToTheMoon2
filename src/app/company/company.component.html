@@ -1,3 +1,28 @@
-<div>
-    <h3>Ayy lmao</h3>
+<div class="container-fluid">
+    <div class="row">
+        <h2>Research A Company</h2>
+    </div>
+    <div class="">
+        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+    </div>
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <div class="row" >
+        <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()">
+            <span>
+                <label> Symbol: </label><input type="text" formControlName="companySymbolControl">
+            </span>
+            <span>
+                <button class="btn btn-primary" type="submit" [disabled]="!companyResearchForm.valid">Submit</button>
+            </span>
+            <!--symbol validation messages-->
+            <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="alert alert-danger">
+                <div *ngIf="companySymbolControl!.errors!.required">
+                    Symbol is required.
+                </div>
+                <div *ngIf="companyResearchForm!.errors!.minlength || companyResearchForm!.errors!.maxlength">
+                    Symbol must be between 1 and 8 characters long.
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

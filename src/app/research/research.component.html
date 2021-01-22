@@ -6,7 +6,7 @@
         <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
-    <div>
+    <div class="row">
         <form class="form-group" [formGroup]="researchForm" (ngSubmit)="onGetData()">
             <!-- <h3>Research a Stock</h3> -->
             <!-- <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div> -->

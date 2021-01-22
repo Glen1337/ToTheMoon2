@@ -3,6 +3,7 @@ import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { financialifyNumber } from '../Utilities/utilities'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-market',
@@ -11,24 +12,20 @@ import { financialifyNumber } from '../Utilities/utilities'
 })
 export class MarketComponent implements OnInit {
 
-  //marketDataJsonString: string = "";
   public marketData: MarketData = <MarketData>{};
   errorMsg: string = "";
   financiafy: any;
+  private subscriptions: Subscription[] = [];
 
   constructor(private researchdataService: ResearchDataService, private location: Location) { 
     this.financiafy = financialifyNumber;
   }
 
   ngOnInit(): void {
-    this.researchdataService.getMarketInfo().subscribe(
+    let sub: Subscription = new Subscription();
+    sub = this.researchdataService.getMarketInfo().subscribe(
       (marketDataJson) => {
         this.marketData = marketDataJson;
-        //console.log(typeof marketDataJson);
-        //this.marketData = marketDataJson as MarketData;
-        // this.marketData.sectorPerformances.forEach(sp => {
-        //   sp.performancePercentage = parseFloat(sp.performance) * 100
-        // });
       },
       (error) => {
         this.errorMsg = `${error.error}`
@@ -36,6 +33,7 @@ export class MarketComponent implements OnInit {
       },
       () => { console.log("Market Perf. Data retrieved"); }
     );
+    this.subscriptions.push(sub);
   }
 
   messageClick() {
@@ -45,5 +43,13 @@ export class MarketComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions && this.subscriptions.length > 0) {
+      this.subscriptions.forEach((sub) => {
+        if (!sub.closed) { sub.unsubscribe(); }     
+      });
+    }
+  } 
 
 }

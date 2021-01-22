@@ -1,5 +1,4 @@
 <div class="container-fluid">
-    <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
         <div class="col-md-2 col-lg-2 col-sm-2">
             <h2>{{'Portfolio: ' + portfolio.title}}</h2>
@@ -25,6 +24,7 @@
             </h4>
         </div>
     </div>
+    <app-message (okClickEvent)="messageClick()" *ngIf="refreshMsg || errorMsg" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <a routerLink="/portfolios">Back to List</a>
     <button class="btn btn-primary" (click)="goBack()">Back</button>
     <button class="btn btn-primary" (click)="refresh()">Refresh</button>
