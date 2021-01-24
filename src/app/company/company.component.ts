@@ -15,6 +15,7 @@ export class CompanyComponent implements OnInit {
   public errorMsg: string = "";
   private subscriptions: Subscription[] = [];
   public companyResearch: CompanyResearch = <CompanyResearch>{};
+  public imgUrl: string = "";
 
   public companyResearchForm = new FormGroup({
     companySymbolControl: new FormControl('', [
@@ -26,7 +27,7 @@ export class CompanyComponent implements OnInit {
 
   constructor(private location: Location, private researchService: ResearchDataService) { }
 
-  get companySymbolControl() { return this.companyResearchForm.get('researchSymbolControl'); }
+  get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl'); }
 
   public submitForm(): void {
     let sub: Subscription = new Subscription;
@@ -35,6 +36,7 @@ export class CompanyComponent implements OnInit {
     sub = this.researchService.getCompanyStats(symbol).subscribe(
       (data) => {
         this.companyResearch = data;
+        this.imgUrl = data.logo.url;
         console.log(this.companyResearch);
       },
       (error) => {

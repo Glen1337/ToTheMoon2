@@ -3,6 +3,11 @@ export interface CompanyResearch {
     advStats: AdvancedStats;
 }
 
+
+export interface Logo{
+    url: string;
+}
+
 export interface AdvancedStats {
     week52highDate: Date;
     peLow: number;
@@ -26,8 +31,33 @@ export interface AdvancedStats {
     beta: number;
     debtToEquity: number;
     putCallRatio: number;
-}
-
-export interface Logo{
-    url: string;
+    companyName: number;
+    marketcap: number;
+    week52high: number;
+    week52low: number;
+    week52change: number;
+    sharesOutstanding: number;
+    float: number;
+    avg10Volume: number;
+    avg30Volume: number;
+    day200MovingAvg: number;
+    day50MovingAvg: number;
+    employees: number;
+    ttmEPS: number;
+    ttmDividendRate: number;
+    dividendYield: number
+    nextDividendDate: number;
+    exDividendDate: number;
+    nextEarningsDate: number;
+    peRatio: number;
+    maxChangePercent: number;
+    year5ChangePercent: number;
+    year2ChangePercent: number;
+    year1ChangePercent: number;
+    ytdChangePercent: number;
+    month6ChangePercent: number;
+    month3ChangePercent: number;
+    month1ChangePercent: number;
+    day30ChangePercent: number;
+    day5ChangePercent: number;
 }
