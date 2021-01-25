@@ -4,6 +4,10 @@ import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
 import { Option } from '../Models/Option';
+import { HoldingService } from '../Services/holding-data.service';
+import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { Holding } from '../Models/Holding';
+
 
 @Component({
   selector: 'app-options',
@@ -19,6 +23,7 @@ export class OptionsComponent implements OnInit {
   public callChain: Option[] = [];
   public putChain: Option[] = [];
   public chooseMsg: string = '';
+  public selectedOption: Option | undefined = <Option>{};
 
   public optionsForm = new FormGroup({
     optionSymbolControl: new FormControl('', [
@@ -26,19 +31,42 @@ export class OptionsComponent implements OnInit {
       Validators.minLength(1),
       Validators.maxLength(8)
     ]),
-    optionExpiryControl: new FormControl('', [
+    optionExpiryControl: new FormControl('',[
       Validators.required
     ])
   });
 
-  constructor(private location: Location, private optionsDataService: OptionsDataService) { }
+  public orderForm = new FormGroup({
+    orderNameControl: new FormControl('',[
+      Validators.required
+    ]),
+    orderStrikeControl: new FormControl('',[
+      Validators.required
+    ]),
+    orderExpControl: new FormControl('',[
+      Validators.required
+    ]),
+    orderQuantityControl: new FormControl(1, [
+      Validators.required
+    ])
+  });
+
+  constructor(private location: Location, private optionsDataService: OptionsDataService, private holdingService: HoldingService) { }
 
   get optionSymbolControl() { return this.optionsForm.get('optionSymbolControl'); }
 
   get optionExpiryControl() { return this.optionsForm.get('optionExpiryControl'); }
 
+  get orderNameControl() { return this.orderForm.get('orderNameControl'); }
+
+  get orderStrikeControl() { return this.orderForm.get('orderStrikeControl'); }
+
+  get orderExpControl() { return this.orderForm.get('orderExpControl'); }
+
+  get orderQuantityControl() { return this.orderForm.get('orderQuantityControl'); }
+
   ngOnInit(): void {
-     }
+  }
 
   goBack(): void {
     this.location.back();
@@ -55,6 +83,10 @@ export class OptionsComponent implements OnInit {
       });
     }
   } 
+
+  public onExpiryChange(input: string){
+    this.submitForm();
+  }
 
   public getExpirys(): void {
     let sub: Subscription = new Subscription();
@@ -95,7 +127,30 @@ export class OptionsComponent implements OnInit {
   }
 
   public choose(event: any, id: string){
+    this.selectedOption = this.optionChain.find(option => option.id === id);
+    this.orderNameControl?.setValue(this.selectedOption?.id);
+    this.orderStrikeControl?.setValue(this.selectedOption?.strikePrice);
+    this.orderExpControl?.setValue(this.selectedOption?.expirationDate);
 
+
+  }
+
+  public submitOrder(): void {
+    let sub: Subscription = new Subscription();
+
+    // let optionHolding: Holding = {
+    //   orderType: OrderConstants.Buy,
+    //   strikePrice: this.selectedOption?.strikePrice,
+    //   contractName: this.selectedOption?.id,
+    //   symbol: this.selectedOption!.symbol,
+    //   quantity: this.orderQuantityControl?.value,
+    //   expirationDate: this.orderExpControl?.value,
+    //   securityType: this.selectedOption!.side,
+    //   reinvestDivs: false,
+    //   currentPrice: this.selectedOption!.ask,
+    //   costBasis: this.selectedOption!.ask
+
+    // };
   }
 
 }

@@ -12,4 +12,5 @@ export interface Holding {
     expirationDate?: Date;
     portfolioId: number;
     strikePrice?: number;
+    contractName?: string;
   }
