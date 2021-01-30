@@ -1,8 +1,9 @@
 <div class="container-fluid">
-    <div class="row">
-        <h2>Options</h2>
+    <div class="row d-flex align-items-center">
         <button class="btn btn-primary" (click)="goBack()">Back</button>
+        <h2>Options</h2>
     </div>
+    <br>
     <div class="">
         <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
@@ -18,7 +19,7 @@
                 </span>
 
                 <span>
-                    <label>Type: </label>
+                    <label>Exp. Date: </label>
                     <select #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
                         <option value="">{{chooseMsg}}</option>
                         <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>
@@ -49,23 +50,35 @@
 
     <div class="row">
         <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
-            <form class="form-group" [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+            <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
                 <h4>Submit An Order</h4>
-                <span>
-                    <label> Name: </label><input type="text" formControlName="orderNameControl">
-                </span>
-                <span>
-                    <label> Strike: </label><input type="text" formControlName="orderStrikeControl">
-                </span>
-                <span>
-                    <label> Expriation: </label><input type="text" formControlName="orderExpControl">
-                </span>
-                <span>
-                    <label> Quantity: </label><input type="number" formControlName="orderQuantityControl">
-                </span>
-                <span>
-                    <button [disabled]="!orderForm.valid" type="submit">Order</button>
-                </span>
+                <div class="row">
+                    <div class="form-group col">
+                        <label> Name: </label>
+                        <input class="form-control" type="text" formControlName="orderNameControl">
+                    </div>
+                    <div class="form-group col">
+                        <label> Strike: </label>
+                        <input class="form-control" type="text" formControlName="orderStrikeControl">
+                    </div>
+                    <div class="form-group col">
+                        <label> Expriation: </label>
+                        <input class="form-control" type="text" formControlName="orderExpControl">
+                    </div>
+                    <div class="form-group col">
+                        <label> Quantity: </label>
+                        <input class="form-control" type="number" formControlName="orderQuantityControl">
+                    </div>
+                    <div class="form-group col">
+                        <label> Portfolio: </label>
+                        <select class="form-control" formControlName="orderPortfolioControl">
+                            <option *ngFor="let port of portfolios" [label]="port.title" [value]="port.portfolioId"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col d-flex align-items-end">
+                        <button class="btn btn-primary" [disabled]="!orderForm.valid" type="submit">Order</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -85,11 +98,12 @@
                             <th> Closing Price </th>
                             <!-- <th> Contract Size</th> -->
                             <th> Expiration Date </th>
-                            <th> Is Adjusted? </th>
+                            <!-- <th> Is Adjusted? </th> -->
                             <th> Last Updated </th>
                             <th> Open Interest </th>
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
+                            <th> Choose </th>
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
@@ -102,13 +116,13 @@
                         <td>{{option.closingPrice}}</td>
                         <!-- <td>{{option.contractSize}}</td> -->
                         <td>{{option.expirationDate}}</td>
-                        <td>{{option.isAdjusted}}</td>
+                        <!-- <td>{{option.isAdjusted}}</td> -->
                         <td>{{option.lastUpdated}}</td>
                         <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.symbol}}</td> -->
                         <td>{{option.volume}}</td>
                         <!-- <td>{{option.type}}</td> -->
-                        <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
+                        <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
                     </tr>
                 </table>
             </div>
@@ -127,11 +141,12 @@
                             <th> Closing Price </th>
                             <!-- <th> Contract Size</th> -->
                             <th> Expiration Date </th>
-                            <th> Is Adjusted? </th>
+                            <!-- <th> Is Adjusted? </th> -->
                             <th> Last Updated </th>
                             <th> Open Interest </th>
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
+                            <th> Choose </th>
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
@@ -144,13 +159,13 @@
                         <td>{{option.closingPrice}}</td>
                         <!-- <td>{{option.contractSize}}</td> -->
                         <td>{{option.expirationDate}}</td>
-                        <td>{{option.isAdjusted}}</td>
+                        <!-- <td>{{option.isAdjusted}}</td> -->
                         <td>{{option.lastUpdated}}</td>
                         <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.symbol}}</td> -->
                         <td>{{option.volume}}</td>
                         <!-- <td>{{option.type}}</td> -->
-                        <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Buy</button></td>
+                        <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
                     </tr>
                 </table>
             </div>

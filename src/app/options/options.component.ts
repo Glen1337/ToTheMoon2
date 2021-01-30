@@ -7,6 +7,9 @@ import { Option } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
 import { Holding } from '../Models/Holding';
+import { PortfolioDataService } from '../Services/portfolio-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { Portfolio } from '../Models/Portfolio';
 
 
 @Component({
@@ -24,6 +27,7 @@ export class OptionsComponent implements OnInit {
   public putChain: Option[] = [];
   public chooseMsg: string = '';
   public selectedOption: Option | undefined = <Option>{};
+  public portfolios: Portfolio[] = [];
 
   public optionsForm = new FormGroup({
     optionSymbolControl: new FormControl('', [
@@ -48,10 +52,16 @@ export class OptionsComponent implements OnInit {
     ]),
     orderQuantityControl: new FormControl(1, [
       Validators.required
+    ]),
+    orderPortfolioControl: new FormControl('', [
+      Validators.required
     ])
   });
 
-  constructor(private location: Location, private optionsDataService: OptionsDataService, private holdingService: HoldingService) { }
+  constructor(private location: Location,
+    private optionsDataService: OptionsDataService,
+    private holdingService: HoldingService,
+    private route: ActivatedRoute) { }
 
   get optionSymbolControl() { return this.optionsForm.get('optionSymbolControl'); }
 
@@ -65,7 +75,21 @@ export class OptionsComponent implements OnInit {
 
   get orderQuantityControl() { return this.orderForm.get('orderQuantityControl'); }
 
+  get orderPortfolioControl() { return this.orderForm.get('orderPortfolioControl'); }
+
   ngOnInit(): void {
+    let sub: Subscription = new Subscription();
+
+    sub = this.route.data.subscribe(
+      (data) =>{
+        this.portfolios = data.portfolios;
+      },
+      (error) => {
+        console.log(`(component)Error getting portoflios for options page: ${error}`);
+        this.errorMsg = `${error.error.title}`;
+      },
+      () => { console.log("(component)portfolios retrieved for options component"); }
+    );
   }
 
   goBack(): void {
@@ -131,8 +155,6 @@ export class OptionsComponent implements OnInit {
     this.orderNameControl?.setValue(this.selectedOption?.id);
     this.orderStrikeControl?.setValue(this.selectedOption?.strikePrice);
     this.orderExpControl?.setValue(this.selectedOption?.expirationDate);
-
-
   }
 
   public submitOrder(): void {
@@ -148,8 +170,7 @@ export class OptionsComponent implements OnInit {
     //   securityType: this.selectedOption!.side,
     //   reinvestDivs: false,
     //   currentPrice: this.selectedOption!.ask,
-    //   costBasis: this.selectedOption!.ask
-
+    //   costBasis: this.selectedOption!.ask * this.orderQuantityControl?.value,
     // };
   }
 
