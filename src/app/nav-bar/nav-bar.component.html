@@ -1,13 +1,11 @@
 <header>
     <!-- <nav class="navbar"> -->
         <div class="container-fluid">
-            <div class="row">
-                <a class="navbar-brand" [routerLink]="['/']"><h1>{{title}}</h1></a>
-            </div>
+            <a class="navbar-brand" [routerLink]="['/']"><h1>{{title}}</h1></a>
             <div [ngClass]="'row row-cols-'+this.NavItems.length" class="bg-primary">
                 <div *ngFor="let navItem of NavItems"> <!--class="col-md-1 col-lg-1 col-sm-1" -->
                     <!-- class="btn btn-primary" -->
-                    <div routerLinkactive="active" [routerLink]="navItem.link" [ngClass]="'text-white px-5 col'">{{navItem.label}}</div>
+                    <div routerLinkactive="active" [routerLink]="navItem.link" [ngClass]="'text-white px-5 col h5'">{{navItem.label}}</div>
                     <!-- <h5><a [ngClass]="'text-white px-5 col'" [routerLink]="navItem.link" routerLinkactive="active">{{navItem.label}}</a></h5> -->
                 </div>
             </div>

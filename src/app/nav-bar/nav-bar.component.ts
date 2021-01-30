@@ -8,7 +8,7 @@ import { AuthButtonComponent } from '../auth/login-button'
 export class NavBarComponent implements OnInit {
 
   public NavItems: Array<{ label: string, link: string[] }>;
-  title = 'DegenAppUI';
+  title = 'ToTheMoon';
 
   constructor() {
     this.NavItems = [

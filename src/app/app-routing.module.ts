@@ -16,6 +16,7 @@ import { CompanyComponent } from './company/company.component';
 import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
 import { MarketDataResolverService } from './market/market-data-resolver.service';
+import { OptionsResolverService } from './options/options-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -26,7 +27,7 @@ const routes: Routes = [
   { path: 'research', component: ResearchComponent },
   { path: 'company', component: CompanyComponent },
   { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
-  { path: 'options', component: OptionsComponent },
+  { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService}, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
