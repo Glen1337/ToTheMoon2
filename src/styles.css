@@ -2,8 +2,14 @@
  @import '~bootstrap/dist/css/bootstrap.min.css';
  
  body {
-    background: rgb(163, 163, 163);
+    /* background: rgb(163, 163, 163); */
     /* background: radial-gradient(circle, rgba(110,110,110,1) 5%, rgba(123,191,127,1) 40%, rgba(74,74,74,1) 70%); */
+    /* background: radial-gradient(circle, rgba(37,48,97,1) 8%, rgba(117,150,189,1) 69%);} */
+    background: radial-gradient(circle, rgba(100,108,147,1) 0%, rgba(202,219,233,1) 82%);
+}
+
+ html {
+     min-height: 100%;
  }
 
  header {

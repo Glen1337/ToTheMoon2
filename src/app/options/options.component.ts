@@ -160,18 +160,31 @@ export class OptionsComponent implements OnInit {
   public submitOrder(): void {
     let sub: Subscription = new Subscription();
 
-    // let optionHolding: Holding = {
-    //   orderType: OrderConstants.Buy,
-    //   strikePrice: this.selectedOption?.strikePrice,
-    //   contractName: this.selectedOption?.id,
-    //   symbol: this.selectedOption!.symbol,
-    //   quantity: this.orderQuantityControl?.value,
-    //   expirationDate: this.orderExpControl?.value,
-    //   securityType: this.selectedOption!.side,
-    //   reinvestDivs: false,
-    //   currentPrice: this.selectedOption!.ask,
-    //   costBasis: this.selectedOption!.ask * this.orderQuantityControl?.value,
-    // };
+    let year = this.orderExpControl?.value.substr(0,4);
+    let month = this.orderExpControl?.value.substr(4,2);
+    let day = this.orderExpControl?.value.substr(6,2);
+
+    let date: Date = new Date(`${year}-${month}-${day}`);
+
+    let optionHolding: Holding = {
+      orderType: OrderConstants.Buy,
+      strikePrice: this.selectedOption?.strikePrice,
+      contractName: this.selectedOption?.id,
+      symbol: this.selectedOption!.symbol,
+      quantity: this.orderQuantityControl?.value,
+      expirationDate: date,
+      securityType: this.selectedOption!.side,
+      reinvestDivs: false,
+      currentPrice: this.selectedOption!.ask,
+      costBasis: this.selectedOption!.ask,
+      portfolioId: this.orderPortfolioControl?.value
+    };
+
+    sub = this.holdingService.addHolding(optionHolding).subscribe(
+      (data) => { console.log(data);}
+    );
+
+    this.subscriptions.push(sub);
   }
 
 }

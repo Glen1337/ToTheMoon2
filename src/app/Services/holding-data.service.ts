@@ -19,6 +19,17 @@ export class HoldingService {
 
   constructor(private http: HttpClient) { }
 
+  addOption(optionHolding: Holding): Observable<Holding> {
+    let url = `${this.baseUrl}holdings/options`;
+    
+    return this.http.post<Holding>(url, optionHolding, this.httpOptions)
+    .pipe(
+      tap((newHolding) => console.log(`(service)Adding a new option with id: ${newHolding.holdingId}`)),
+      retry(2),
+      catchError<Holding, Observable<Holding>>(this.handleError)
+    )
+  }
+
   addHolding(holding: Holding): Observable<Holding> {
       // Setting request headers to JSON
       //headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
