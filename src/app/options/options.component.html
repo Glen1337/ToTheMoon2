@@ -5,7 +5,7 @@
     </div>
     <br>
     <div class="">
-        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg || otherMsg" [inputNoticeMessage]="otherMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
     <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
         <div class="row">

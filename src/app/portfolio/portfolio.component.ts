@@ -109,7 +109,14 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       (returnedHolding) => {
         if (!found) {
           this.portfolio.holdings.push(returnedHolding);
-          this.portfolio.totalMarketValue += (returnedHolding.quantity * returnedHolding.costBasis);
+
+          let totalMarketValueAddition = 0;
+          totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
+          if (returnedHolding.securityType == SecurityConstants.Call || returnedHolding.securityType == SecurityConstants.Put){
+            totalMarketValueAddition *= 100;
+          }
+
+          this.portfolio.totalMarketValue += totalMarketValueAddition;
         }else{
           let index: number = this.portfolio.holdings.indexOf(found);
           this.portfolio.totalMarketValue += (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
@@ -135,7 +142,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.portfolio.holdings.forEach((holding, index) => {
           if(holding.holdingId === holdingId) {
             this.portfolio.holdings.splice(index,1);
-            this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis);
+            if (holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
+              this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis) * 100;
+            }else{
+              this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis);
+            }
           }
         });
       },

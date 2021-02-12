@@ -21,6 +21,7 @@ export class OptionsComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
   public errorMsg: string = "";
+  public otherMsg = "";
   public expiryDates: string[] = [];
   public optionChain: Option[] = [];
   public callChain: Option[] = [];
@@ -98,6 +99,7 @@ export class OptionsComponent implements OnInit {
 
   messageClick() {
     this.errorMsg = '';
+    this.otherMsg = '';
   }
 
   ngOnDestroy(): void {
@@ -181,9 +183,15 @@ export class OptionsComponent implements OnInit {
     };
 
     sub = this.holdingService.addHolding(optionHolding).subscribe(
-      (data) => { console.log(data);}
+      (data) => { console.log(data);
+        this.otherMsg = 'Option purchased'
+      },
+      (error) => {
+        console.log('(component)Error getting options chain: ', error);
+        this.errorMsg = `${error.error}`;
+      },
+      () => {"(component)Option added"}
     );
-
     this.subscriptions.push(sub);
   }
 

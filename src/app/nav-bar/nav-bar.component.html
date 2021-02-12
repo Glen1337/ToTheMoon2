@@ -5,7 +5,9 @@
             <div [ngClass]="'row row-cols-'+this.NavItems.length" class="bg-primary">
                 <div *ngFor="let navItem of NavItems"> <!--class="col-md-1 col-lg-1 col-sm-1" -->
                     <!-- class="btn btn-primary" -->
-                    <div routerLinkactive="active" [routerLink]="navItem.link" [ngClass]="'text-white px-5 col h5'">{{navItem.label}}</div>
+                    <div>
+                        <a routerLinkactive="active" [routerLink]="navItem.link" [ngClass]="'text-white px-5 col h5'">{{navItem.label}}</a>
+                    </div>
                     <!-- <h5><a [ngClass]="'text-white px-5 col'" [routerLink]="navItem.link" routerLinkactive="active">{{navItem.label}}</a></h5> -->
                 </div>
             </div>
