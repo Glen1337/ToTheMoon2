@@ -19,13 +19,125 @@
                 <div *ngIf="companySymbolControl!.errors!.required">
                     Symbol is required.
                 </div>
-                <div *ngIf="companyResearchForm!.errors!.minlength || companyResearchForm!.errors!.maxlength">
-                    Symbol must be between 1 and 8 characters long.
+                <div *ngIf="companySymbolControl!.errors!.maxlength">
+                    Symbol must be less than 8 characters long.
                 </div>
             </div>
         </form>
     </div>
-    <div class="row">
-        <img [src]="imgUrl">
+    <div *ngIf="companyResearch.advStats">
+        <div class="row">
+            <img *ngIf="imgUrl" [src]="companyResearch.logo.url">
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Change Percentages</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                        <p class="card-text">1 Year % Change: {{financiafy(companyResearch.advStats.year1ChangePercent * 100, '%')}}</p>
+                        <p class="card-text">2 Year % Change: {{financiafy(companyResearch.advStats.year2ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">5 Year % Change: {{financiafy(companyResearch.advStats.year5ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">YTD % Change: {{financiafy(companyResearch.advStats.ytdChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">1 Month % Change: {{financiafy(companyResearch.advStats.month1ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">3 Month % Change: {{financiafy(companyResearch.advStats.month3ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">6 Month % Change: {{financiafy(companyResearch.advStats.month6ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">5 Day % Change: {{financiafy(companyResearch.advStats.day5ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">30 Day % Change: {{financiafy(companyResearch.advStats.day30ChangePercent * 100, '%', true)}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Dividend Info</h3>
+                    </div>
+                    <div *ngIf="!companyResearch.advStats.dividendYield" class="card-body">
+                        <p class="card-text">Company does not currently pay a dividend.</p>
+                    </div>
+                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                        <!-- <h5 class="card-title">Dividend Info</h5> -->
+                        <p class="card-text">Dividend Yield: {{financiafy(companyResearch.advStats.dividendYield * 100, '%')}}</p>
+                        <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
+                        <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
+                        <p class="card-text">TTM Divdend Rate: {{financiafy(companyResearch.advStats.ttmDividendRate, '$')}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Valuation</h3>
+                    </div>
+                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                        <p class="card-text">EPS: {{financiafy(companyResearch.advStats.ttmEPS, true)}}</p>
+                        <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio, true)}}</p>
+                        <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio, true)}}</p>
+                        <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio, true)}}</p>
+                        <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook, true)}}</p>
+                        <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales, true)}}</p>
+                        <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$', true)}}</p>
+                        <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
+                        <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
+                        <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Market Info</h3>
+                    </div>
+                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                        <p class="card-text">Put/Call Ratio: {{financiafy(companyResearch.advStats.putCallRatio)}}</p>
+                        <p class="card-text">Market Cap: {{financiafy(companyResearch.advStats.marketcap, '$')}}</p>
+                        <p class="card-text">Beta: {{financiafy(companyResearch.advStats.beta)}}</p>
+                        <p class="card-text">Shares Outstanding: {{financiafy(companyResearch.advStats.sharesOutstanding)}}</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Financials</h3>
+                    </div>
+                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                        <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
+                        <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
+                        <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$', true)}}</p>
+                        <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$', true)}}</p>
+                        <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$', true)}}</p>
+                        <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$', true)}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>52 Week Ranges</h3>
+                    </div>
+                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                        <p class="card-text">52 Week Change: {{financiafy(companyResearch.advStats.week52change * 100, '%', true)}}</p>
+                        <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high, true)}}</p>
+                        <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low, true)}}</p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

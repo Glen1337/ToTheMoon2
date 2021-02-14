@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
+import { financialifyNumber } from '../Utilities/utilities'
 
 @Component({
   selector: 'app-company',
@@ -16,16 +17,18 @@ export class CompanyComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public companyResearch: CompanyResearch = <CompanyResearch>{};
   public imgUrl: string = "";
+  public financiafy: any;
 
   public companyResearchForm = new FormGroup({
     companySymbolControl: new FormControl('', [
       Validators.required,
-      Validators.minLength(1),
       Validators.maxLength(8)
     ])
   });
 
-  constructor(private location: Location, private researchService: ResearchDataService) { }
+  constructor(private location: Location, private researchService: ResearchDataService) {
+    this.financiafy = financialifyNumber;
+  }
 
   get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl'); }
 
@@ -41,7 +44,7 @@ export class CompanyComponent implements OnInit {
       },
       (error) => {
         console.log('(component)Error getting company research: ', error);
-        this.errorMsg = `${error.error}`;
+        this.errorMsg = `${error.message}`;
       },
       () => {"(component)Company Research complete"}
     );
@@ -56,6 +59,10 @@ export class CompanyComponent implements OnInit {
 
   messageClick() {
     this.errorMsg = '';
+  }
+
+  ConvertDate(date: Date){
+    return(date ? new Date(date).toLocaleString() : '');
   }
 
   ngOnDestroy(): void {
