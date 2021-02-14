@@ -59,7 +59,6 @@
                         <p class="card-text">Company does not currently pay a dividend.</p>
                     </div>
                     <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                        <!-- <h5 class="card-title">Dividend Info</h5> -->
                         <p class="card-text">Dividend Yield: {{financiafy(companyResearch.advStats.dividendYield * 100, '%')}}</p>
                         <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
                         <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
@@ -73,7 +72,7 @@
                     <div class="card-header">
                         <h3>Valuation</h3>
                     </div>
-                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                    <div class="card-body">
                         <!-- <h5 class="card-title">Change Percentages</h5> -->
                         <p class="card-text">EPS: {{financiafy(companyResearch.advStats.ttmEPS, true)}}</p>
                         <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio, true)}}</p>
@@ -85,7 +84,6 @@
                         <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
                         <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
                         <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
-
                     </div>
                 </div>
             </div>
@@ -95,13 +93,12 @@
                     <div class="card-header">
                         <h3>Market Info</h3>
                     </div>
-                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
+                    <div class="card-body">
                         <!-- <h5 class="card-title">Change Percentages</h5> -->
                         <p class="card-text">Put/Call Ratio: {{financiafy(companyResearch.advStats.putCallRatio)}}</p>
                         <p class="card-text">Market Cap: {{financiafy(companyResearch.advStats.marketcap, '$')}}</p>
                         <p class="card-text">Beta: {{financiafy(companyResearch.advStats.beta)}}</p>
                         <p class="card-text">Shares Outstanding: {{financiafy(companyResearch.advStats.sharesOutstanding)}}</p>
-
                     </div>
                 </div>
             </div>
@@ -111,8 +108,7 @@
                     <div class="card-header">
                         <h3>Financials</h3>
                     </div>
-                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                    <div class="card-body">
                         <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
                         <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
                         <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$', true)}}</p>
@@ -128,12 +124,10 @@
                     <div class="card-header">
                         <h3>52 Week Ranges</h3>
                     </div>
-                    <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                        <!-- <h5 class="card-title">Change Percentages</h5> -->
+                    <div class="card-body">
                         <p class="card-text">52 Week Change: {{financiafy(companyResearch.advStats.week52change * 100, '%', true)}}</p>
                         <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high, true)}}</p>
                         <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low, true)}}</p>
-
                     </div>
                 </div>
             </div>
