@@ -3,7 +3,6 @@ export interface CompanyResearch {
     advStats: AdvancedStats;
 }
 
-
 export interface Logo{
     url: string;
 }
@@ -44,12 +43,14 @@ export interface AdvancedStats {
     day50MovingAvg: number;
     employees: number;
     ttmEPS: number;
-    ttmDividendRate: number;
-    dividendYield: number
-    nextDividendDate: number;
-    exDividendDate: number;
     nextEarningsDate: number;
     peRatio: number;
+    // div
+    ttmDividendRate: number;
+    dividendYield: number
+    nextDividendDate: Date;
+    exDividendDate: Date;
+    // change percentages
     maxChangePercent: number;
     year5ChangePercent: number;
     year2ChangePercent: number;
