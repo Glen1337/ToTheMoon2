@@ -26,8 +26,10 @@
         </form>
     </div>
     <div *ngIf="companyResearch.advStats">
-        <div class="row">
-            <img *ngIf="imgUrl" [src]="companyResearch.logo.url">
+        <div class="d-flex justify-content-start">
+            <div class="">
+                <img *ngIf="imgUrl" [src]="companyResearch.logo.url">
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
@@ -126,8 +128,8 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">52 Week Change: {{financiafy(companyResearch.advStats.week52change * 100, '%', true)}}</p>
-                        <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high, true)}}</p>
-                        <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low, true)}}</p>
+                        <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high)}}</p>
+                        <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low)}}</p>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ export interface ResearchData {
 }
 
 export interface IAgg {
-    time: Date;
+    timeUtc: Date;
     open: number;
     high: number;
     low: number;
