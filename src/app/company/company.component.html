@@ -94,13 +94,13 @@
                     </div>
                     <div class="card-body">
                         <!-- <h5 class="card-title">Change Percentages</h5> -->
-                        <p class="card-text">EPS: {{financiafy(companyResearch.advStats.ttmEPS, true)}}</p>
-                        <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio, true)}}</p>
-                        <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio, true)}}</p>
-                        <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio, true)}}</p>
-                        <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook, true)}}</p>
-                        <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales, true)}}</p>
-                        <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$', true)}}</p>
+                        <p class="card-text">EPS: {{financiafy(companyResearch.advStats.ttmEPS, '$')}}</p>
+                        <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio)}}</p>
+                        <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio)}}</p>
+                        <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio)}}</p>
+                        <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook)}}</p>
+                        <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales)}}</p>
+                        <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$')}}</p>
                         <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
                         <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
                         <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
@@ -131,10 +131,10 @@
                     <div class="card-body">
                         <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
                         <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
-                        <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$', true)}}</p>
-                        <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$', true)}}</p>
-                        <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$', true)}}</p>
-                        <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$', true)}}</p>
+                        <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$')}}</p>
+                        <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$')}}</p>
+                        <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$')}}</p>
+                        <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$')}}</p>
                     </div>
                 </div>
             </div>

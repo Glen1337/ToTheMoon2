@@ -89,16 +89,18 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     plot0.candlestick(quoteMapping).name(ticker).risingFill("#66ff66").fallingFill("#ff3300");//for area plot: .fill('#3248EC').stroke("#45F4FC");
 
     // plot0 settings
-    plot0.yGrid().stroke({dash:"2 14"});
+    //plot0.yGrid().stroke({dash:"2 14"});
+    plot0.yMinorGrid().palette(["LightGrey", null]);
     plot0.title(`${ticker} Price`);
-    plot0.title().fontWeight(5);
-    plot0.xAxis().ticks(true);
+    plot0.title().fontWeight(1000);
+    plot0.xAxis().ticks(true).minorTicks(true);
     plot0.yAxis().ticks(true).minorTicks(true);
+    plot0.xAxis().background('#CCFFFF').height(40);
     plot0.crosshair().xStroke('#ca68ff', 1.6, "round");
     plot0.crosshair().yStroke('#ca68ff', 1.6, "round");
 
     // EMAs on 1st plot
-    let ema5 = plot0.ema(quoteMapping, 5).series();//.series();
+    let ema5 = plot0.ema(quoteMapping, 5).series();
     let ema20 = plot0.ema(quoteMapping, 20).series();
     
     // plot1: volume
@@ -112,10 +114,12 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     plot1.title().fontWeight(1000);
     plot1.xAxis().ticks(true).minorTicks(true);
     plot1.yAxis().ticks(true).minorTicks(true);
-    plot1.yAxis().labels().position('left').anchor('left');
+    plot1.xAxis().background('#CCFFFF').height(40);
+    plot1.crosshair().xStroke('#ca68ff', 1.6, "round");
+    plot1.crosshair().yStroke('#ca68ff', 1.6, "round");
 
-    let grouping = this.chart.grouping();
-    grouping.enabled(true);
+    // Volume y axis labels
+    plot1.yAxis().labels().position('left').anchor('left');
 
     // configure scroller
     this.chart.scroller().fill('#D1F37D');
@@ -124,7 +128,12 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     let labels = this.chart.scroller().xAxis().labels().fontWeight(600).fontColor('#464646');
     let minorLabels = this.chart.scroller().xAxis().minorLabels().fontWeight(600).fontColor('#464646');
 
+    // Chart padding
     this.chart.padding("2%", 2, 2, "3%");
+
+    // Disable grouping
+    let grouping = this.chart.grouping();
+    grouping.enabled(false);
 
     // Display chart
     this.chart.container(this.container.nativeElement);
