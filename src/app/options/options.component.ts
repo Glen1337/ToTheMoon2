@@ -125,7 +125,7 @@ export class OptionsComponent implements OnInit {
       },
       (error) => {
         console.log('(component)Error getting options expiry dates: ', error);
-        this.errorMsg = `${error.error}`;
+        this.errorMsg = `${error.message}`;
       },
       () => {"(component)Option Expiry Dates complete"}
     );
@@ -145,7 +145,7 @@ export class OptionsComponent implements OnInit {
       },
       (error) => {
         console.log('(component)Error getting options chain: ', error);
-        this.errorMsg = `${error.error}`;
+        this.errorMsg = `${error.message}`;
       },
       () => {"(component)Option Chain retrieved"}
     );

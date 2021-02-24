@@ -61,6 +61,8 @@ export class ResearchComponent implements OnInit, AfterViewInit {
   }
 
   private ChartData(inputData: any[]){
+    const fontWeight = 1000;
+
     let ticker: string = String(this.researchSymbolControl?.value).trim().toUpperCase();
 
     // Clear existing chart
@@ -80,28 +82,39 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     let data = this.ConvertIAggArrayToArrayOfArrays(inputData);
     table.addData(data);
 
-    // Begin chart config
+    // Begin charts
 
 
     //plot0: candlestick
     let quoteMapping = table.mapAs({'open':1, 'high':2, 'low':3, 'close':4, 'value':4});
     let plot0 = this.chart.plot(0);
-    plot0.candlestick(quoteMapping).name(ticker).risingFill("#66ff66").fallingFill("#ff3300");//for area plot: .fill('#3248EC').stroke("#45F4FC");
+    plot0.candlestick(quoteMapping).name(ticker)
+      .risingFill("#66ff66")
+      .risingStroke("#66ff66")
+      .fallingFill("#ff3300")
+      .fallingStroke("ff3300");//for area plot: .fill('#3248EC').stroke("#45F4FC");
 
     // plot0 settings
-    //plot0.yGrid().stroke({dash:"2 14"});
     plot0.yMinorGrid().palette(["LightGrey", null]);
     plot0.title(`${ticker} Price`);
-    plot0.title().fontWeight(1000);
+    plot0.title().fontWeight(fontWeight).fontSize(16);
     plot0.xAxis().ticks(true).minorTicks(true);
     plot0.yAxis().ticks(true).minorTicks(true);
     plot0.xAxis().background('#CCFFFF').height(40);
     plot0.crosshair().xStroke('#ca68ff', 1.6, "round");
     plot0.crosshair().yStroke('#ca68ff', 1.6, "round");
+    plot0.xAxis().labels().fontWeight(fontWeight);
+    plot0.yAxis().labels().fontWeight(fontWeight);
+    plot0.xAxis().minorLabels().fontWeight(fontWeight);
+    plot0.yAxis().minorLabels().fontWeight(fontWeight);
+    plot0.legend().fontWeight(fontWeight);
+    //plot0.yScale().maximum(65).minimum(55);
 
     // EMAs on 1st plot
     let ema5 = plot0.ema(quoteMapping, 5).series();
     let ema20 = plot0.ema(quoteMapping, 20).series();
+    
+
     
     // plot1: volume
     let volMapping = table.mapAs({'value': 5});
@@ -111,12 +124,17 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     // plot1 settings
     plot1.yGrid().stroke({dash:"2 14"});
     plot1.title(`${ticker} Volume`);
-    plot1.title().fontWeight(1000);
+    plot1.title().fontWeight(fontWeight).fontSize(16);
     plot1.xAxis().ticks(true).minorTicks(true);
     plot1.yAxis().ticks(true).minorTicks(true);
     plot1.xAxis().background('#CCFFFF').height(40);
     plot1.crosshair().xStroke('#ca68ff', 1.6, "round");
     plot1.crosshair().yStroke('#ca68ff', 1.6, "round");
+    plot1.xAxis().labels().fontWeight(fontWeight);
+    plot1.yAxis().labels().fontWeight(fontWeight);
+    plot1.xAxis().minorLabels().fontWeight(fontWeight);
+    plot1.yAxis().minorLabels().fontWeight(fontWeight);
+    plot0.legend().fontWeight(fontWeight);
 
     // Volume y axis labels
     plot1.yAxis().labels().position('left').anchor('left');

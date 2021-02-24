@@ -88,37 +88,42 @@
             </div>
 
             <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Valuation</h3>
-                    </div>
-                    <div class="card-body">
-                        <!-- <h5 class="card-title">Change Percentages</h5> -->
-                        <p class="card-text">EPS: {{financiafy(companyResearch.advStats.ttmEPS, '$')}}</p>
-                        <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio)}}</p>
-                        <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio)}}</p>
-                        <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio)}}</p>
-                        <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook)}}</p>
-                        <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales)}}</p>
-                        <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$')}}</p>
-                        <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
-                        <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
-                        <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Valuation</h3>
+                            </div>
+                            <div class="card-body">
+                                <!-- <h5 class="card-title">Change Percentages</h5> -->
+                                <p class="card-text">TTM EPS: {{financiafy(companyResearch.advStats.ttmEPS, '$')}}</p>
+                                <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio)}}</p>
+                                <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio)}}</p>
+                                <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio)}}</p>
+                                <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook)}}</p>
+                                <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales)}}</p>
+                                <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$')}}</p>
+                                <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
+                                <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
+                                <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Market Info</h3>
-                    </div>
-                    <div class="card-body">
-                        <!-- <h5 class="card-title">Change Percentages</h5> -->
-                        <p class="card-text">Put/Call Ratio: {{financiafy(companyResearch.advStats.putCallRatio)}}</p>
-                        <p class="card-text">Market Cap: {{financiafy(companyResearch.advStats.marketcap, '$')}}</p>
-                        <p class="card-text">Beta: {{financiafy(companyResearch.advStats.beta)}}</p>
-                        <p class="card-text">Shares Outstanding: {{financiafy(companyResearch.advStats.sharesOutstanding)}}</p>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Market Info</h3>
+                            </div>
+                            <div class="card-body">
+                                <!-- <h5 class="card-title">Change Percentages</h5> -->
+                                <p class="card-text">Put/Call Ratio: {{financiafy(companyResearch.advStats.putCallRatio)}}</p>
+                                <p class="card-text">Market Cap: {{financiafy(companyResearch.advStats.marketcap, '$')}}</p>
+                                <p class="card-text">Beta: {{financiafy(companyResearch.advStats.beta)}}</p>
+                                <p class="card-text">Shares Outstanding: {{financiafy(companyResearch.advStats.sharesOutstanding)}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,10 +142,6 @@
                         <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$')}}</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-
             </div>
 
         </div>
