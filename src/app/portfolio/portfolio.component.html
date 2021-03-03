@@ -33,6 +33,7 @@
             <thead>
                 <tr>
                     <th> Symbol </th>
+                    <th> Contract </th>
                     <th> Cost Basis </th>
                     <th> Current Price </th>
                     <th> Quantity </th>
@@ -49,6 +50,8 @@
             </thead>
             <tr *ngFor="let holding of portfolio.holdings">
                 <td>{{holding.symbol}}</td>
+                <td *ngIf="!holding.contractName"></td>
+                <td *ngIf="holding.contractName">{{holding.contractName}}</td>
                 <td>{{'$'+holding.costBasis}}</td>
                 <td>{{'$'+holding.currentPrice}}</td>
                 <td>{{holding.quantity}}</td>

@@ -143,9 +143,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           if(holding.holdingId === holdingId) {
             this.portfolio.holdings.splice(index,1);
             if (holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
-              this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis) * 100;
+              this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice) * 100;
             }else{
-              this.portfolio.totalMarketValue -= (holding.quantity * holding.costBasis);
+              this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice);
             }
           }
         });

@@ -114,8 +114,6 @@ export class ResearchComponent implements OnInit, AfterViewInit {
     let ema5 = plot0.ema(quoteMapping, 5).series();
     let ema20 = plot0.ema(quoteMapping, 20).series();
     
-
-    
     // plot1: volume
     let volMapping = table.mapAs({'value': 5});
     let plot1 = this.chart.plot(1);
