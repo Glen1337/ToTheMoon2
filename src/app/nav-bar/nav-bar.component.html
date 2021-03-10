@@ -8,7 +8,7 @@
     </button>
     
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav nav-pills  mr-auto">
+        <ul class="navbar-nav mr-auto">
             <li *ngFor="let navItem of NavItems" class="nav-item">
                 <a class="nav-link"  routerLinkactive="active" [routerLink]="navItem.link">{{navItem.label}}</a>
             </li>
