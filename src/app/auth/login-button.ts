@@ -16,17 +16,20 @@ import { DOCUMENT } from '@angular/common';
         <button class="btn btn-primary" (click)="auth.loginWithRedirect()">Log in</button>
         </ng-template>
         <ul *ngIf="auth.user$ | async as user">
-            <!-- <p>Logged in as: </p>
+          <!--
+            <p>Logged in as: </p>
             <li>Name: {{ user.name }}</li>
-            <li>Email: {{ user.email }}</li> -->
+            <li>Email: {{ user.email }}</li> 
 
-            <!-- <li>User Id: {{ user.user_id }}</li>
+            <li>User Id: {{ user.user_id }}</li>
             <li>User meta: {{ user.user_metadata }}</li>
             <li>Username: {{ user.username }}</li>
+            
             <li>Last IP: {{ user.last_ip }}</li>
             <li>Identities: {{ user.identities }}</li>
             <li>App Meta: {{ user.app_metadata }}</li>
-            <li>Last login: {{ user.last_login }}</li> -->
+            <li>Last login: {{ user.last_login }}</li>
+          -->
         </ul>
     </div>
   `,
