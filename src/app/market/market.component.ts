@@ -26,6 +26,7 @@ export class MarketComponent implements OnInit {
     sub = this.researchdataService.getMarketInfo().subscribe(
       (marketDataJson) => {
         this.marketData = marketDataJson;
+        console.log(this.marketData);
       },
       (error) => {
         this.errorMsg = `${error.error}`
@@ -42,6 +43,10 @@ export class MarketComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  refresh(): void {
+    location.reload();
   }
 
   ngOnDestroy(): void {

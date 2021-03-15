@@ -1,40 +1,80 @@
 <div class="container-fluid">
-    <h2>Today's Market Performance</h2>
-    <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
-    <div class="row">
-      <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <div class="row flex-row align-items-center my-2">
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+        <h2>Today's Market Performance</h2>
     </div>
     <div class="row">
-        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
-            <h4>Federal Funds Rate: </h4>
-        </div>
-        <div class="col-sm-4 col-md-2 col-lg-2">
-            <h5>{{marketData.federalFundsRate}}</h5>
-        </div>
+        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
+
+    <h5>Random Stats</h5>
     <div class="row">
-        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
-            <h4>Recession Factor: </h4>
-        </div>
-        <div class="col-sm-4 col-md-2 col-lg-2">
-            <h5 >{{marketData.recessionProbability}}</h5>
-        </div>
+        <span class="border border-primary rounded-sm">
+            <ul class="list-group">
+                <li class="list-group-item">Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</li>
+                <li class="list-group-item">Recession Factor: {{marketData.recessionProbability}}</li>
+                <li class="list-group-item">Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</li>
+                <li class="list-group-item">Weekly Institutional Funds: {{"$" + marketData.instFunds + " Billion"}}</li>
+            </ul>
+        </span>
     </div>
+
+    <!-- <div class="row">
+        <span class="border border-primary rounded-sm"> -->
+            <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                <h5>Weekly Institutional Funds: {{"$" + marketData.instFunds + " Billion"}}</h5>
+            </div> -->
+            <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                <h5>Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</h5>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                <h5>Recession Factor: {{marketData.recessionProbability}}</h5>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                <h5>Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</h5>
+            </div>
+        </span>
+    </div> -->
+
+    <h4 class="mt-2">Index Performance</h4>
     <div class="row">
-        <div class="col-md-auto col-xs-auto col-sm-auto col-lg-auto">
-            <h4>Bitcoin: </h4>
-        </div>
-        <div class="col-sm-4 col-md-2 col-lg-2">
-            <h5>{{marketData.crypto?.price}}</h5>
+        <span class="border border-primary rounded-sm">
+            <ul class="list-group">
+                <li [ngClass]="[marketData.dow.change > 0 ? 'text-success' : 'text-danger', 'list-group-item']" *ngIf="marketData.dow">
+                    <h6>Dow: {{financiafy(marketData.dow.changePercent * 100,'', true)}}%</h6>
+                </li>
+                <li [ngClass]="[marketData.nasdaq.change > 0 ? 'text-success' : 'text-danger', 'list-group-item']" *ngIf="marketData.nasdaq">
+                    <h6>Nasdaq: {{financiafy(marketData.nasdaq.changePercent * 100,'', true)}}%</h6>
+                </li>
+                <li [ngClass]="{'list-group-item' : true, 'text-success' : marketData.sp500.change > 0, 'text-danger' : marketData.sp500.change < 0}" *ngIf="marketData.sp500">
+                    <h6>S&P 500: {{financiafy(marketData.sp500.changePercent * 100,'', true)}}%</h6>
+                </li>
+                <li [ngClass]="{'list-group-item' : true, 'text-success' : marketData.russell.change > 0, 'text-danger': marketData.russell.change < 0}" *ngIf="marketData.russell">
+                    <h6>Rusell 2000: {{financiafy(marketData.russell.changePercent * 100,'', true)}}%</h6>
+                </li>
+            </ul>
+        </span>
+    </div>
+
+    <h4 class="mt-2">Sector Performance</h4>
+    <div [ngClass]="'row'">
+        <div class="col-xs-12 col-sm-6 col-lg-2 col-md-4" *ngFor="let sector of marketData.sectorPerformances">
+            <!-- {{sector.name}} 
+            <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance * 100, '%', true)}})</span> -->
+            <div class="card text-white mx-1 mb-2" style="min-width: 6rem; max-width: 16rem;">
+                <h5 [ngClass]="+sector.performance > 0.0 ? 'bg-success' : 'bg-danger'" class="card-header text-white">
+                    {{sector.name}}
+                </h5>
+                <div class="card-body text-center">
+                    <h5 [ngClass]="'card-title text-dark'">{{financiafy(sector.performance * 100, '', true)}}%</h5>
+                    <!-- sector.performance < 0 ? 'text-danger' : 'text-success'" class="card-title text-dark"> -->
+                    <!-- <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+            </div>
         </div>
     </div>
-    <h4>Sector Map</h4>
-    <div [ngClass]="'row row-cols-11'">
-        <div *ngFor="let sector of marketData.sectorPerformances">
-                {{sector.name}} 
-                <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance * 100, '%', true)}})</span>
-        </div>
-    </div>
+</div>
 
     <!-- <div class="row">
         <h4>Earnings Announcements</h4>
@@ -43,5 +83,3 @@
                 <span [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{_}})</span>
         </div>
     </div> -->
-
-</div>
