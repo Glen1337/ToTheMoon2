@@ -4,9 +4,9 @@
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
         <h2>Today's Market Performance</h2>
     </div>
-    <div class="row">
-        <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
-    </div>
+    
+    <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+    
 
     <h5>Random Stats</h5>
     <div class="row">
@@ -15,7 +15,7 @@
                 <li class="list-group-item">Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</li>
                 <li class="list-group-item">Recession Factor: {{marketData.recessionProbability}}</li>
                 <li class="list-group-item">Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</li>
-                <li class="list-group-item">Weekly Institutional Funds: {{"$" + marketData.instFunds + " Billion"}}</li>
+                <li class="list-group-item">Weekly Institutional Funds: {{ financiafy(marketData.instFunds,'$', false) + " Billion"}}</li>
             </ul>
         </span>
     </div>
