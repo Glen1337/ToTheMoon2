@@ -51,7 +51,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         if (Object.keys(data.portfolio).length == 0) {
           this.errorMsg="Could not load Portfolio";
         }else {
-          data.portfolio.holdings = data.portfolio.holdings;
+          //data.portfolio.holdings = data.portfolio.holdings;
           this.portfolio = data.portfolio
         }
       },

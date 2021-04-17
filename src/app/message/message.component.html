@@ -1,11 +1,11 @@
-<div class="row" *ngIf="(inputErrorMessage || inputNoticeMessage)">
+<div class="d-flex flex-row" *ngIf="(inputErrorMessage || inputNoticeMessage)">
     <!-- [ngClass]="['col-md-8', 'col-lg-8', 'col-sm-8', 'alert', 'alert-danger']"> -->
-    <div class="d-flex align-items-center col-md-8 col-lg-8 col-sm-8 col-xs-8" [ngClass]="{'alert': isError || isNotice, 'alert-danger': isError, 'alert-primary': isNotice, 'alert-warning' : isWarning}">
+    <div class="d-inline-flex align-items-center col-md-10 col-lg-10 col-sm-10 col-xs-10" [ngClass]="{'alert': isError || isNotice, 'alert-danger': isError, 'alert-primary': isNotice, 'alert-warning' : isWarning}">
         <h5 *ngIf="inputErrorMessage">{{'Error: ' + inputErrorMessage}}</h5>
         <h5 *ngIf="inputNoticeMessage">{{'Notice: ' + inputNoticeMessage}}</h5>
         <h5 *ngIf="inputWarningMessage">{{'Warning: ' + inputWarningMessage}}</h5>
     </div>
-    <div [ngClass]="'d-flex align-items-center col-md-2 col-lg-2 col-sm-2 col-xs-2'">
+    <div class="d-inline-flex align-items-center col-md-2 col-lg-2 col-sm-2 col-xs-2">
         <button (click)="okClick()" [ngClass]="{'btn':true, 'btn-danger' : isError, 'btn-info' : isNotice, 'btn-warning' : isWarning }">OK</button>
     </div>
 </div>
