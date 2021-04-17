@@ -1,10 +1,16 @@
 export interface CompanyResearch {
     logo: Logo;
     advStats: AdvancedStats;
+    instOwnership: InstitutionalOwnership[];
 }
 
 export interface Logo{
     url: string;
+}
+
+export interface InstitutionalOwnership {
+    reportedHolding: number;
+    entityProperName: string;
 }
 
 export interface AdvancedStats {

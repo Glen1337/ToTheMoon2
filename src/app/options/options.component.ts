@@ -140,8 +140,8 @@ export class OptionsComponent implements OnInit {
     sub = this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
       (chain) => {
         this.optionChain = chain;
-        this.callChain = chain.filter(o => o.side=="call");
-        this.putChain = chain.filter(o => o.side=="put");
+        this.callChain = chain.filter(o => o.side=="call").sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
+        this.putChain = chain.filter(o => o.side=="put").sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
       },
       (error) => {
         console.log('(component)Error getting options chain: ', error);

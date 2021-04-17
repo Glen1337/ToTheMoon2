@@ -29,7 +29,7 @@ export class MarketComponent implements OnInit {
         console.log(this.marketData);
       },
       (error) => {
-        this.errorMsg = `${error.error}`
+        this.errorMsg = `${error.name}`
         console.log("(component)Error getting market perf. data");
       },
       () => { console.log("Market Perf. Data retrieved"); }

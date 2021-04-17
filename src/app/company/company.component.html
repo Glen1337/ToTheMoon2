@@ -125,17 +125,36 @@
             </div>
 
             <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Financials</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Financials</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
+                                <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
+                                <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$')}}</p>
+                                <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$')}}</p>
+                                <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$')}}</p>
+                                <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$')}}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
-                        <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
-                        <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$')}}</p>
-                        <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$')}}</p>
-                        <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$')}}</p>
-                        <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$')}}</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Institutional Ownership</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mt-1" *ngFor="let instOwnership of companyResearch.instOwnership">
+                                    <div class="card-text">Institution: {{instOwnership.entityProperName}}</div>
+                                    <div class="card-text">Holding Size: {{financiafy(instOwnership.reportedHolding, '', false)}}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
