@@ -8,10 +8,10 @@
     </div>
 
     <div class="row">
-        <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
+        <form class="form-group" [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
             <div class="form-inline">
                 <label for="sym"> Symbol: </label>
-                <input id="sym" type="text" aria-describedby="adb" placeholder="ticker symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }"  class="form-control" formControlName="companySymbolControl">
+                <input id="sym" type="text" aria-describedby="adb" placeholder="ticker symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
                 <button type="submit" [disabled]="!companyResearchForm.valid" class="btn btn-primary">Submit</button>
                 <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="invalid-feedback" >
                     <div *ngIf="companySymbolControl!.errors!.required">Symbol is required.</div>
