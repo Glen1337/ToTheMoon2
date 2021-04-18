@@ -57,6 +57,10 @@ export class OrderHistoryComponent implements OnInit {
         if (!sub.closed) { sub.unsubscribe(); }     
       });
     }
-  } 
+  }
+
+  refresh(): void {
+    location.reload();
+  }
 
 }
