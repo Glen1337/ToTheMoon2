@@ -1,44 +1,63 @@
 <div class="container-fluid">
+    <div class="row flex-row align-items-center my-2">
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+        <h2>Watchlist</h2>
+    </div>
     <div class="row">
-        <div class="col-md-4 col-lg-3 col-sm-8">
-            <h2>Watchlist</h2>
+        <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <h5>Add an equity to your watchlist</h5>
         </div>
     </div>
-    <button class="btn btn-primary" (click)="goBack()">Back</button>
-    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
-    <div>
-        <form class="form-group" [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">
-            <h4>Add an equity to your watchlist</h4>
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12">
-                    <label>Symbol: <input type="text" formControlName="watchItemSymbolControl"></label>
-                    <label>Outlook: 
-                        <!-- <input type="dropdown" formControlName="watchItemOutlookControl"> -->
-                        <select (change)="Select($event)" class="select" formControlName="watchItemOutlookControl">
-                            <option *ngFor="let choice of dropDownOptions" [ngValue]="choice">{{choice}}</option>
-                        </select> 
-                    </label>
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="!watchItemForm.valid">Add</button>
-                </div>
+    <form [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">
+        <div class="form-row">
+            <div class="col-sm-6 col-xs-6 col-lg-2 col-md-4">
+                <label for="sym">Symbol:</label>
+                <input id="sym" type="text" aria-describedby="adb" placeholder="ticker" [ngClass]="{ 'is-invalid': watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)}" class="form-control" formControlName="watchItemSymbolControl">
             </div>
+            <div class="col-sm-6 col-xs-6 col-lg-2 col-md-4">
+                <label for="out">Outlook: </label>
+                <select id="out" aria-describedby="adb" (change)="Select($event)" [ngClass]="{ 'is-invalid': watchItemOutlookControl!.invalid && (watchItemOutlookControl!.dirty || watchItemOutlookControl!.touched) }" class="select form-control" formControlName="watchItemOutlookControl">
+                    <option *ngFor="let choice of dropDownOptions" [ngValue]="choice">{{choice}}</option>
+                </select> 
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-4">
+                <button class="mt-2 btn btn-primary btn-block" type="submit" [disabled]="!watchItemForm.valid">Add</button>
+            </div>
+        </div>
+    </form>
+
+
+    <div *ngFor="let watchItem of watchList">
+        <p>{{watchItem.symbol}} : {{watchItem.outlook}}</p>
+    </div>
+</div>
+            <!-- </div> -->
+                <!-- </div> -->
+
             <!--Symbol validation messages-->
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12" *ngIf="watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)" class="alert alert-danger">
+            <!-- <div class="row"> -->
+                <!-- <div class="col-md-12 col-lg-12 col-sm-12" *ngIf="watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)" class="alert alert-danger">
                     <div *ngIf="watchItemSymbolControl?.errors?.required">
                         Symbol is required.
                     </div>
                     <div *ngIf="watchItemSymbolControl?.errors?.maxlength">
                         Symbol must be less than 8 characters long.
                     </div>
-                </div>
+                </div> -->
                 <!--Outlook validation messages-->
-                <div *ngIf="watchItemOutlookControl?.invalid && (watchItemOutlookControl?.dirty || watchItemOutlookControl?.touched)" class="alert alert-danger">
+                <!-- <div *ngIf="watchItemOutlookControl?.invalid && (watchItemOutlookControl?.dirty || watchItemOutlookControl?.touched)" class="alert alert-danger">
                     <div *ngIf="watchItemOutlookControl?.errors?.required">
                         Outlook is required.
                     </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+                </div> -->
+            <!-- </div> -->
+
+
+
