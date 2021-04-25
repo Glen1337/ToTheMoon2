@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2 col-lg-2 col-sm-2">
             <h4 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
-                Gain/Loss: {{financiafy((portfolio.gainLoss/portfolio.totalMarketValue)*100, '%', true)}}
+                Gain/Loss: {{financiafy((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100, '%', true)}}
             </h4>
         </div>
         <div class="col-md-2 col-lg-2 col-sm-2">
