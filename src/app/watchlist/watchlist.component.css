@@ -1,3 +1,2 @@
-.form-row{
-    flex-wrap: nowrap;
-}
+.form-row { flex-wrap: nowrap; }
+.card-body { padding: 0rem; }

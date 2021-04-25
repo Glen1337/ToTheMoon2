@@ -6,6 +6,7 @@ import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
+import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-watchlist',
@@ -19,6 +20,7 @@ export class WatchlistComponent implements OnInit{
   public refreshMsg: string = '';
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
+  financiafy: any;
 
   public watchItemForm = new FormGroup({
     watchItemSymbolControl: new FormControl('', [
@@ -28,7 +30,9 @@ export class WatchlistComponent implements OnInit{
     watchItemOutlookControl: new FormControl('',[Validators.required])
   })
   
-  constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) { }
+  constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) {
+    this.financiafy = financialifyNumber;
+  }
 
   get watchItemSymbolControl() { return this.watchItemForm.get('watchItemSymbolControl'); }
   get watchItemOutlookControl() { return this.watchItemForm.get('watchItemOutlookControl'); }
@@ -93,7 +97,11 @@ export class WatchlistComponent implements OnInit{
         if (!sub.closed) { sub.unsubscribe(); }     
       });
     }
-  } 
+  }
+
+  isPredictionCorrect(item: WatchItem): boolean {
+    return ((item.priceChange! >= 0 && item.outlook === "Positive") || (item.priceChange! <= 0 && item.outlook === "Negative"))
+  }
 
   goBack(): void {
     this.location.back();

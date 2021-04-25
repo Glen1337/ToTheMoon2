@@ -62,7 +62,7 @@
         <div class="col-xs-12 col-sm-6 col-lg-2 col-md-4" *ngFor="let sector of marketData.sectorPerformances">
             <!-- {{sector.name}} 
             <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance * 100, '%', true)}})</span> -->
-            <div class="card text-white mx-1 mb-2" style="">
+            <div class="card text-white mx-1 mb-2">
                 <h5 [ngClass]="+sector.performance > 0.0 ? 'bg-success' : 'bg-danger'" class="card-header text-white">
                     {{sector.name}}
                 </h5>
