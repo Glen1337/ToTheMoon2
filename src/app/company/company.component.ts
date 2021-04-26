@@ -53,6 +53,10 @@ export class CompanyComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  refresh(): void {
+    location.reload();
+  }
+
   goBack(): void {
     this.location.back();
   }

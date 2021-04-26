@@ -5,3 +5,10 @@
     border: 1px solid rgb(122, 122, 122);
 
   }
+
+  input {
+    max-width: 10rem;
+  }
+
+  /* .form-inline { flex-wrap: nowrap; }  
+  .form-row { flex-wrap: nowrap; } */

@@ -84,7 +84,6 @@ export class ResearchComponent implements OnInit, AfterViewInit {
 
     // Begin charts
 
-
     //plot0: candlestick
     let quoteMapping = table.mapAs({'open':1, 'high':2, 'low':3, 'close':4, 'value':4});
     let plot0 = this.chart.plot(0);
@@ -175,6 +174,10 @@ export class ResearchComponent implements OnInit, AfterViewInit {
 
   messageClick() {
     this.errorMsg = '';
+  }
+
+  refresh(): void {
+    location.reload();
   }
 
   ngOnDestroy(): void {
