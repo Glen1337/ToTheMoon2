@@ -1,46 +1,50 @@
-<div class="container-fluid">
-    <div class="row d-flex align-items-center">
-        <button class="btn btn-primary" (click)="goBack()">Back</button>
+<div class="">
+    <div class="row flex-row align-items-center mx-1 my-2">
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
         <h2>Options</h2>
     </div>
-    <br>
-    <div class="">
+    <div class="row">
         <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg || otherMsg" [inputNoticeMessage]="otherMsg" [inputErrorMessage]="errorMsg"></app-message>
     </div>
-    <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
-        <div class="row">
-            <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
-                <h4>Find An Option</h4>
-                <span>
-                    <label> Symbol: </label><input type="text" formControlName="optionSymbolControl">
-                </span>
-                <span>
-                    <button class="btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Get Expirys</button>
-                </span>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <p class="lead">Find an Option Chain</p>
+        </div>
+    </div>
 
-                <span>
-                    <label>Exp. Date: </label>
-                    <select #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
-                        <option value="">{{chooseMsg}}</option>
-                        <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>
-                    </select>
-                </span>
-                <div class="row">
-                    <!-- <span>
-                        <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
-                    </span> -->
-                    <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="alert alert-danger">
-                        <div *ngIf="optionSymbolControl?.errors?.required">
-                            Please enter a Stock Symbol to find Options for.
-                        </div>
-                        <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">
-                            Symbol must be between 1 and 8 characters long.
-                        </div>
-                    </div>
+    <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
+        <div class="form-row">
+            <!-- <label for="sym">Step 1:&nbsp;</label> -->
+            <div class="col-6 col-sm-6 col-md-3 col-lg-2">
+                <input class="form-control" aria-describedby="adb" id="sym" type="text" placeholder="Stock Sym." formControlName="optionSymbolControl">
+            </div>
+            <div class="col">
+                <button class="ml-2 btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Submit</button>
+            </div>
+        </div>
+        <div class="mt-2 form-row form-inline">
+            <!-- <label for="sym">Step 2 :&nbsp;</label> -->
+            <div class="col-8 col-sm-8 col-md-4 col-lg-4">
+                <select id="sym" class="form-control" aria-describedby="adb" #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
+                    <option value="">{{chooseMsg}}</option>
+                    <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <!-- <span>
+                <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
+            </span> -->
+            <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="alert alert-danger">
+                <div *ngIf="optionSymbolControl?.errors?.required">
+                    Please enter a Stock Symbol to find Options for.
+                </div>
+                <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">
+                    Symbol must be between 1 and 8 characters long.
                 </div>
             </div>
         </div>
-
         <!-- <div class="row">
             <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
                 <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Options</button>
@@ -49,48 +53,58 @@
     </form>
 
     <div class="row">
-        <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
+        <div class="col-xs-12 col-sm-12">
+            <p class="lead">Submit An Order</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-12 col-lg-4">
             <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
-                <h4>Submit An Order</h4>
                 <div class="row">
-                    <div class="form-group col">
+                    <div class="form-group col-5">
                         <label> Name: </label>
-                        <input class="form-control" type="text" formControlName="orderNameControl">
+                        <input class="form-control" type="text" formControlName="orderNameControl" readonly="readonly">
                     </div>
-                    <div class="form-group col">
+                    <div style="padding-left: 0px; padding-right: 0px;" class="form-group col-3">
                         <label> Strike: </label>
-                        <input class="form-control" type="text" formControlName="orderStrikeControl">
+                        <input class="form-control" type="text" formControlName="orderStrikeControl" readonly="readonly">
                     </div>
-                    <div class="form-group col">
+                    <div class="form-group col-4">
                         <label> Expriation: </label>
-                        <input class="form-control" type="text" formControlName="orderExpControl">
+                        <input class="form-control" type="text" formControlName="orderExpControl" readonly="readonly">
                     </div>
-                    <div class="form-group col">
+                </div>
+                <div class="row">
+                    <div class="form-group col-4">
                         <label> Quantity: </label>
                         <input class="form-control" type="number" formControlName="orderQuantityControl">
                     </div>
-                    <div class="form-group col">
+                    <div class="form-group col-6">
                         <label> Portfolio: </label>
                         <select class="form-control" formControlName="orderPortfolioControl">
                             <option *ngFor="let port of portfolios" [label]="port.title" [value]="port.portfolioId"></option>
                         </select>
                     </div>
-                    <div class="form-group col d-flex align-items-end">
-                        <button class="btn btn-primary" [disabled]="!orderForm.valid" type="submit">Order</button>
+
+                </div>
+                <div class="row">
+                    <div class="col-10">
+                        <button class="btn btn-block btn-primary" [disabled]="!orderForm.valid" type="submit">Order</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="table-responsive">
                 <table class="table table-dark">
                     <thead>
                         <h4>Calls</h4>
                         <tr>
-                            <th> ID </th>
+                            <!-- <th> ID </th> -->
                             <th> Side </th>
                             <th> Strike Price </th>
                             <th> Ask </th>
@@ -103,12 +117,13 @@
                             <th> Open Interest </th>
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
+                            <th> Open Interest</th>
                             <th> Choose </th>
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
                     <tr *ngFor="let option of callChain">
-                        <td>{{option.id}}</td>
+                        <!-- <td>{{option.id}}</td> -->
                         <td>{{option.side}}</td>
                         <td>{{option.strikePrice}}</td>
                         <td>{{option.ask}}</td>
@@ -117,10 +132,11 @@
                         <!-- <td>{{option.contractSize}}</td> -->
                         <td>{{option.expirationDate}}</td>
                         <!-- <td>{{option.isAdjusted}}</td> -->
-                        <td>{{option.lastUpdated}}</td>
+                        <td>{{formatDate(option.lastUpdated)}}</td>
                         <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.symbol}}</td> -->
                         <td>{{option.volume}}</td>
+                        <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.type}}</td> -->
                         <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
                     </tr>
@@ -133,7 +149,7 @@
                     <thead>
                         <h4>Puts</h4>
                         <tr>
-                            <th> ID </th>
+                            <!-- <th> ID </th> -->
                             <th> Side </th>
                             <th> Strike Price </th>
                             <th> Ask </th>
@@ -146,12 +162,13 @@
                             <th> Open Interest </th>
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
+                            <th> Open Interest</th>
                             <th> Choose </th>
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
                     <tr *ngFor="let option of putChain">
-                        <td>{{option.id}}</td>
+                        <!-- <td>{{option.id}}</td> -->
                         <td>{{option.side}}</td>
                         <td>{{option.strikePrice}}</td>
                         <td>{{option.ask}}</td>
@@ -160,10 +177,11 @@
                         <!-- <td>{{option.contractSize}}</td> -->
                         <td>{{option.expirationDate}}</td>
                         <!-- <td>{{option.isAdjusted}}</td> -->
-                        <td>{{option.lastUpdated}}</td>
+                        <td>{{formatDate(option.lastUpdated)}}</td>
                         <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.symbol}}</td> -->
                         <td>{{option.volume}}</td>
+                        <td>{{option.openInterest}}</td>
                         <!-- <td>{{option.type}}</td> -->
                         <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
                     </tr>

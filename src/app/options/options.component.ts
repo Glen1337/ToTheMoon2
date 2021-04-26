@@ -121,7 +121,7 @@ export class OptionsComponent implements OnInit {
     sub = this.optionsDataService.getExpiryDates(symbol).subscribe(
       (dates) => {
         this.expiryDates = dates;
-        this.chooseMsg = "Choose an Exp.Date";
+        this.chooseMsg = "Choose an Exp. Date";
       },
       (error) => {
         console.log('(component)Error getting options expiry dates: ', error);
@@ -193,6 +193,15 @@ export class OptionsComponent implements OnInit {
       () => {"(component)Option added"}
     );
     this.subscriptions.push(sub);
+  }
+
+  refresh(): void {
+    location.reload();
+  }
+
+  public formatDate(input: Date) : string{
+    let inputDate: Date = new Date(input);
+    return `${new Date(inputDate).getMonth()}/${new Date(inputDate).getDate()}/${new Date(inputDate).getFullYear()}`;
   }
 
 }
