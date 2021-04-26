@@ -17,11 +17,12 @@ import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
 import { MarketDataResolverService } from './market/market-data-resolver.service';
 import { OptionsResolverService } from './options/options-resolver.service';
+import { BalanceResolver } from './Services/Balance/balance-resolver.resolver';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'portfolios', component: PortfolioListComponent, resolve: { portfolios: PortfolioListResolverService }, canActivate: [AuthGuard] },
-  { path: 'portfolio/:id', component: PortfolioComponent, resolve: { portfolio: PortfolioResolverService }, canActivate: [AuthGuard] },
+  { path: 'portfolio/:id', component: PortfolioComponent, resolve: { portfolio: PortfolioResolverService, balance: BalanceResolver}, canActivate: [AuthGuard] },
   { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService }, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, resolve: { watchList: WatchlistResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
