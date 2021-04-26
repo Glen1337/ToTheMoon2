@@ -17,7 +17,11 @@
         <div class="form-row">
             <!-- <label for="sym">Step 1:&nbsp;</label> -->
             <div class="col-6 col-sm-6 col-md-3 col-lg-2">
-                <input class="form-control" aria-describedby="adb" id="sym" type="text" placeholder="Stock Sym." formControlName="optionSymbolControl">
+                <input class="form-control" aria-describedby="adb" id="sym" type="text" placeholder="Stock Sym." [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
+                <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="invalid-feedback">
+                    <div *ngIf="optionSymbolControl?.errors?.required">Please type a Stock Symbol.</div>
+                    <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">Symbol must be between 1 and 8 characters long.</div>
+                </div>
             </div>
             <div class="col">
                 <button class="ml-2 btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Submit</button>
@@ -27,7 +31,7 @@
             <!-- <label for="sym">Step 2 :&nbsp;</label> -->
             <div class="col-8 col-sm-8 col-md-4 col-lg-4">
                 <select id="sym" class="form-control" aria-describedby="adb" #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
-                    <option value="">{{chooseMsg}}</option>
+                    <option value="" disabled selected>Choose an Exp.</option>
                     <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>
                 </select>
             </div>
@@ -36,14 +40,7 @@
             <!-- <span>
                 <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
             </span> -->
-            <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="alert alert-danger">
-                <div *ngIf="optionSymbolControl?.errors?.required">
-                    Please enter a Stock Symbol to find Options for.
-                </div>
-                <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">
-                    Symbol must be between 1 and 8 characters long.
-                </div>
-            </div>
+
         </div>
         <!-- <div class="row">
             <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
@@ -59,14 +56,14 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-sm-12 col-12 col-lg-4">
+        <div class="col-md-8 col-sm-12 col-12 col-lg-3">
             <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
                 <div class="row">
                     <div class="form-group col-5">
                         <label> Name: </label>
                         <input class="form-control" type="text" formControlName="orderNameControl" readonly="readonly">
                     </div>
-                    <div style="padding-left: 0px; padding-right: 0px;" class="form-group col-3">
+                    <div class="form-group col-3" style="padding-left: 0px; padding-right: 0px;">
                         <label> Strike: </label>
                         <input class="form-control" type="text" formControlName="orderStrikeControl" readonly="readonly">
                     </div>
@@ -76,7 +73,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-6">
                         <label> Quantity: </label>
                         <input class="form-control" type="number" formControlName="orderQuantityControl">
                     </div>
@@ -89,7 +86,7 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-12">
                         <button class="btn btn-block btn-primary" [disabled]="!orderForm.valid" type="submit">Order</button>
                     </div>
                 </div>

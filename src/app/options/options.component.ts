@@ -26,7 +26,7 @@ export class OptionsComponent implements OnInit {
   public optionChain: Option[] = [];
   public callChain: Option[] = [];
   public putChain: Option[] = [];
-  public chooseMsg: string = '';
+  // public chooseMsg: string = '';
   public selectedOption: Option | undefined = <Option>{};
   public portfolios: Portfolio[] = [];
 
@@ -121,7 +121,7 @@ export class OptionsComponent implements OnInit {
     sub = this.optionsDataService.getExpiryDates(symbol).subscribe(
       (dates) => {
         this.expiryDates = dates;
-        this.chooseMsg = "Choose an Exp. Date";
+        // this.chooseMsg = "Choose an Exp. Date";
       },
       (error) => {
         console.log('(component)Error getting options expiry dates: ', error);
