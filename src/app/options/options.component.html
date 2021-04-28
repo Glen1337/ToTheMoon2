@@ -115,12 +115,12 @@
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
                             <th> Open Interest</th>
-                            <th> Choose </th>
+                            <!-- <th> Choose </th> -->
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let option of callChain">
+                        <tr (click)="choose($event, option.id!)" *ngFor="let option of callChain">
                             <!-- <td>{{option.id}}</td> -->
                             <td>{{option.side}}</td>
                             <td>{{option.strikePrice}}</td>
@@ -136,7 +136,7 @@
                             <td>{{option.volume}}</td>
                             <td>{{option.openInterest}}</td>
                             <!-- <td>{{option.type}}</td> -->
-                            <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
+                            <!-- <td><button class="btn btn-primary">Choose</button></td> -->
                         </tr>
                     </tbody>
                 </table>
@@ -162,12 +162,12 @@
                             <!-- <th> Symbol </th> -->
                             <th> Volume </th>
                             <th> Open Interest</th>
-                            <th> Choose </th>
+                            <!-- <th> Choose </th> -->
                             <!-- <th> Type </th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let option of putChain">
+                        <tr (click)="choose($event, option.id!)" *ngFor="let option of putChain">
                             <!-- <td>{{option.id}}</td> -->
                             <td>{{option.side}}</td>
                             <td>{{option.strikePrice}}</td>
@@ -183,7 +183,7 @@
                             <td>{{option.volume}}</td>
                             <td>{{option.openInterest}}</td>
                             <!-- <td>{{option.type}}</td> -->
-                            <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td>
+                            <!-- <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td> -->
                         </tr>
                     </tbody>
                 </table>
