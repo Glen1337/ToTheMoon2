@@ -10,29 +10,35 @@
   </div>
 
   <div class="row">
-    <div class="table-responsive">
-      <table class="table table-sm table-hover">
-        <tr class="table-primary">
-          <!-- <th> Total Equity </th> -->
-          <th>Symbol</th>
-          <th>Qty.</th>
-          <th>Order Type</th>
-          <th>Date/Time</th>
-          <th>Asset Type</th>
-          <th>Price</th>
-          <th>Total Amount</th>
-        </tr>
-        <tr *ngFor="let order of orders">
-          <!-- <td>{{port.totalMarketValue}}</td> -->
-          <td>{{order.symbol}}</td>
-          <td>{{order.quantity}}</td>
-          <td>{{order.orderType}}</td>
-          <td>{{ConvertDate(order.transactionDate)}}</td>
-          <td>{{order.securityType}}</td>
-          <td>{{financiafyNumber(order.price, '$')}}</td>
-          <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
-        </tr>
-      </table>
+    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+      <div class="table-responsive">
+        <table class="table-sm table table-hover">
+          <thead>
+            <tr class="table-primary">
+              <!-- <th> Total Equity </th> -->
+              <th>Symbol</th>
+              <th>Qty.</th>
+              <th>Order Type</th>
+              <th>Date/Time</th>
+              <th>Asset Type</th>
+              <th>Price</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <!-- <td>{{port.totalMarketValue}}</td> -->
+              <td>{{order.symbol}}</td>
+              <td>{{order.quantity}}</td>
+              <td>{{order.orderType}}</td>
+              <td>{{ConvertDate(order.transactionDate)}}</td>
+              <td>{{order.securityType}}</td>
+              <td>{{financiafyNumber(order.price, '$')}}</td>
+              <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>  
 </div>
