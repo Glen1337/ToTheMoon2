@@ -52,7 +52,8 @@ export class OptionsComponent implements OnInit {
       Validators.required
     ]),
     orderQuantityControl: new FormControl(1, [
-      Validators.required
+      Validators.required,
+      Validators.min(1)
     ]),
     orderPortfolioControl: new FormControl('', [
       Validators.required
