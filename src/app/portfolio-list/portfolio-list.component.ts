@@ -26,7 +26,8 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     ]),
     portfolioTypeControl: new FormControl('',[
       Validators.min(1.00),
-      Validators.maxLength(30)
+      Validators.maxLength(30),
+      Validators.required
     ])
   });
 
@@ -125,6 +126,14 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  refresh(): void {
+    location.reload();
   }
 
 }
