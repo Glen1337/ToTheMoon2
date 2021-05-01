@@ -12,7 +12,7 @@
     <div class="row">
         <span class="border border-primary rounded-sm">
             <ul class="list-group">
-                <li class="list-group-item">Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</li>
+                <li class="list-group-item"><i class="fab fa-bitcoin"></i> Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</li>
                 <li class="list-group-item">Recession Factor: {{marketData.recessionProbability}}</li>
                 <li class="list-group-item">Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</li>
                 <li class="list-group-item">Weekly Institutional Funds: {{ financiafy(marketData.instFunds,'$', false) + " Billion"}}</li>

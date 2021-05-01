@@ -2,7 +2,7 @@
     <div class="row flex-row align-items-center my-2 mx-1">
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2>Company Info.</h2>
+        <h2><i class="fas fa-building"></i> Company Info.</h2>
     </div>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     <form class="form-group" [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
