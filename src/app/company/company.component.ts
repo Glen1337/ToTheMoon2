@@ -18,6 +18,7 @@ export class CompanyComponent implements OnInit {
   public companyResearch: CompanyResearch = <CompanyResearch>{};
   public imgUrl: string = "";
   public financiafy: any;
+  public currentlyLoading: boolean = false;
 
   public companyResearchForm = new FormGroup({
     companySymbolControl: new FormControl('', [
@@ -33,6 +34,8 @@ export class CompanyComponent implements OnInit {
   get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl'); }
 
   public submitForm(): void {
+    this.currentlyLoading = true;
+
     let sub: Subscription = new Subscription;
     let symbol: string = this.companySymbolControl?.value.trim().toUpperCase();
 
@@ -41,12 +44,16 @@ export class CompanyComponent implements OnInit {
         this.companyResearch = data;
         this.imgUrl = data.logo.url;
         console.log(this.companyResearch);
+
       },
       (error) => {
         console.log('(component)Error getting company research: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {"(component)Company Research complete"}
+      () => {
+        "(component)Company Research complete";
+        this.currentlyLoading = false;
+      }
     );
   }
 

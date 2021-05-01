@@ -4,13 +4,7 @@
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
         <h2>Company Info.</h2>
     </div>
-
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
-        </div>
-    </div>
-
+    <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     <form class="form-group" [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
         <div class="form-row">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
@@ -25,6 +19,10 @@
             </div>
         </div>
     </form>
+
+    <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
     
     <div *ngIf="companyResearch.advStats">
         <div class="d-flex justify-content-center">
