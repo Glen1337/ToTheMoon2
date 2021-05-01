@@ -4,9 +4,7 @@
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
         <h2>Watchlist</h2>
     </div>
-    <div class="row">
-        <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
-    </div>
+    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
         <div class="col-12 col-sm-12">
             <p class="lead">Add an equity to your watchlist</p>
