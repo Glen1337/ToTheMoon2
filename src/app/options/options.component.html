@@ -29,7 +29,7 @@
         </div>
         <div class="mt-2 form-row form-inline">
             <!-- <label for="sym">Step 2 :&nbsp;</label> -->
-            <div class="col-8 col-sm-8 col-md-4 col-lg-4">
+            <div class="col-10 col-sm-8 col-md-4 col-lg-4">
                 <select id="sym" class="form-control" aria-describedby="adb" #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
                     <option value="" disabled selected>Choose an Exp.</option>
                     <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>

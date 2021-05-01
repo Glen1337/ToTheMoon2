@@ -44,7 +44,7 @@ export class CompanyComponent implements OnInit {
       },
       (error) => {
         console.log('(component)Error getting company research: ', error);
-        this.errorMsg = `${error.message}`;
+        this.errorMsg = `${error.error}`;
       },
       () => {"(component)Company Research complete"}
     );
