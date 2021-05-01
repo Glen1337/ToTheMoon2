@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { IAgg } from '../Models/ResearchData';
-import  'anychart';
+// import  'anychart';
 import { Subscription } from 'rxjs';
+import '../../../node_modules/anychart/'
 
 @Component({
   selector: 'app-research',
