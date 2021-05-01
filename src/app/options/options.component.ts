@@ -29,6 +29,7 @@ export class OptionsComponent implements OnInit {
   // public chooseMsg: string = '';
   public selectedOption: Option | undefined = <Option>{};
   public portfolios: Portfolio[] = [];
+  public currentlyLoadingExps: boolean = false;
 
   public optionsForm = new FormGroup({
     optionSymbolControl: new FormControl('', [
@@ -116,6 +117,7 @@ export class OptionsComponent implements OnInit {
   }
 
   public getExpirys(): void {
+    this.currentlyLoadingExps = true;
     let sub: Subscription = new Subscription();
 
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
@@ -128,14 +130,17 @@ export class OptionsComponent implements OnInit {
         console.log('(component)Error getting options expiry dates: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {"(component)Option Expiry Dates complete"}
+      () => {
+        "(component)Option Expiry Dates complete";
+        this.currentlyLoadingExps = false;
+      }
     );
     this.subscriptions.push(sub)
   }
 
   public submitForm(): void {
     let sub: Subscription = new Subscription();
-    
+
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
     let expiry = this.optionExpiryControl?.value;
     sub = this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
@@ -148,7 +153,9 @@ export class OptionsComponent implements OnInit {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {"(component)Option Chain retrieved"}
+      () => {
+        "(component)Option Chain retrieved"
+      }
     );
     this.subscriptions.push(sub)
   }
