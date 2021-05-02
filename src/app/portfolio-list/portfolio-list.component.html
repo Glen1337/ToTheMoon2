@@ -16,7 +16,9 @@
               <th>Type</th>
               <th>Created</th>
               <th>Holdings</th>
-              <th>Orders</th>
+              <th>Options</th>
+              <th>Equities</th>
+              <th>Filled Orders</th>
               <!-- <th>Details</th> -->
               <th>Delete</th>
             </tr>
@@ -31,6 +33,8 @@
               <td>{{port.type}}</td>
               <td>{{ConvertDate(port.creationDate)}}</td>
               <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
+              <td>{{GetOptionCount(port.portfolioId)}}</td>
+              <td>{{GetEquityCount(port.portfolioId)}}</td>
               <td>{{port.orders?.length ? port.orders?.length : 0}}</td>
               <!-- <td><a [routerLink]="['/portfolio', port.portfolioId]"><button class="btn btn-primary">Portfolio Details</button></a></td> -->
               <td><button class="btn btn-danger" (click)="deletePortfolio($event, port.portfolioId)">Remove</button></td>
