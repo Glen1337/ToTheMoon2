@@ -77,6 +77,10 @@ import { OptionsComponent } from './options/options.component';
           {
             uri: 'https://localhost:5001/api/Options/Chain*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://localhost:5001/api/UserBalance*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
           }
         ]
       }

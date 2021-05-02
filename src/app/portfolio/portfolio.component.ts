@@ -21,6 +21,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   public financiafy: any;
   public errorMsg: string = '';
   public refreshMsg: string = '';
+  public buyingPower: number = 0;
 
   public holdingForm = new FormGroup({
     holdingSymbolControl: new FormControl('', [
@@ -52,6 +53,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.errorMsg="Could not load Portfolio";
         }else {
           //data.portfolio.holdings = data.portfolio.holdings;
+          this.buyingPower = data['balance'];
           this.portfolio = data.portfolio
         }
       },
@@ -111,16 +113,25 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.portfolio.holdings.push(returnedHolding);
 
           let totalMarketValueAddition = 0;
+          let buyingPowerSubtraction = 0;
+
           totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
+          buyingPowerSubtraction = totalMarketValueAddition;
+          
           if (returnedHolding.securityType == SecurityConstants.Call || returnedHolding.securityType == SecurityConstants.Put){
             totalMarketValueAddition *= 100;
+            buyingPowerSubtraction *=100;
           }
 
           this.portfolio.totalMarketValue += totalMarketValueAddition;
+          this.buyingPower -= buyingPowerSubtraction;
         }else{
           let index: number = this.portfolio.holdings.indexOf(found);
-          this.portfolio.totalMarketValue += (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
+          let transactionPrice = (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
+          this.portfolio.totalMarketValue += transactionPrice;
           this.portfolio.holdings[index] = returnedHolding;
+
+          this.buyingPower -= transactionPrice;
         }
       },
       (error) => {
@@ -144,8 +155,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
             this.portfolio.holdings.splice(index,1);
             if (holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
               this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice) * 100;
+              this.buyingPower += (holding.quantity * holding.currentPrice) * 100;
             }else{
               this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice);
+              this.buyingPower += (holding.quantity * holding.currentPrice);
             }
           }
         });
