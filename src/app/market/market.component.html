@@ -51,7 +51,7 @@
                     <h6>S&P 500: {{financiafy(marketData.sp500.changePercent * 100,'', true)}}%</h6>
                 </li>
                 <li [ngClass]="{'list-group-item' : true, 'text-success' : marketData.russell.change > 0, 'text-danger': marketData.russell.change < 0}" *ngIf="marketData.russell">
-                    <h6>Rusell 2000: {{financiafy(marketData.russell.changePercent * 100,'', true)}}%</h6>
+                    <h6>Russell 2000: {{financiafy(marketData.russell.changePercent * 100,'', true)}}%</h6>
                 </li>
             </ul>
         </span>

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col">
-                <button type="submit" [disabled]="!companyResearchForm.valid" class="btn btn-primary">Submit</button>
+                <button type="submit" onmousedown="event.preventDefault()" [disabled]="!companyResearchForm.valid" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
