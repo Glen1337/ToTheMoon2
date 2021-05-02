@@ -2,9 +2,16 @@
     <div class="row d-flex flex-row align-items-center mx-1 my-2">
         <a routerLink="/portfolios"><button class="mr-2 btn btn-sm btn-outline-primary">Back to List</button></a>
         <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2>{{portfolio.title}}</h2>
+        <h2><i class="fas fa-file-alt"></i> {{portfolio.title}}</h2>
     </div>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+
+    <div class="row">
+        <div class="col-md-3 col-lg-2 col-sm-6 col-12">
+            <p class="lead">Purchase Power: {{financiafy(buyingPower, '$', false)}}</p>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-3 col-lg-2 col-sm-6 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
@@ -13,7 +20,7 @@
         </div>
         <div class="col-md-3 col-lg-2 col-sm-6 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
-                Gain/Loss: {{financiafy((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100, '%', true)}}
+                Gain/Loss: {{financiafy((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100, '', true)}}%
             </h2>
         </div>
         <div class="col-md-3 col-lg-3 col-sm-6 col-12">
@@ -63,10 +70,16 @@
                         <td>{{financiafy((holding.costBasis * holding.quantity), '$')}}</td>
                         <td>{{financiafy((holding.currentPrice * holding.quantity), '$')}}</td>
                         <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
-                            <h6>{{financiafy(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100,'%', true)}}</h6>  
+                            <h6>{{financiafy(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100,'%', true)}}
+                                <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) > 0" class="fas fa-caret-up"></i>
+                                <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) < 0" class="fas fa-caret-down"></i>
+                            </h6>
                         </td>
                         <td [ngClass]="((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) < 0) ? 'text-danger' : 'text-success'">
-                            <h6>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}</h6>
+                            <h6>{{financiafy((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity), '$', true)}}
+                                <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) > 0" class="fas fa-caret-up"></i>
+                                <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0" class="fas fa-caret-down"></i>
+                            </h6>
                         </td>
                         <td *ngIf="!holding.contractName"></td>
                         <td *ngIf="holding.contractName">{{holding.contractName}}</td>
@@ -117,7 +130,7 @@
         </div>
         <div class="form-row mt-2">
             <div class="col-8 col-sm-8 col-md-6 col-lg-4">
-                <button class="btn btn-block btn-primary" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
+                <button class="btn btn-block btn-primary" onmousedown="event.preventDefault()" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
             </div>
         </div>
 
