@@ -21,6 +21,7 @@ import { TickerComponent } from './ticker/ticker.component';
 import { CompanyComponent } from './company/company.component';
 import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { OptionsComponent } from './options/options.component';
     TickerComponent,
     CompanyComponent,
     MarketComponent,
-    OptionsComponent
+    OptionsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
