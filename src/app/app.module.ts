@@ -22,6 +22,7 @@ import { CompanyComponent } from './company/company.component';
 import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
 import { FooterComponent } from './footer/footer.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -58,56 +59,32 @@ import { FooterComponent } from './footer/footer.component';
         allowedList: [
           // Holdings
           {
-            uri: 'https://localhost:5001/api/holdings*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://tothemoon1.azurewebsites.net/api/holdings*',
+            uri: `${environment.baseApiUrl}holdings*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           // Portfolios
           {
-            uri: 'https://localhost:5001/api/portfolios*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://tothemoon1.azurewebsites.net/api/portfolios*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://localhost:5001/api/orders*',
+            uri: `${environment.baseApiUrl}portfolios*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           // Orders
           {
-            uri: 'https://tothemoon1.azurewebsites.net/api/orders*',
+            uri: `${environment.baseApiUrl}orders*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           //Watchlist
           {
-            uri: 'https://localhost:5001/api/watchitems*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://tothemoon1.azurewebsites.net/api/watchitems*',
+            uri: `${environment.baseApiUrl}watchitems*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           // Options
           {
-            uri: 'https://localhost:5001/api/Options*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://tothemoon1.azurewebsites.net/api/Options*',
+            uri: `${environment.baseApiUrl}Options*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           // User Balance
           {
-            uri: 'https://localhost:5001/api/UserBalance*',
-            tokenOptions: { audience: 'https://DegenApp.com/api' }
-          },
-          {
-            uri: 'https://tothemoon1.azurewebsites.net/api/UserBalance*',
+            uri: `${environment.baseApiUrl}UserBalance*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           }
         ]
