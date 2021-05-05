@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { CompanyResearch } from '../Models/CompanyResearch';
 import { MarketData } from '../Models/MarketData';
 import { IAgg, ResearchData } from '../Models/ResearchData';
@@ -16,7 +17,7 @@ export class ResearchDataService {
   };
 
   // move this to environment config
-  private baseUrl = 'https://localhost:5001/api/'
+  private baseUrl = environment.baseApiUrl;
 
   constructor(private http: HttpClient) { }
 

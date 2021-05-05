@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { WatchItem } from '../Models/WatchItem';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { WatchItem } from '../Models/WatchItem';
 export class WatchlistService {
 
   // move this to environment config
-  private baseUrl = 'https://localhost:5001/api/'
+  private baseUrl = environment.baseApiUrl;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
