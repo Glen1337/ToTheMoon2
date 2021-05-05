@@ -61,7 +61,15 @@ import { FooterComponent } from './footer/footer.component';
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
+            uri: 'https://tothemoon1.azurewebsites.net/api/holdings*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
             uri: 'https://localhost:5001/api/portfolios*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://tothemoon1.azurewebsites.net/api/portfolios*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
@@ -69,19 +77,31 @@ import { FooterComponent } from './footer/footer.component';
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
+            uri: 'https://tothemoon1.azurewebsites.net/api/orders*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
             uri: 'https://localhost:5001/api/watchitems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
-            uri: 'https://localhost:5001/api/Options/Expiry*',
+            uri: 'https://tothemoon1.azurewebsites.net/api/watchitems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
-            uri: 'https://localhost:5001/api/Options/Chain*',
+            uri: 'https://localhost:5001/api/Options*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://tothemoon1.azurewebsites.net/api/Options*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
           {
             uri: 'https://localhost:5001/api/UserBalance*',
+            tokenOptions: { audience: 'https://DegenApp.com/api' }
+          },
+          {
+            uri: 'https://tothemoon1.azurewebsites.net/api/UserBalance*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           }
         ]

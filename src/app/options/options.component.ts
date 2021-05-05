@@ -183,7 +183,7 @@ export class OptionsComponent implements OnInit {
       symbol: this.selectedOption!.symbol,
       quantity: this.orderQuantityControl?.value,
       expirationDate: date,
-      securityType: this.selectedOption!.side,
+      securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() ==="call" ) ? SecurityConstants.Call : SecurityConstants.Put,
       reinvestDivs: false,
       currentPrice: this.selectedOption!.ask,
       costBasis: this.selectedOption!.ask,
