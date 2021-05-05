@@ -56,6 +56,7 @@ import { FooterComponent } from './footer/footer.component';
       // Specify configuration for the interceptor              
       httpInterceptor: {
         allowedList: [
+          // Holdings
           {
             uri: 'https://localhost:5001/api/holdings*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
@@ -64,6 +65,7 @@ import { FooterComponent } from './footer/footer.component';
             uri: 'https://tothemoon1.azurewebsites.net/api/holdings*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
+          // Portfolios
           {
             uri: 'https://localhost:5001/api/portfolios*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
@@ -76,10 +78,12 @@ import { FooterComponent } from './footer/footer.component';
             uri: 'https://localhost:5001/api/orders*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
+          // Orders
           {
             uri: 'https://tothemoon1.azurewebsites.net/api/orders*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
+          //Watchlist
           {
             uri: 'https://localhost:5001/api/watchitems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
@@ -88,6 +92,7 @@ import { FooterComponent } from './footer/footer.component';
             uri: 'https://tothemoon1.azurewebsites.net/api/watchitems*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
+          // Options
           {
             uri: 'https://localhost:5001/api/Options*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
@@ -96,6 +101,7 @@ import { FooterComponent } from './footer/footer.component';
             uri: 'https://tothemoon1.azurewebsites.net/api/Options*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
+          // User Balance
           {
             uri: 'https://localhost:5001/api/UserBalance*',
             tokenOptions: { audience: 'https://DegenApp.com/api' }
