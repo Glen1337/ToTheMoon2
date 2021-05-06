@@ -23,6 +23,7 @@ import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { environment } from 'src/environments/environment';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },],
+
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },  {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
