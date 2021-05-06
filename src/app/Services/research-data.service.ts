@@ -56,7 +56,6 @@ export class ResearchDataService {
     return this.http.get<MarketData>(`${this.baseUrl}research/market`, this.httpOptions)
     .pipe(
       tap(_ => console.log(`Getting market data`)),
-      retry(2),
       catchError(this.handleError)
     );
   }
