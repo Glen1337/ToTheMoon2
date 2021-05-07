@@ -97,7 +97,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ReactiveFormsModule
   ],
 
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },  {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  //,  {provide: LocationStrategy, useClass: HashLocationStrategy}
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
