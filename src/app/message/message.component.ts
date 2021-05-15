@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-message',
@@ -21,15 +22,27 @@ export class MessageComponent {
   isNotice: boolean = false;
   isWarning: boolean = false;
 
-  constructor() {}
+  pageYoffset = 0;
+  @HostListener('window:scroll', ['$event']) onScroll(event: ElementRef){
+    this.pageYoffset = window.pageYOffset;
+  }
+  
+  constructor(private scroll: ViewportScroller) {}
 
   okClick(){
     this.okClickEvent.emit('ok');
   }
 
+  scrollToTop(){
+    this.scroll.scrollToPosition([0,0]);
+  }
+
   // existing messages need to be stored as a 'history' of the last message provided to the message component
   // to avoid bugs when another message appears but the OK button was NOT clicked to dismiss the previous message
   ngOnChanges(){
+    
+    this.scrollToTop();
+
     if(this.inputErrorMessage && (this.existingNoticeMessage || this.existingWarningMessage)){
       this.inputNoticeMessage = '';
       this.inputWarningMessage = '';

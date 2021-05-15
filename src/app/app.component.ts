@@ -5,16 +5,16 @@ import { AfterViewChecked, Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewChecked {
+export class AppComponent {
   title = 'ToTheMoon'
   public currentlyLoading: boolean = true;
 
   constructor(){
-    this.currentlyLoading = true;
+    //this.currentlyLoading = true;
   }
 
-  ngAfterViewChecked(){
-    this.currentlyLoading = false;
-  }
+  // ngAfterViewChecked(){
+  //   this.currentlyLoading = false;
+  // }
 
 }
