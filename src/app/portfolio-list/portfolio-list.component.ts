@@ -125,11 +125,11 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   }
 
   GetOptionCount(id: number){
-    return this.portfolios.find(port => port.portfolioId == id)?.holdings.filter(h => h.securityType === "Call" || h.securityType === "Put").length
+    return this.portfolios.find(port => port.portfolioId == id)?.holdings?.filter(h => h.securityType === "Call" || h.securityType === "Put").length
   }
 
   GetEquityCount(id: number){
-    return this.portfolios.find(port => port.portfolioId == id)?.holdings.filter(h => h.securityType === "Share").length
+    return this.portfolios.find(port => port.portfolioId == id)?.holdings?.filter(h => h.securityType === "Share").length
   }
 
   ConvertDate(date?: Date){
