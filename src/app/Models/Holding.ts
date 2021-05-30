@@ -13,5 +13,5 @@ export interface Holding {
     portfolioId: number;
     strikePrice?: number;
     contractName?: string;
-    userId: string;
+    userId?: string;
   }
