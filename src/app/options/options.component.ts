@@ -177,6 +177,7 @@ export class OptionsComponent implements OnInit {
     let date: Date = new Date(`${year}-${month}-${day}`);
 
     let optionHolding: Holding = {
+      userId: "-1",
       orderType: OrderConstants.Buy,
       strikePrice: this.selectedOption?.strikePrice,
       contractName: this.selectedOption?.id,

@@ -86,6 +86,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let order$: Observable<Holding>;
 
     let holding: Holding = {
+      userId: "-1",
       costBasis: 0,
       currentPrice: 0,
       quantity: this.quantityControl?.value,
