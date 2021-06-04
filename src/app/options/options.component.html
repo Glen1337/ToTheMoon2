@@ -35,7 +35,7 @@
             <div class="col-10 col-sm-8 col-md-4 col-lg-4">
                 <select id="sym" class="form-control" aria-describedby="adb" #exp formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
                     <option value="" disabled selected>Choose an Exp.</option>
-                    <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{date}}</option>
+                    <option *ngFor="let date of expiryDates" [value]="date"><!-- [ngValue]="date"--> {{ date.substring(0,4) + "/" + date.substring(4,6) + "/" + date.substring(6,8)}}</option>
                 </select>
             </div>
         </div>
