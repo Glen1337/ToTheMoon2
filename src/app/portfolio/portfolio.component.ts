@@ -119,7 +119,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
           buyingPowerSubtraction = totalMarketValueAddition;
 
-          if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType == SecurityConstants.Put){
+          if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType === SecurityConstants.Put){
             totalMarketValueAddition *= 100;
             buyingPowerSubtraction *= 100;
           }
@@ -152,7 +152,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       (response) => {
         console.log(`Holding deleted: ${holdingId}`);
         this.portfolio.holdings.forEach((holding, index) => {
-          if(holding.holdingId === holdingId) {
+          if (holding.holdingId === holdingId) {
             this.portfolio.holdings.splice(index, 1);
             if (holding.securityType === SecurityConstants.Call || holding.securityType === SecurityConstants.Put){
               this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice) * 100;
@@ -164,8 +164,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           }
         });
       },
-      (error) => { 
-        this.errorMsg = `${error.error}`
+      (error) => {
+        this.errorMsg = `${error.error}`;
         console.log('(component)Error while deleting holding ', error);
       },
       () => { console.log(`(component)deleting holding - complete`); }
