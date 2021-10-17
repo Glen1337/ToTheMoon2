@@ -50,7 +50,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     subscription1 = this.route.data.subscribe(
       (data) => {
         if (Object.keys(data.portfolio).length === 0) {
-          this.errorMsg ='Could not load Portfolio';
+          this.errorMsg = 'Could not load Portfolio';
         }else {
           // data.portfolio.holdings = data.portfolio.holdings;
           this.buyingPower = data.balance;
@@ -59,7 +59,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log(`(component)Error getting portfolio:${error}`);
-        this.errorMsg = `${error.error}`
+        this.errorMsg = `${error.error}`;
       },
       () => { console.log('Portfolio retrieved'); }
     );

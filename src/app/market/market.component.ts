@@ -3,7 +3,8 @@ import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { financialifyNumber } from '../Utilities/utilities';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-market',
@@ -17,16 +18,15 @@ export class MarketComponent implements OnInit, OnDestroy {
   financiafy: any;
   private subscriptions: Subscription[] = [];
 
-  constructor(private researchdataService: ResearchDataService, private location: Location) { 
+  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, private location: Location) {
     this.financiafy = financialifyNumber;
   }
 
   ngOnInit(): void {
-    let sub: Subscription = new Subscription();
-    sub = this.researchdataService.getMarketInfo().subscribe(
-      (marketDataJson) => {
-        this.marketData = marketDataJson;
-        console.log(this.marketData);
+    let sub1: Subscription = this.route.data.subscribe(
+      (data) => {
+        console.log(data.marketData);
+        this.marketData = data.marketData;
       },
       (error) => {
         this.errorMsg = `${error.name}`;
@@ -34,8 +34,23 @@ export class MarketComponent implements OnInit, OnDestroy {
       },
       () => { console.log('Market Perf. Data retrieved'); }
     );
-    this.subscriptions.push(sub);
+    this.subscriptions.push(sub1);
   }
+
+  //   let sub: Subscription = new Subscription();
+  //   sub = this.researchdataService.getMarketInfo().subscribe(
+  //     (marketDataJson) => {
+  //       this.marketData = marketDataJson;
+  //       console.log(this.marketData);
+  //     },
+  //     (error) => {
+  //       this.errorMsg = `${error.name}`;
+  //       console.log('(component)Error getting market perf. data');
+  //     },
+  //     () => { console.log('Market Perf. Data retrieved'); }
+  //   );
+  //   this.subscriptions.push(sub);
+  // }
 
   messageClick(): void {
     this.errorMsg = '';

@@ -14,7 +14,6 @@ export interface InstitutionalOwnership {
 }
 
 export interface AdvancedStats {
-    week52highDate: Date;
     peLow: number;
     peHigh: number;
     pegRatio: number;
@@ -23,7 +22,7 @@ export interface AdvancedStats {
     priceToSales: number;
     enterpriseValueToRevenue: number;
     enterpriseValue: number;
-    week52lowDate: Date;
+
     profitMargin: number;
     revenuePerEmployee: number;
     revenuePerShare: number;
@@ -36,10 +35,12 @@ export interface AdvancedStats {
     beta: number;
     debtToEquity: number;
     putCallRatio: number;
-    companyName: number;
+    companyName: string;
     marketcap: number;
-    week52high: number;
     week52low: number;
+    week52high: number;
+    week52lowDate: Date;
+    week52highDate: Date;
     week52change: number;
     sharesOutstanding: number;
     float: number;
@@ -53,7 +54,7 @@ export interface AdvancedStats {
     peRatio: number;
     // div
     ttmDividendRate: number;
-    dividendYield: number
+    dividendYield: number;
     nextDividendDate: Date;
     exDividendDate: Date;
     // change percentages
