@@ -21,7 +21,7 @@ export class HoldingService {
 
   addOption(optionHolding: Holding): Observable<Holding> {
     let url = `${this.baseUrl}holdings/options`;
-    
+
     return this.http.post<Holding>(url, optionHolding, this.httpOptions)
     .pipe(
       tap((newHolding) => console.log(`(service)Adding a new option with id: ${newHolding.holdingId}`)),
@@ -32,7 +32,7 @@ export class HoldingService {
 
   addHolding(holding: Holding): Observable<Holding> {
       // Setting request headers to JSON
-      //headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+      // headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
     const hOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -62,7 +62,7 @@ export class HoldingService {
 
   deleteHolding(id: number): Observable<Holding> {
     let url = `${this.baseUrl}holdings/${id}`;
-    console.log("(service)Sending delete request to API for holding: " + id);
+    console.log('(service)Sending delete request to API for holding: ' + id);
     return this.http.delete<Holding>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting holding with id: ${id}`)),
       retry(2),
@@ -87,7 +87,6 @@ export class HoldingService {
 }
   // private handleError<T>(operation = 'operation', result?: T) {
   //   return (error: any): Observable<T> => {
-  
   //     if (error.error instanceof ErrorEvent) {
   //       // A client-side or network error occurred. Handle it accordingly.
   //       console.log('An error occurred:', error.error.message);
@@ -99,7 +98,7 @@ export class HoldingService {
   //     }
   //     // TODO: better job of transforming error for user consumption
   //     console.log(`(service) ${operation} failed: ${error.message}`);
-      
+
   //     // Return an observable with a user-facing error message.
   //     return throwError(error);
   //     // Let the app keep running by returning an empty result.

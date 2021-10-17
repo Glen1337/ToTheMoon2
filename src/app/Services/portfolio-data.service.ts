@@ -31,7 +31,7 @@ export class PortfolioDataService {
   getPortfolio(id: number | string | null): Observable<Portfolio> {
     return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`, this.httpOptions)
     .pipe(
-      //map(p => ({...p, creationDateString: p.creationDate?.toLocaleString() })),
+      // map(p => ({...p, creationDateString: p.creationDate?.toLocaleString() })),
       tap(_ => console.log('(service)Getting portfolio '+id)),
       retry(2),
       catchError(this.handleError)
@@ -49,9 +49,9 @@ export class PortfolioDataService {
     );
   }
 
-  deletePortfolio(id: number){
+  deletePortfolio(id: number): Observable<Portfolio>{
     let url = `${this.baseUrl}portfolios/${id}`;
-    console.log("(service)Sending delete request to API for portfolio: " + id);
+    console.log('(service)Sending delete request to API for portfolio: ' + id);
     return this.http.delete<Portfolio>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting portfolio with id: ${id}`)),
       retry(2),

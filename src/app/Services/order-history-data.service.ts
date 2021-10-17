@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OrderHistoryDataService {
 
-  private baseUrl = environment.baseApiUrl
+  private baseUrl = environment.baseApiUrl;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -27,7 +27,7 @@ export class OrderHistoryDataService {
       catchError(this.handleError)
     );
   }
-  
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

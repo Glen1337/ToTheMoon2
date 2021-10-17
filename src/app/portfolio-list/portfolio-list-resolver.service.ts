@@ -16,7 +16,7 @@ export class PortfolioListResolverService implements Resolve<Array<Portfolio>> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<Portfolio>> | Observable<never> {
     return this.portfolioDataService.getAllPortfolios()
     .pipe(
-      catchError(this.handleError) 
+      catchError(this.handleError)
     );
   }
 

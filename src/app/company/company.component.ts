@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -11,12 +11,12 @@ import { financialifyNumber } from '../Utilities/utilities'
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit, OnDestroy {
 
-  public errorMsg: string = "";
+  public errorMsg: string = '';
   private subscriptions: Subscription[] = [];
-  public companyResearch: CompanyResearch = <CompanyResearch>{};
-  public imgUrl: string = "";
+  public companyResearch: CompanyResearch = {} as CompanyResearch;
+  public imgUrl: string = '';
   public financiafy: any;
   public currentlyLoading: boolean = false;
 
@@ -36,7 +36,7 @@ export class CompanyComponent implements OnInit {
   public submitForm(): void {
     this.currentlyLoading = true;
 
-    let sub: Subscription = new Subscription;
+    let sub: Subscription = new Subscription();
     let symbol: string = this.companySymbolControl?.value.trim().toUpperCase();
 
     sub = this.researchService.getCompanyStats(symbol).subscribe(
@@ -51,7 +51,7 @@ export class CompanyComponent implements OnInit {
         this.errorMsg = `${error.error}`;
       },
       () => {
-        "(component)Company Research complete";
+        '(component)Company Research complete';
         this.currentlyLoading = false;
       }
     );
@@ -68,20 +68,20 @@ export class CompanyComponent implements OnInit {
     this.location.back();
   }
 
-  messageClick() {
+  messageClick(): void {
     this.errorMsg = '';
   }
 
-  ConvertDate(date: Date){
+  ConvertDate(date: Date): string{
     return(date ? new Date(date).toLocaleString() : '');
   }
 
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
-  } 
+  }
 
 }

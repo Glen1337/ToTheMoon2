@@ -17,7 +17,7 @@ import { financialifyNumber } from '../Utilities/utilities';
 export class PortfolioComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  public portfolio = <Portfolio>{};
+  public portfolio = {} as Portfolio;
   public financiafy: any;
   public errorMsg: string = '';
   public refreshMsg: string = '';
@@ -40,7 +40,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.financiafy = financialifyNumber;
   }
 
-  messageClick(){
+  messageClick(): void{
      this.refreshMsg = '';
      this.errorMsg = '';
   }
@@ -50,18 +50,18 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     subscription1 = this.route.data.subscribe(
       (data) => {
         if (Object.keys(data.portfolio).length == 0) {
-          this.errorMsg="Could not load Portfolio";
+          this.errorMsg='Could not load Portfolio';
         }else {
-          //data.portfolio.holdings = data.portfolio.holdings;
-          this.buyingPower = data['balance'];
-          this.portfolio = data.portfolio
+          // data.portfolio.holdings = data.portfolio.holdings;
+          this.buyingPower = data.balance;
+          this.portfolio = data.portfolio;
         }
       },
       (error) => {
         console.log(`(component)Error getting portfolio:${error}`);
         this.errorMsg = `${error.error}`
       },
-      () => { console.log("Portfolio retrieved"); }
+      () => { console.log('Portfolio retrieved'); }
     );
 
     this.subscriptions.push(subscription1);
@@ -86,7 +86,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let order$: Observable<Holding>;
 
     let holding: Holding = {
-      userId: "-1",
+      userId: '-1',
       costBasis: 0,
       currentPrice: 0,
       quantity: this.quantityControl?.value,
@@ -96,7 +96,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       orderType: OrderConstants.Buy,
       securityType: SecurityConstants.Share
     };
-    console.log("(component)Sending order to API: ", holding);
+    console.log('(component)Sending order to API: ', holding);
 
     // is holding in list of holdings already?
     let found = this.portfolio.holdings.find(existingHolding => existingHolding.symbol === holding.symbol);
@@ -105,7 +105,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       holding.holdingId = found.holdingId;
       order$ = this.holdingService.updateHolding(holding, found.holdingId!)
     } else {
-      order$ = this.holdingService.addHolding(holding)
+      order$ = this.holdingService.addHolding(holding);
     }
 
     sub = order$.subscribe(
@@ -118,10 +118,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
           totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
           buyingPowerSubtraction = totalMarketValueAddition;
-          
-          if (returnedHolding.securityType == SecurityConstants.Call || returnedHolding.securityType == SecurityConstants.Put){
+
+          if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType == SecurityConstants.Put){
             totalMarketValueAddition *= 100;
-            buyingPowerSubtraction *=100;
+            buyingPowerSubtraction *= 100;
           }
 
           this.portfolio.totalMarketValue += totalMarketValueAddition;
@@ -137,15 +137,15 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log('(component)Error in onSubmitHolding ', error);
-        this.errorMsg = `${error.error}`
+        this.errorMsg = `${error.error}`;
       },
       () => { console.log(`(component)holding add complete`); }
     );
 
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
-  onDeleteHolding(event: any, holdingId: number) {
+  onDeleteHolding(event: any, holdingId: number): void {
     let sub: Subscription = new Subscription();
 
     sub = this.holdingService.deleteHolding(holdingId).subscribe(
@@ -153,8 +153,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         console.log(`Holding deleted: ${holdingId}`);
         this.portfolio.holdings.forEach((holding, index) => {
           if(holding.holdingId === holdingId) {
-            this.portfolio.holdings.splice(index,1);
-            if (holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
+            this.portfolio.holdings.splice(index, 1);
+            if (holding.securityType === SecurityConstants.Call || holding.securityType === SecurityConstants.Put){
               this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice) * 100;
               this.buyingPower += (holding.quantity * holding.currentPrice) * 100;
             }else{
@@ -171,16 +171,16 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       () => { console.log(`(component)deleting holding - complete`); }
     );
 
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
-  } 
+  }
 
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');

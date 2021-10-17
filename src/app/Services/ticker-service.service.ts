@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,6 @@ export class TickerService {
       eventSource.onerror = error => {
         observer.error(error);
       };
-    
     });
   }
   private getEventSource(url: string): EventSource {

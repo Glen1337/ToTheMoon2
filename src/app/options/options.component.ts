@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,17 +17,17 @@ import { Portfolio } from '../Models/Portfolio';
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.css']
 })
-export class OptionsComponent implements OnInit {
+export class OptionsComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  public errorMsg: string = "";
-  public otherMsg = "";
+  public errorMsg: string = '';
+  public otherMsg = '';
   public expiryDates: string[] = [];
   public optionChain: Option[] = [];
   public callChain: Option[] = [];
   public putChain: Option[] = [];
   // public chooseMsg: string = '';
-  public selectedOption: Option | undefined = <Option>{};
+  public selectedOption: Option | undefined = {} as Option;
   public portfolios: Portfolio[] = [];
   public currentlyLoadingExps: boolean = false;
 
@@ -37,19 +37,19 @@ export class OptionsComponent implements OnInit {
       Validators.minLength(1),
       Validators.maxLength(8)
     ]),
-    optionExpiryControl: new FormControl('',[
+    optionExpiryControl: new FormControl('', [
       Validators.required
     ])
   });
 
   public orderForm = new FormGroup({
-    orderNameControl: new FormControl('',[
+    orderNameControl: new FormControl('', [
       Validators.required
     ]),
-    orderStrikeControl: new FormControl('',[
+    orderStrikeControl: new FormControl('', [
       Validators.required
     ]),
-    orderExpControl: new FormControl('',[
+    orderExpControl: new FormControl('', [
       Validators.required
     ]),
     orderQuantityControl: new FormControl(1, [
@@ -62,9 +62,9 @@ export class OptionsComponent implements OnInit {
   });
 
   constructor(private location: Location,
-    private optionsDataService: OptionsDataService,
-    private holdingService: HoldingService,
-    private route: ActivatedRoute) { }
+              private optionsDataService: OptionsDataService,
+              private holdingService: HoldingService,
+              private route: ActivatedRoute) { }
 
   get optionSymbolControl() { return this.optionsForm.get('optionSymbolControl'); }
 
@@ -91,7 +91,7 @@ export class OptionsComponent implements OnInit {
         console.log(`(component)Error getting portoflios for options page: ${error}`);
         this.errorMsg = `${error.error.title}`;
       },
-      () => { console.log("(component)portfolios retrieved for options component"); }
+      () => { console.log('(component)portfolios retrieved for options component'); }
     );
   }
 
@@ -99,7 +99,7 @@ export class OptionsComponent implements OnInit {
     this.location.back();
   }
 
-  messageClick() {
+  messageClick(): void {
     this.errorMsg = '';
     this.otherMsg = '';
   }
@@ -107,12 +107,14 @@ export class OptionsComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) {
+          sub.unsubscribe();
+        }
       });
     }
-  } 
+  }
 
-  public onExpiryChange(input: string){
+  public onExpiryChange(input: string): void{
     this.submitForm();
   }
 
@@ -131,7 +133,7 @@ export class OptionsComponent implements OnInit {
         this.errorMsg = `${error.error}`;
       },
       () => {
-        "(component)Option Expiry Dates complete";
+        '(component)Option Expiry Dates complete';
         this.currentlyLoadingExps = false;
       }
     );
@@ -146,21 +148,21 @@ export class OptionsComponent implements OnInit {
     sub = this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
       (chain) => {
         this.optionChain = chain;
-        this.callChain = chain.filter(o => o.side=="call").sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
-        this.putChain = chain.filter(o => o.side=="put").sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
+        this.callChain = chain.filter(o => o.side === 'call').sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
+        this.putChain = chain.filter(o => o.side === 'put').sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
       },
       (error) => {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
       () => {
-        "(component)Option Chain retrieved"
+        console.log('(component)Option Chain retrieved');
       }
     );
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
-  public choose(event: any, id: string){
+  public choose(event: any, id: string): void{
     this.selectedOption = this.optionChain.find(option => option.id === id);
     this.orderNameControl?.setValue(this.selectedOption?.id);
     this.orderStrikeControl?.setValue(this.selectedOption?.strikePrice);
@@ -177,14 +179,14 @@ export class OptionsComponent implements OnInit {
     let date: Date = new Date(`${year}-${month}-${day}`);
 
     let optionHolding: Holding = {
-      userId: "-1",
+      userId: '-1',
       orderType: OrderConstants.Buy,
       strikePrice: this.selectedOption?.strikePrice,
       contractName: this.selectedOption?.id,
       symbol: this.selectedOption!.symbol,
       quantity: this.orderQuantityControl?.value,
       expirationDate: date,
-      securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() ==="call" ) ? SecurityConstants.Call : SecurityConstants.Put,
+      securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
       reinvestDivs: false,
       currentPrice: this.selectedOption!.ask,
       costBasis: this.selectedOption!.ask,
@@ -193,13 +195,13 @@ export class OptionsComponent implements OnInit {
 
     sub = this.holdingService.addHolding(optionHolding).subscribe(
       (data) => { console.log(data);
-        this.otherMsg = 'Option purchased'
+                  this.otherMsg = 'Option purchased';
       },
       (error) => {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {"(component)Option added"}
+      () => {'(component)Option added';}
     );
     this.subscriptions.push(sub);
   }
@@ -208,7 +210,7 @@ export class OptionsComponent implements OnInit {
     location.reload();
   }
 
-  public formatDate(input: Date) : string{
+  public formatDate(input: Date): string{
     let inputDate: Date = new Date(input);
     return `${new Date(inputDate).getMonth()}/${new Date(inputDate).getDate()}/${new Date(inputDate).getFullYear()}`;
   }

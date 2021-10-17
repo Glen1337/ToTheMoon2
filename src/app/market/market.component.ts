@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
-import { financialifyNumber } from '../Utilities/utilities'
+import { financialifyNumber } from '../Utilities/utilities';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,10 +10,10 @@ import { Subscription } from 'rxjs';
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css']
 })
-export class MarketComponent implements OnInit {
+export class MarketComponent implements OnInit, OnDestroy {
 
-  public marketData: MarketData = <MarketData>{};
-  errorMsg: string = "";
+  public marketData: MarketData = {} as MarketData;
+  errorMsg: string = '';
   financiafy: any;
   private subscriptions: Subscription[] = [];
 
@@ -29,15 +29,15 @@ export class MarketComponent implements OnInit {
         console.log(this.marketData);
       },
       (error) => {
-        this.errorMsg = `${error.name}`
-        console.log("(component)Error getting market perf. data");
+        this.errorMsg = `${error.name}`;
+        console.log('(component)Error getting market perf. data');
       },
-      () => { console.log("Market Perf. Data retrieved"); }
+      () => { console.log('Market Perf. Data retrieved'); }
     );
     this.subscriptions.push(sub);
   }
 
-  messageClick() {
+  messageClick(): void {
     this.errorMsg = '';
   }
 
@@ -52,9 +52,9 @@ export class MarketComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
-  } 
+  }
 
 }

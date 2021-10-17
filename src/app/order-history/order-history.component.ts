@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '../Models/Order';
-import { financialifyNumber } from'../Utilities/utilities';
+import { financialifyNumber } from '../Utilities/utilities';
 import { of, Subscription } from 'rxjs';
 
 @Component({
@@ -10,12 +10,12 @@ import { of, Subscription } from 'rxjs';
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.css']
 })
-export class OrderHistoryComponent implements OnInit {
+export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public orders: Order[] = [];
   public financiafyNumber: any;
-  public errorMsg: string = "";
+  public errorMsg: string = '';
 
   constructor(private route: ActivatedRoute, private location: Location) {
     this.financiafyNumber = financialifyNumber;
@@ -23,23 +23,23 @@ export class OrderHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     let subscription1: Subscription = new Subscription();
-    
+
     subscription1 = this.route.data.subscribe(
       (data) => {
         this.orders = data.orders;
-        console.log("(component)Order history retrieved");
+        console.log('(component)Order history retrieved');
       },
       (error) => {
         console.log(`(component)Error getting order history: ${error}`);
         this.errorMsg = `${error.error.title}`;
       },
-      () => { console.log("(component)Order history retrieved"); }
+      () => { console.log('(component)Order history retrieved'); }
     );
 
     this.subscriptions.push(subscription1)
   }
 
-  messageClick() {
+  messageClick(): void {
     this.errorMsg = '';
   }
 
@@ -54,7 +54,7 @@ export class OrderHistoryComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
   }

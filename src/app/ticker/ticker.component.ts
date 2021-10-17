@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WatchItem } from '../Models/WatchItem';
 import { TickerService } from '../Services/ticker-service.service';
@@ -9,7 +9,7 @@ import { WatchlistService } from '../Services/watchlist.service';
   templateUrl: './ticker.component.html',
   styleUrls: ['./ticker.component.css']
 })
-export class TickerComponent implements OnInit {
+export class TickerComponent implements OnInit, OnDestroy {
 
   private url = 'https://cloud-sse.iexapis.com/stable/stocksUS5Second?token=sk_228dd2709a5341768a6920468437f264&symbols=snap';
   public watchList: WatchItem[] = [];
@@ -30,15 +30,15 @@ export class TickerComponent implements OnInit {
       (error) => {
         console.log('(component)Error getting watchlist for ticker', error);
       },
-      () => { console.log("(component) watchlist retrieved for ticker");}
+      () => { console.log('(component) watchlist retrieved for ticker');}
     )
     this.subscriptions.push(sub1)
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
   }

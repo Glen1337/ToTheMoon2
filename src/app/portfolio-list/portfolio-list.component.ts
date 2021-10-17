@@ -14,9 +14,9 @@ import { PortfolioTypes } from '../Models/Constants';
 })
 export class PortfolioListComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = []
+  private subscriptions: Subscription[] = [];
   public portfolios: Array<Portfolio> = [];
-  public errorMsg: string = "";
+  public errorMsg: string = '';
 
   public portfolioForm = new FormGroup({
     portfolioTitleControl: new FormControl('', [
@@ -24,14 +24,14 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       Validators.minLength(1),
       Validators.maxLength(20)
     ]),
-    portfolioTypeControl: new FormControl('',[
+    portfolioTypeControl: new FormControl('', [
       Validators.min(1.00),
       Validators.maxLength(30),
       Validators.required
     ])
   });
 
-  portfolioTypes = [ 
+  portfolioTypes = [
     PortfolioTypes.DayTrading,
     PortfolioTypes.Investment,
     PortfolioTypes.Retirement,
@@ -39,11 +39,11 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     PortfolioTypes.Other,
     PortfolioTypes.Speculation,
   ];
-  
+
   constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {}
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
-  
+
   get portfolioTypeControl() { return this.portfolioForm.get('portfolioTypeControl'); }
 
   ngOnInit(): void {
@@ -53,36 +53,38 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       (data) => {
         this.portfolios = data.portfolios;
         if (data.portfolios.length === 0){
-          //this.errorMsg = "Could not retrieve portfolios from server"
+          // this.errorMsg = "Could not retrieve portfolios from server"
         }
       },
       (error) => {
         console.log(`(component)Error getting portfolio list:${error}`);
         this.errorMsg = error.error;
       },
-      () => { console.log("Completed retrieval of portfolio list");}
+      () => { console.log('Completed retrieval of portfolio list');}
     );
 
     this.subscriptions.push(sub)
   }
 
-  deletePortfolio(event: any, portfolioId: number){
+  deletePortfolio(event: any, portfolioId: number): void{
     let subscription3: Subscription = new Subscription();
     subscription3 = this.portfolioDataService.deletePortfolio(portfolioId).subscribe(
       (response) => {
         this.portfolios.forEach((port, index) => {
-          if(port.portfolioId === portfolioId) this.portfolios.splice(index,1);
+          if (port.portfolioId === portfolioId) {
+            this.portfolios.splice(index, 1);
+          }
         });
         console.log(`Portfolio deleted: ${portfolioId}`);
       },
-      (error) => { 
-        this.errorMsg = `${error.error}`
+      (error) => {
+        this.errorMsg = `${error.error}`;
         console.log('(component)Error in deletePortfolio ', error);
       },
       () => { console.log(`(component)Delete Portfolio complete`); }
     );
-    
-    this.subscriptions.push(subscription3)
+
+    this.subscriptions.push(subscription3);
   }
 
   onSubmitPortfolio(): void {
@@ -96,9 +98,9 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       orders: [],
       holdings: [],
       type: String(this.portfolioTypeControl?.value).trim()
-    }
+    };
 
-    console.log("(component)Sending portfolio post to API: ", port);
+    console.log('(component)Sending portfolio post to API: ', port);
 
     subscription2 = this.portfolioDataService.addPortfolio(port)
       .subscribe(
@@ -109,30 +111,30 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         },
         () => { console.log(`addportfolio completed`); }
       );
-    this.subscriptions.push(subscription2)
+    this.subscriptions.push(subscription2);
   }
 
-  messageClick() {
+  messageClick(): void {
     this.errorMsg = '';
  }
-    
-  ngOnDestroy() {
+
+  ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
   }
 
   GetOptionCount(id: number){
-    return this.portfolios.find(port => port.portfolioId == id)?.holdings?.filter(h => h.securityType === "Call" || h.securityType === "Put").length
+    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === 'Call' || h.securityType === 'Put').length;
   }
 
   GetEquityCount(id: number){
-    return this.portfolios.find(port => port.portfolioId == id)?.holdings?.filter(h => h.securityType === "Share").length
+    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === 'Share').length;
   }
 
-  ConvertDate(date?: Date){
+  ConvertDate(date?: Date): string{
     return(date ? new Date(date).toLocaleString() : '');
   }
 

@@ -1,12 +1,12 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
-export class MessageComponent {
+export class MessageComponent implements OnChanges {
 
   @Input() inputErrorMessage: string = '';
   @Input() inputNoticeMessage: string = '';
@@ -23,27 +23,27 @@ export class MessageComponent {
   isWarning: boolean = false;
 
   pageYoffset = 0;
-  @HostListener('window:scroll', ['$event']) onScroll(event: ElementRef){
+  @HostListener('window:scroll', ['$event']) onScroll(event: ElementRef): void{
     this.pageYoffset = window.pageYOffset;
   }
-  
+
   constructor(private scroll: ViewportScroller) {}
 
-  okClick(){
+  okClick(): void{
     this.okClickEvent.emit('ok');
   }
 
-  scrollToTop(){
+  scrollToTop(): void{
     this.scroll.scrollToPosition([0,0]);
   }
 
   // existing messages need to be stored as a 'history' of the last message provided to the message component
   // to avoid bugs when another message appears but the OK button was NOT clicked to dismiss the previous message
-  ngOnChanges(){
-    
+  ngOnChanges(): void{
+
     this.scrollToTop();
 
-    if(this.inputErrorMessage && (this.existingNoticeMessage || this.existingWarningMessage)){
+    if (this.inputErrorMessage && (this.existingNoticeMessage || this.existingWarningMessage)){
       this.inputNoticeMessage = '';
       this.inputWarningMessage = '';
       this.existingNoticeMessage = '';
@@ -53,7 +53,7 @@ export class MessageComponent {
       this.isNotice = false;
       this.isWarning = false;
     }
-    if(this.inputNoticeMessage && (this.existingErrorMessage || this.existingWarningMessage)){
+    if (this.inputNoticeMessage && (this.existingErrorMessage || this.existingWarningMessage)){
       this.inputErrorMessage = '';
       this.inputWarningMessage = '';
       this.existingErrorMessage = '';
@@ -63,7 +63,7 @@ export class MessageComponent {
       this.isError = false;
       this.isWarning = false;
     }
-    if(this.inputWarningMessage && (this.existingNoticeMessage || this.existingErrorMessage)){
+    if (this.inputWarningMessage && (this.existingNoticeMessage || this.existingErrorMessage)){
       this.inputErrorMessage = '';
       this.inputNoticeMessage = '';
       this.existingErrorMessage = '';
@@ -73,15 +73,15 @@ export class MessageComponent {
       this.isError = false;
       this.isNotice = false;
     }
-      if(this.inputErrorMessage){
+    if (this.inputErrorMessage){
         this.existingErrorMessage = this.inputErrorMessage;
         this.isError = true;
       }
-      if(this.inputNoticeMessage){
+    if (this.inputNoticeMessage){
         this.existingWarningMessage = this.inputNoticeMessage;
         this.isNotice = true;
       }
-      if(this.inputWarningMessage){
+    if (this.inputWarningMessage){
         this.existingWarningMessage = this.inputWarningMessage;
         this.isWarning = true;
       }

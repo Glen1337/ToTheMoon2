@@ -14,11 +14,11 @@ export class PortfolioResolverService implements Resolve<Portfolio | {}> {
   constructor(private portfolioDataService: PortfolioDataService, private router: Router) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Portfolio> | Observable<{}>{
-    //console.log(route.paramMap);
+    // console.log(route.paramMap);
     const id = route.paramMap.get('id');
     return this.portfolioDataService.getPortfolio(id)
     .pipe(
-      catchError(this.handleError) 
+      catchError(this.handleError)
     );
   }
 

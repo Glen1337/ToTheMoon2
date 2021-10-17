@@ -20,7 +20,7 @@ export class OptionsDataService {
   constructor(private http: HttpClient) { }
 
   public getExpiryDates(symbol: string): Observable<string[]> {
-    
+
     let params = new HttpParams();
     params.set('symbol', symbol.trim());
 
@@ -35,7 +35,7 @@ export class OptionsDataService {
   }
 
   public getOptionsChain(symbol: string, expiration: string): Observable<Option[]> {
-    
+
     const params = new HttpParams()
       .set('symbol', symbol.trim())
       .set('expiration', expiration);

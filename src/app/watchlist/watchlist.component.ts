@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { financialifyNumber } from '../Utilities/utilities';
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent implements OnInit{
+export class WatchlistComponent implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = [];
   public errorMsg: string = '';
@@ -27,9 +27,9 @@ export class WatchlistComponent implements OnInit{
       Validators.required,
       Validators.maxLength(8)
     ]),
-    watchItemOutlookControl: new FormControl('',[Validators.required])
-  })
-  
+    watchItemOutlookControl: new FormControl('', [Validators.required])
+  });
+
   constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) {
     this.financiafy = financialifyNumber;
   }
@@ -44,32 +44,32 @@ export class WatchlistComponent implements OnInit{
         this.watchList = data.watchList;
         console.log(data.watchList);
         if (!data.watchList.length){
-          //this.errorMsg = "Could not retrieve watchlist from server"
+          // this.errorMsg = "Could not retrieve watchlist from server"
         }
       },
       (error) => {
         console.log(`(component)Error getting watchlist:${error}`);
         this.errorMsg = error.error;
       },
-      () => { console.log("Completed retrieval of watchlist"); }
+      () => { console.log('Completed retrieval of watchlist'); }
     );
     this.subscriptions.push(sub)
   }
 
   Select(event: any): void {
-    //console.log(event.target.value);
+    // console.log(event.target.value);
   }
 
-  messageClick() {
+  messageClick(): void {
     this.refreshMsg = '';
     this.errorMsg = '';
   }
 
-  onSubmitWatchItem(){
+  onSubmitWatchItem(): void{
     let sub: Subscription = new Subscription();
     console.log('Adding item to watchlist: ', this.watchItemSymbolControl?.value.trim().toUpperCase());
     console.log(this.watchItemOutlookControl?.value);
-    
+
     let watchItem: WatchItem = {
       outlook : this.watchItemOutlookControl?.value,
       symbol : this.watchItemSymbolControl?.value
@@ -94,13 +94,13 @@ export class WatchlistComponent implements OnInit{
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }     
+        if (!sub.closed) { sub.unsubscribe(); }
       });
     }
   }
 
   isPredictionCorrect(item: WatchItem): boolean {
-    return ((item.priceChange! >= 0 && item.outlook === "Positive") || (item.priceChange! <= 0 && item.outlook === "Negative"))
+    return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'))
   }
 
   goBack(): void {

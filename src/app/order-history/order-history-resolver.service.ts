@@ -16,7 +16,7 @@ export class OrderHistoryResolverService implements Resolve<Array<Order>> {
   resolve(): Observable<Array<Order>> | Observable<never> {
     return this.orderHistoryDataService.getAllOrders()
     .pipe(
-      catchError(this.handleError) 
+      catchError(this.handleError)
     );
   }
 
