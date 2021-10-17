@@ -49,8 +49,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     let subscription1: Subscription = new Subscription();
     subscription1 = this.route.data.subscribe(
       (data) => {
-        if (Object.keys(data.portfolio).length == 0) {
-          this.errorMsg='Could not load Portfolio';
+        if (Object.keys(data.portfolio).length === 0) {
+          this.errorMsg ='Could not load Portfolio';
         }else {
           // data.portfolio.holdings = data.portfolio.holdings;
           this.buyingPower = data.balance;
