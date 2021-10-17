@@ -2,6 +2,21 @@ export interface CompanyResearch {
     logo: Logo;
     advStats: AdvancedStats;
     instOwnership: InstitutionalOwnership[];
+    company: CompanyInfo;
+}
+
+export interface CompanyInfo {
+    symbol: string;
+    companyName: string;
+    employees: number;
+    exchange: string;
+    industry: string;
+    description: string;
+    CEO: string;
+    securityName: string;
+    issuetype: string;
+    sector: string;
+    country: string;
 }
 
 export interface Logo{
