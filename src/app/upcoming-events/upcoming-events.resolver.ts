@@ -21,7 +21,9 @@ export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
-    return this.researchService.getUpcomingEvents('2021-09-22', '2021-11-21')
+    let begin = new Date().setDate(new Date().getDate() - 4);
+    let end = new Date().setDate(new Date().getDate() - 4);
+    return this.researchService.getUpcomingEvents('2021-10-22', '2021-11-10')
     .pipe(
       catchError(this.handleError)
     );

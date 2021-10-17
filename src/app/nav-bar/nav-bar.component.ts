@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthButtonComponent } from '../auth/login-button'
+import { AuthButtonComponent } from '../auth/login-button';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,7 +19,8 @@ export class NavBarComponent implements OnInit {
       { label: 'Company', link: ['/company'] },
       { label: 'Market', link: ['/market'] },
       { label: 'Watchlist', link: ['/watchlist'] },
-      { label: 'Options', link: ['/options'] }
+      { label: 'Options', link: ['/options'] },
+      { label: 'Events', link: ['/events'] }
     ];
   }
 

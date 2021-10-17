@@ -1,2 +1,50 @@
-<p>upcoming-events works!</p>
-<div>{{upcomingEvents.earnings}}</div>
+<button class="btn btn-primary">ayy lmao</button>
+<div class="row">
+    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr class="table-primary">
+              <th>Company</th>
+              <th>Earnings Report Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of upcomingEvents.earnings">
+              <!-- <td>{{port.totalMarketValue}}</td> -->
+              <td>{{report.symbol}}</td>
+              <td>{{report.reportDate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+        <div class="table-responsive">
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr class="table-primary">
+                <th>Company</th>
+                <th>IPO Date</th>
+                <th>Offer Price</th>
+                <th>Volume</th>
+                <th>Shares</th>
+                <th>Quiet Period</th>
+                <th>Lockup Period</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ipo of upcomingEvents.ipo">
+                <td>{{ipo.symbol}}</td>
+                <td>{{ipo.offeringDate}}</td>
+                <td>{{ipo.offerPrice}}</td>
+                <td>{{ipo.volume}}</td>
+                <td>{{ipo.shares}}</td>
+                <td>{{ipo.quietperiod}}</td>
+                <td>{{ipo.lockupPeriod}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
