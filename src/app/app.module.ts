@@ -24,6 +24,8 @@ import { OptionsComponent } from './options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { environment } from 'src/environments/environment';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
+import { FiFormatPipe } from './Utilities/fi-format.pipe';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     CompanyComponent,
     MarketComponent,
     OptionsComponent,
-    FooterComponent
+    FooterComponent,
+    UpcomingEventsComponent,
+    FiFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -53,9 +57,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
       audience: 'https://DegenApp.com/api',
 
       // Request this scope at user authentication time
-      //scope: 'create:data',
+      // scope: 'create:data',
 
-      // Specify configuration for the interceptor              
+      // Specify configuration for the interceptor
       httpInterceptor: {
         allowedList: [
           // Holdings
@@ -73,7 +77,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
             uri: `${environment.baseApiUrl}orders*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
           },
-          //Watchlist
+          // Watchlist
           {
             uri: `${environment.baseApiUrl}watchitems*`,
             tokenOptions: { audience: 'https://DegenApp.com/api' }
@@ -97,12 +101,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ReactiveFormsModule
   ],
 
-  //,  {provide: LocationStrategy, useClass: HashLocationStrategy}
+  // , {provide: LocationStrategy, useClass: HashLocationStrategy}
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 
 
 // @NgModule({
@@ -127,7 +130,7 @@ export class AppModule { }
 //         // Request this scope at user authentication time
 //         scope: 'create:data',
 
-//         // Specify configuration for the interceptor              
+//         // Specify configuration for the interceptor
 //         httpInterceptor: {
 //         allowedList: [
 //         {

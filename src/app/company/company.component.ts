@@ -49,6 +49,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
       (error) => {
         console.log('(component)Error getting company research: ', error);
         this.errorMsg = `${error.error}`;
+        this.currentlyLoading = false;
       },
       () => {
         '(component)Company Research complete';

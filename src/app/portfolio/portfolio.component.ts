@@ -17,7 +17,7 @@ import { financialifyNumber } from '../Utilities/utilities';
 export class PortfolioComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  public portfolio = {} as Portfolio;
+  public portfolio: Portfolio = {} as Portfolio;
   public financiafy: any;
   public errorMsg: string = '';
   public refreshMsg: string = '';

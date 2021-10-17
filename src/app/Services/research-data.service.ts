@@ -21,18 +21,28 @@ export class ResearchDataService {
 
   constructor(private http: HttpClient) { }
 
+  public getUpcomingEvents(start: string, end: string): Observable<any>{
+      // Add safe, URL encoded search parameter if there is a search term
+    let options = { params: new HttpParams().set('begin', start).set('end', end) };
+
+    return this.http.get(`${this.baseUrl}research/upcomingEvents`, options)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   public getHistoricalstockData(ticker: string): Observable<IAgg[]>{
   // let params: HttpParams = new HttpParams().set('symbol', ticker.trim());
   // let options =  { params: new HttpParams().set('symbol', ticker.trim()) }
 
-    let options =  { 
+    let options =  {
       headers: { 'Content-Type': 'application/json' },
       params: new HttpParams().set('symbol', ticker.trim())
-    }
+    };
 
     return this.http.get<IAgg[]>(`${this.baseUrl}research/chart`, options)
     .pipe(
-      //map((agg) => [agg.] ),
+      // map((agg) => [agg.] ),
       tap(_ => console.log(`Getting data for: ${ticker}`)),
       retry(2),
       catchError(this.handleError)
@@ -40,11 +50,11 @@ export class ResearchDataService {
   }
 
   public getCompanyStats(symbol: string): Observable<CompanyResearch> {
-    let options =  { 
+    let options =  {
       headers: { 'Content-Type': 'application/json' },
       params: new HttpParams().set('symbol', symbol.trim())
-    }
-  
+    };
+
     return this.http.get<CompanyResearch>(`${this.baseUrl}research/CompanyStats`, options).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
       retry(2),
