@@ -8,18 +8,19 @@ import {
 import { ResearchDataService } from '../Services/research-data.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { UpcomingEvents } from '../Models/UpcomingEvents';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UpcomingEventsResolverService implements Resolve<boolean> {
+export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
 
   constructor(private researchService: ResearchDataService, private router: Router){
 
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
     return this.researchService.getUpcomingEvents('2021-09-22', '2021-11-21')
     .pipe(
       catchError(this.handleError)
