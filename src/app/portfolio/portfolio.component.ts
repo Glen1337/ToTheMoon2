@@ -18,7 +18,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public portfolio: Portfolio = {} as Portfolio;
-  public financiafy: any;
   public errorMsg: string = '';
   public refreshMsg: string = '';
   public buyingPower: number = 0;
@@ -37,7 +36,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   });
 
   constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
-    this.financiafy = financialifyNumber;
   }
 
   messageClick(): void{

@@ -14,11 +14,9 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public orders: Order[] = [];
-  public financiafyNumber: any;
   public errorMsg: string = '';
 
   constructor(private route: ActivatedRoute, private location: Location) {
-    this.financiafyNumber = financialifyNumber;
   }
 
   ngOnInit(): void {

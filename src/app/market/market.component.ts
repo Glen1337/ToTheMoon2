@@ -15,11 +15,9 @@ export class MarketComponent implements OnInit, OnDestroy {
 
   public marketData: MarketData = {} as MarketData;
   errorMsg: string = '';
-  financiafy: any;
   private subscriptions: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, private location: Location) {
-    this.financiafy = financialifyNumber;
   }
 
   ngOnInit(): void {

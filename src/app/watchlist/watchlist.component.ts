@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
@@ -20,7 +20,6 @@ export class WatchlistComponent implements OnInit, OnDestroy{
   public refreshMsg: string = '';
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
-  financiafy: any;
 
   public watchItemForm = new FormGroup({
     watchItemSymbolControl: new FormControl('', [
@@ -31,11 +30,10 @@ export class WatchlistComponent implements OnInit, OnDestroy{
   });
 
   constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) {
-    this.financiafy = financialifyNumber;
   }
 
-  get watchItemSymbolControl() { return this.watchItemForm.get('watchItemSymbolControl'); }
-  get watchItemOutlookControl() { return this.watchItemForm.get('watchItemOutlookControl'); }
+  get watchItemSymbolControl(): AbstractControl | null { return this.watchItemForm.get('watchItemSymbolControl'); }
+  get watchItemOutlookControl(): AbstractControl | null  { return this.watchItemForm.get('watchItemOutlookControl'); }
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
@@ -53,7 +51,7 @@ export class WatchlistComponent implements OnInit, OnDestroy{
       },
       () => { console.log('Completed retrieval of watchlist'); }
     );
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
   Select(event: any): void {
@@ -79,16 +77,16 @@ export class WatchlistComponent implements OnInit, OnDestroy{
     .subscribe(
       (addedWatchItem) => { this.watchList.push(addedWatchItem); },
       (error) => {
-        console.log('(component)Error in watchlist submit:', error)
+        console.log('(component)Error in watchlist submit:', error);
         this.errorMsg = `${error.error}`;
       },
-      () => { 
+      () => {
         console.log('(component)watch item added to watchlist');
         this.refreshMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
       }
     );
 
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {
@@ -100,7 +98,7 @@ export class WatchlistComponent implements OnInit, OnDestroy{
   }
 
   isPredictionCorrect(item: WatchItem): boolean {
-    return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'))
+    return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'));
   }
 
   goBack(): void {

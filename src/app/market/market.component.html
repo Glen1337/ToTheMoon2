@@ -12,10 +12,10 @@
     <div class="row">
         <span class="border border-primary rounded-sm">
             <ul class="list-group">
-                <li class="list-group-item"><i class="fab fa-bitcoin"></i> Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</li>
-                <li class="list-group-item">Recession Factor: {{marketData.recessionProbability}}</li>
-                <li class="list-group-item">Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</li>
-                <li class="list-group-item">Weekly Institutional Funds: {{ financiafy(marketData.instFunds,'$', false) + " Billion"}}</li>
+                <li class="list-group-item"><i class="fab fa-bitcoin"></i><strong>Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</strong></li>
+                <li class="list-group-item"><strong>Recession Factor: {{marketData.recessionProbability}}</strong></li>
+                <li class="list-group-item"><strong>Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</strong></li>
+                <li class="list-group-item"><strong>Weekly Institutional Funds: {{ (marketData.instFunds | fiFormat : '$' : '' : false) + " Bil"}}</strong></li>
             </ul>
         </span>
     </div>
@@ -42,16 +42,16 @@
         <span class="border border-primary rounded-sm">
             <ul class="list-group">
                 <li [ngClass]="[marketData.dow.change > 0 ? 'text-success' : 'text-danger', 'list-group-item']" *ngIf="marketData.dow">
-                    <h6>Dow: {{financiafy(marketData.dow.changePercent * 100,'', true)}}%</h6>
+                    <h6>Dow: {{(marketData.dow.changePercent * 100) | fiFormat : '' : '%' : true}}</h6>
                 </li>
                 <li [ngClass]="[marketData.nasdaq.change > 0 ? 'text-success' : 'text-danger', 'list-group-item']" *ngIf="marketData.nasdaq">
-                    <h6>Nasdaq: {{financiafy(marketData.nasdaq.changePercent * 100,'', true)}}%</h6>
+                    <h6>Nasdaq: {{(marketData.nasdaq.changePercent * 100) | fiFormat : '' : '%' : true}}</h6>
                 </li>
                 <li [ngClass]="{'list-group-item' : true, 'text-success' : marketData.sp500.change > 0, 'text-danger' : marketData.sp500.change < 0}" *ngIf="marketData.sp500">
-                    <h6>S&P 500: {{financiafy(marketData.sp500.changePercent * 100,'', true)}}%</h6>
+                    <h6>S&P 500: {{(marketData.sp500.changePercent * 100) | fiFormat : '' : '%' : true}}</h6>
                 </li>
                 <li [ngClass]="{'list-group-item' : true, 'text-success' : marketData.russell.change > 0, 'text-danger': marketData.russell.change < 0}" *ngIf="marketData.russell">
-                    <h6>Russell 2000: {{financiafy(marketData.russell.changePercent * 100,'', true)}}%</h6>
+                    <h6>Russell 2000: {{(marketData.russell.changePercent * 100) | fiFormat : '' : '%' : true}}</h6>
                 </li>
             </ul>
         </span>
@@ -60,14 +60,13 @@
     <h4 class="mt-2">Sector Performance</h4>
     <div [ngClass]="'row'">
         <div class="col-12 col-sm-6 col-lg-2 col-md-4" *ngFor="let sector of marketData.sectorPerformances">
-            <!-- {{sector.name}} 
-            <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{financiafy(sector.performance * 100, '%', true)}})</span> -->
+            <!-- <span class="px-3 col border bg-light" [ngClass]="+sector.performance >= 0.0 ? 'text-success' : 'text-danger'">({{(sector.performance * 100) | fiFormat : '' : '%' : true}})</span> -->
             <div class="card text-white mb-2">
                 <h5 [ngClass]="+sector.performance > 0.0 ? 'bg-success' : 'bg-danger'" class="card-header text-white">
                     {{sector.name}}
                 </h5>
                 <div class="card-body text-center">
-                    <h5 [ngClass]="'card-title text-dark'">{{financiafy(sector.performance * 100, '', true)}}%</h5>
+                    <h5 class="card-title test-dark" [ngClass]="sector.performance < 0 ? 'text-danger' : 'text-success'">{{(sector.performance * 100) | fiFormat : '' : '%' : true}}</h5>
                     <!-- sector.performance < 0 ? 'text-danger' : 'text-success'" class="card-title text-dark"> -->
                     <!-- <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                 </div>

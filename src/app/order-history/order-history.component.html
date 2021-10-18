@@ -31,8 +31,8 @@
               <td>{{order.orderType}}</td>
               <td>{{ConvertDate(order.transactionDate)}}</td>
               <td>{{order.securityType}}</td>
-              <td>{{financiafyNumber(order.price, '$')}}</td>
-              <td>{{financiafyNumber(order.price * order.quantity,'$')}}</td>
+              <td>{{order.price | fiFormat : '$' : '' : false}}</td>
+              <td>{{(order.price * order.quantity) | fiFormat : '$' : '' : false}}</td>
             </tr>
           </tbody>
         </table>
