@@ -38,8 +38,8 @@
                 <td>{{ipo.symbol}}</td>
                 <td>{{ipo.offeringDate}}</td>
                 <td>{{ipo.offerPrice}}</td>
-                <td>{{ipo.volume}}</td>
-                <td>{{ipo.shares}}</td>
+                <td>{{ipo.volume | fiFormat : '' : '' : false}}</td>
+                <td>{{ipo.shares | fiFormat : '' : '' : false}}</td>
                 <td>{{ipo.quietperiod}}</td>
                 <td>{{ipo.lockupPeriod}}</td>
               </tr>

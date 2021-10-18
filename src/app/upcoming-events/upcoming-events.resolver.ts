@@ -21,9 +21,12 @@ export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
-    let begin = new Date().setDate(new Date().getDate() - 4);
-    let end = new Date().setDate(new Date().getDate() - 4);
-    return this.researchService.getUpcomingEvents('2021-10-22', '2021-11-10')
+    let today = new Date();
+    let begin = new Date(today.setDate(today.getDate() - 80)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    let end = new Date(today.setDate(today.getDate() + 80)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    // let end = new Date(today.setDate(today.getDate() + 10)).toDateString().split('T')[0];
+    // to localeString
+    return this.researchService.getUpcomingEvents(begin, end)
     .pipe(
       catchError(this.handleError)
     );
