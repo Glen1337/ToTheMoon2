@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
-import { financialifyNumber } from '../Utilities/utilities';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 

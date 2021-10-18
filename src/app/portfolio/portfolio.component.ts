@@ -7,7 +7,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
-import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-portfolio',

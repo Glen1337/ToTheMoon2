@@ -6,7 +6,6 @@ import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
-import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-watchlist',

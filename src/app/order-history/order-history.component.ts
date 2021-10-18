@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '../Models/Order';
-import { financialifyNumber } from '../Utilities/utilities';
 import { of, Subscription } from 'rxjs';
 
 @Component({
