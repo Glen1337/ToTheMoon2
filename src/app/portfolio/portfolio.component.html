@@ -6,13 +6,13 @@
     </div>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-md-3 col-lg-2 col-sm-6 col-12">
-            <p class="lead">Purchase Power: {{buyingPower | fiFormat: '$' : '' : false}}</p>
+            <h4 class="lead">Buying Power: {{buyingPower | fiFormat: '$' : '' : false}}</h4>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md-6 col-lg-4 col-sm-8 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
                 Gain/Loss: {{portfolio.gainLoss | fiFormat : '$' : '' : true}}
