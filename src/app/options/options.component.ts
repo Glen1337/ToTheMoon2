@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
 import { Option } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
@@ -66,25 +66,25 @@ export class OptionsComponent implements OnInit, OnDestroy {
               private holdingService: HoldingService,
               private route: ActivatedRoute) { }
 
-  get optionSymbolControl() { return this.optionsForm.get('optionSymbolControl'); }
+  get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
 
-  get optionExpiryControl() { return this.optionsForm.get('optionExpiryControl'); }
+  get optionExpiryControl(): AbstractControl | null { return this.optionsForm.get('optionExpiryControl'); }
 
-  get orderNameControl() { return this.orderForm.get('orderNameControl'); }
+  get orderNameControl(): AbstractControl | null { return this.orderForm.get('orderNameControl'); }
 
-  get orderStrikeControl() { return this.orderForm.get('orderStrikeControl'); }
+  get orderStrikeControl(): AbstractControl | null { return this.orderForm.get('orderStrikeControl'); }
 
-  get orderExpControl() { return this.orderForm.get('orderExpControl'); }
+  get orderExpControl(): AbstractControl | null { return this.orderForm.get('orderExpControl'); }
 
-  get orderQuantityControl() { return this.orderForm.get('orderQuantityControl'); }
+  get orderQuantityControl(): AbstractControl | null { return this.orderForm.get('orderQuantityControl'); }
 
-  get orderPortfolioControl() { return this.orderForm.get('orderPortfolioControl'); }
+  get orderPortfolioControl(): AbstractControl | null { return this.orderForm.get('orderPortfolioControl'); }
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
 
     sub = this.route.data.subscribe(
-      (data) =>{
+      (data) => {
         this.portfolios = data.portfolios;
       },
       (error) => {
@@ -131,13 +131,14 @@ export class OptionsComponent implements OnInit, OnDestroy {
       (error) => {
         console.log('(component)Error getting options expiry dates: ', error);
         this.errorMsg = `${error.error}`;
+        this.currentlyLoadingExps = false;
       },
       () => {
         '(component)Option Expiry Dates complete';
         this.currentlyLoadingExps = false;
       }
     );
-    this.subscriptions.push(sub)
+    this.subscriptions.push(sub);
   }
 
   public submitForm(): void {
@@ -172,9 +173,9 @@ export class OptionsComponent implements OnInit, OnDestroy {
   public submitOrder(): void {
     let sub: Subscription = new Subscription();
 
-    let year = this.orderExpControl?.value.substr(0,4);
-    let month = this.orderExpControl?.value.substr(4,2);
-    let day = this.orderExpControl?.value.substr(6,2);
+    let year = this.orderExpControl?.value.substr(0, 4);
+    let month = this.orderExpControl?.value.substr(4, 2);
+    let day = this.orderExpControl?.value.substr(6, 2);
 
     let date: Date = new Date(`${year}-${month}-${day}`);
 
@@ -201,7 +202,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {'(component)Option added';}
+      () => {'(component)Option added'; }
     );
     this.subscriptions.push(sub);
   }

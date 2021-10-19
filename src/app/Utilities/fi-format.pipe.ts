@@ -15,6 +15,7 @@ export class FiFormatPipe implements PipeTransform {
 
   transform(input: number | bigint, prepend: string = '', append: string = '', sign: boolean = false): string {
 
+    // Warning
     if (typeof input === 'bigint'){
       input = Number(input);
     }
@@ -23,13 +24,11 @@ export class FiFormatPipe implements PipeTransform {
       return '';
     }
 
-    let nombre: number = parseFloat(input.toFixed(2));
-
-    if (nombre > 0) {
-      return `${(sign ? '+' : '')}${prepend}${nombre.toLocaleString('en-US')}${append}`;
+    if (input > 0) {
+      return `${(sign ? '+' : '')}${prepend}${Number(input.toFixed(2)).toLocaleString('en-US')}${append}`;
     }
-    if (nombre < 0) {
-      return `${(sign ? '-' : '')}${prepend}${Math.abs(nombre).toLocaleString('en-US')}${append}`;
+    if (input < 0) {
+      return `${(sign ? '-' : '')}${prepend}${Number(Math.abs(input).toFixed(2)).toLocaleString('en-US')}${append}`;
     } else {
       return `${prepend}0${append}`;
     }
