@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscriber, Subscription } from 'rxjs';
-import { subscribeOn } from 'rxjs/operators';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-upcoming-events',
@@ -17,10 +17,18 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   public refreshMsg: string = '';
   private subscriptions: Subscription[] = [];
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
+  public currentlyLoading: boolean = false;
+
+
+  public upcomingEventsForm = new FormGroup({
+    startDateControl: new FormControl(this.getInitialStartDate(), [Validators.required]),
+    endDateControl: new FormControl(this.getInitialEndDate(), [Validators.required])
+  });
 
   constructor(private location: Location,
               private researchService: ResearchDataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+              }
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
@@ -35,6 +43,27 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
       },
       () => {console.log('Finsished retrieving upcoming event data'); }
     );
+    this.subscriptions.push(sub);
+  }
+
+  get startDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('startDateControl'); }
+
+  get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl'); }
+
+  submitForm(): void{
+    this.currentlyLoading = true;
+  }
+
+  private getInitialStartDate(): string {
+    let today = new Date();
+    let start = new Date(today.setDate(today.getDate() - 10)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    return start;
+  }
+
+  private getInitialEndDate(): string{
+    let today = new Date();
+    let end = new Date(today.setDate(today.getDate() + 10)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    return end;
   }
 
   messageClick(): void {

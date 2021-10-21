@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
-import { financialifyNumber } from '../Utilities/utilities'
+import { financialifyNumber } from '../Utilities/utilities';
 
 @Component({
   selector: 'app-company',
@@ -31,7 +31,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this.financiafy = financialifyNumber;
   }
 
-  get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl'); }
+  get companySymbolControl(): AbstractControl | null { return this.companyResearchForm.get('companySymbolControl'); }
 
   public submitForm(): void {
     this.currentlyLoading = true;

@@ -21,6 +21,7 @@ export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
+    //todo: remove
     let today = new Date();
     let begin = new Date(today.setDate(today.getDate() - 80)).toISOString().split('T')[0]; // .replace(/-/g, '');
     let end = new Date(today.setDate(today.getDate() + 80)).toISOString().split('T')[0]; // .replace(/-/g, '');
