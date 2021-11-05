@@ -127,10 +127,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr (click)="choose($event, option.id!)" *ngFor="let option of callChain">
+                        <tr (click)="choose($event, option.id)" *ngFor="let option of callChain">
                             <!-- <td>{{option.id}}</td> -->
                             <td>{{option.side}}</td>
-                            <td>{{option.strikePrice}}</td>
+                            <td>{{option.strikePrice | fiFormat : "$" : '' : false}}</td>
                             <td>{{option.ask}}</td>
                             <td>{{option.bid}}</td>
                             <td>{{option.closingPrice}}</td>
@@ -174,10 +174,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr (click)="choose($event, option.id!)" *ngFor="let option of putChain">
+                        <tr (click)="choose($event, option.id)" *ngFor="let option of putChain">
                             <!-- <td>{{option.id}}</td> -->
                             <td>{{option.side}}</td>
-                            <td>{{option.strikePrice}}</td>
+                            <td>{{option.strikePrice | fiFormat : "$" : '' : false}}</td>
                             <td>{{option.ask}}</td>
                             <td>{{option.bid}}</td>
                             <td>{{option.closingPrice}}</td>

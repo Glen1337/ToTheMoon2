@@ -165,9 +165,11 @@ export class OptionsComponent implements OnInit, OnDestroy {
 
   public choose(event: any, id: string): void{
     this.selectedOption = this.optionChain.find(option => option.id === id);
-    this.orderNameControl?.setValue(this.selectedOption?.id);
-    this.orderStrikeControl?.setValue(this.selectedOption?.strikePrice);
-    this.orderExpControl?.setValue(this.selectedOption?.expirationDate);
+    if (this.selectedOption) {
+      this.orderNameControl?.setValue(this.selectedOption.id);
+      this.orderStrikeControl?.setValue(this.selectedOption.strikePrice);
+      this.orderExpControl?.setValue(this.selectedOption.expirationDate);
+    }
   }
 
   public submitOrder(): void {
