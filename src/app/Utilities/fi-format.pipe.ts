@@ -19,16 +19,14 @@ export class FiFormatPipe implements PipeTransform {
     if (typeof input === 'bigint'){
       input = Number(input);
     }
-
     if (input === undefined || input === null){
       return '';
     }
-
     if (input > 0) {
-      return `${(sign ? '+' : '')}${prepend}${Number(input.toFixed(2)).toLocaleString('en-US')}${append}`;
+      return `${(sign ? '+' : '')}${prepend}${Number(input).toFixed(2).toLocaleString()}${append}`;
     }
     if (input < 0) {
-      return `${(sign ? '-' : '')}${prepend}${Number(Math.abs(input).toFixed(2)).toLocaleString('en-US')}${append}`;
+      return `${(sign ? '-' : '')}${prepend}${Number(Math.abs(input)).toFixed(2).toLocaleString()}${append}`;
     } else {
       return `${prepend}0${append}`;
     }

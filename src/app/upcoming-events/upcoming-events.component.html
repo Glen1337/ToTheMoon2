@@ -29,7 +29,7 @@
   </div>
   
   <div class="row mt-4">
-    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
         <div class="table-responsive-lg">
           <table class="table table-sm table-hover">
             <thead>
@@ -42,13 +42,13 @@
               <tr *ngFor="let report of upcomingEvents.earnings">
                 <!-- <td>{{port.totalMarketValue}}</td> -->
                 <td>{{report.symbol}}</td>
-                <td>{{report.reportDate}}</td>
+                <td>{{removeTime(report.reportDate)}}</td>
               </tr>
             </tbody>
           </table>
         </div>
     </div>
-    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
           <div class="table-responsive-lg">
             <table class="table table-sm table-hover">
               <thead>
@@ -65,8 +65,8 @@
               <tbody>
                 <tr *ngFor="let ipo of upcomingEvents.ipo">
                   <td>{{ipo.symbol}}</td>
-                  <td>{{ ipo.offeringDate}}</td>
-                  <td>{{ipo.offerPrice}}</td>
+                  <td>{{ipo.offeringDate}}</td>
+                  <td>{{ipo.offerPrice | fiFormat : '$' : '' : false}}</td>
                   <td>{{ipo.volume | fiFormat : '' : '' : false}}</td>
                   <td>{{ipo.shares | fiFormat : '' : '' : false}}</td>
                   <td>{{ipo.quietperiod}}</td>

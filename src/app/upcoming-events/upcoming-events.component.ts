@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscriber, Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
-import { Location } from '@angular/common';
+import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -77,6 +77,11 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
 
   refresh(): void {
     location.reload();
+  }
+
+  public removeTime(date: Date): string {
+   let x = formatDate(date , 'yyyy-MM-dd', 'en-US');
+   return x;
   }
 
   ngOnDestroy(): void {
