@@ -8,7 +8,7 @@
 
     <div class="row mt-2">
         <div class="col-md-3 col-lg-2 col-sm-6 col-12">
-            <h4 class="lead">Buying Power: {{buyingPower | fiFormat: '$' : '' : false}}</h4>
+            <h4 class="lead">Buying Power: {{buyingPower | fiFormat: '$' : '' : false : true}}</h4>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
         <div class="col-md-6 col-lg-4 col-sm-8 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
                 Gain/Loss: {{portfolio.gainLoss | fiFormat : '$' : '' : true}}
-                ({{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true}})
+                ({{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true : true}})
                     <i *ngIf="(portfolio.gainLoss) > 0" class="fas fa-caret-up fa-lg"></i>
                     <i *ngIf="(portfolio.gainLoss) < 0" class="fas fa-caret-down fa-lg"></i>
             </h2>
@@ -30,12 +30,12 @@
         </div> -->
         <div class="col-md-3 col-lg-3 col-sm-6 col-12">
             <h2>
-                 Market Value: {{portfolio.totalMarketValue | fiFormat : '$' : '' : false}}
+                 Market Value: {{portfolio.totalMarketValue | fiFormat : '$' : '' : false : true}}
             </h2>
         </div>
         <div class="col-md-3 col-lg-3 col-sm-6 col-12">
             <h2>
-                Original Value: {{(portfolio.totalMarketValue - portfolio.gainLoss) | fiFormat : '$' : '' : false}}
+                Original Value: {{(portfolio.totalMarketValue - portfolio.gainLoss) | fiFormat : '$' : '' : false : true}}
             </h2>
         </div>
     </div>
@@ -72,16 +72,16 @@
                         <td>{{holding.securityType}}</td>
                         <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
                         <td>{{ConvertDate(holding.transactionDate)}}</td>
-                        <td>{{(holding.costBasis * holding.quantity) | fiFormat : '$' : '' : false}}</td>
-                        <td>{{(holding.currentPrice * holding.quantity) | fiFormat : '$' : '' : false}}</td>
+                        <td>{{(holding.costBasis * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
+                        <td>{{(holding.currentPrice * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
                         <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
-                            <h6>{{(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) | fiFormat : '' : '%' : true}}
+                            <h6>{{(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) | fiFormat : '' : '%' : true : true}}
                                 <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) > 0" class="fas fa-caret-up"></i>
                                 <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) < 0" class="fas fa-caret-down"></i>
                             </h6>
                         </td>
                         <td [ngClass]="((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) < 0) ? 'text-danger' : 'text-success'">
-                            <h6>{{(holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) | fiFormat : '$' : '' : true}}
+                            <h6>{{(holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) | fiFormat : '$' : '' : true : true}}
                                 <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) > 0" class="fas fa-caret-up"></i>
                                 <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0" class="fas fa-caret-down"></i>
                             </h6>

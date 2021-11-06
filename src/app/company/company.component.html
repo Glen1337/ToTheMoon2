@@ -38,7 +38,7 @@
                     </div>
                     <div class="card-body">
                         <!-- <h5 class="card-title">Change Percentages</h5> -->
-                        <p class="card-text">1 Year % Change: {{financiafy(companyResearch.advStats.year1ChangePercent * 100, '%')}}</p>
+                        <p class="card-text">1 Year % Change: {{financiafy(companyResearch.advStats.year1ChangePercent * 100, '%', true)}}</p>
                         <p class="card-text">2 Year % Change: {{financiafy(companyResearch.advStats.year2ChangePercent * 100, '%', true)}}</p>
                         <p class="card-text">5 Year % Change: {{financiafy(companyResearch.advStats.year5ChangePercent * 100, '%', true)}}</p>
                         <p class="card-text">YTD % Change: {{financiafy(companyResearch.advStats.ytdChangePercent * 100, '%', true)}}</p>
@@ -62,7 +62,7 @@
                                 <p class="card-text">Company does not currently pay a dividend.</p>
                             </div>
                             <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                                <p class="card-text">Dividend Yield: {{financiafy(companyResearch.advStats.dividendYield * 100, '%')}}</p>
+                                <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield * 100 | fiFormat : '%' : '' : false : true}}</p>
                                 <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
                                 <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
                                 <p class="card-text">TTM Divdend Rate: {{financiafy(companyResearch.advStats.ttmDividendRate, '$')}}</p>
@@ -93,7 +93,7 @@
                             <div class="card-body">
                                 <!-- <h5 class="card-title">Change Percentages</h5> -->
                                 <p class="card-text">Name: {{companyResearch.company.companyName}}</p>
-                                <p class="card-text">Employee count: {{companyResearch.company.employees}}</p>
+                                <p class="card-text">Employee count: {{companyResearch.company.employees | fiFormat : '' : '' }}</p>
                                 <p class="card-text">Industry: {{companyResearch.company.industry}}</p>
                                 <p class="card-text">Sector: {{companyResearch.company.sector}}</p>
                                 <p class="card-text">Description: {{companyResearch.company.description}}</p>

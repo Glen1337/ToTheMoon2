@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
-import { Option } from '../Models/Option';
+import { RefOption } from '../Models/Option';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -19,29 +19,41 @@ export class OptionsDataService {
 
   constructor(private http: HttpClient) { }
 
-  public getExpiryDates(symbol: string): Observable<string[]> {
+  public getOptionsChainByExp(symbol: string): Observable<{ [key: string]: Array<RefOption> }> {
 
     let params = new HttpParams();
     params.set('symbol', symbol.trim());
 
     let paramOptions =  symbol ? { params: new HttpParams().set('symbol', symbol) } : {};
 
-    return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, paramOptions)
+    return this.http.get<{ [key: string]: Array<RefOption> }>(`${this.baseUrl}Options/AllOptions`, paramOptions)
     .pipe(
-      tap(_ => console.log('(service)Getting options expiration dates for ' + symbol)),
+      tap(_ => console.log('(service)Getting option chain by expiration for ' + symbol)),
       retry(2),
       catchError(this.handleError)
     );
   }
 
-  public getOptionsChain(symbol: string, expiration: string): Observable<Option[]> {
+  public getExpirys(symbol: string): Observable<string[]> {
+
+    const params = new HttpParams()
+      .set('symbol', symbol.trim());
+
+    return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, {params}).pipe(
+      tap(_ => console.log('(service)Getting options chain ')),
+      retry(2),
+      catchError(this.handleError)
+    );
+  }
+
+  public getChain(symbol: string, expiration: string): Observable<RefOption[]> {
 
     const params = new HttpParams()
       .set('symbol', symbol.trim())
       .set('expiration', expiration);
 
-    return this.http.get<Option[]>(`${this.baseUrl}Options/Chain`, {params}).pipe(
-      tap(_ => console.log('(service)Getting options chain ')),
+    return this.http.get<RefOption[]>(`${this.baseUrl}Options/AllOptions`, {params}).pipe(
+      tap(_ => console.log(`(service)Getting options chain for ${symbol}`)),
       retry(2),
       catchError(this.handleError)
     );

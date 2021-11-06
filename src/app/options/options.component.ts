@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
-import { Option } from '../Models/Option';
+import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
 import { Holding } from '../Models/Holding';
@@ -23,13 +23,14 @@ export class OptionsComponent implements OnInit, OnDestroy {
   public errorMsg: string = '';
   public otherMsg = '';
   public expiryDates: string[] = [];
-  public optionChain: Option[] = [];
-  public callChain: Option[] = [];
-  public putChain: Option[] = [];
+  //public optionChainByExp: Chain = {} as Chain;
+  public optionChain: RefOption[] = [];
+  public callSideChain: RefOption[] = [];
+  public putSideChain: RefOption[] = [];
   // public chooseMsg: string = '';
-  public selectedOption: Option | undefined = {} as Option;
+  public selectedOption: RefOption | undefined = {} as RefOption;
   public portfolios: Portfolio[] = [];
-  public currentlyLoadingExps: boolean = false;
+  public currentlyLoadingChain: boolean = false;
 
   public optionsForm = new FormGroup({
     optionSymbolControl: new FormControl('', [
@@ -64,7 +65,9 @@ export class OptionsComponent implements OnInit, OnDestroy {
   constructor(private location: Location,
               private optionsDataService: OptionsDataService,
               private holdingService: HoldingService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) { 
+
+              }
 
   get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
 
@@ -119,94 +122,144 @@ export class OptionsComponent implements OnInit, OnDestroy {
   }
 
   public getExpirys(): void {
-    this.currentlyLoadingExps = true;
+    this.currentlyLoadingChain = true;
     let sub: Subscription = new Subscription();
-
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-    sub = this.optionsDataService.getExpiryDates(symbol).subscribe(
-      (dates) => {
-        this.expiryDates = dates;
+    sub = this.optionsDataService.getExpirys(symbol).subscribe(
+      (exps) => {
+        this.expiryDates = exps;
+        this.currentlyLoadingChain = false;
+        //this.optionChainByExp.optionsByExp = chainByExp;
+        ///console.log(Object.keys(chainByExp));
+        // Array.prototype.forEach.call(this.optionChainByExp.optionsByExp, optionsForDate =>{
+        //   expirys.push(optionsForDate.key);
+        //  // this.expiryDates.push(optionsForDate.key);
+        //   console.log(optionsForDate);
+        // });
+        // Array.prototype.forEach.call(chainByExp, (optionsForDate) =>{
+        //   expirys.push(optionsForDate.key);
+        //  // this.expiryDates.push(optionsForDate.key);
+        //   console.log(optionsForDate);
+        // });
+        //this.expiryDates = expirys;
+        //console.log(expirys);
+        //this.optionChainByExp.optionsByExp.map(function(a){return a.key; });
+        //this.expiryDates = this.optionChainByExp.optionsByExp. map(function(a) {return a.key; });
         // this.chooseMsg = "Choose an Exp. Date";
       },
       (error) => {
-        console.log('(component)Error getting options expiry dates: ', error);
+        console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
-        this.currentlyLoadingExps = false;
+        this.currentlyLoadingChain = false;
       },
       () => {
-        '(component)Option Expiry Dates complete';
-        this.currentlyLoadingExps = false;
+        '(component)Option chain retrieval complete';
+        this.currentlyLoadingChain = false;
       }
     );
     this.subscriptions.push(sub);
   }
 
+  // public getExpirys(): void {
+  //   this.currentlyLoadingChain = true;
+  //   let sub: Subscription = new Subscription();
+  //   let expirys: string[] = [];
+  //   let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
+  //   sub = this.optionsDataService.getOptionsChainByExp(symbol).subscribe(
+  //     (chainByExp) => {
+  //       this.optionChainByExp.optionsByExp = chainByExp;
+  //       console.log(Object.keys(chainByExp));
+  //       Array.prototype.forEach.call(this.optionChainByExp.optionsByExp, optionsForDate =>{
+  //         expirys.push(optionsForDate.key);
+  //        // this.expiryDates.push(optionsForDate.key);
+  //         console.log(optionsForDate);
+  //       });
+  //       Array.prototype.forEach.call(chainByExp, (optionsForDate) =>{
+  //         expirys.push(optionsForDate.key);
+  //        // this.expiryDates.push(optionsForDate.key);
+  //         console.log(optionsForDate);
+  //       });
+  //       this.currentlyLoadingChain = false;
+  //       //this.expiryDates = expirys;
+  //       //console.log(expirys);
+  //       //this.optionChainByExp.optionsByExp.map(function(a){return a.key; });
+  //       //this.expiryDates = this.optionChainByExp.optionsByExp. map(function(a) {return a.key; });
+  //       // this.chooseMsg = "Choose an Exp. Date";
+  //     },
+
   public submitForm(): void {
+    this.currentlyLoadingChain = true;
+
     let sub: Subscription = new Subscription();
 
-    let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-    let expiry = this.optionExpiryControl?.value;
-    sub = this.optionsDataService.getOptionsChain(symbol, expiry).subscribe(
+    let symbol: string = this.optionSymbolControl?.value.trim().toUpperCase();
+    let expiry: string = this.optionExpiryControl?.value.trim().replaceAll('-','');
+
+    sub = this.optionsDataService.getChain(symbol, expiry).subscribe(
       (chain) => {
+        this.currentlyLoadingChain = false;
         this.optionChain = chain;
-        this.callChain = chain.filter(o => o.side === 'call').sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
-        this.putChain = chain.filter(o => o.side === 'put').sort((n1, n2) =>  n1.strikePrice - n2.strikePrice);
+        this.callSideChain = chain.filter(o => o.side === 'call').sort((n1, n2) =>  n1.strike - n2.strike);
+        this.putSideChain = chain.filter(o => o.side === 'put').sort((n1, n2) =>  n1.strike - n2.strike);
       },
       (error) => {
+        this.currentlyLoadingChain = false;
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
       () => {
+        this.currentlyLoadingChain = false;
         console.log('(component)Option Chain retrieved');
       }
     );
     this.subscriptions.push(sub);
   }
 
-  public choose(event: any, id: string): void{
-    this.selectedOption = this.optionChain.find(option => option.id === id);
-    if (this.selectedOption) {
-      this.orderNameControl?.setValue(this.selectedOption.id);
-      this.orderStrikeControl?.setValue(this.selectedOption.strikePrice);
-      this.orderExpControl?.setValue(this.selectedOption.expirationDate);
-    }
+  public choose(event: any, symbol: string): void{
+     this.selectedOption = this.optionChain.find(option => option.symbol === symbol);
+     console.log(this.selectedOption?.symbol);
+    // if (this.selectedOption) {
+    //   this.orderNameControl?.setValue(this.selectedOption.id);
+    //   this.orderStrikeControl?.setValue(this.selectedOption.strikePrice);
+    //   this.orderExpControl?.setValue(this.selectedOption.expirationDate);
+    // }
   }
 
   public submitOrder(): void {
-    let sub: Subscription = new Subscription();
+    // let sub: Subscription = new Subscription();
 
-    let year = this.orderExpControl?.value.substr(0, 4);
-    let month = this.orderExpControl?.value.substr(4, 2);
-    let day = this.orderExpControl?.value.substr(6, 2);
+    // let year = this.orderExpControl?.value.substr(0, 4);
+    // let month = this.orderExpControl?.value.substr(4, 2);
+    // let day = this.orderExpControl?.value.substr(6, 2);
 
-    let date: Date = new Date(`${year}-${month}-${day}`);
+    // let date: Date = new Date(`${year}-${month}-${day}`);
 
-    let optionHolding: Holding = {
-      userId: '-1',
-      orderType: OrderConstants.Buy,
-      strikePrice: this.selectedOption?.strikePrice,
-      contractName: this.selectedOption?.id,
-      symbol: this.selectedOption!.symbol,
-      quantity: this.orderQuantityControl?.value,
-      expirationDate: date,
-      securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
-      reinvestDivs: false,
-      currentPrice: this.selectedOption!.ask,
-      costBasis: this.selectedOption!.ask,
-      portfolioId: this.orderPortfolioControl?.value
-    };
+    // let optionHolding: Holding = {
+    //   userId: '-1',
+    //   orderType: OrderConstants.Buy,
+    //   strikePrice: this.selectedOption?.strikePrice,
+    //   contractName: this.selectedOption?.id,
+    //   symbol: this.selectedOption!.symbol,
+    //   quantity: this.orderQuantityControl?.value,
+    //   expirationDate: date,
+    //   securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
+    //   reinvestDivs: false,
+    //   currentPrice: this.selectedOption!.ask,
+    //   costBasis: this.selectedOption!.ask,
+    //   portfolioId: this.orderPortfolioControl?.value
+    // };
 
-    sub = this.holdingService.addHolding(optionHolding).subscribe(
-      (data) => { console.log(data);
-                  this.otherMsg = 'Option purchased';
-      },
-      (error) => {
-        console.log('(component)Error getting options chain: ', error);
-        this.errorMsg = `${error.error}`;
-      },
-      () => {'(component)Option added'; }
-    );
-    this.subscriptions.push(sub);
+    // sub = this.holdingService.addHolding(optionHolding).subscribe(
+    //   (data) => { console.log(data);
+    //               this.otherMsg = 'Option purchased';
+    //   },
+    //   (error) => {
+    //     console.log('(component)Error getting options chain: ', error);
+    //     this.errorMsg = `${error.error}`;
+    //   },
+    //   () => {'(component)Option added'; }
+    // );
+    // this.subscriptions.push(sub);
   }
 
   refresh(): void {

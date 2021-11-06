@@ -13,7 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiFormatPipe implements PipeTransform {
 
-  transform(input: number | bigint, prepend: string = '', append: string = '', sign: boolean = false): string {
+  transform(input: number | bigint, prepend: string = '', append: string = '', sign: boolean = false, decimals: boolean = false): string {
 
     // Warning
     if (typeof input === 'bigint'){
@@ -22,11 +22,28 @@ export class FiFormatPipe implements PipeTransform {
     if (input === undefined || input === null){
       return '';
     }
+
+    let numberString = "";
+
     if (input > 0) {
-      return `${(sign ? '+' : '')}${prepend}${Number(input).toFixed(2).toLocaleString()}${append}`;
+      if (decimals){
+        numberString = Number(input).toFixed(2).toLocaleString();
+      }else{
+        numberString = Number(input).toLocaleString();
+      }
+        return `${(sign ? '+' : '')}${prepend}${numberString}${append}`;
     }
     if (input < 0) {
-      return `${(sign ? '-' : '')}${prepend}${Number(Math.abs(input)).toFixed(2).toLocaleString()}${append}`;
+      if (decimals){
+        numberString = Number(Math.abs(input)).toFixed(2).toLocaleString();
+      }else{
+        numberString = Number(Math.abs(input)).toLocaleString();
+      }
+      if(decimals) {
+        return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
+      }else{
+        return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
+      }
     } else {
       return `${prepend}0${append}`;
     }
