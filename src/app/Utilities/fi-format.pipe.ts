@@ -34,14 +34,11 @@ export class FiFormatPipe implements PipeTransform {
         return `${(sign ? '+' : '')}${prepend}${numberString}${append}`;
     }
     if (input < 0) {
-      if (decimals){
-        numberString = Number(Math.abs(input)).toFixed(2).toLocaleString();
-      }else{
-        numberString = Number(Math.abs(input)).toLocaleString();
-      }
       if(decimals) {
+        numberString = Number(Math.abs(input)).toFixed(2).toLocaleString();
         return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
       }else{
+        numberString = Number(Math.abs(input)).toLocaleString();
         return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
       }
     } else {

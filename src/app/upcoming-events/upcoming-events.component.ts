@@ -80,8 +80,7 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   }
 
   public removeTime(date: Date): string {
-    let x = formatDate(date , 'MM/dd/yyyy', 'en-US', 'UTC');
-    return x;
+    return formatDate(date , 'MM/dd/yyyy', 'en-US', 'UTC');
   }
 
   ngOnDestroy(): void {
