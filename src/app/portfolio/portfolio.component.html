@@ -65,8 +65,8 @@
                     <tr *ngFor="let holding of portfolio.holdings">
                         <td>{{holding.symbol}}</td>
 
-                        <td>{{'$'+holding.costBasis}}</td>
-                        <td>{{'$'+holding.currentPrice}}</td>
+                        <td>{{holding.costBasis | fiFormat : '$' : '' : false : true}}</td>
+                        <td>{{holding.currentPrice | fiFormat : '$' : '' : false : true}}</td>
                         <td>{{holding.quantity}}</td>
                         <td>{{(((holding.quantity * holding.currentPrice)/portfolio.totalMarketValue) * 100).toFixed(2)}}%</td>
                         <td>{{holding.securityType}}</td>
