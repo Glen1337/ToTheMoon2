@@ -42,7 +42,7 @@
               <tr *ngFor="let report of upcomingEvents.earnings">
                 <!-- <td>{{port.totalMarketValue}}</td> -->
                 <td>{{report.symbol}}</td>
-                <td>{{removeTime(report.reportDate)}}</td>
+                <td>{{formatDate(report.reportDate)}}</td>
               </tr>
             </tbody>
           </table>
@@ -58,19 +58,23 @@
                   <th>Offer Price</th>
                   <th>Volume</th>
                   <th>Shares</th>
-                  <th>Quiet Period</th>
-                  <th>Lockup Period</th>
+                  <th>Company Name</th>
+                  <th>Filed Date</th>
+                  <!-- <th>Quiet Period</th>
+                  <th>Lockup Period</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let ipo of upcomingEvents.ipo">
                   <td>{{ipo.symbol}}</td>
-                  <td>{{ipo.offeringDate}}</td>
-                  <td>{{ipo.offerPrice | fiFormat : '$' : '' : false}}</td>
-                  <td>{{ipo.volume | fiFormat : '' : '' : false}}</td>
-                  <td>{{ipo.shares | fiFormat : '' : '' : false}}</td>
-                  <td>{{ipo.quietperiod}}</td>
-                  <td>{{ipo.lockupPeriod}}</td>
+                  <td>{{formatDate(ipo.offeringDate)}}</td>
+                  <td>{{ipo.offerPrice | fiFormat : '$' : '' : false : true}}</td>
+                  <td>{{ipo.volume | fiFormat : '' : '' : false : false}}</td>
+                  <td>{{ipo.shares | fiFormat : '' : '' : false : false}}</td>
+                  <td>{{ipo.companyName}}</td>
+                  <td>{{formatDate(ipo.filedDate)}}</td>
+                  <!-- <td>{{ipo.quietperiod}}</td>
+                  <td>{{ipo.lockupPeriod}}</td> -->
                 </tr>
               </tbody>
             </table>

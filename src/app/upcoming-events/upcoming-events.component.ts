@@ -31,27 +31,44 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
               }
 
   ngOnInit(): void {
-    let sub: Subscription = new Subscription();
-    sub = this.route.data.subscribe(
-      (data) => {
-        this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
-        console.log(this.upcomingEvents);
-      },
-      (error) => {
-        console.log(`(component)Error getting upcoming event data:${error}`);
-        this.errorMsg = `${error.error}`;
-      },
-      () => {console.log('Finsished retrieving upcoming event data'); }
-    );
-    this.subscriptions.push(sub);
+    // let sub$: Subscription = new Subscription();
+    // sub$ = this.route.data.subscribe(
+    //   (data) => {
+    //     this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
+    //     console.log(this.upcomingEvents);
+    //   },
+    //   (error) => {
+    //     console.log(`(component)Error getting upcoming event data:${error}`);
+    //     this.errorMsg = `${error.error}`;
+    //   },
+    //   () => {console.log('Finsished retrieving upcoming event data'); }
+    // );
+    // this.subscriptions.push(sub$);
   }
 
-  get startDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('startDateControl'); }
+  get startDateControl(): AbstractControl { return this.upcomingEventsForm.get('startDateControl')!; }
 
-  get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl'); }
+  get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl')!; }
 
   submitForm(): void{
     this.currentlyLoading = true;
+    let startDate = this.startDateControl.value;
+    let endDate = this.endDateControl?.value;
+    let upcomingEvents$ = this.researchService.getUpcomingEvents(startDate, endDate).subscribe(
+      (events) => {
+        this.upcomingEvents = events;
+        console.log(this.upcomingEvents);
+      },
+      (error) => {
+        this.currentlyLoading = false;
+        console.log(`(component)Error getting upcoming event data:${error}`);
+        this.errorMsg = `${error.error}`;
+      },
+      () => {
+        this.currentlyLoading = false;
+      }
+    );
+    this.subscriptions.push(upcomingEvents$);
   }
 
   private getInitialStartDate(): string {
@@ -79,8 +96,18 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     location.reload();
   }
 
-  public removeTime(date: Date): string {
-    return formatDate(date , 'MM/dd/yyyy', 'en-US', 'UTC');
+  //TODO: make this into pipe
+  public formatDate(input: any): string {
+    if(!input) {
+      return '';
+    }
+    if (typeof input === typeof Date) {
+      input = input.toLocaleString('');
+    }
+    //let tempDate: Date = new Date(input);
+    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
+    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
+    // return formatDate(date , 'MM/dd/yyyy hh:mm aa', 'en-US', 'UTC');
   }
 
   ngOnDestroy(): void {

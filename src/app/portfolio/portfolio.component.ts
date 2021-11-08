@@ -38,8 +38,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   messageClick(): void{
-     this.refreshMsg = '';
-     this.errorMsg = '';
+    this.refreshMsg = '';
+    this.errorMsg = '';
   }
 
   ngOnInit(): void {

@@ -266,6 +266,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
+  // TODO use similar method in upcoming events to make this into pipe
   public formatDate(input: string): string {
     //let tempDate: Date = new Date(input);
     //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`

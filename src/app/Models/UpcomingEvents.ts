@@ -16,6 +16,8 @@ export interface Ipo {
     symbol: string;
     updated?: Date;
     volume: bigint;
+    filedDate: Date;
+    companyName: string;
 }
 
 export interface EarningsReport {

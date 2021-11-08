@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'company', component: CompanyComponent },
   { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
   { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService}, canActivate: [AuthGuard] },
-  { path: 'events', component: UpcomingEventsComponent, resolve: {upcomingEvents: UpcomingEventsResolverService}},
+  { path: 'events', component: UpcomingEventsComponent},//, resolve: {upcomingEvents: UpcomingEventsResolverService}},
   { path: '**', component: PageNotFoundComponent }
 ];
 
