@@ -179,8 +179,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
   }
 
-  ConvertDate(date?: Date){
+  ConvertDate(date?: Date): string{
     return(date ? new Date(date).toLocaleString() : '');
   }
-
 }

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { PortfolioTypes } from '../Models/Constants';
+import { SecurityConstants } from '../Models/Constants';
 
 @Component({
   selector: 'portfolio-list',
@@ -127,7 +128,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   }
 
   GetOptionCount(id: number){
-    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === 'Call' || h.securityType === 'Put').length;
+    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === SecurityConstants.Call || h.securityType === SecurityConstants.Put).length;
   }
 
   GetEquityCount(id: number){

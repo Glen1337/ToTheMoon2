@@ -30,7 +30,7 @@
         <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-        <div class="mt-2 form-row form-inline">
+        <div class="mt-2 form-inline" > <!--form-row -->
             <label for="sym">Choose an Exp. Date:&nbsp;</label>
             <div class="col-10 col-sm-8 col-md-4 col-lg-4">
                 <select #exp id="sym" class="form-control" aria-describedby="adb" formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
@@ -64,6 +64,7 @@
                 <div class="row">
                     <div class="form-group col-5">
                         <label> Name: </label>
+                        <!--deprecated in v6:  [(ngModel)]="selectedOption!.symbol"  -->
                         <input class="form-control" type="text" formControlName="orderNameControl" readonly="readonly">
                     </div>
                     <div class="form-group col-3" style="padding-left: 0px; padding-right: 0px;">
@@ -71,7 +72,7 @@
                         <input class="form-control" type="text" formControlName="orderStrikeControl" readonly="readonly">
                     </div>
                     <div class="form-group col-4">
-                        <label> Expriation: </label>
+                        <label> Expiration: </label>
                         <input class="form-control" type="text" formControlName="orderExpControl" readonly="readonly">
                     </div>
                 </div>
@@ -111,7 +112,7 @@
                             <th> Strike Price </th>
                             <th> Closing Price </th>
                             <th> Expiration Date </th>
-                            <th> Last Updated </th>
+                            <!-- <th> Last Updated </th> -->
                             <th> Last Trade Date </th>
                             <!-- <th> Last Trade Time </th> -->
                             <th> Open Interest </th>
@@ -125,9 +126,9 @@
                             <td>{{option.strike | fiFormat : '$' : '' : false }}</td>
                             <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false }}</td>
                             <td>{{formatDate(option.expirationDate)}}</td>
-                            <td>{{formatDate(option.lastUpdated)}}</td>
+                            <!-- <td>{{formatDate(option.lastUpdated)}}</td> -->
                             <td>{{formatDate(option.lastTradeDate)}}</td>
-                            <!-- <td>{{formatDate(option.lastTradeTime)}}</td> -->
+                            <!-- <td>{{option.lastTradeTime}}</td> -->
                             <td>{{option.openInterest | fiFormat : '' : '' : false }}</td>
                             <td>{{option.volume}}</td>
                             <td>{{option.high | fiFormat : '$' : '' : false }}</td>
@@ -146,7 +147,7 @@
                             <th> Strike Price </th>
                             <th> Closing Price </th>
                             <th> Expiration Date </th>
-                            <th> Last Updated </th>
+                            <!-- <th> Last Updated </th> -->
                             <th> Last Trade Date </th>
                             <!-- <th> Last Trade Time </th> -->
                             <th> Open Interest </th>
@@ -160,9 +161,9 @@
                             <td>{{option.strike | fiFormat : '$' : '' : false }}</td>
                             <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false }}</td>
                             <td>{{formatDate(option.expirationDate)}}</td>
-                            <td>{{formatDate(option.lastUpdated)}}</td>
+                            <!-- <td>{{formatDate(option.lastUpdated)}}</td>    -->
                             <td>{{formatDate(option.lastTradeDate)}}</td>
-                            <!-- <td>{{formatDate(option.lastTradeTime)}}</td> -->
+                            <!-- <td>{{option.lastTradeTime}}</td> -->
                             <td>{{option.openInterest | fiFormat : '' : '' : false }}</td>
                             <td>{{option.volume}}</td>
                             <td>{{option.high | fiFormat : '$' : '' : false }}</td>

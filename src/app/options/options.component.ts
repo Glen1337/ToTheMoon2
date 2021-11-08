@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Location } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
 import { RefOption } from '../Models/Option';
@@ -10,12 +9,15 @@ import { Holding } from '../Models/Holding';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
+import { formatDate, Location } from '@angular/common';
+import { FiFormatPipe } from '../Utilities/fi-format.pipe';
 
 
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.css']
+  styleUrls: ['./options.component.css'],
+  providers: [FiFormatPipe]
 })
 export class OptionsComponent implements OnInit, OnDestroy {
 
@@ -65,8 +67,9 @@ export class OptionsComponent implements OnInit, OnDestroy {
   constructor(private location: Location,
               private optionsDataService: OptionsDataService,
               private holdingService: HoldingService,
-              private route: ActivatedRoute) { 
-
+              private route: ActivatedRoute,
+              private fiFormat: FiFormatPipe) { 
+                this.optionExpiryControl?.disable();
               }
 
   get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
@@ -129,6 +132,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
       (exps) => {
         this.expiryDates = exps;
         this.currentlyLoadingChain = false;
+        this.optionExpiryControl?.enable();
         //this.optionChainByExp.optionsByExp = chainByExp;
         ///console.log(Object.keys(chainByExp));
         // Array.prototype.forEach.call(this.optionChainByExp.optionsByExp, optionsForDate =>{
@@ -199,8 +203,8 @@ export class OptionsComponent implements OnInit, OnDestroy {
       (chain) => {
         this.currentlyLoadingChain = false;
         this.optionChain = chain;
-        this.callSideChain = chain.filter(o => o.side === 'call').sort((n1, n2) =>  n1.strike - n2.strike);
-        this.putSideChain = chain.filter(o => o.side === 'put').sort((n1, n2) =>  n1.strike - n2.strike);
+        this.callSideChain = chain.filter(o => o.side === SecurityConstants.Call ).sort((n1, n2) =>  n1.strike - n2.strike);
+        this.putSideChain = chain.filter(o => o.side === SecurityConstants.Put).sort((n1, n2) =>  n1.strike - n2.strike);
       },
       (error) => {
         this.currentlyLoadingChain = false;
@@ -215,60 +219,73 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  public choose(event: any, symbol: string): void{
-     this.selectedOption = this.optionChain.find(option => option.symbol === symbol);
-     console.log(this.selectedOption?.symbol);
-    // if (this.selectedOption) {
-    //   this.orderNameControl?.setValue(this.selectedOption.id);
-    //   this.orderStrikeControl?.setValue(this.selectedOption.strikePrice);
-    //   this.orderExpControl?.setValue(this.selectedOption.expirationDate);
-    // }
+  public choose(event: any, symbol: string): void {
+    this.selectedOption = this.optionChain.find(option => option.symbol === symbol);
+    console.log(this.selectedOption?.symbol);
+    if (this.selectedOption) {
+      this.orderNameControl?.setValue(this.selectedOption.symbol);
+      this.orderStrikeControl?.setValue(this.fiFormat.transform(this.selectedOption.strike, '$', '', false, true));
+      this.orderExpControl?.setValue(this.formatDate(this.selectedOption.expirationDate));
+    }
   }
 
   public submitOrder(): void {
-    // let sub: Subscription = new Subscription();
+    let sub: Subscription = new Subscription();
 
     // let year = this.orderExpControl?.value.substr(0, 4);
     // let month = this.orderExpControl?.value.substr(4, 2);
     // let day = this.orderExpControl?.value.substr(6, 2);
-
+    let expiration = new Date(this.selectedOption!.expirationDate);
     // let date: Date = new Date(`${year}-${month}-${day}`);
 
-    // let optionHolding: Holding = {
-    //   userId: '-1',
-    //   orderType: OrderConstants.Buy,
-    //   strikePrice: this.selectedOption?.strikePrice,
-    //   contractName: this.selectedOption?.id,
-    //   symbol: this.selectedOption!.symbol,
-    //   quantity: this.orderQuantityControl?.value,
-    //   expirationDate: date,
-    //   securityType: (this.selectedOption!.side.toLocaleLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
-    //   reinvestDivs: false,
-    //   currentPrice: this.selectedOption!.ask,
-    //   costBasis: this.selectedOption!.ask,
-    //   portfolioId: this.orderPortfolioControl?.value
-    // };
+    let optionHolding: Holding = {
+      //userId: '-1',
+      orderType: OrderConstants.Buy,
+      strikePrice: this.selectedOption?.strike,
+      contractName: this.selectedOption?.symbol,
+      symbol: this.selectedOption!.underlying,
+      quantity: this.orderQuantityControl?.value,
+      expirationDate: expiration,
+      securityType: this.selectedOption!.side,//(this.selectedOption?.side.toLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
+      reinvestDivs: false,
+      currentPrice: this.selectedOption!.currentMarketPrice,
+      costBasis: this.selectedOption!.currentMarketPrice,
+      portfolioId: this.orderPortfolioControl?.value
+    };
 
-    // sub = this.holdingService.addHolding(optionHolding).subscribe(
-    //   (data) => { console.log(data);
-    //               this.otherMsg = 'Option purchased';
-    //   },
-    //   (error) => {
-    //     console.log('(component)Error getting options chain: ', error);
-    //     this.errorMsg = `${error.error}`;
-    //   },
-    //   () => {'(component)Option added'; }
-    // );
-    // this.subscriptions.push(sub);
+    sub = this.holdingService.addHolding(optionHolding).subscribe(
+      (data) => { console.log(data);
+        this.otherMsg = 'Option purchased';
+      },
+      (error) => {
+        console.log('(component)Error getting options chain: ', error);
+        this.errorMsg = `${error.error}`;
+      },
+      () => {'(component)Option added'; }
+    );
+    this.subscriptions.push(sub);
   }
 
-  refresh(): void {
+  public formatDate(input: string): string {
+    //let tempDate: Date = new Date(input);
+    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
+    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
+  }
+
+  public formatTime(input: string): string {
+    return "";
+  }
+
+  public refresh(): void {
     location.reload();
   }
 
-  public formatDate(input: Date): string{
-    let inputDate: Date = new Date(input);
-    return `${new Date(inputDate).getMonth()}/${new Date(inputDate).getDate()}/${new Date(inputDate).getFullYear()}`;
-  }
+  // public displayExpirationDate(input: string): string {
+  //   let output = input.toLocaleString();
+  //   return output;
+  // }
 
+  // convertDate(date?: Date): string{
+  //   return(date ? new Date(date).toLocaleString() : '');
+  // }
 }

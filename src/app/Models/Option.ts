@@ -15,26 +15,20 @@
 //     volume: number;
 // }
 
-// export interface Chain {
-//     optionsByExp: { [key: string]: Array<RefOption> };
-//     //optionsByExp: Record<string, Array<RefOption>>;
-//     // options: Array<>
-// }
-
 export interface RefOption {
     high: number;
     low: number;
     openInterest: number;
     volume: number;
-    lastTradeDate: Date;
-    lastTradeTime: Date;
-    lastUpdated: Date;
+    lastTradeDate: string;
+    lastTradeTime: string;
+    lastUpdated: string;
     currentMarketPrice: number;
     symbol: string;
     date: string;
     name: string;
     description: string;
-    expirationDate: Date;
+    expirationDate: string;
     type: string;
     side: string;
     exerciseStyle: string;
