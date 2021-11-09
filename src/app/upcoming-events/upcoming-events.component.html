@@ -1,0 +1,84 @@
+<div class="">
+  <div class="row align-items-center my-2 mx-1">
+    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
+    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+    <h2><i class="fas fa-calendar-alt fa-md"></i>Upcoming Market Events</h2>
+  </div>
+  <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+  
+  <form class="form-group" [formGroup]="upcomingEventsForm" (ngSubmit)="submitForm()">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+        <label for="start">Begin Date</label>
+        <input id="start" type="date" formControlName="startDateControl" class="form-control">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+        <label for="end">End Date</label>
+        <input id="end" type="date" formControlName="endDateControl" class="form-control">
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-lg-4 col-md-8 col-sm-12 col-12 text-center">
+        <button type="submit" onmousedown="event.preventDefault()" [disabled]="!upcomingEventsForm.valid" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+        <div class="table-responsive-lg">
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr class="table-primary">
+                <th>Company</th>
+                <th>Earnings Report Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of upcomingEvents.earnings">
+                <!-- <td>{{port.totalMarketValue}}</td> -->
+                <td>{{report.symbol}}</td>
+                <td>{{formatDate(report.reportDate)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="table-responsive-lg">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr class="table-primary">
+                  <th>Company</th>
+                  <th>IPO Date</th>
+                  <th>Offer Price</th>
+                  <th>Volume</th>
+                  <th>Shares</th>
+                  <th>Company Name</th>
+                  <th>Filed Date</th>
+                  <!-- <th>Quiet Period</th>
+                  <th>Lockup Period</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ipo of upcomingEvents.ipo">
+                  <td>{{ipo.symbol}}</td>
+                  <td>{{formatDate(ipo.offeringDate)}}</td>
+                  <td>{{ipo.offerPrice | fiFormat : '$' : '' : false : true}}</td>
+                  <td>{{ipo.volume | fiFormat : '' : '' : false : false}}</td>
+                  <td>{{ipo.shares | fiFormat : '' : '' : false : false}}</td>
+                  <td>{{ipo.companyName}}</td>
+                  <td>{{formatDate(ipo.filedDate)}}</td>
+                  <!-- <td>{{ipo.quietperiod}}</td>
+                  <td>{{ipo.lockupPeriod}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+</div>

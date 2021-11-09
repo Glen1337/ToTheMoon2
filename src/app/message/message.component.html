@@ -1,0 +1,13 @@
+ <div class="row" *ngIf="(inputErrorMessage || inputNoticeMessage || inputWarningMessage)">
+    <div class="col-lg-4 col-md-6 col-sm-10 col-10">
+            <!-- [ngClass]="['col-md-8', 'col-lg-8', 'col-sm-8', 'alert', 'alert-danger']"> -->
+        <div role="alert" [ngClass]="{'alert': isError || isNotice || isWarning, 'alert-danger': isError, 'alert-primary': isNotice, 'alert-warning' : isWarning}">
+            <div *ngIf="inputErrorMessage">{{'Error: ' + inputErrorMessage}}</div>
+            <div *ngIf="inputNoticeMessage">{{'Notice: ' + inputNoticeMessage}}</div>
+            <div *ngIf="inputWarningMessage">{{'Warning: ' + inputWarningMessage}}</div>
+        </div>
+    </div>
+    <div class="d-flex align-items-stretch col-lg-1 col-md-1 col-sm-2 col-2" style="padding-left: 0px; padding-right: 0px">
+        <button (click)="okClick()" [ngClass]="{'btn':true, 'btn-danger' : isError, 'btn-info' : isNotice, 'btn-warning' : isWarning }">OK</button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+.chart-container {
+    /* width: 600px; */
+    /* height: 700px; */
+    height: 85vh;
+    border: 1px solid rgb(122, 122, 122);
+
+  }
+
+  input {
+    max-width: 10rem;
+  }
+
+  /* .form-inline { flex-wrap: nowrap; }  
+  .form-row { flex-wrap: nowrap; } */

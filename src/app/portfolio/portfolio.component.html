@@ -1,0 +1,159 @@
+<div class="">
+    <div class="row d-flex flex-row align-items-center mx-1 my-2">
+        <a routerLink="/portfolios"><button class="mr-2 btn btn-sm btn-outline-primary">Back to List</button></a>
+        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+        <h2><i class="fas fa-file-alt"></i> {{portfolio.title}}</h2>
+    </div>
+    <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+
+    <div class="row mt-2">
+        <div class="col-md-3 col-lg-2 col-sm-6 col-12">
+            <h4 class="lead">Buying Power: {{buyingPower | fiFormat: '$' : '' : false : true}}</h4>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 col-lg-4 col-sm-8 col-12">
+            <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
+                Gain/Loss: {{portfolio.gainLoss | fiFormat : '$' : '' : true}}
+                ({{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true : true}})
+                    <i *ngIf="(portfolio.gainLoss) > 0" class="fas fa-caret-up fa-lg"></i>
+                    <i *ngIf="(portfolio.gainLoss) < 0" class="fas fa-caret-down fa-lg"></i>
+            </h2>
+        </div>
+        <!-- <div class="col-md-3 col-lg-2 col-sm-6 col-12">
+            <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
+                Gain/Loss: {{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true}}
+                    <i *ngIf="(portfolio.gainLoss) > 0" class="fas fa-caret-up fa-lg"></i>
+                    <i *ngIf="(portfolio.gainLoss) < 0" class="fas fa-caret-down fa-lg"></i>
+            </h2>
+        </div> -->
+        <div class="col-md-3 col-lg-3 col-sm-6 col-12">
+            <h2>
+                Market Value: {{portfolio.totalMarketValue | fiFormat : '$' : '' : false : true}}
+            </h2>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-6 col-12">
+            <h2>
+                Original Value: {{(portfolio.totalMarketValue - portfolio.gainLoss) | fiFormat : '$' : '' : false : true}}
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th> Symbol </th>
+                            <th> Cost Basis </th>
+                            <th> Current Price </th>
+                            <th> Quantity </th>
+                            <th> % of Portfolio </th>
+                            <th> Security Type </th>
+                            <th> Reinvest Divs? </th>
+                            <th> Transaction Time </th>
+                            <th> Original Value </th>
+                            <th> Current Value </th>
+                            <th> Percentage Change </th>
+                            <th> Gain/Loss </th>
+                            <th> Contract </th>
+                            <th> Sell All </th>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let holding of portfolio.holdings">
+                        <td>{{holding.symbol}}</td>
+
+                        <td>{{holding.costBasis | fiFormat : '$' : '' : false : true}}</td>
+                        <td>{{holding.currentPrice | fiFormat : '$' : '' : false : true}}</td>
+                        <td>{{holding.quantity}}</td>
+                        <td>{{(((holding.quantity * holding.currentPrice)/portfolio.totalMarketValue) * 100).toFixed(2)}}%</td>
+                        <td>{{holding.securityType}}</td>
+                        <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
+                        <td>{{ConvertDate(holding.transactionDate)}}</td>
+                        <td>{{(holding.costBasis * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
+                        <td>{{(holding.currentPrice * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
+                        <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
+                            <h6>{{(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) | fiFormat : '' : '%' : true : true}}
+                                <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) > 0" class="fas fa-caret-up"></i>
+                                <i *ngIf="(((holding.currentPrice - holding.costBasis)/holding.costBasis)*100) < 0" class="fas fa-caret-down"></i>
+                            </h6>
+                        </td>
+                        <td [ngClass]="((holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) < 0) ? 'text-danger' : 'text-success'">
+                            <h6>{{(holding.currentPrice * holding.quantity) - (holding.costBasis * holding.quantity) | fiFormat : '$' : '' : true : true}}
+                                <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) > 0" class="fas fa-caret-up"></i>
+                                <i *ngIf="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0" class="fas fa-caret-down"></i>
+                            </h6>
+                        </td>
+                        <td *ngIf="!holding.contractName"></td>
+                        <td *ngIf="holding.contractName">{{holding.contractName}}</td>
+                        <td><button (click)="onDeleteHolding($event, holding.holdingId!)" class="btn btn-primary">Sell All</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 col-sm-12">
+          <p class="lead">Buy An Equity</p>
+        </div>
+      </div>
+
+    <form class="form-group" [formGroup]="holdingForm" (ngSubmit)="onSubmitHolding()">
+        <div class="form-row">
+            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                <div class="form-check">
+                    <input class="form-check-input" formControlName="holdingDividendControl" type="checkbox" value="" id="divs">
+                    <label class="form-check-label" for="divs">Dividend Reinvestment</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row mt-2">
+            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                <label for="sym">Symbol: </label>
+                <input [ngClass]="{ 'is-invalid': symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)}" aria-describedby="adb" class="form-control" id="sym" type="text" formControlName="holdingSymbolControl">
+                <div class="invalid-feedback" *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)">
+                    <div *ngIf="symbolControl!.errors!.required">
+                        Symbol is required.
+                    </div>
+                    <div *ngIf="symbolControl!.errors!.minlength || symbolControl!.errors!.maxlength">
+                        Symbol must be between 1 and 8 characters long.
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                <label for="quant">Quantity: </label>
+                <input [ngClass]="{ 'is-invalid': quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)}" aria-describedby="adb" class="form-control" id="quant" type="number" formControlName="holdingQuantityControl">
+                <div class="invalid-feedback" *ngIf="quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)">
+                    <div *ngIf="quantityControl!.errors!.min || quantityControl!.errors!.required">
+                        You can't buy zero/negative shares.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row mt-2">
+            <div class="col-8 col-sm-8 col-md-6 col-lg-4">
+                <button class="btn btn-block btn-primary" onmousedown="event.preventDefault()" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
+            </div>
+        </div>
+
+            <!--symbol validation messages-->
+            <!-- <div *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)" class="alert alert-danger">
+                <div *ngIf="symbolControl!.errors!.required">
+                    Symbol is required.
+                </div>
+                <div *ngIf="symbolControl!.errors!.minlength || symbolControl!.errors!.maxlength">
+                    Symbol must be between 1 and 8 characters long.
+                </div>
+            </div> -->
+
+            <!--quantity validation messages-->
+            <!-- <div *ngIf="quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)" class="alert alert-danger">
+                <div *ngIf="quantityControl!.errors!.min || quantityControl!.errors!.required">
+                    You can't buy zero shares.
+                </div>
+            </div> -->
+    </form>
+</div>

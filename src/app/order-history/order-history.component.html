@@ -1,0 +1,42 @@
+<div class="">
+  <div class="row flex-row align-items-center mx-1 my-2">
+      <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
+      <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+      <h2><i class="fas fa-book"></i> Order History</h2>
+  </div>
+  <!-- <div class="d-flex flex-row justify-content-center"> -->
+  <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg" [inputErrorMessage]="errorMsg"></app-message>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr class="table-primary">
+              <!-- <th> Total Equity </th> -->
+              <th>Symbol</th>
+              <th>Qty.</th>
+              <th>Order Type</th>
+              <th>Date/Time</th>
+              <th>Asset Type</th>
+              <th>Price</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <!-- <td>{{port.totalMarketValue}}</td> -->
+              <td>{{order.symbol}}</td>
+              <td>{{order.quantity}}</td>
+              <td>{{order.orderType}}</td>
+              <td>{{ConvertDate(order.transactionDate)}}</td>
+              <td>{{order.securityType}}</td>
+              <td>{{order.price | fiFormat : '$' : '' : false : true}}</td>
+              <td>{{(order.price * order.quantity) | fiFormat : '$' : '' : false : true}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>  
+</div>
