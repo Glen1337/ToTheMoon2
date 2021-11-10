@@ -48,7 +48,7 @@ export class AuthButtonComponent implements OnInit {
     });
 
     this.auth.isAuthenticated$.subscribe((isAuth) => {
-      console.log('Is Authed? ', isAuth.valueOf);
+      console.log('Is Authed? ', isAuth);
   });
 
     this.auth.idTokenClaims$.subscribe((claims) => { 
