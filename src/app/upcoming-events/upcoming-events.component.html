@@ -28,12 +28,18 @@
     <div class="col lg-8 col-md-10">
       <mwl-calendar-week-view
         [viewDate]="viewDate"
+        [hourSegmentHeight]="12"
+        [hourSegmentTemplate]="myTemplate"
         [events]="calendarEvents"
         [refresh]="refresh"
         (eventClicked)="handleEvent('Clicked', $event.event)">
       </mwl-calendar-week-view>
     </div>
   </div>
+
+  <ng-template #myTemplate>
+    <div></div>
+  </ng-template>
 
   <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
     <span class="sr-only">Loading...</span>

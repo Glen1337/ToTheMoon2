@@ -38,6 +38,9 @@ const colors: any = {
   },
 };
 
+const BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - 7))
+const EndDate: Date = new Date(new Date().setDate(new Date().getDate() + 8))
+
 @Component({
   selector: 'app-upcoming-events',
   templateUrl: './upcoming-events.component.html',
@@ -104,17 +107,18 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
             foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
-            //oundCalendarEvent.title.fontcolor = colors.yellow;
+            foundCalendarEvent.title.fontcolor("green");
           }
         });
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
             foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>IPO: ${ipo.symbol}`;
-            //foundCalendarEvent.title.fontcolor = colors.red;
+            foundCalendarEvent.title.fontcolor("ff6347");
           }
         });
         this.currentlyLoading = false;
+        console.log(this.upcomingEvents);
       },
       (error) => {
         console.log(`(component)Error getting upcoming event data:${error}`);
@@ -154,15 +158,11 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   }
 
   private getInitialStartDate(): string {
-    let today = new Date();
-    let start = new Date(today.setDate(today.getDate() - 10)).toISOString().split('T')[0]; // .replace(/-/g, '');
-    return start;
+    return BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
   private getInitialEndDate(): string{
-    let today = new Date();
-    let end = new Date(today.setDate(today.getDate() + 10)).toISOString().split('T')[0]; // .replace(/-/g, '');
-    return end;
+    return EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
   messageClick(): void {
@@ -185,7 +185,7 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
       let day = {
         start: startOfDay(addDays(new Date(),i)),
         end: endOfDay(addDays(new Date(),i)),
-        title: "IPOs & Earnings",
+        title: "<strong><u>IPOs & Earnings</u></strong>",
         color: colors.blue,
         allDay: false,
         resizable: {
