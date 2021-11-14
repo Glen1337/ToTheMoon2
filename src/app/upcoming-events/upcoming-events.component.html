@@ -1,7 +1,7 @@
 <div class="">
   <div class="row align-items-center my-2 mx-1">
     <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refreshPage()">Refresh</button>
     <h2><i class="fas fa-calendar-alt fa-md"></i>Upcoming Market Events</h2>
   </div>
   <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
@@ -23,6 +23,17 @@
       </div>
     </div>
   </form>
+
+  <div class="row" style>
+    <div class="col lg-8 col-md-10">
+      <mwl-calendar-week-view
+        [viewDate]="viewDate"
+        [events]="calendarEvents"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)">
+      </mwl-calendar-week-view>
+    </div>
+  </div>
 
   <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
     <span class="sr-only">Loading...</span>

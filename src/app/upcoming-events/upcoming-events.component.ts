@@ -1,10 +1,42 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscriber, Subscription } from 'rxjs';
+import { Subscriber, Subscription, Subject } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+} from 'angular-calendar';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
+import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+};
 
 @Component({
   selector: 'app-upcoming-events',
@@ -18,6 +50,51 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
   public currentlyLoading: boolean = false;
+
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      },
+    },
+    {
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.calendarEvents = this.calendarEvents.filter((iEvent) => iEvent !== event);
+        this.handleEvent('Deleted', event);
+      },
+    },
+  ];
+  
+  view: CalendarView = CalendarView.Week;
+
+  CalendarView = CalendarView;
+
+  viewDate: Date = new Date();
+
+  refresh: Subject<any> = new Subject();
+
+  calendarEvents: CalendarEvent[] = [
+    {
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      title: "Earnings",
+      color: colors.blue,
+      allDay: false,
+      resizable: {
+          beforeStart: false,
+          afterEnd: false,
+      },
+      draggable: false,
+    }
+  ];
+
+  handleEvent(action: string, event: CalendarEvent): void {
+
+  }
 
 
   public upcomingEventsForm = new FormGroup({
@@ -34,14 +111,10 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     // let sub$: Subscription = new Subscription();
     // sub$ = this.route.data.subscribe(
     //   (data) => {
-    //     this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
-    //     console.log(this.upcomingEvents);
     //   },
     //   (error) => {
-    //     console.log(`(component)Error getting upcoming event data:${error}`);
-    //     this.errorMsg = `${error.error}`;
     //   },
-    //   () => {console.log('Finsished retrieving upcoming event data'); }
+    //   () => { }
     // );
     // this.subscriptions.push(sub$);
   }
@@ -51,13 +124,20 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl')!; }
 
   submitForm(): void{
+    // Set calendar dates to form control days
+    //add calendar event object for each day by default
     this.currentlyLoading = true;
     let startDate = this.startDateControl.value;
     let endDate = this.endDateControl?.value;
     let upcomingEvents$ = this.researchService.getUpcomingEvents(startDate, endDate).subscribe(
       (events) => {
         this.upcomingEvents = events;
+        this.upcomingEvents.earnings.forEach((announcement) => {
+          //add announcement to proper day's calendar event object
+          this.calendarEvents[0].title = this.calendarEvents[0].title.concat(`<br>${announcement.symbol}`);
+        });
         console.log(this.upcomingEvents);
+        
       },
       (error) => {
         this.currentlyLoading = false;
@@ -92,7 +172,7 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   this.location.back();
   }
 
-  refresh(): void {
+  refreshPage(): void {
     location.reload();
   }
 

@@ -26,6 +26,8 @@ import { environment } from 'src/environments/environment';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { FiFormatPipe } from './Utilities/fi-format.pipe';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,8 @@ import { FiFormatPipe } from './Utilities/fi-format.pipe';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
 
   // , {provide: LocationStrategy, useClass: HashLocationStrategy}
