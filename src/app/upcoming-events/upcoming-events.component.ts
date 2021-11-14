@@ -77,25 +77,11 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  calendarEvents: CalendarEvent[] = [
-    {
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      title: "Earnings",
-      color: colors.blue,
-      allDay: false,
-      resizable: {
-          beforeStart: false,
-          afterEnd: false,
-      },
-      draggable: false,
-    }
-  ];
+  calendarEvents: CalendarEvent[] = [];
 
   handleEvent(action: string, event: CalendarEvent): void {
 
   }
-
 
   public upcomingEventsForm = new FormGroup({
     startDateControl: new FormControl(this.getInitialStartDate(), [Validators.required]),
@@ -108,15 +94,36 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
               }
 
   ngOnInit(): void {
-    // let sub$: Subscription = new Subscription();
-    // sub$ = this.route.data.subscribe(
-    //   (data) => {
-    //   },
-    //   (error) => {
-    //   },
-    //   () => { }
-    // );
-    // this.subscriptions.push(sub$);
+    this.currentlyLoading = true;
+    let sub$: Subscription = new Subscription();
+    this.calendarEvents = this.createDays();
+    sub$ = this.route.data.subscribe(
+      (data) => {
+        this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
+        this.upcomingEvents.earnings.forEach((announcement) => {
+          let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
+          if(foundCalendarEvent){
+            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
+            //oundCalendarEvent.title.fontcolor = colors.yellow;
+          }
+        });
+        this.upcomingEvents.ipo.forEach((ipo) => {
+          let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
+          if(foundCalendarEvent){
+            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>IPO: ${ipo.symbol}`;
+            //foundCalendarEvent.title.fontcolor = colors.red;
+          }
+        });
+        this.currentlyLoading = false;
+      },
+      (error) => {
+        console.log(`(component)Error getting upcoming event data:${error}`);
+        this.errorMsg = `${error.error}`;
+        this.currentlyLoading = false;
+      },
+      () => {console.log('Finsished retrieving upcoming event data'); }
+    );
+    this.subscriptions.push(sub$);
   }
 
   get startDateControl(): AbstractControl { return this.upcomingEventsForm.get('startDateControl')!; }
@@ -124,7 +131,6 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl')!; }
 
   submitForm(): void{
-    // Set calendar dates to form control days
     //add calendar event object for each day by default
     this.currentlyLoading = true;
     let startDate = this.startDateControl.value;
@@ -132,10 +138,6 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     let upcomingEvents$ = this.researchService.getUpcomingEvents(startDate, endDate).subscribe(
       (events) => {
         this.upcomingEvents = events;
-        this.upcomingEvents.earnings.forEach((announcement) => {
-          //add announcement to proper day's calendar event object
-          this.calendarEvents[0].title = this.calendarEvents[0].title.concat(`<br>${announcement.symbol}`);
-        });
         console.log(this.upcomingEvents);
         
       },
@@ -174,6 +176,27 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
 
   refreshPage(): void {
     location.reload();
+  }
+
+  private createDays(): CalendarEvent[]{
+    let days: CalendarEvent[] = []
+
+    for (let i = -7; i <=7; i++) {
+      let day = {
+        start: startOfDay(addDays(new Date(),i)),
+        end: endOfDay(addDays(new Date(),i)),
+        title: "IPOs & Earnings",
+        color: colors.blue,
+        allDay: false,
+        resizable: {
+            beforeStart: false,
+            afterEnd: false,
+        },
+        draggable: false,
+      }
+      days.push(day)
+    }
+    return days;
   }
 
   //TODO: make this into pipe

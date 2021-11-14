@@ -6,7 +6,7 @@
   </div>
   <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
   
-  <form class="form-group" [formGroup]="upcomingEventsForm" (ngSubmit)="submitForm()">
+  <!-- <form class="form-group" [formGroup]="upcomingEventsForm" (ngSubmit)="submitForm()">
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4 col-lg-2">
         <label for="start">Begin Date</label>
@@ -22,9 +22,9 @@
         <button type="submit" onmousedown="event.preventDefault()" [disabled]="!upcomingEventsForm.valid" class="btn btn-primary">Submit</button>
       </div>
     </div>
-  </form>
+  </form> -->
 
-  <div class="row" style>
+  <div class="row mt-4" style>
     <div class="col lg-8 col-md-10">
       <mwl-calendar-week-view
         [viewDate]="viewDate"
