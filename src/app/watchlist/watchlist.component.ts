@@ -36,20 +36,20 @@ export class WatchlistComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
-    sub = this.route.data.subscribe(
-      (data) => {
+    sub = this.route.data.subscribe({
+      next: (data) => {
         this.watchList = data.watchList;
         console.log(data.watchList);
         if (!data.watchList.length){
           // this.errorMsg = "Could not retrieve watchlist from server"
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting watchlist:${error}`);
         this.errorMsg = error.error;
       },
-      () => { console.log('Completed retrieval of watchlist'); }
-    );
+      complete: () => { console.log('Completed retrieval of watchlist'); }
+    });
     this.subscriptions.push(sub);
   }
 
@@ -72,18 +72,17 @@ export class WatchlistComponent implements OnInit, OnDestroy{
       symbol : this.watchItemSymbolControl?.value
     };
 
-    sub = this.watchListService.addWatchItem(watchItem)
-    .subscribe(
-      (addedWatchItem) => { this.watchList.push(addedWatchItem); },
-      (error) => {
+    sub = this.watchListService.addWatchItem(watchItem).subscribe({
+      next: (addedWatchItem) => { this.watchList.push(addedWatchItem); },
+      error: (error) => {
         console.log('(component)Error in watchlist submit:', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {
+      complete: () => {
         console.log('(component)watch item added to watchlist');
         this.refreshMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
       }
-    );
+    });
 
     this.subscriptions.push(sub);
   }

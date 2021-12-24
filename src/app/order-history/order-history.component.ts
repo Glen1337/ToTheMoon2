@@ -21,17 +21,17 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let subscription1: Subscription = new Subscription();
 
-    subscription1 = this.route.data.subscribe(
-      (data) => {
+    subscription1 = this.route.data.subscribe({
+      next: (data) => {
         this.orders = data.orders;
         console.log('(component)Order history retrieved');
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting order history: ${error}`);
         this.errorMsg = `${error.error.title}`;
       },
-      () => { console.log('(component)Order history retrieved'); }
-    );
+      complete: () => { console.log('(component)Order history retrieved'); }
+    });
 
     this.subscriptions.push(subscription1)
   }

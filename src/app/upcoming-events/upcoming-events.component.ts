@@ -100,8 +100,8 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     this.currentlyLoading = true;
     let sub$: Subscription = new Subscription();
     this.calendarEvents = this.createDays();
-    sub$ = this.route.data.subscribe(
-      (data) => {
+    sub$ = this.route.data.subscribe({
+      next: (data) => {
         this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
         this.upcomingEvents.earnings.forEach((announcement) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
@@ -120,13 +120,13 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
         this.currentlyLoading = false;
         console.log(this.upcomingEvents);
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting upcoming event data:${error}`);
         this.errorMsg = `${error.error}`;
         this.currentlyLoading = false;
       },
-      () => {console.log('Finsished retrieving upcoming event data'); }
-    );
+      complete: () => {console.log('Finsished retrieving upcoming event data'); }
+    });
     this.subscriptions.push(sub$);
   }
 
@@ -139,21 +139,21 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     this.currentlyLoading = true;
     let startDate = this.startDateControl.value;
     let endDate = this.endDateControl?.value;
-    let upcomingEvents$ = this.researchService.getUpcomingEvents(startDate, endDate).subscribe(
-      (events) => {
+    let upcomingEvents$ = this.researchService.getUpcomingEvents(startDate, endDate).subscribe({
+      next: (events) => {
         this.upcomingEvents = events;
         console.log(this.upcomingEvents);
         
       },
-      (error) => {
+      error: (error) => {
         this.currentlyLoading = false;
         console.log(`(component)Error getting upcoming event data:${error}`);
         this.errorMsg = `${error.error}`;
       },
-      () => {
+      complete: () => {
         this.currentlyLoading = false;
       }
-    );
+    });
     this.subscriptions.push(upcomingEvents$);
   }
 

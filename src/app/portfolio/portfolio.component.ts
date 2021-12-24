@@ -44,8 +44,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let subscription1: Subscription = new Subscription();
-    subscription1 = this.route.data.subscribe(
-      (data) => {
+    subscription1 = this.route.data.subscribe({
+      next: (data) => {
         if (Object.keys(data.portfolio).length === 0) {
           this.errorMsg = 'Could not load Portfolio';
         }else {
@@ -54,12 +54,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.portfolio = data.portfolio;
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting portfolio:${error}`);
         this.errorMsg = `${error.error}`;
       },
-      () => { console.log('Portfolio retrieved'); }
-    );
+      complete: () => { console.log('Portfolio retrieved'); }
+    });
 
     this.subscriptions.push(subscription1);
   }
@@ -105,8 +105,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       order$ = this.holdingService.addHolding(holding);
     }
 
-    sub = order$.subscribe(
-      (returnedHolding) => {
+    sub = order$.subscribe({
+      next: (returnedHolding) => {
         if (!found) {
           this.portfolio.holdings.push(returnedHolding);
 
@@ -132,12 +132,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.buyingPower -= transactionPrice;
         }
       },
-      (error) => {
+      error: (error) => {
         console.log('(component)Error in onSubmitHolding ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => { console.log(`(component)holding add complete`); }
-    );
+      complete: () => { console.log(`(component)holding add complete`); }
+    });
 
     this.subscriptions.push(sub);
   }
@@ -145,8 +145,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   onDeleteHolding(event: any, holdingId: number): void {
     let sub: Subscription = new Subscription();
 
-    sub = this.holdingService.deleteHolding(holdingId).subscribe(
-      (response) => {
+    sub = this.holdingService.deleteHolding(holdingId).subscribe({
+      next: (response) => {
         console.log(`Holding deleted: ${holdingId}`);
         this.portfolio.holdings.forEach((holding, index) => {
           if (holding.holdingId === holdingId) {
@@ -161,12 +161,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           }
         });
       },
-      (error) => {
+      error: (error) => {
         this.errorMsg = `${error.error}`;
         console.log('(component)Error while deleting holding ', error);
       },
-      () => { console.log(`(component)deleting holding - complete`); }
-    );
+      complete: () => { console.log(`(component)deleting holding - complete`); }
+    });
 
     this.subscriptions.push(sub);
   }
