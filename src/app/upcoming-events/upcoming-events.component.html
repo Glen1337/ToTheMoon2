@@ -1,12 +1,12 @@
 <div class="">
   <div class="row align-items-center my-2 mx-1">
     <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
+    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refreshPage()">Refresh</button>
     <h2><i class="fas fa-calendar-alt fa-md"></i>Upcoming Market Events</h2>
   </div>
   <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
   
-  <form class="form-group" [formGroup]="upcomingEventsForm" (ngSubmit)="submitForm()">
+  <!-- <form class="form-group" [formGroup]="upcomingEventsForm" (ngSubmit)="submitForm()">
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4 col-lg-2">
         <label for="start">Begin Date</label>
@@ -22,7 +22,24 @@
         <button type="submit" onmousedown="event.preventDefault()" [disabled]="!upcomingEventsForm.valid" class="btn btn-primary">Submit</button>
       </div>
     </div>
-  </form>
+  </form> -->
+
+  <div class="row mt-4" style>
+    <div class="col lg-8 col-md-10">
+      <mwl-calendar-week-view
+        [viewDate]="viewDate"
+        [hourSegmentHeight]="12"
+        [hourSegmentTemplate]="myTemplate"
+        [events]="calendarEvents"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)">
+      </mwl-calendar-week-view>
+    </div>
+  </div>
+
+  <ng-template #myTemplate>
+    <div></div>
+  </ng-template>
 
   <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
     <span class="sr-only">Loading...</span>

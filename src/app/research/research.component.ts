@@ -45,18 +45,18 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     let subscription1: Subscription = new Subscription();
     let symbol: string = this.researchSymbolControl!.value;
 
-    subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe(
-      (data) => {
+    subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe({
+      next: (data) => {
         this.historicalStockData = data;
         this.ChartData(data);
         this.visible = true;
       },
-      (error) => {
+      error: (error) => {
         console.log('(component)Error in getting research: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {'(component)Research retrieval complete'}
-    );
+      complete: () => {'(component)Research retrieval complete'}
+    });
 
     this.subscriptions.push(subscription1);
   }

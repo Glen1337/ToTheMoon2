@@ -89,16 +89,18 @@ export class OptionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
 
-    sub = this.route.data.subscribe(
-      (data) => {
+    sub = this.route.data.subscribe({
+      next: (data) => {
         this.portfolios = data.portfolios;
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting portoflios for options page: ${error}`);
         this.errorMsg = `${error.error.title}`;
       },
-      () => { console.log('(component)portfolios retrieved for options component'); }
-    );
+      complete: () => { 
+        console.log('(component)portfolios retrieved for options component');
+      }
+    });
   }
 
   goBack(): void {
@@ -128,8 +130,8 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.currentlyLoadingChain = true;
     let sub: Subscription = new Subscription();
     let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-    sub = this.optionsDataService.getExpirys(symbol).subscribe(
-      (exps) => {
+    sub = this.optionsDataService.getExpirys(symbol).subscribe({
+      next: (exps) => {
         this.expiryDates = exps;
         this.currentlyLoadingChain = false;
         this.optionExpiryControl?.enable();
@@ -151,16 +153,16 @@ export class OptionsComponent implements OnInit, OnDestroy {
         //this.expiryDates = this.optionChainByExp.optionsByExp. map(function(a) {return a.key; });
         // this.chooseMsg = "Choose an Exp. Date";
       },
-      (error) => {
+      error: (error) => {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
         this.currentlyLoadingChain = false;
       },
-      () => {
+      complete: () => {
         '(component)Option chain retrieval complete';
         this.currentlyLoadingChain = false;
       }
-    );
+    });
     this.subscriptions.push(sub);
   }
 
@@ -199,23 +201,23 @@ export class OptionsComponent implements OnInit, OnDestroy {
     let symbol: string = this.optionSymbolControl?.value.trim().toUpperCase();
     let expiry: string = this.optionExpiryControl?.value.trim().replaceAll('-','');
 
-    sub = this.optionsDataService.getChain(symbol, expiry).subscribe(
-      (chain) => {
+    sub = this.optionsDataService.getChain(symbol, expiry).subscribe({
+      next: (chain) => {
         this.currentlyLoadingChain = false;
         this.optionChain = chain;
         this.callSideChain = chain.filter(o => o.side === SecurityConstants.Call ).sort((n1, n2) =>  n1.strike - n2.strike);
         this.putSideChain = chain.filter(o => o.side === SecurityConstants.Put).sort((n1, n2) =>  n1.strike - n2.strike);
       },
-      (error) => {
+      error: (error) => {
         this.currentlyLoadingChain = false;
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {
+      complete: () => {
         this.currentlyLoadingChain = false;
         console.log('(component)Option Chain retrieved');
       }
-    );
+    });
     this.subscriptions.push(sub);
   }
 
@@ -253,16 +255,16 @@ export class OptionsComponent implements OnInit, OnDestroy {
       portfolioId: this.orderPortfolioControl?.value
     };
 
-    sub = this.holdingService.addHolding(optionHolding).subscribe(
-      (data) => { console.log(data);
+    sub = this.holdingService.addHolding(optionHolding).subscribe({
+      next: (data) => { console.log(data);
         this.otherMsg = 'Option purchased';
       },
-      (error) => {
+      error: (error) => {
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      () => {'(component)Option added'; }
-    );
+      complete: () => {'(component)Option added'; }
+    });
     this.subscriptions.push(sub);
   }
 

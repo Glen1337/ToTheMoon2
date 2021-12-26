@@ -30,9 +30,9 @@
         <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-        <div class="mt-2 form-inline" > <!--form-row -->
-            <label for="sym">Choose an Exp. Date:&nbsp;</label>
-            <div class="col-10 col-sm-8 col-md-4 col-lg-4">
+        <div class="form-row mt-2 " > <!--form-row form-inline-->
+            <!-- <label for="sym">Choose an Exp. Date:&nbsp;</label> -->
+            <div class="col-6 col-sm-6 col-md-3 col-lg-2">
                 <select #exp id="sym" class="form-control" aria-describedby="adb" formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
                     <option value="" disabled selected>Choose an Exp.</option>
                     <option *ngFor="let date of expiryDates" [ngValue]="date"><!--[value]=date-->{{ date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4) }}</option>

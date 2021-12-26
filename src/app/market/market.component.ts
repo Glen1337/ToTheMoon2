@@ -20,34 +20,19 @@ export class MarketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let sub1: Subscription = this.route.data.subscribe(
-      (data) => {
+    let sub1: Subscription = this.route.data.subscribe({
+      next: (data) => {
         console.log(data.marketData);
         this.marketData = data.marketData;
       },
-      (error) => {
+      error:(error) => {
         this.errorMsg = `${error.name}`;
         console.log('(component)Error getting market perf. data');
       },
-      () => { console.log('Market Perf. Data retrieved'); }
-    );
+      complete:() => { console.log('Market Perf. Data retrieved'); }
+    });
     this.subscriptions.push(sub1);
   }
-
-  //   let sub: Subscription = new Subscription();
-  //   sub = this.researchdataService.getMarketInfo().subscribe(
-  //     (marketDataJson) => {
-  //       this.marketData = marketDataJson;
-  //       console.log(this.marketData);
-  //     },
-  //     (error) => {
-  //       this.errorMsg = `${error.name}`;
-  //       console.log('(component)Error getting market perf. data');
-  //     },
-  //     () => { console.log('Market Perf. Data retrieved'); }
-  //   );
-  //   this.subscriptions.push(sub);
-  // }
 
   messageClick(): void {
     this.errorMsg = '';

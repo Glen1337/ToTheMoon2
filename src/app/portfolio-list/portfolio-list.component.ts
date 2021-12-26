@@ -50,27 +50,27 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
 
-    sub = this.route.data.subscribe(
-      (data) => {
+    sub = this.route.data.subscribe({
+      next: (data) => {
         this.portfolios = data.portfolios;
         if (data.portfolios.length === 0){
           // this.errorMsg = "Could not retrieve portfolios from server"
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(`(component)Error getting portfolio list:${error}`);
         this.errorMsg = error.error;
       },
-      () => { console.log('Completed retrieval of portfolio list');}
-    );
+      complete: () => { console.log('Completed retrieval of portfolio list');}
+    });
 
     this.subscriptions.push(sub)
   }
 
   deletePortfolio(event: any, portfolioId: number): void{
     let subscription3: Subscription = new Subscription();
-    subscription3 = this.portfolioDataService.deletePortfolio(portfolioId).subscribe(
-      (response) => {
+    subscription3 = this.portfolioDataService.deletePortfolio(portfolioId).subscribe({
+      next: (response) => {
         this.portfolios.forEach((port, index) => {
           if (port.portfolioId === portfolioId) {
             this.portfolios.splice(index, 1);
@@ -78,12 +78,12 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
         });
         console.log(`Portfolio deleted: ${portfolioId}`);
       },
-      (error) => {
+      error: (error) => {
         this.errorMsg = `${error.error}`;
         console.log('(component)Error in deletePortfolio ', error);
       },
-      () => { console.log(`(component)Delete Portfolio complete`); }
-    );
+      complete: () => { console.log(`(component)Delete Portfolio complete`); }
+    });
 
     this.subscriptions.push(subscription3);
   }
@@ -103,15 +103,14 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
     console.log('(component)Sending portfolio post to API: ', port);
 
-    subscription2 = this.portfolioDataService.addPortfolio(port)
-      .subscribe(
-        (returnedPort) => { this.portfolios.push(returnedPort); },
-        (error) => {
-          console.log('(component)Error in onSubmitPortfolio: ', error);
-          this.errorMsg = `${error.error}`;
-        },
-        () => { console.log(`addportfolio completed`); }
-      );
+    subscription2 = this.portfolioDataService.addPortfolio(port).subscribe({
+      next: (returnedPort) => { this.portfolios.push(returnedPort); },
+      error: (error) => {
+        console.log('(component)Error in onSubmitPortfolio: ', error);
+        this.errorMsg = `${error.error}`;
+      },
+      complete: () => { console.log(`addportfolio completed`); }
+    });
     this.subscriptions.push(subscription2);
   }
 

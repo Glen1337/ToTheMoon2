@@ -62,7 +62,7 @@
                                 <p class="card-text">Company does not currently pay a dividend.</p>
                             </div>
                             <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                                <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield * 100 | fiFormat : '%' : '' : false : true}}</p>
+                                <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield * 100 | fiFormat : '' : '%' : false : true}}</p>
                                 <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
                                 <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
                                 <p class="card-text">TTM Divdend Rate: {{financiafy(companyResearch.advStats.ttmDividendRate, '$')}}</p>
@@ -77,7 +77,7 @@
                                 <h4>52 Week Ranges</h4>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">52 Week Change: {{financiafy(companyResearch.advStats.week52change * 100, '%', true)}}</p>
+                                <p class="card-text">52 Week Change: {{companyResearch.advStats.week52change * 100 | fiFormat : '' : '%' : true}}</p>
                                 <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high)}}</p>
                                 <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low)}}</p>
                             </div>
