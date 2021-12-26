@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "scss": "sass scss/custom.scss src/css-from-sass/custom.css"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,7 @@
     "date-fns": "^2.27.0",
     "popper.js": "^1.16.1",
     "rxjs": "^7.4.0",
+    "sass": "^1.45.1",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
