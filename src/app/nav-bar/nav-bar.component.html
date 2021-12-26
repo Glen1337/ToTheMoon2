@@ -1,46 +1,48 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <!-- class="fixed-top" -->
-    <!-- <div class="container-fluid"> -->
-    <a class="navbar-brand" [routerLink]="['/']"><h4><i class="fas fa-rocket pl-1"></i> {{title}}</h4></a>
+    <div class="container-fluid">
+        
+        <!-- Brand -->
+        <a class="navbar-brand" [routerLink]="['/']">
+            <h4><i class="fas fa-rocket pl-1"></i> {{title}}</h4>
+        </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li *ngFor="let navItem of NavItems" class="nav-item">
-                <a class="nav-link"  routerLinkactive="active" [routerLink]="navItem.link">{{navItem.label}}</a>
-            </li>
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li> -->
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li> -->
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Menu Items -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li *ngFor="let navItem of NavItems" class="nav-item">
+                    <a class="nav-link" [routerLink]="navItem.link">{{navItem.label}}</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                </li> -->
+                <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li> -->
 
-        </ul>
+            </ul>
 
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <app-auth-button></app-auth-button>
-            </li>
-        </ul>
+            <!-- Login button -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <app-auth-button></app-auth-button>
+                </li>
+            </ul>
 
-        <!-- <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
+            <!-- <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+        </div>
     </div>
-
+</nav> 
     <!-- <div [ngClass]="'row row-cols-'+this.NavItems.length" class="bg-primary"> -->
         <!-- <div *ngFor="let navItem of NavItems"> class="col-md-1 col-lg-1 col-sm-1" -->
             <!-- class="btn btn-primary" -->
@@ -51,4 +53,3 @@
         <!-- </div> -->
     <!-- </div> -->
     <!--</div> -->
-</nav> 
