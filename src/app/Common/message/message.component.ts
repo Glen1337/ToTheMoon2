@@ -29,14 +29,10 @@ export class MessageComponent implements OnChanges {
     this.okClickEvent.emit('ok');
   }
 
-  scrollToTop(): void{
-    this.scroll.scrollToPosition([0,0]);
-  }
-
   // to avoid bugs when another message appears but the OK button was NOT clicked to dismiss the previous message
   ngOnChanges(): void{
 
-    this.scrollToTop();
+    this.scroll.scrollToPosition([0,0]);
 
     if (this.inputErrorMessage){
         this.isError = true;

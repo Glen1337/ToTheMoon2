@@ -3,19 +3,21 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '../Models/Order';
 import { of, Subscription } from 'rxjs';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.css']
 })
-export class OrderHistoryComponent implements OnInit, OnDestroy {
+export class OrderHistoryComponent extends messageEnabled implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public orders: Order[] = [];
   public errorMsg: string = '';
 
-  constructor(private route: ActivatedRoute, private location: Location) {
+  constructor(private route: ActivatedRoute, public location: Location) {
+    super();
   }
 
   ngOnInit(): void {
@@ -36,14 +38,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription1)
   }
 
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
   ConvertDate(date?: Date){
     return(date ? new Date(date).toLocaleString() : '');
   }
@@ -55,9 +49,5 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  refresh(): void {
-    location.reload();
-  }
-
+  
 }
