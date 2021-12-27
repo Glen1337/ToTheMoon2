@@ -2,24 +2,27 @@
     <app-heading [location]="location" title="Stock Chart" iconClass="fas fa-chart-area"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     
-    <!-- <div class="row">
-        <div class="col-xs-12 col-sm-12">
-            <p class="lead">Chart an Equity</p>
-        </div>
-    </div> -->
+    <!-- <div class="row"><div class="col-xs-12 col-sm-12"><p class="lead">Chart an Equity</p></div></div> -->
 
-    <form class="row my-2" [formGroup]="researchForm" (ngSubmit)="onGetData()">
-        <div class="col-xl-1 col-lg-2 col-md-4 col-sm-8">
-            <input id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
-                [ngClass]="{ 'is-invalid': researchSymbolControl?.invalid && (researchSymbolControl?.dirty || researchSymbolControl?.touched) }" formControlName="researchSymbolControl">
-            <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback">
-                <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>
-                <div *ngIf="researchSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters.</div>
+    <form class="row my-4" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+        <!-- <div class="col-xl-2 col-lg-4 col-md-8 col-sm-12 col-12"> -->
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-1">
+                    <div class="d-flex align-items-center">
+                        <input id="sym" type="text" class="form-control flex-grow" placeholder="Ticker" formControlName="researchSymbolControl"
+                            [ngClass]="{ 'is-invalid': researchSymbolControl?.invalid && (researchSymbolControl?.dirty || researchSymbolControl?.touched) }" formControlName="researchSymbolControl">
+                        <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback flex-fill flex-sm-fill flex-md-fill flex-lg-fill">
+                            <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>
+                            <div *ngIf="researchSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters.</div>
+                        </div>
+                        <button class="ms-2 btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
+                    </div>
+                </div>
+                <div class="col-8 col-sm-6 col-md-2 col-lg-2 col-xl-1">   
+                    
+                </div> 
             </div>
-        </div>
-        <div class="col">
-            <button class="ml-2 btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
-        </div>
+        <!-- </div> -->
     </form>
 
     <!--symbol validation messages-->

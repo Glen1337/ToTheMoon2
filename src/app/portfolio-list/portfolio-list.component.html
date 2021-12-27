@@ -1,6 +1,7 @@
 <div>
   <app-heading [location]="location" title="Portfolio List" iconClass="far fa-list-alt"></app-heading>
-  <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>  <div class="row mt-2">
+  <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+  <div class="row mt-2">
     <div class="my-2 col-lg-8 col-md-8 col-sm-12 col-12">
       <div class="table-responsive">
         <table class="table table-sm table-hover align-middle">
@@ -50,7 +51,7 @@
     <div class="row">
       
       <!-- Name -->
-      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-1">
+      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
         <label class="form-label" for="sym">Name</label>
         <input placeholder="Test Portfolio" id="sym" class="form-control" type="text" [ngClass]="{ 'is-invalid': portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)}"  formControlName="portfolioTitleControl">
         <div class="invalid-feedback" *ngIf="portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)">
@@ -64,7 +65,7 @@
       </div>
 
       <!-- Type -->
-      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-1">
+      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
         <label class="form-label" for="type">Type</label>
         <select id="type" class="form-select" [ngClass]="{ 'is-invalid': portfolioTypeControl?.invalid && (portfolioTypeControl?.dirty || portfolioTypeControl?.touched)}"  formControlName="portfolioTypeControl">
           <option value="" disabled selected >Choose a Type</option>
@@ -82,7 +83,7 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-2">
+      <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-1">
         <div class="d-grid">
           <button class="btn btn-primary" type="submit" [disabled]="!portfolioForm.valid">Create</button>
         </div>

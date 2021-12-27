@@ -5,13 +5,14 @@ import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
 import { financialifyNumber } from '../Utilities/utilities';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent implements OnInit, OnDestroy {
+export class CompanyComponent extends messageEnabled implements OnInit, OnDestroy {
 
   public errorMsg: string = '';
   private subscriptions: Subscription[] = [];
@@ -27,7 +28,8 @@ export class CompanyComponent implements OnInit, OnDestroy {
     ])
   });
 
-  constructor(private location: Location, private researchService: ResearchDataService) {
+  constructor(public location: Location, private researchService: ResearchDataService) {
+    super();
     this.financiafy = financialifyNumber;
   }
 
@@ -58,18 +60,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-  }
-
-  refresh(): void {
-    location.reload();
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
   }
 
   ConvertDate(date: Date): string{

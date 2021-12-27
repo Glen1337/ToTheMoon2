@@ -1,12 +1,8 @@
-<div class="">
-    <div class="row flex-row align-items-center my-2 mx-1">
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2><i class="fas fa-building"></i> Company Info.</h2>
-    </div>
+<div>
+    <app-heading [location]="location" title="Company Info" iconClass="fas fa-building"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     <form class="form-group" [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
-        <div class="form-row">
+        <div class="form-row my-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
                 <input id="sym" type="text" aria-describedby="adb" placeholder="Ticker" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
                 <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="invalid-feedback" >
