@@ -7,18 +7,18 @@ import { IAgg } from '../Models/ResearchData';
 // import  'anychart';
 import { Subscription } from 'rxjs';
 import '../../../node_modules/anychart/';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-research',
   templateUrl: './research.component.html',
   styleUrls: ['./research.component.css']
 })
-export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ResearchComponent extends messageEnabled implements OnInit, AfterViewInit, OnDestroy {
 
   private chart: anychart.charts.Stock;
   private subscriptions: Subscription[] = [];
   public historicalStockData: IAgg[] = [];
-  public errorMsg: string = '';
   public visible: boolean = false;
 
   @ViewChild('chartContainer') container!: ElementRef;
@@ -31,7 +31,8 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ])
   });
 
-  constructor(private researchService: ResearchDataService, private location: Location, private route: ActivatedRoute) {
+  constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
+    super();
     this.chart = anychart.stock();
   }
 
@@ -167,18 +168,6 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ConvertDate(date: Date): string{
     return new Date(date).toLocaleDateString();
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  refresh(): void {
-    location.reload();
   }
 
   ngOnDestroy(): void {

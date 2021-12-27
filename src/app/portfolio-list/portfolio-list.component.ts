@@ -7,17 +7,17 @@ import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { PortfolioTypes } from '../Models/Constants';
 import { SecurityConstants } from '../Models/Constants';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'portfolio-list',
   templateUrl: './portfolio-list.component.html',
   styleUrls: ['./portfolio-list.component.css']
 })
-export class PortfolioListComponent implements OnInit, OnDestroy {
+export class PortfolioListComponent extends messageEnabled implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public portfolios: Array<Portfolio> = [];
-  public errorMsg: string = '';
 
   public portfolioForm = new FormGroup({
     portfolioTitleControl: new FormControl('', [
@@ -41,7 +41,9 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     PortfolioTypes.Speculation,
   ];
 
-  constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService) {}
+  constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService) {
+    super();
+  }
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
 
@@ -54,7 +56,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.portfolios = data.portfolios;
         if (data.portfolios.length === 0){
-          // this.errorMsg = "Could not retrieve portfolios from server"
+        // this.errorMsg = "Could not retrieve portfolios from server"
         }
       },
       error: (error) => {
@@ -114,10 +116,6 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription2);
   }
 
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
       this.subscriptions.forEach((sub) => {
@@ -126,15 +124,15 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     }
   }
 
-  GetOptionCount(id: number){
-    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === SecurityConstants.Call || h.securityType === SecurityConstants.Put).length;
+  GetOptionCount(id: number) {
+    return this.portfolios.find(port => port.portfolioId === id)?.holdings.filter(h => h.securityType === SecurityConstants.Call || h.securityType === SecurityConstants.Put).length;
   }
 
-  GetEquityCount(id: number){
-    return this.portfolios.find(port => port.portfolioId === id)?.holdings?.filter(h => h.securityType === 'Share').length;
+  GetEquityCount(id: number) {
+    return this.portfolios.find(port => port.portfolioId === id)?.holdings.filter(h => h.securityType === SecurityConstants.Share).length;
   }
 
-  ConvertDate(date?: Date): string{
+  ConvertDate(date?: Date): string {
     return(date ? new Date(date).toLocaleString() : '');
   }
 
