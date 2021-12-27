@@ -41,7 +41,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
     PortfolioTypes.Speculation,
   ];
 
-  constructor(private route: ActivatedRoute, private location: Location, private portfolioDataService: PortfolioDataService) {}
+  constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService) {}
 
   get portfolioTitleControl() { return this.portfolioForm.get('portfolioTitleControl'); }
 
@@ -116,7 +116,7 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   messageClick(): void {
     this.errorMsg = '';
- }
+  }
 
   ngOnDestroy(): void {
     if (this.subscriptions && this.subscriptions.length > 0) {
@@ -136,14 +136,6 @@ export class PortfolioListComponent implements OnInit, OnDestroy {
 
   ConvertDate(date?: Date): string{
     return(date ? new Date(date).toLocaleString() : '');
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
   }
 
 }

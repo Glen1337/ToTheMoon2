@@ -15,7 +15,7 @@ import { AuthButtonComponent } from './auth/login-button';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { MessageComponent } from './message/message.component';
+import { MessageComponent } from './Common/message/message.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { TickerComponent } from './ticker/ticker.component';
 import { CompanyComponent } from './company/company.component';
@@ -28,6 +28,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
 import { FiFormatPipe } from './Utilities/fi-format.pipe';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { HeadingComponent } from './Common/heading/heading.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     OptionsComponent,
     FooterComponent,
     UpcomingEventsComponent,
-    FiFormatPipe
+    FiFormatPipe,
+    HeadingComponent
   ],
   imports: [
     BrowserModule,

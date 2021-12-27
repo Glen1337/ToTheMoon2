@@ -1,9 +1,5 @@
-<div class="">
-  <div class="row flex-row align-items-center mx-1 my-2">
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-    <h2><i class="far fa-list-alt"></i> Portfolios</h2>
-  </div>
+<div>
+  <app-heading [location]="location" title="Portfolio List" iconClass="far fa-list-alt"></app-heading>
   <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
   <div class="row mt-2">
     <div class="col-lg-6 col-md-8 col-sm-12 col-12">
