@@ -6,13 +6,14 @@ import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-watchlist',
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent implements OnInit, OnDestroy{
+export class WatchlistComponent extends messageEnabled implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = [];
   public errorMsg: string = '';
@@ -28,7 +29,8 @@ export class WatchlistComponent implements OnInit, OnDestroy{
     watchItemOutlookControl: new FormControl('', [Validators.required])
   });
 
-  constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) {
+  constructor(private route: ActivatedRoute, public location: Location, private watchListService: WatchlistService) {
+    super();
   }
 
   get watchItemSymbolControl(): AbstractControl | null { return this.watchItemForm.get('watchItemSymbolControl'); }

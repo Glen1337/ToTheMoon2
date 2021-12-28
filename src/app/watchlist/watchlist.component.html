@@ -1,9 +1,5 @@
-<div class="">
-    <div class="row flex-row align-items-center ml-1 my-2">
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2><i class="fas fa-eye"></i> Watchlist</h2>
-    </div>
+<div>
+    <app-heading [location]="location" title="Watchlist" iconClass="fas fa-eye"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
         <div class="col-12 col-sm-12">
@@ -47,7 +43,7 @@
                 <h5 class="card-header">
                     {{watchItem.symbol}}
                     <i [ngStyle]="{'color': isPredictionCorrect(watchItem) ? '#28a745' : '#dc3545'}"
-                       [ngClass]="isPredictionCorrect(watchItem) ? 'ml-1 fas fa-check-circle' : 'fas fa-times-circle'">
+                        [ngClass]="isPredictionCorrect(watchItem) ? 'ml-1 fas fa-check-circle' : 'fas fa-times-circle'">
                     </i>
                 </h5>
                 <div class="card-body text-center">

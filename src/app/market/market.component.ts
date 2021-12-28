@@ -4,19 +4,21 @@ import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css']
 })
-export class MarketComponent implements OnInit, OnDestroy {
+export class MarketComponent extends messageEnabled implements OnInit, OnDestroy {
 
   public marketData: MarketData = {} as MarketData;
   errorMsg: string = '';
   private subscriptions: Subscription[] = [];
 
-  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, private location: Location) {
+  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {
+    super();
   }
 
   ngOnInit(): void {
@@ -32,18 +34,6 @@ export class MarketComponent implements OnInit, OnDestroy {
       complete:() => { console.log('Market Perf. Data retrieved'); }
     });
     this.subscriptions.push(sub1);
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
   }
 
   ngOnDestroy(): void {
