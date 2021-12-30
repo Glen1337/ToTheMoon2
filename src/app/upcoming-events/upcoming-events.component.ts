@@ -10,6 +10,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarWeekViewAllDayEvent,
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -22,6 +23,7 @@ import {
   addHours,
 } from 'date-fns';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
+import { messageEnabled } from '../Common/message-enabled';
 
 const colors: any = {
   red: {
@@ -46,7 +48,7 @@ const EndDate: Date = new Date(new Date().setDate(new Date().getDate() + 8))
   templateUrl: './upcoming-events.component.html',
   styleUrls: ['./upcoming-events.component.css']
 })
-export class UpcomingEventsComponent implements OnInit, OnDestroy {
+export class UpcomingEventsComponent extends messageEnabled implements OnInit, OnDestroy {
 
   public errorMsg: string = '';
   public refreshMsg: string = '';
@@ -54,31 +56,30 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
   public currentlyLoading: boolean = false;
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.calendarEvents = this.calendarEvents.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
+  // actions: CalendarEventAction[] = [
+  //   {
+  //     label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+  //     a11yLabel: 'Edit',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //       this.handleEvent('Edited', event);
+  //     },
+  //   },
+  //   {
+  //     label: '<i class="fas fa-fw fa-trash-alt"></i>',
+  //     a11yLabel: 'Delete',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //       this.calendarEvents = this.calendarEvents.filter((iEvent) => iEvent !== event);
+  //       this.handleEvent('Deleted', event);
+  //     },
+  //   },
+  // ];
   
   view: CalendarView = CalendarView.Week;
 
-  CalendarView = CalendarView;
+  //CalendarView = CalendarView;
 
+  // Sets calendar current date
   viewDate: Date = new Date();
-
-  refresh: Subject<any> = new Subject();
 
   calendarEvents: CalendarEvent[] = [];
 
@@ -91,10 +92,9 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     endDateControl: new FormControl(this.getInitialEndDate(), [Validators.required])
   });
 
-  constructor(private location: Location,
-              private researchService: ResearchDataService,
-              private route: ActivatedRoute) {
-              }
+  constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     this.currentlyLoading = true;
@@ -165,21 +165,8 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     return EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
-  messageClick(): void {
-    this.refreshMsg = '';
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-  this.location.back();
-  }
-
-  refreshPage(): void {
-    location.reload();
-  }
-
   private createDays(): CalendarEvent[]{
-    let days: CalendarEvent[] = []
+    let days: CalendarEvent[] = [];
 
     for (let i = -7; i <=7; i++) {
       let day = {

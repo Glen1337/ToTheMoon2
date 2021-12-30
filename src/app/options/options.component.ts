@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { formatDate, Location } from '@angular/common';
 import { FiFormatPipe } from '../Utilities/fi-format.pipe';
+import { messageEnabled } from '../Common/message-enabled';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { FiFormatPipe } from '../Utilities/fi-format.pipe';
   styleUrls: ['./options.component.css'],
   providers: [FiFormatPipe]
 })
-export class OptionsComponent implements OnInit, OnDestroy {
+export class OptionsComponent extends messageEnabled implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public errorMsg: string = '';
@@ -29,7 +30,6 @@ export class OptionsComponent implements OnInit, OnDestroy {
   public optionChain: RefOption[] = [];
   public callSideChain: RefOption[] = [];
   public putSideChain: RefOption[] = [];
-  // public chooseMsg: string = '';
   public selectedOption: RefOption | undefined = {} as RefOption;
   public portfolios: Portfolio[] = [];
   public currentlyLoadingChain: boolean = false;
@@ -64,11 +64,13 @@ export class OptionsComponent implements OnInit, OnDestroy {
     ])
   });
 
-  constructor(private location: Location,
+  constructor(public location: Location,
               private optionsDataService: OptionsDataService,
               private holdingService: HoldingService,
               private route: ActivatedRoute,
-              private fiFormat: FiFormatPipe) { 
+              private fiFormat: FiFormatPipe) {
+                super(); 
+                this.optionExpiryControl?.setValue('Set an Exp.');
                 this.optionExpiryControl?.disable();
               }
 
@@ -101,15 +103,6 @@ export class OptionsComponent implements OnInit, OnDestroy {
         console.log('(component)portfolios retrieved for options component');
       }
     });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-    this.otherMsg = '';
   }
 
   ngOnDestroy(): void {
@@ -277,10 +270,6 @@ export class OptionsComponent implements OnInit, OnDestroy {
 
   public formatTime(input: string): string {
     return "";
-  }
-
-  public refresh(): void {
-    location.reload();
   }
 
   // public displayExpirationDate(input: string): string {
