@@ -1,10 +1,7 @@
-<div class="">
-    <div class="row flex-row align-items-center mx-1 my-2">
-        <h2><i class="fas fa-dice"></i> Options</h2>
-    </div>
+<div>
+    <app-heading [location]="location" title="Options" iconClass="fas fa-dice"></app-heading>
+    <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
 
-    <app-message (okClickEvent)="messageClick()" *ngIf="errorMsg || otherMsg" [inputNoticeMessage]="otherMsg" [inputErrorMessage]="errorMsg"></app-message>
-    
     <div class="row">
         <div class="col-12 col-sm-12">
             <p class="lead">Find an Option Chain</p>
@@ -15,7 +12,7 @@
         <div class="form-row">
             <!-- <label for="sym">Step 1:&nbsp;</label> -->
             <div class="col-6 col-sm-6 col-md-3 col-lg-2">
-                <input class="form-control" aria-describedby="adb" id="sym" type="text" placeholder="Stock Sym." [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
+                <input class="form-control" id="sym" type="text" placeholder="Stock Sym." [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
                 <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="invalid-feedback">
                     <div *ngIf="optionSymbolControl?.errors?.required">Please type a Stock Symbol.</div>
                     <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">Symbol must be between 1 and 8 characters long.</div>
@@ -29,10 +26,10 @@
             <span class="sr-only">Loading...</span>
         </div>
         <div class="form-row mt-2 " > <!--form-row form-inline-->
-            <!-- <label for="sym">Choose an Exp. Date:&nbsp;</label> -->
+            <label for="sym">Choose an Exp. Date:&nbsp;</label>
             <div class="col-6 col-sm-6 col-md-3 col-lg-2">
                 <select #exp id="sym" class="form-select" formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
-                    <!-- <option selected>Choose an Exp.</option> -->
+                    <option selected>Choose an Exp.</option>
                     <option *ngFor="let date of expiryDates" [ngValue]="date"><!--[value]=date-->{{ date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4) }}</option>
                 </select>
             </div>
