@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "comment2": "Below command compiles sass into css. See Angular.json file",
-    "scss": "sass --watch scss/custom.scss src/css-from-sass/custom.css"
+    "scss": "sass scss/custom.scss src/css-from-sass/custom.css"
   },
   "private": true,
   "dependencies": {
