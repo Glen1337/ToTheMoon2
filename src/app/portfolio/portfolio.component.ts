@@ -169,4 +169,8 @@ export class PortfolioComponent extends messageEnabled implements OnInit, OnDest
   ConvertDate(date?: Date): string{
     return(date ? new Date(date).toLocaleString() : '');
   }
+
+  ConvertDateRemoveTime(date?: Date): string{
+    return(date ? new Date(date).toLocaleDateString() : '');
+  }
 }
