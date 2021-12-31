@@ -16,8 +16,6 @@ import { messageEnabled } from '../Common/message-enabled';
 export class WatchlistComponent extends messageEnabled implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = [];
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
 
@@ -59,11 +57,6 @@ export class WatchlistComponent extends messageEnabled implements OnInit, OnDest
     // console.log(event.target.value);
   }
 
-  messageClick(): void {
-    this.refreshMsg = '';
-    this.errorMsg = '';
-  }
-
   onSubmitWatchItem(): void{
     let sub: Subscription = new Subscription();
     console.log('Adding item to watchlist: ', this.watchItemSymbolControl?.value.trim().toUpperCase());
@@ -82,7 +75,7 @@ export class WatchlistComponent extends messageEnabled implements OnInit, OnDest
       },
       complete: () => {
         console.log('(component)watch item added to watchlist');
-        this.refreshMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
+        this.noticeMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
       }
     });
 

@@ -14,7 +14,6 @@ import { messageEnabled } from '../Common/message-enabled';
 })
 export class CompanyComponent extends messageEnabled implements OnInit, OnDestroy {
 
-  public errorMsg: string = '';
   private subscriptions: Subscription[] = [];
   public companyResearch: CompanyResearch = {} as CompanyResearch;
   public imgUrl: string = '';

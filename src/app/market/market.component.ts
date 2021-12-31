@@ -14,7 +14,6 @@ import { messageEnabled } from '../Common/message-enabled';
 export class MarketComponent extends messageEnabled implements OnInit, OnDestroy {
 
   public marketData: MarketData = {} as MarketData;
-  errorMsg: string = '';
   private subscriptions: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {

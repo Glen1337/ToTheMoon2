@@ -50,8 +50,6 @@ const EndDate: Date = new Date(new Date().setDate(new Date().getDate() + 8))
 })
 export class UpcomingEventsComponent extends messageEnabled implements OnInit, OnDestroy {
 
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
   private subscriptions: Subscription[] = [];
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
   public currentlyLoading: boolean = false;

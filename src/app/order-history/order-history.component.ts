@@ -14,7 +14,6 @@ export class OrderHistoryComponent extends messageEnabled implements OnInit, OnD
 
   private subscriptions: Subscription[] = [];
   public orders: Order[] = [];
-  public errorMsg: string = '';
 
   constructor(private route: ActivatedRoute, public location: Location) {
     super();

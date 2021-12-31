@@ -1,6 +1,6 @@
 <div>
     <app-heading [location]="location" title="Watchlist" iconClass="fas fa-eye"></app-heading>
-    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="refreshMsg" [inputErrorMessage]="errorMsg"></app-message>
+    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
     <div class="row">
         <div class="col-12 col-sm-12">
             <p class="lead">Add an equity to your watchlist</p>
@@ -20,7 +20,8 @@
             </div>
             <div class="col-sm-6 col-6 col-lg-2 col-md-4">
                 <label for="out">Outlook: </label>
-                <select id="out" aria-describedby="adb" (change)="Select($event)" [ngClass]="{ 'is-invalid': watchItemOutlookControl!.invalid && (watchItemOutlookControl!.dirty || watchItemOutlookControl!.touched) }" class="select form-control" formControlName="watchItemOutlookControl">
+                <select class="form-select" id="out" (change)="Select($event)" formControlName="watchItemOutlookControl"
+                    [ngClass]="{ 'is-invalid': watchItemOutlookControl!.invalid && (watchItemOutlookControl!.dirty || watchItemOutlookControl!.touched) }">
                     <option *ngFor="let choice of dropDownOptions" [ngValue]="choice">{{choice}}</option>
                 </select> 
                 <div *ngIf="watchItemForm.invalid && (watchItemForm.dirty || watchItemForm.touched)" class="invalid-feedback">

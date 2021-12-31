@@ -7,18 +7,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { messageEnabled } from '../Common/message-enabled';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
-export class PortfolioComponent implements OnInit, OnDestroy {
+export class PortfolioComponent extends messageEnabled implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public portfolio: Portfolio = {} as Portfolio;
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
   public buyingPower: number = 0;
 
   public holdingForm = new FormGroup({
@@ -34,12 +33,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     holdingDividendControl: new FormControl('')
   });
 
-  constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
-  }
-
-  messageClick(): void{
-    this.refreshMsg = '';
-    this.errorMsg = '';
+  constructor(public location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
+    super();
   }
 
   ngOnInit(): void {
@@ -69,14 +64,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
 
   get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
-  }
 
   onSubmitHolding(): void {
     let sub: Subscription = new Subscription();

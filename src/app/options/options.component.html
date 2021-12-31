@@ -1,53 +1,51 @@
 <div>
     <app-heading [location]="location" title="Options" iconClass="fas fa-dice"></app-heading>
-    <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-12 col-sm-12">
             <p class="lead">Find an Option Chain</p>
         </div>
     </div>
 
-    <form class="form-group" [formGroup]="optionsForm" (ngSubmit)="submitForm()">
-        <div class="form-row">
-            <!-- <label for="sym">Step 1:&nbsp;</label> -->
-            <div class="col-6 col-sm-6 col-md-3 col-lg-2">
-                <input class="form-control" id="sym" type="text" placeholder="Stock Sym." [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
+    <form [formGroup]="optionsForm" (ngSubmit)="submitForm()">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2 mb-2">
+                <input class="form-control" id="sym" type="text" placeholder="Stock Symbol"
+                    [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
                 <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="invalid-feedback">
                     <div *ngIf="optionSymbolControl?.errors?.required">Please type a Stock Symbol.</div>
                     <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">Symbol must be between 1 and 8 characters long.</div>
                 </div>
             </div>
-            <div class="col">
-                <button onmousedown="event.preventDefault()" class="ml-2 btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Submit</button>
+            <div class="col-6 col-sm-4 col-md-2 col-lg-1 col-xl-1">   
+                <button onmousedown="event.preventDefault()" class="btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Submit</button>
             </div>
         </div>
-        <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <div class="form-row mt-2 " > <!--form-row form-inline-->
-            <label for="sym">Choose an Exp. Date:&nbsp;</label>
+
+        <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status"></div>
+
+        <div class="row my-2 " >
+            <label for="sym">Choose an Exp. Date</label>
             <div class="col-6 col-sm-6 col-md-3 col-lg-2">
-                <select #exp id="sym" class="form-select" formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
-                    <option selected>Choose an Exp.</option>
+                <select #exp id="sym" class="form-select form-control" formControlName="optionExpiryControl" (change)='onExpiryChange(exp.value)'>
+                    <option disabled selected>Choose an Expiration</option>
                     <option *ngFor="let date of expiryDates" [ngValue]="date"><!--[value]=date-->{{ date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4) }}</option>
                 </select>
             </div>
         </div>
-        <div class="row">
-            <!-- <span>
-                <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
-            </span> -->
+    </form>
 
-        </div>
+        <!-- <span>
+            <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Chain</button>
+        </span> -->
         <!-- <div class="row">
             <div class="col-md-6 col-sm-12 xs-12 col-lg-6">
                 <button class="btn btn-primary" type="submit" [disabled]="!optionsForm.valid">Get Options</button>
             </div>
         </div> -->
-    </form>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-12 col-sm-12">
             <p class="lead">Submit An Order</p>
         </div>
@@ -56,25 +54,26 @@
     <div class="row">
         <div class="col-md-8 col-sm-12 col-12 col-lg-3">
             <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
-                <div class="row">
-                    <div class="form-group col-5">
+                <div class="row g-2">
+                    <div class="col-5">
                         <label> Name: </label>
                         <!--deprecated in v6:  [(ngModel)]="selectedOption!.symbol"  -->
                         <input class="form-control" type="text" formControlName="orderNameControl" readonly="readonly">
                     </div>
-                    <div class="form-group col-3" style="padding-left: 0px; padding-right: 0px;">
+                    <div class="col-3">
                         <label> Strike: </label>
                         <input class="form-control" type="text" formControlName="orderStrikeControl" readonly="readonly">
                     </div>
-                    <div class="form-group col-4">
+                    <div class="col-4">
                         <label> Expiration: </label>
                         <input class="form-control" type="text" formControlName="orderExpControl" readonly="readonly">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-4">
+                <div class="row g-2">
+                    <div class="col-4 mb-2">
                         <label for="quant"> Quantity: </label>
-                        <input min="1" aria-describedby="adb" id="quant" class="form-control" type="number" formControlName="orderQuantityControl" [ngClass]="{ 'is-invalid': orderQuantityControl!.invalid && (orderQuantityControl!.dirty || orderQuantityControl!.touched) }">
+                        <input min="1" id="quant" class="form-control" type="number" formControlName="orderQuantityControl"
+                            [ngClass]="{ 'is-invalid': orderQuantityControl!.invalid && (orderQuantityControl!.dirty || orderQuantityControl!.touched) }">
                         <div *ngIf="orderQuantityControl?.invalid && (orderQuantityControl?.dirty || orderQuantityControl?.touched)" class="invalid-feedback">
                             <div *ngIf="orderQuantityControl?.errors?.required">Please enter a quantity.</div>
                             <div *ngIf="orderQuantityControl?.errors?.min || orderQuantityControl?.errors?.min">Quantity must be 1 or more.</div>
@@ -82,7 +81,7 @@
                     </div>
                     <div class="form-group col-8">
                         <label> Portfolio: </label>
-                        <select class="form-control" formControlName="orderPortfolioControl">
+                        <select class="form-select form-control" formControlName="orderPortfolioControl">
                             <option *ngFor="let port of portfolios" [label]="port.title" [value]="port.portfolioId"></option>
                         </select>
                     </div>
@@ -97,7 +96,7 @@
         </div>
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-4" *ngIf="optionChain.length">
         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="table-responsive">
                 <table class="table table-sm table-hover">
@@ -105,15 +104,15 @@
                         <h4>Calls</h4>
                         <tr>
                             <th> Strike Price </th>
-                            <th> Closing Price </th>
+                            <th> Price </th>
                             <th> Expiration Date </th>
                             <!-- <th> Last Updated </th> -->
                             <th> Last Trade Date </th>
                             <!-- <th> Last Trade Time </th> -->
                             <th> Open Interest </th>
                             <th> Volume </th>
-                            <th> High </th>
-                            <th> Low </th>
+                            <!-- <th> High </th>
+                            <th> Low </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -126,8 +125,8 @@
                             <!-- <td>{{option.lastTradeTime}}</td> -->
                             <td>{{option.openInterest | fiFormat : '' : '' : false }}</td>
                             <td>{{option.volume}}</td>
-                            <td>{{option.high | fiFormat : '$' : '' : false }}</td>
-                            <td>{{option.low | fiFormat : '$' : '' : false }}</td>  
+                            <!-- <td>{{option.high | fiFormat : '$' : '' : false }}</td>
+                            <td>{{option.low | fiFormat : '$' : '' : false }}</td>   -->
                         </tr>
                     </tbody>
                 </table>
@@ -147,8 +146,8 @@
                             <!-- <th> Last Trade Time </th> -->
                             <th> Open Interest </th>
                             <th> Volume </th>
-                            <th> High </th>
-                            <th> Low </th>
+                            <!-- <th> High </th>
+                            <th> Low </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -161,8 +160,8 @@
                             <!-- <td>{{option.lastTradeTime}}</td> -->
                             <td>{{option.openInterest | fiFormat : '' : '' : false }}</td>
                             <td>{{option.volume}}</td>
-                            <td>{{option.high | fiFormat : '$' : '' : false }}</td>
-                            <td>{{option.low | fiFormat : '$' : '' : false }}</td>  
+                            <!-- <td>{{option.high | fiFormat : '$' : '' : false }}</td>
+                            <td>{{option.low | fiFormat : '$' : '' : false }}</td>   -->
                         </tr>
                         <!-- <td><button (click)="choose($event, option.id!)" class="btn btn-primary">Choose</button></td> -->
                     </tbody>

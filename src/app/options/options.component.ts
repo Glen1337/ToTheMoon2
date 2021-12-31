@@ -23,8 +23,6 @@ import { messageEnabled } from '../Common/message-enabled';
 export class OptionsComponent extends messageEnabled implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  public errorMsg: string = '';
-  public otherMsg = '';
   public expiryDates: string[] = [];
   //public optionChainByExp: Chain = {} as Chain;
   public optionChain: RefOption[] = [];
@@ -70,7 +68,6 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
               private route: ActivatedRoute,
               private fiFormat: FiFormatPipe) {
                 super(); 
-                this.optionExpiryControl?.setValue('Set an Exp.');
                 this.optionExpiryControl?.disable();
               }
 
@@ -250,7 +247,7 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
 
     sub = this.holdingService.addHolding(optionHolding).subscribe({
       next: (data) => { console.log(data);
-        this.otherMsg = 'Option purchased';
+        this.noticeMsg = 'Option purchased';
       },
       error: (error) => {
         console.log('(component)Error getting options chain: ', error);
