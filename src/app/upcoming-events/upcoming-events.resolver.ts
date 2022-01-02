@@ -9,6 +9,7 @@ import { ResearchDataService } from '../Services/research-data.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
+import { UpcomingEventsComponent } from './upcoming-events.component';
 
 
 @Injectable({
@@ -21,8 +22,8 @@ export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
-    let begin = new Date(new Date().setDate(new Date().getDate() - 7), ).toISOString().split('T')[0]; // .replace(/-/g, '');
-    let end = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    let begin = new Date(new Date().setDate(new Date().getDate() - UpcomingEventsComponent.daysBehind)).toISOString().split('T')[0]; // .replace(/-/g, '');
+    let end = new Date(new Date().setDate(new Date().getDate() + UpcomingEventsComponent.daysAhead)).toISOString().split('T')[0]; // .replace(/-/g, '');
 
     // to localeString
     return this.researchService.getUpcomingEvents(begin, end)
