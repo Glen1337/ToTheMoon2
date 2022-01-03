@@ -11,7 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { formatDate, Location } from '@angular/common';
 import { FiFormatPipe } from '../Utilities/fi-format.pipe';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 
 @Component({
@@ -20,9 +21,8 @@ import { messageEnabled } from '../Common/message-enabled';
   styleUrls: ['./options.component.css'],
   providers: [FiFormatPipe]
 })
-export class OptionsComponent extends messageEnabled implements OnInit, OnDestroy {
+export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   public expiryDates: string[] = [];
   //public optionChainByExp: Chain = {} as Chain;
   public optionChain: RefOption[] = [];
@@ -66,7 +66,8 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
               private optionsDataService: OptionsDataService,
               private holdingService: HoldingService,
               private route: ActivatedRoute,
-              private fiFormat: FiFormatPipe) {
+              private fiFormat: FiFormatPipe,
+              public dateConverter: DateConverter) {
                 super(); 
                 this.optionExpiryControl?.disable();
               }
@@ -100,16 +101,6 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
         console.log('(component)portfolios retrieved for options component');
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) {
-          sub.unsubscribe();
-        }
-      });
-    }
   }
 
   public onExpiryChange(input: string): void{
@@ -217,7 +208,7 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
     if (this.selectedOption) {
       this.orderNameControl?.setValue(this.selectedOption.symbol);
       this.orderStrikeControl?.setValue(this.fiFormat.transform(this.selectedOption.strike, '$', '', false, true));
-      this.orderExpControl?.setValue(this.formatDate(this.selectedOption.expirationDate));
+      this.orderExpControl?.setValue(this.dateConverter.formatDate(this.selectedOption.expirationDate));
     }
   }
 
@@ -259,15 +250,11 @@ export class OptionsComponent extends messageEnabled implements OnInit, OnDestro
   }
 
   // TODO use similar method in upcoming events to make this into pipe
-  public formatDate(input: string): string {
-    //let tempDate: Date = new Date(input);
-    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
-    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
-  }
-
-  public formatTime(input: string): string {
-    return "";
-  }
+  // public formatDate(input: string): string {
+  //   //let tempDate: Date = new Date(input);
+  //   //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
+  //   return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
+  // }
 
   // public displayExpirationDate(input: string): string {
   //   let output = input.toLocaleString();

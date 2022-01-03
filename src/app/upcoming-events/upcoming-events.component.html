@@ -58,7 +58,7 @@
               <tr *ngFor="let report of upcomingEvents.earnings">
                 <!-- <td>{{port.totalMarketValue}}</td> -->
                 <td>{{report.symbol}}</td>
-                <td>{{formatDate(report.reportDate)}}</td>
+                <td>{{dateService.formatDate(report.reportDate)}}</td>
               </tr>
             </tbody>
           </table>
@@ -83,12 +83,12 @@
               <tbody>
                 <tr *ngFor="let ipo of upcomingEvents.ipo">
                   <td>{{ipo.symbol}}</td>
-                  <td>{{formatDate(ipo.offeringDate)}}</td>
+                  <td>{{dateService.formatDate(ipo.offeringDate)}}</td>
                   <td>{{ipo.offerPrice | fiFormat : '$' : '' : false : true}}</td>
                   <td>{{ipo.volume | fiFormat : '' : '' : false : false}}</td>
                   <td>{{ipo.shares | fiFormat : '' : '' : false : false}}</td>
                   <td>{{ipo.companyName}}</td>
-                  <td>{{formatDate(ipo.filedDate)}}</td>
+                  <td>{{dateService.formatDate(ipo.filedDate)}}</td>
                   <!-- <td>{{ipo.quietperiod}}</td>
                   <td>{{ipo.lockupPeriod}}</td> -->
                 </tr>

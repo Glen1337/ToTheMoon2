@@ -60,8 +60,8 @@
                             </div>
                             <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
                                 <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield * 100 | fiFormat : '' : '%' : false : true}}</p>
-                                <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
-                                <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
+                                <p class="card-text">Next Divdend Date: {{dateConverter.ConvertDateTime(companyResearch.advStats.nextDividendDate)}}</p>
+                                <p class="card-text">Ex Dividend Date: {{dateConverter.ConvertDateTime(companyResearch.advStats.exDividendDate)}}</p>
                                 <p class="card-text">TTM Divdend Rate: {{financiafy(companyResearch.advStats.ttmDividendRate, '$')}}</p>
                             </div>
                         </div>

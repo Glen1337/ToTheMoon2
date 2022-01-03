@@ -29,6 +29,7 @@ import { FiFormatPipe } from './Utilities/fi-format.pipe';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { HeadingComponent } from './Common/heading/heading.component';
+import { DateConverter } from './Utilities/DateConverter';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,7 @@ import { HeadingComponent } from './Common/heading/heading.component';
   ],
 
   // , {provide: LocationStrategy, useClass: HashLocationStrategy}
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }, DateConverter],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

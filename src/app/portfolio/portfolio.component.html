@@ -12,18 +12,12 @@
         <div class="col-md-6 col-lg-4 col-sm-8 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
                 Gain/Loss: {{portfolio.gainLoss | fiFormat : '$' : '' : true}}
-                ({{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true : true}})
+                ({{(portfolio.gainLoss * 100/(portfolio.totalMarketValue - portfolio.gainLoss)) | fiFormat : '' : '%' : true : true}})
+                <!-- ({{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true : true}}) -->
                     <i *ngIf="(portfolio.gainLoss) > 0" class="fas fa-caret-up fa-lg"></i>
                     <i *ngIf="(portfolio.gainLoss) < 0" class="fas fa-caret-down fa-lg"></i>
             </h2>
         </div>
-        <!-- <div class="col-md-3 col-lg-2 col-sm-6 col-12">
-            <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
-                Gain/Loss: {{((portfolio.gainLoss/(portfolio.totalMarketValue - portfolio.gainLoss))*100) | fiFormat : '' : '%' : true}}
-                    <i *ngIf="(portfolio.gainLoss) > 0" class="fas fa-caret-up fa-lg"></i>
-                    <i *ngIf="(portfolio.gainLoss) < 0" class="fas fa-caret-down fa-lg"></i>
-            </h2>
-        </div> -->
         <div class="col-md-3 col-lg-3 col-sm-6 col-12">
             <h2>
                 Market Value: {{portfolio.totalMarketValue | fiFormat : '$' : '' : false : true}}
@@ -69,7 +63,7 @@
                             <td>{{(((holding.quantity * holding.currentPrice)/portfolio.totalMarketValue) * 100).toFixed(2)}}%</td>
                             <td>{{holding.securityType}}</td>
                             <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
-                            <td>{{ConvertDate(holding.transactionDate)}}</td>
+                            <td>{{dateConverter.ConvertDateTime(holding.transactionDate)}}</td>
                             <td>{{(holding.costBasis * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
                             <td>{{(holding.currentPrice * holding.quantity) | fiFormat : '$' : '' : false : true}}</td>
                             <td [ngClass]="((holding.currentPrice - holding.costBasis)/holding.costBasis) < 0 ? 'text-danger' : 'text-success'">
@@ -86,8 +80,8 @@
                             </td>
                             <td *ngIf="!holding.contractName"></td>
                             <td *ngIf="holding.contractName">{{holding.contractName}}</td>
-                            <td *ngIf="!holding.expirationDate"></td>
-                            <td *ngIf="holding.expirationDate">{{ConvertDateRemoveTime(holding.expirationDate)}}</td>
+                            <td *ngIf="!holding.contractName"></td>
+                            <td *ngIf="holding.contractName">{{dateConverter.ConvertDateRemoveTime(holding.expirationDate)}}</td>
                             <td><button type="button" (click)="onDeleteHolding($event, holding.holdingId!)" class="btn btn-secondary">Sell All</button></td>
                         </tr>
                     </tbody>

@@ -6,16 +6,15 @@ import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-watchlist',
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent extends messageEnabled implements OnInit, OnDestroy{
+export class WatchlistComponent extends FinancialPage implements OnInit, OnDestroy{
 
-  subscriptions: Subscription[] = [];
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
 
@@ -82,24 +81,8 @@ export class WatchlistComponent extends messageEnabled implements OnInit, OnDest
     this.subscriptions.push(sub);
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
-  }
-
   isPredictionCorrect(item: WatchItem): boolean {
     return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'));
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
   }
 
 }
