@@ -7,17 +7,16 @@ import { IAgg } from '../Models/ResearchData';
 // import  'anychart';
 import { Subscription } from 'rxjs';
 import '../../../node_modules/anychart/';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-research',
   templateUrl: './research.component.html',
   styleUrls: ['./research.component.css']
 })
-export class ResearchComponent extends messageEnabled implements OnInit, AfterViewInit, OnDestroy {
+export class ResearchComponent extends FinancialPage implements OnInit, AfterViewInit, OnDestroy {
 
   private chart: anychart.charts.Stock;
-  private subscriptions: Subscription[] = [];
   public historicalStockData: IAgg[] = [];
   public visible: boolean = false;
 
@@ -157,25 +156,12 @@ export class ResearchComponent extends messageEnabled implements OnInit, AfterVi
     this.chart.draw();
   }
 
-
   ConvertIAggArrayToArrayOfArrays(inputArray: IAgg[]): any[][]{
     let arrayOfArrays: any[][] = [];
     inputArray.forEach((agg) => {
       arrayOfArrays.push([ new Date(agg.timeUtc).toLocaleDateString(), agg.open, agg.high, agg.low, agg.close, agg.volume]);
     });
     return arrayOfArrays;
-  }
-
-  ConvertDate(date: Date): string{
-    return new Date(date).toLocaleDateString();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

@@ -4,17 +4,16 @@ import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css']
 })
-export class MarketComponent extends messageEnabled implements OnInit, OnDestroy {
+export class MarketComponent extends FinancialPage implements OnInit, OnDestroy {
 
   public marketData: MarketData = {} as MarketData;
-  private subscriptions: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {
     super();
@@ -33,14 +32,6 @@ export class MarketComponent extends messageEnabled implements OnInit, OnDestroy
       complete:() => { console.log('Market Perf. Data retrieved'); }
     });
     this.subscriptions.push(sub1);
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

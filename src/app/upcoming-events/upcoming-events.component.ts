@@ -23,7 +23,8 @@ import {
   addHours,
 } from 'date-fns';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 const colors: any = {
   red: {
@@ -40,21 +41,24 @@ const colors: any = {
   },
 };
 
-const BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - 7))
-const EndDate: Date = new Date(new Date().setDate(new Date().getDate() + 8))
+const daysBehind: number = 7;
+const daysAhead: number = 7;
 
 @Component({
   selector: 'app-upcoming-events',
   templateUrl: './upcoming-events.component.html',
   styleUrls: ['./upcoming-events.component.css']
 })
-export class UpcomingEventsComponent extends messageEnabled implements OnInit, OnDestroy {
+export class UpcomingEventsComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  public static readonly daysBehind: number = 7;
-  public static readonly daysAhead: number = 7;
-  private subscriptions: Subscription[] = [];
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
   public currentlyLoading: boolean = false;
+
+  public static readonly daysBehind: number = daysAhead;
+  public static readonly daysAhead: number = daysBehind;
+
+  private BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - daysBehind))
+  private EndDate: Date = new Date(new Date().setDate(new Date().getDate() + daysAhead))
 
   // actions: CalendarEventAction[] = [
   //   {
@@ -92,7 +96,7 @@ export class UpcomingEventsComponent extends messageEnabled implements OnInit, O
     endDateControl: new FormControl(this.getInitialEndDate(), [Validators.required])
   });
 
-  constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute) {
+  constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute, public dateService: DateConverter) {
     super();
   }
 
@@ -130,6 +134,14 @@ export class UpcomingEventsComponent extends messageEnabled implements OnInit, O
     this.subscriptions.push(sub$);
   }
 
+  private getInitialStartDate(): string {
+    return this.BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
+  }
+
+  private getInitialEndDate(): string{
+    return this.EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
+  }
+
   get startDateControl(): AbstractControl { return this.upcomingEventsForm.get('startDateControl')!; }
 
   get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl')!; }
@@ -157,14 +169,6 @@ export class UpcomingEventsComponent extends messageEnabled implements OnInit, O
     this.subscriptions.push(upcomingEvents$);
   }
 
-  private getInitialStartDate(): string {
-    return BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
-  }
-
-  private getInitialEndDate(): string{
-    return EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
-  }
-
   private createDays(): CalendarEvent[]{
     let days: CalendarEvent[] = [];
 
@@ -184,28 +188,6 @@ export class UpcomingEventsComponent extends messageEnabled implements OnInit, O
       days.push(day)
     }
     return days;
-  }
-
-  //TODO: make this into pipe
-  public formatDate(input: any): string {
-    if(!input) {
-      return '';
-    }
-    if (typeof input === typeof Date) {
-      input = input.toLocaleString('');
-    }
-    //let tempDate: Date = new Date(input);
-    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
-    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
-    // return formatDate(date , 'MM/dd/yyyy hh:mm aa', 'en-US', 'UTC');
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

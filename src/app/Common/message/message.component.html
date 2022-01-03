@@ -1,4 +1,4 @@
- <div class="row" *ngIf="(inputErrorMessage || inputNoticeMessage || inputWarningMessage)">
+ <div class="row my-2" *ngIf="(inputErrorMessage || inputNoticeMessage || inputWarningMessage)">
     <div class="col-lg-4 col-md-6 col-sm-10 col-10">
             <!-- [ngClass]="['col-md-8', 'col-lg-8', 'col-sm-8', 'alert', 'alert-danger']"> -->
         <div role="alert" [ngClass]="{'alert': isError || isNotice || isWarning, 'alert-danger': isError, 'alert-primary': isNotice, 'alert-warning' : isWarning}">

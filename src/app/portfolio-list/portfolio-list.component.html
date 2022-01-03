@@ -27,7 +27,7 @@
                 <!-- <a [routerLink]="['/portfolio', port.portfolioId]">&nbsp;Details</a> -->
               </td>
               <td>{{port.type}}</td>
-              <td>{{ConvertDate(port.creationDate)}}</td>
+              <td>{{dateConverter.ConvertDateTime(port.creationDate)}}</td>
               <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
               <td>{{GetOptionCount(port.portfolioId)}}</td>
               <td>{{GetEquityCount(port.portfolioId)}}</td>

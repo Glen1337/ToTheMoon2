@@ -12,13 +12,13 @@
         <div class="form-row">
             <div class="col-sm-6 col-6 col-lg-2 col-md-4">
                 <label for="sym">Symbol:</label>
-                <input id="sym" type="text" aria-describedby="adb" placeholder="Ticker Symbol" [ngClass]="{ 'is-invalid': watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)}" class="form-control" formControlName="watchItemSymbolControl">
+                <input id="sym" type="text" aria-describedby="adb" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)}" class="form-control" formControlName="watchItemSymbolControl">
                 <div *ngIf="watchItemForm.invalid && (watchItemForm.dirty || watchItemForm.touched)" class="invalid-feedback">
                     <div *ngIf="watchItemSymbolControl?.errors?.required">Symbol is required.</div>
                     <div *ngIf="watchItemSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters long. </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-6 col-lg-2 col-md-4 mb-2">
+            <div class="col-sm-6 col-6 col-lg-2 col-md-4 my-2">
                 <label for="out">Outlook: </label>
                 <select class="form-select" id="out" (change)="Select($event)" formControlName="watchItemOutlookControl"
                     [ngClass]="{ 'is-invalid': watchItemOutlookControl!.invalid && (watchItemOutlookControl!.dirty || watchItemOutlookControl!.touched) }">

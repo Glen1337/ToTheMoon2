@@ -7,16 +7,16 @@ import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { PortfolioTypes } from '../Models/Constants';
 import { SecurityConstants } from '../Models/Constants';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'portfolio-list',
   templateUrl: './portfolio-list.component.html',
   styleUrls: ['./portfolio-list.component.css']
 })
-export class PortfolioListComponent extends messageEnabled implements OnInit, OnDestroy {
+export class PortfolioListComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   public portfolios: Array<Portfolio> = [];
 
   public portfolioForm = new FormGroup({
@@ -41,7 +41,7 @@ export class PortfolioListComponent extends messageEnabled implements OnInit, On
     PortfolioTypes.Speculation,
   ];
 
-  constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService) {
+  constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService, public dateConverter: DateConverter) {
     super();
   }
 
@@ -116,24 +116,12 @@ export class PortfolioListComponent extends messageEnabled implements OnInit, On
     this.subscriptions.push(subscription2);
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
-  }
-
   GetOptionCount(id: number) {
     return this.portfolios.find(port => port.portfolioId === id)?.holdings.filter(h => h.securityType === SecurityConstants.Call || h.securityType === SecurityConstants.Put).length;
   }
 
   GetEquityCount(id: number) {
     return this.portfolios.find(port => port.portfolioId === id)?.holdings.filter(h => h.securityType === SecurityConstants.Share).length;
-  }
-
-  ConvertDate(date?: Date): string {
-    return(date ? new Date(date).toLocaleString() : '');
   }
 
 }

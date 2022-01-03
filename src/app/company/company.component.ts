@@ -5,16 +5,16 @@ import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
 import { financialifyNumber } from '../Utilities/utilities';
-import { messageEnabled } from '../Common/message-enabled';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent extends messageEnabled implements OnInit, OnDestroy {
+export class CompanyComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   public companyResearch: CompanyResearch = {} as CompanyResearch;
   public imgUrl: string = '';
   public financiafy: any;
@@ -27,7 +27,7 @@ export class CompanyComponent extends messageEnabled implements OnInit, OnDestro
     ])
   });
 
-  constructor(public location: Location, private researchService: ResearchDataService) {
+  constructor(public location: Location, private researchService: ResearchDataService, public dateConverter: DateConverter) {
     super();
     this.financiafy = financialifyNumber;
   }
@@ -59,18 +59,6 @@ export class CompanyComponent extends messageEnabled implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-  }
-
-  ConvertDate(date: Date): string{
-    return(date ? new Date(date).toLocaleString() : '');
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

@@ -24,7 +24,7 @@
               <td>{{order.symbol}}</td>
               <td>{{order.quantity}}</td>
               <td>{{order.orderType}}</td>
-              <td>{{ConvertDate(order.transactionDate)}}</td>
+              <td>{{dateConverter.ConvertDateTime(order.transactionDate)}}</td>
               <td>{{order.securityType}}</td>
               <td>{{order.price | fiFormat : '$' : '' : false : true}}</td>
               <td>{{(order.price * order.quantity) | fiFormat : '$' : '' : false : true}}</td>
