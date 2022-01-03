@@ -155,11 +155,4 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
     this.subscriptions.push(sub);
   }
 
-  ConvertDate(date?: Date): string{
-    return(date ? new Date(date).toLocaleString() : '');
-  }
-
-  ConvertDateRemoveTime(date?: Date): string{
-    return(date ? new Date(date).toLocaleDateString() : '');
-  }
 }

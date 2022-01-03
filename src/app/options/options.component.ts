@@ -63,14 +63,14 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
   });
 
   constructor(public location: Location,
-              private optionsDataService: OptionsDataService,
-              private holdingService: HoldingService,
-              private route: ActivatedRoute,
-              private fiFormat: FiFormatPipe,
-              public dateConverter: DateConverter) {
-                super(); 
-                this.optionExpiryControl?.disable();
-              }
+    private optionsDataService: OptionsDataService,
+    private holdingService: HoldingService,
+    private route: ActivatedRoute,
+    private fiFormat: FiFormatPipe,
+    public dateConverter: DateConverter) {
+      super(); 
+      this.optionExpiryControl?.disable();
+  }
 
   get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
 
@@ -249,19 +249,8 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
     this.subscriptions.push(sub);
   }
 
-  // TODO use similar method in upcoming events to make this into pipe
-  // public formatDate(input: string): string {
-  //   //let tempDate: Date = new Date(input);
-  //   //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
-  //   return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
-  // }
-
   // public displayExpirationDate(input: string): string {
   //   let output = input.toLocaleString();
   //   return output;
-  // }
-
-  // convertDate(date?: Date): string{
-  //   return(date ? new Date(date).toLocaleString() : '');
   // }
 }

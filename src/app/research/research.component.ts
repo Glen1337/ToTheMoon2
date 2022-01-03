@@ -156,7 +156,6 @@ export class ResearchComponent extends FinancialPage implements OnInit, AfterVie
     this.chart.draw();
   }
 
-
   ConvertIAggArrayToArrayOfArrays(inputArray: IAgg[]): any[][]{
     let arrayOfArrays: any[][] = [];
     inputArray.forEach((agg) => {
