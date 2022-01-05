@@ -98,7 +98,7 @@
 
     <form class="form-group" [formGroup]="holdingForm" (ngSubmit)="onSubmitHolding()">
         <div class="form-row">
-            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
                 <div class="form-check">
                     <input class="form-check-input" formControlName="holdingDividendControl" type="checkbox" value="" id="divs">
                     <label class="form-check-label" for="divs">Dividend Reinvestment</label>
@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class="form-row mt-2">
-            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+            <div class="col-8 col-sm-6 col-md-3 col-lg-2">
                 <label for="sym">Symbol: </label>
                 <input [ngClass]="{ 'is-invalid': symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)}" aria-describedby="adb" class="form-control" id="sym" type="text" formControlName="holdingSymbolControl">
                 <div class="invalid-feedback" *ngIf="symbolControl!.invalid && (symbolControl!.dirty || symbolControl!.touched)">
@@ -118,7 +118,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+            <div class="col-8 col-sm-6 col-md-3 col-lg-2">
                 <label for="quant">Quantity: </label>
                 <input [ngClass]="{ 'is-invalid': quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)}" aria-describedby="adb" class="form-control" id="quant" type="number" formControlName="holdingQuantityControl">
                 <div class="invalid-feedback" *ngIf="quantityControl!.invalid && (quantityControl!.dirty || quantityControl!.touched)">
@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="form-row mt-2">
-            <div class="col-8 col-sm-8 col-md-6 col-lg-4">
+            <div class="col-6 col-sm-5 col-md-4 col-lg-2">
                 <button class="btn btn-block btn-primary" onmousedown="event.preventDefault()" type="submit" [disabled]="!holdingForm.valid">Submit Order</button>
             </div>
         </div>
