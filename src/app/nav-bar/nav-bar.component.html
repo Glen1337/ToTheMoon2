@@ -28,20 +28,23 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-item mt-1">Look up a stock or company</div>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
                             <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
+                                <input class="form-control me-2 mb-2" [formControl]='lookupControl' maxlength="20" type="search" placeholder="Search">
+                                <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
                             </form>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                        <li class="dropdown-item" (click)="selectCompany($event, lookupResult)" *ngFor="let lookupResult of lookupResults">
+                            <b>{{lookupResult.symbol}}</b> {{lookupResult.securityName}}
                         </li>
+                        <!-- <li>
+                            <a class="dropdown-item" href="#">{{lookupResults}}</a>
+                        </li> -->
                     </ul>
                 </li>
             </ul>

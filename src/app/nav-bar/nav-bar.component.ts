@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AuthButtonComponent } from '../auth/login-button';
+import { SymbolLookup } from '../Models/SymbolLookup';
+import { SymbolLookupService } from '../Services/symbol-lookup.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,10 +11,16 @@ import { AuthButtonComponent } from '../auth/login-button';
 })
 export class NavBarComponent implements OnInit {
 
-  public NavItems: Array<{ label: string, link: string[] }>;
-  title = 'ToTheMoon';
+  public lookupResults: SymbolLookup[] = [];// string = '';
+  
+  lookupControl : FormControl;
 
-  constructor() {
+  public NavItems: Array<{ label: string, link: string[] }>;
+  public title = 'ToTheMoon';
+
+  constructor(private lookupService: SymbolLookupService) {
+    this.lookupControl = new FormControl('');
+    
     this.NavItems = [
       { label: 'Portfolios', link: ['/portfolios'] },
       { label: 'Research', link: ['/research'] },
@@ -22,6 +31,28 @@ export class NavBarComponent implements OnInit {
       { label: 'Options', link: ['/options'] },
       { label: 'Events', link: ['/events'] }
     ];
+
+    this.lookupControl.valueChanges.subscribe(input => {
+      if(input===''){
+      this.lookupResults = [];
+      }else{
+        lookupService.lookupSymbol(input).subscribe(searchResults => {
+          this.lookupResults = searchResults
+        });
+      } 
+    });
+
+  }
+
+  public selectCompany(event: any, companySelection: SymbolLookup){
+    console.log(event);
+    console.log(companySelection);
+    window.alert(`Company: ${companySelection.securityName}\n
+                  Exchange: ${companySelection.exchange}\n
+                  Region: ${companySelection.region}\n
+                  Sector: ${companySelection.sector}\n
+                  Security Type: ${companySelection.securityType}\n
+                  Symbol: ${companySelection.symbol}`);
   }
 
   ngOnInit(): void { }
