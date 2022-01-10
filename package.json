@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^12.2.15",
     "@angular/router": "^12.2.15",
     "@auth0/auth0-angular": "^1.8.1",
+    "@microsoft/signalr": "^6.0.1",
     "@popperjs/core": "^2.11.0",
     "angular-calendar": "^0.29.0",
     "anychart": "^8.11.0",
