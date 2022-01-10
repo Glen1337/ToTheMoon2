@@ -59,37 +59,13 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
   private BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - daysBehind))
   private EndDate: Date = new Date(new Date().setDate(new Date().getDate() + daysAhead))
-
-  // actions: CalendarEventAction[] = [
-  //   {
-  //     label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-  //     a11yLabel: 'Edit',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.handleEvent('Edited', event);
-  //     },
-  //   },
-  //   {
-  //     label: '<i class="fas fa-fw fa-trash-alt"></i>',
-  //     a11yLabel: 'Delete',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.calendarEvents = this.calendarEvents.filter((iEvent) => iEvent !== event);
-  //       this.handleEvent('Deleted', event);
-  //     },
-  //   },
-  // ];
   
   view: CalendarView = CalendarView.Week;
-
-  //CalendarView = CalendarView;
 
   // Sets calendar current date
   viewDate: Date = new Date();
 
   calendarEvents: CalendarEvent[] = [];
-
-  handleEvent(action: string, event: CalendarEvent): void {
-
-  }
 
   public upcomingEventsForm = new FormGroup({
     startDateControl: new FormControl(this.getInitialStartDate(), [Validators.required]),
@@ -118,7 +94,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
             foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>IPO: ${ipo.symbol}`;
-            foundCalendarEvent.title.fontcolor("ff6347");
+            // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
         this.currentlyLoading = false;

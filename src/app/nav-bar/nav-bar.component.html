@@ -15,14 +15,41 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
             <!-- Nav Items -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-0">
                 <li *ngFor="let navItem of NavItems" class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLinkActive="active" [routerLink]="navItem.link">{{navItem.label}}</a>
                 </li>
             </ul>
 
-            <!-- Login Button -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav flex-grow-1 justify-content-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        Stock Lookup
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="dropdown-item mt-1">Look up a stock or company</div>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form class="d-flex">
+                                <input class="form-control me-2 mb-2" [formControl]='lookupControl' maxlength="20" type="search" placeholder="Search">
+                                <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+                            </form>
+                        </li>
+                        <li class="dropdown-item" (click)="selectCompany($event, lookupResult)" *ngFor="let lookupResult of lookupResults">
+                            <b>{{lookupResult.symbol}}</b> {{lookupResult.securityName}}
+                        </li>
+                        <!-- <li>
+                            <a class="dropdown-item" href="#">{{lookupResults}}</a>
+                        </li> -->
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="ms-auto navbar-nav">
                 <li class="nav-item">
                     <app-auth-button></app-auth-button>
                 </li>
