@@ -1,47 +1,60 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { distinct, Observable, Subject, throttleTime } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
-
+import { HttpClient } from '@angular/common/http';
+import { Trade } from '../Models/Quote';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TickerService {
+export class TickerService implements OnDestroy{
 
   private hubConnection: signalR.HubConnection;
   private baseUrl = environment.baseApiUrl;
-  public quotes: any;
+  //private quoteReceived = new EventEmitter<Trade>();
+  private tradeReceived = new Subject<Trade>();
 
-  constructor(){
-    this.hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl(`${this.baseUrl}hub`)
-    .build();
+  public quoteObservable$: Observable<Trade> = new Observable<Trade>();
+
+  constructor(private http: HttpClient){
+
+    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${this.baseUrl}hub`).build();
 
     this.hubConnection
     .start()
     .then(() => console.log('Connection started'))
     .catch(err => console.log('Error while starting connection: ' + err))
+
+    this.quoteObservable$ = this.tradeReceived
+      .pipe(
+        //Only accept 1 trade per half second
+        //(throttleTime(500)),
+        //Only accept trades with unique trade ids
+        (distinct((e: Trade) => e.tradeId)),
+      );
   }
 
   public addQuoteListener = () => {
-    this.hubConnection.on('ReceiveQuote', (quotes) => {
-      this.quotes = quotes;
-      console.log(quotes);
+    this.hubConnection.on('ReceiveQuote', (quote: Trade) => {
+      //this.quoteReceived.emit(quote);
+      this.tradeReceived.next(quote);
     });
   }
 
-  public startConnection = () => {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl(`${this.baseUrl}hub`)
-                            .build();
-                            
-    this.hubConnection
-    .start()
-    .then(() => console.log('Connection started'))
-    .catch(err => console.log('Error while starting connection: ' + err))
+  public callApi(): void {
+    this.http.get(`${this.baseUrl}watchitems/realtime`).subscribe(res => {
+      console.log("API Response: " + res);
+    });
+  }
 
-    
+  ngOnDestroy(){
+    this.hubConnection.stop();
+  }
+
+}
+
+  // }
   // getServerSentEvent(url: string): Observable<any> {
   //   return new Observable(observer => {
   //     const eventSource = this.getEventSource(url);
@@ -57,5 +70,4 @@ export class TickerService {
   // private getEventSource(url: string): EventSource {
   //   return new EventSource(url);
   // }
-  }
-}
+  

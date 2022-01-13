@@ -36,8 +36,13 @@ export class NavBarComponent implements OnInit {
       if(input===''){
       this.lookupResults = [];
       }else{
-        lookupService.lookupSymbol(input).subscribe(searchResults => {
-          this.lookupResults = searchResults
+        lookupService.lookupSymbol(input)
+        .subscribe(searchResults => {
+          searchResults.forEach((res) => {
+            res.securityName = res.securityName.substring(0,32);
+            this.lookupResults.push(res);
+          });
+          //this.lookupResults = searchResults
         });
       } 
     });

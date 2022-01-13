@@ -5,7 +5,6 @@ import { formatDate } from '@angular/common';
 @Injectable({providedIn: 'root'})
 export class DateConverter {
 
-
     public ConvertDateTime(date?: Date): string {
         return(date ? new Date(date).toLocaleString() : '');
     }
