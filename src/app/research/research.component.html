@@ -2,7 +2,7 @@
     <app-heading [location]="location" title="Stock Chart" iconClass="fas fa-chart-area"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     
-    <form class="mt-4" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+    <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-2 col-xl-1 mb-2">
                 <input id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"

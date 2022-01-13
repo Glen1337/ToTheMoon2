@@ -3,7 +3,7 @@
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     
     <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
-        <div class="row my-2">
+        <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
                 <input id="sym" type="text" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
                 <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="invalid-feedback" >

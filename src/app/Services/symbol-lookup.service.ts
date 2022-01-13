@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, take, throwError } from 'rxjs';
 import { SymbolLookup } from '../Models/SymbolLookup';
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +26,7 @@ export class SymbolLookupService {
 
     return this.http.get<SymbolLookup[]>(`${this.baseUrl}Research/market/lookup`, options)
       .pipe(
+        (take(10)),
         catchError(this.handleError)
       );
   }

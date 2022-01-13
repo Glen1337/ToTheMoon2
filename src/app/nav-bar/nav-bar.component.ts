@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { take } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
 import { SymbolLookup } from '../Models/SymbolLookup';
 import { SymbolLookupService } from '../Services/symbol-lookup.service';
@@ -22,25 +23,21 @@ export class NavBarComponent implements OnInit {
     this.lookupControl = new FormControl('');
     
     this.NavItems = [
-      { label: 'Portfolios', link: ['/portfolios'] },
-      { label: 'Research', link: ['/research'] },
-      { label: 'Orders', link: ['/orders'] },
-      { label: 'Company', link: ['/company'] },
-      { label: 'Market', link: ['/market'] },
-      { label: 'Watchlist', link: ['/watchlist'] },
-      { label: 'Options', link: ['/options'] },
-      { label: 'Events', link: ['/events'] }
+      { label: 'Portfolios', link: ['/portfolios'] }, { label: 'Research', link: ['/research'] },
+      { label: 'Orders', link: ['/orders'] }, { label: 'Company', link: ['/company'] },
+      { label: 'Market', link: ['/market'] }, { label: 'Watchlist', link: ['/watchlist'] },
+      { label: 'Options', link: ['/options'] }, { label: 'Events', link: ['/events'] }
     ];
 
     this.lookupControl.valueChanges.subscribe(input => {
-      if(input===''){
-      this.lookupResults = [];
+      if(!input.trim()){
+        this.lookupResults = [];
       }else{
-        lookupService.lookupSymbol(input)
-        .subscribe(searchResults => {
-          searchResults.forEach((res) => {
-            res.securityName = res.securityName.substring(0,32);
-            this.lookupResults.push(res);
+        lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
+          this.lookupResults = [];
+          searchResults.forEach((result) => {
+            result.securityName = result.securityName.substring(0,32);
+            this.lookupResults.push(result);
           });
           //this.lookupResults = searchResults
         });
