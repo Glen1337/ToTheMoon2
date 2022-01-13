@@ -22,10 +22,10 @@ export class SymbolLookupService {
 
     let options =  {
       headers: { 'Content-Type': 'application/json' },
-      params: new HttpParams().set('inputValue', input)
+      params: new HttpParams().set('inputvalue', input)
     };
 
-    return this.http.get<SymbolLookup[]>(`${this.baseUrl}Research/Market/SymbolLookup`, options)
+    return this.http.get<SymbolLookup[]>(`${this.baseUrl}research/market/symbollookup`, options)
       .pipe(
         catchError(this.handleError)
       );
