@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { distinct, Observable, throttleTime } from 'rxjs';
+import { distinct, Observable, Subject, throttleTime } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,9 @@ export class TickerService implements OnDestroy{
 
   private hubConnection: signalR.HubConnection;
   private baseUrl = environment.baseApiUrl;
-  private quoteReceived = new EventEmitter<Trade>();
+  //private quoteReceived = new EventEmitter<Trade>();
+  private tradeReceived = new Subject<Trade>();
+
   public quoteObservable$: Observable<Trade> = new Observable<Trade>();
 
   constructor(private http: HttpClient){
@@ -24,10 +26,10 @@ export class TickerService implements OnDestroy{
     .then(() => console.log('Connection started'))
     .catch(err => console.log('Error while starting connection: ' + err))
 
-    this.quoteObservable$ = this.quoteReceived.asObservable()
+    this.quoteObservable$ = this.tradeReceived
       .pipe(
         //Only accept 1 trade per half second
-        (throttleTime(500)),
+        //(throttleTime(500)),
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );
@@ -35,7 +37,8 @@ export class TickerService implements OnDestroy{
 
   public addQuoteListener = () => {
     this.hubConnection.on('ReceiveQuote', (quote: Trade) => {
-      this.quoteReceived.emit(quote);
+      //this.quoteReceived.emit(quote);
+      this.tradeReceived.next(quote);
     });
   }
 
