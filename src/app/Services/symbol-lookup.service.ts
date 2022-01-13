@@ -1,9 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { SymbolLookup } from '../Models/SymbolLookup';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +21,10 @@ export class SymbolLookupService {
 
     let options =  {
       headers: { 'Content-Type': 'application/json' },
-      params: new HttpParams().set('inputvalue', input)
+      params: new HttpParams().set('input', input)
     };
 
-    return this.http.get<SymbolLookup[]>(`${this.baseUrl}research/market/symbollookup`, options)
+    return this.http.get<SymbolLookup[]>(`${this.baseUrl}Research/market/lookup`, options)
       .pipe(
         catchError(this.handleError)
       );
