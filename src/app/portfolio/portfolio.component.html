@@ -2,7 +2,7 @@
     <app-heading [location]="location" title={{portfolio.title}} iconClass="fas fa-file-alt"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
 
-    <div class="row mt-2">
+    <div class="row">
         <div class="col-md-3 col-lg-2 col-sm-6 col-12">
             <h4 class="lead">Buying Power: {{buyingPower | fiFormat: '$' : '' : false : true}}</h4>
         </div>
