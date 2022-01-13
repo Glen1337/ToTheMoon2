@@ -24,8 +24,11 @@
   <div class="row" style>
     <div class="col lg-8 col-md-10">
       <mwl-calendar-week-view
+        [excludeDays]=[0,6]
+        [weekStartsOn]=1
         [hourSegments]="10"
         [viewDate]="viewDate"
+        [daysInWeek]="5"
         [dayStartHour]="0"
         [dayEndHour]="0"
         [hourSegmentHeight]="24"
@@ -36,7 +39,7 @@
   </div>
 
   <ng-template #myTemplate>
-    <div></div>
+    <div style="max-width: 2px"></div>
   </ng-template>
 
   <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
