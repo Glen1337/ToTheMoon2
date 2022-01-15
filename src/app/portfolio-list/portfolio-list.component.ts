@@ -11,7 +11,7 @@ import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
-  selector: 'portfolio-list',
+  selector: 'app-portfolio-list',
   templateUrl: './portfolio-list.component.html',
   styleUrls: ['./portfolio-list.component.css']
 })

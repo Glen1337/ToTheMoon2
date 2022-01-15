@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { DateConverter } from '../Utilities/DateConverter';
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent extends FinancialPage implements OnInit, OnDestroy {
+export class CompanyComponent extends FinancialPage implements OnDestroy {
 
   public companyResearch: CompanyResearch = {} as CompanyResearch;
   public imgUrl: string = '';
@@ -56,9 +56,6 @@ export class CompanyComponent extends FinancialPage implements OnInit, OnDestroy
         this.currentlyLoading = false;
       }
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }

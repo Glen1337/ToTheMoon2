@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
   templateUrl: './heading.component.html',
   styleUrls: ['./heading.component.css']
 })
-export class HeadingComponent implements OnInit {
+export class HeadingComponent {
 
   @Input() location: Location;
   @Input() title: string;
@@ -16,9 +16,6 @@ export class HeadingComponent implements OnInit {
     this.location = {} as Location;
     this.title = '';
     this.iconClass = '';
-  }
-
-  ngOnInit(): void {
   }
 
   public goBack(): void {
