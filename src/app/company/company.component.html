@@ -1,14 +1,11 @@
-<div class="">
-    <div class="row flex-row align-items-center my-2 mx-1">
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2><i class="fas fa-building"></i> Company Info.</h2>
-    </div>
+<div>
+    <app-heading [location]="location" title="Company Info" iconClass="fas fa-building"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
-    <form class="form-group" [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
-        <div class="form-row">
+    
+    <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
+        <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
-                <input id="sym" type="text" aria-describedby="adb" placeholder="Ticker" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
+                <input id="sym" type="text" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
                 <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="invalid-feedback" >
                     <div *ngIf="companySymbolControl!.errors!.required">Symbol is required.</div>
                     <div *ngIf="companySymbolControl!.errors!.maxlength">Symbol must be less than 8 characters long.</div>
@@ -38,15 +35,15 @@
                     </div>
                     <div class="card-body">
                         <!-- <h5 class="card-title">Change Percentages</h5> -->
-                        <p class="card-text">1 Year % Change: {{financiafy(companyResearch.advStats.year1ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">2 Year % Change: {{financiafy(companyResearch.advStats.year2ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">5 Year % Change: {{financiafy(companyResearch.advStats.year5ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">YTD % Change: {{financiafy(companyResearch.advStats.ytdChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">1 Month % Change: {{financiafy(companyResearch.advStats.month1ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">3 Month % Change: {{financiafy(companyResearch.advStats.month3ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">6 Month % Change: {{financiafy(companyResearch.advStats.month6ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">5 Day % Change: {{financiafy(companyResearch.advStats.day5ChangePercent * 100, '%', true)}}</p>
-                        <p class="card-text">30 Day % Change: {{financiafy(companyResearch.advStats.day30ChangePercent * 100, '%', true)}}</p>
+                        <p class="card-text">1 Year % Change: {{companyResearch.advStats.year1ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">2 Year % Change: {{companyResearch.advStats.year2ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">5 Year % Change: {{companyResearch.advStats.year5ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">YTD % Change: {{companyResearch.advStats.ytdChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">1 Month % Change: {{companyResearch.advStats.month1ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">3 Month % Change: {{companyResearch.advStats.month3ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">6 Month % Change: {{companyResearch.advStats.month6ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">5 Day % Change: {{companyResearch.advStats.day5ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
+                        <p class="card-text">30 Day % Change: {{companyResearch.advStats.day30ChangePercent * 100 | fiFormat : '' : '%' : true : true}}</p>
                     </div>
                 </div>
             </div>
@@ -62,10 +59,10 @@
                                 <p class="card-text">Company does not currently pay a dividend.</p>
                             </div>
                             <div *ngIf="companyResearch.advStats.dividendYield" class="card-body">
-                                <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield * 100 | fiFormat : '' : '%' : false : true}}</p>
-                                <p class="card-text">Next Divdend Date: {{ConvertDate(companyResearch.advStats.nextDividendDate)}}</p>
-                                <p class="card-text">Ex Dividend Date: {{ConvertDate(companyResearch.advStats.exDividendDate)}}</p>
-                                <p class="card-text">TTM Divdend Rate: {{financiafy(companyResearch.advStats.ttmDividendRate, '$')}}</p>
+                                <p class="card-text">Dividend Yield: {{companyResearch.advStats.dividendYield | fiFormat : '$' : '' : false : true}}</p>
+                                <p class="card-text">Next Divdend Date: {{dateConverter.ConvertDateTime(companyResearch.advStats.nextDividendDate)}}</p>
+                                <p class="card-text">Ex Dividend Date: {{dateConverter.ConvertDateTime(companyResearch.advStats.exDividendDate)}}</p>
+                                <p class="card-text">TTM Divdend Rate: {{companyResearch.advStats.ttmDividendRate | fiFormat : '$' : '' : false : true}}</p>
                             </div>
                         </div>
                     </div>
@@ -77,9 +74,9 @@
                                 <h4>52 Week Ranges</h4>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">52 Week Change: {{companyResearch.advStats.week52change * 100 | fiFormat : '' : '%' : true}}</p>
-                                <p class="card-text">52 Week High: {{financiafy(companyResearch.advStats.week52high)}}</p>
-                                <p class="card-text">52 Week Low: {{financiafy(companyResearch.advStats.week52low)}}</p>
+                                <p class="card-text">52 Week Change: {{companyResearch.advStats.week52change * 100 | fiFormat : '' : '%' : false : true}}</p>
+                                <p class="card-text">52 Week High: {{companyResearch.advStats.week52high | fiFormat : '$' : '' : false : true}}</p>
+                                <p class="card-text">52 Week Low: {{companyResearch.advStats.week52low  | fiFormat : '$' : '' : false : true}}</p>
                             </div>
                         </div>
                     </div>
@@ -96,8 +93,8 @@
                                 <p class="card-text">Employee count: {{companyResearch.company.employees | fiFormat : '' : '' : false : false}}</p>
                                 <p class="card-text">Industry: {{companyResearch.company.industry}}</p>
                                 <p class="card-text">Sector: {{companyResearch.company.sector}}</p>
-                                <p class="card-text">Description: {{companyResearch.company.description}}</p>
                                 <p class="card-text">CEO: {{companyResearch.company.CEO}}</p>
+                                <p class="card-text">Description: {{companyResearch.company.description}}</p>
                             </div>
                         </div>
                     </div>
@@ -113,16 +110,16 @@
                             </div>
                             <div class="card-body">
                                 <!-- <h5 class="card-title">Change Percentages</h5> -->
-                                <p class="card-text">TTM EPS: {{financiafy(companyResearch.advStats.ttmEPS, '$')}}</p>
-                                <p class="card-text">P/E Ratio: {{financiafy(companyResearch.advStats.peRatio)}}</p>
-                                <p class="card-text">PEG Ratio: {{financiafy(companyResearch.advStats.pegRatio)}}</p>
-                                <p class="card-text">Forward P/E: {{financiafy(companyResearch.advStats.forwardPERatio)}}</p>
-                                <p class="card-text">Price/Book: {{financiafy(companyResearch.advStats.priceToBook)}}</p>
-                                <p class="card-text">Price/Sales: {{financiafy(companyResearch.advStats.priceToSales)}}</p>
-                                <p class="card-text">Enterprise Value: {{financiafy(companyResearch.advStats.enterpriseValue, '$')}}</p>
-                                <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> -->
-                                <!-- <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p> -->
-                                <!-- <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
+                                <p class="card-text">TTM EPS: {{companyResearch.advStats.ttmEPS | fiFormat : '$' : '' : true : true}}</p>
+                                <p class="card-text">P/E Ratio: {{companyResearch.advStats.peRatio | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">PEG Ratio: {{companyResearch.advStats.pegRatio | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Forward P/E: {{companyResearch.advStats.forwardPERatio | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Price/Book: {{companyResearch.advStats.priceToBook | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Price/Sales: {{companyResearch.advStats.priceToSales | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Enterprise Value: {{companyResearch.advStats.enterpriseValue | fiFormat : '$' : '' : false : false}}</p>
+                                <!-- <p class="card-text">Revenue/Employee: {{financiafy(companyResearch.advStats.revenuePerEmployee)}}</p> 
+                                <p class="card-text">Revenue/Share: {{financiafy(companyResearch.advStats.revenuePerShare)}}</p>
+                                <p class="card-text">Enterprise/Revenue: {{financiafy(companyResearch.advStats.enterpriseValueToRevenue)}}</p> -->
                             </div>
                         </div>
                     </div>
@@ -135,10 +132,10 @@
                             </div>
                             <div class="card-body">
                                 <!-- <h5 class="card-title">Change Percentages</h5> -->
-                                <p class="card-text">Put/Call Ratio: {{financiafy(companyResearch.advStats.putCallRatio)}}</p>
-                                <p class="card-text">Market Cap: {{financiafy(companyResearch.advStats.marketcap, '$')}}</p>
-                                <p class="card-text">Beta: {{financiafy(companyResearch.advStats.beta)}}</p>
-                                <p class="card-text">Shares Outstanding: {{financiafy(companyResearch.advStats.sharesOutstanding)}}</p>
+                                <p class="card-text">Put/Call Ratio: {{companyResearch.advStats.putCallRatio | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Market Cap: {{companyResearch.advStats.marketcap | fiFormat : '$' : '' : false : false}}</p>
+                                <p class="card-text">Beta: {{companyResearch.advStats.beta | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">Shares Outstanding: {{companyResearch.advStats.sharesOutstanding | fiFormat : '' : '' : false : false}}</p>
                             </div>
                         </div>
                     </div>
@@ -153,12 +150,12 @@
                                 <h4>Financials</h4>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">Debt: {{financiafy(companyResearch.advStats.currentDebt, '$')}}</p>
-                                <p class="card-text">Debt/Equity: {{financiafy(companyResearch.advStats.debtToEquity)}}</p>
-                                <p class="card-text">EBITDA: {{financiafy(companyResearch.advStats.ebitda, '$')}}</p>
-                                <p class="card-text">Gross Profit: {{financiafy(companyResearch.advStats.grossProfit, '$')}}</p>
-                                <p class="card-text">Revenue: {{financiafy(companyResearch.advStats.totalRevenue, '$')}}</p>
-                                <p class="card-text">Total Cash: {{financiafy(companyResearch.advStats.totalCash, '$')}}</p>
+                                <p class="card-text">Debt: {{companyResearch.advStats.currentDebt | fiFormat : '$' : '' : true : false}}</p>
+                                <p class="card-text">Debt/Equity: {{companyResearch.advStats.debtToEquity | fiFormat : '' : '' : true : true}}</p>
+                                <p class="card-text">EBITDA: {{companyResearch.advStats.ebitda | fiFormat : '$' : '' : true : false}}</p>
+                                <p class="card-text">Gross Profit: {{companyResearch.advStats.grossProfit | fiFormat : '$' : '' : true : false}}</p>
+                                <p class="card-text">Revenue: {{companyResearch.advStats.totalRevenue | fiFormat : '$' : '' : true : false}}</p>
+                                <p class="card-text">Total Cash: {{companyResearch.advStats.totalCash | fiFormat : '$' : '' : true : false}}</p>
                             </div>
                         </div>
                     </div>
@@ -172,7 +169,7 @@
                             <div class="card-body">
                                 <div class="mt-1" *ngFor="let instOwnership of companyResearch.instOwnership">
                                     <div class="card-text">Institution: {{instOwnership.entityProperName}}</div>
-                                    <div class="card-text">Holding Size: {{financiafy(instOwnership.reportedHolding, '', false)}}</div>
+                                    <div class="card-text">Holding Size: {{instOwnership.reportedHolding | fiFormat : '' : '' : false : false}}</div>
                                     <br/>
                                 </div>
                             </div>

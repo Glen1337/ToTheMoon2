@@ -1,20 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
 import { financialifyNumber } from '../Utilities/utilities';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent implements OnInit, OnDestroy {
+export class CompanyComponent extends FinancialPage implements OnDestroy {
 
-  public errorMsg: string = '';
-  private subscriptions: Subscription[] = [];
   public companyResearch: CompanyResearch = {} as CompanyResearch;
   public imgUrl: string = '';
   public financiafy: any;
@@ -27,7 +27,8 @@ export class CompanyComponent implements OnInit, OnDestroy {
     ])
   });
 
-  constructor(private location: Location, private researchService: ResearchDataService) {
+  constructor(public location: Location, private researchService: ResearchDataService, public dateConverter: DateConverter) {
+    super();
     this.financiafy = financialifyNumber;
   }
 
@@ -55,33 +56,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
         this.currentlyLoading = false;
       }
     });
-  }
-
-  ngOnInit(): void {
-  }
-
-  refresh(): void {
-    location.reload();
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  ConvertDate(date: Date): string{
-    return(date ? new Date(date).toLocaleString() : '');
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

@@ -4,26 +4,30 @@ import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css']
 })
-export class MarketComponent implements OnInit, OnDestroy {
+export class MarketComponent extends FinancialPage implements OnInit, OnDestroy {
 
   public marketData: MarketData = {} as MarketData;
-  errorMsg: string = '';
-  private subscriptions: Subscription[] = [];
 
-  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, private location: Location) {
+  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {
+    super();
   }
 
   ngOnInit(): void {
     let sub1: Subscription = this.route.data.subscribe({
       next: (data) => {
         console.log(data.marketData);
-        this.marketData = data.marketData;
+        if(!data.marketData){
+          this.errorMsg = "Could not get Market Data from IEX"
+        }else{
+          this.marketData = data.marketData;
+        }
       },
       error:(error) => {
         this.errorMsg = `${error.name}`;
@@ -32,26 +36,6 @@ export class MarketComponent implements OnInit, OnDestroy {
       complete:() => { console.log('Market Perf. Data retrieved'); }
     });
     this.subscriptions.push(sub1);
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

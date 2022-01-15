@@ -1,58 +1,52 @@
-<div class="">
-    <div class="row flex-row align-items-center mx-1 my-2">
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-        <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-        <h2><i class="fas fa-chart-area"></i> Stock Chart</h2>
-    </div>
+<div>
+    <app-heading [location]="location" title="Stock Chart" iconClass="fas fa-chart-area"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12">
-            <p class="lead">Chart an Equity</p>
-        </div>
-    </div>
-
-    <div class="form-row mb-2">
-        <div class="col-xs-12 col-sm-12 col-lg-4 col-md-6">
-            <form class="form-inline" [formGroup]="researchForm" (ngSubmit)="onGetData()">
-                <input id="sym" type="text" aria-describedby="adb" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl" [ngClass]="{ 'is-invalid': researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched) }" formControlName="researchSymbolControl">
-                <button class="ml-2 btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
-                <div *ngIf="researchForm!.invalid && (researchForm!.dirty || researchForm!.touched)" class="invalid-feedback" >
-                    <div *ngIf="researchSymbolControl!.errors!.required">Symbol is required.</div>
+    
+    <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2 col-xl-1 mb-2">
+                <input id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
+                    [ngClass]="{ 'is-invalid': researchSymbolControl?.invalid && (researchSymbolControl?.dirty || researchSymbolControl?.touched) }" formControlName="researchSymbolControl">
+                <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback">
+                    <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>
                     <div *ngIf="researchSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters.</div>
                 </div>
-            </form>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 col-lg-1 col-xl-1">   
+                <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
+            </div>
         </div>
-    </div>
+    </form>
 
-            <!--symbol validation messages-->
-            <!-- <div *ngIf="researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched)" class="alert alert-danger">
-                <div *ngIf="researchSymbolControl!.errors!.required">
-                    Symbol is required.
+    <!--symbol validation messages-->
+    <!-- <div *ngIf="researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched)" class="alert alert-danger">
+        <div *ngIf="researchSymbolControl!.errors!.required">
+            Symbol is required.
+        </div>
+        <div *ngIf="researchSymbolControl!.errors!.minlength || researchSymbolControl!.errors!.maxlength">
+            Symbol must be between 1 and 8 characters long.
+        </div>
+    </div> -->
+
+    <!-- <form class="form-inline" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+        <div class="col-sm-12 col-xs-12 col-lg-2 col-md-4">
+            <div class="row align-items-center">
+                <div class="form-inline align-items-center">
+                    <label for="sym">Symbol: </label>
+                    <input class="form-control" placeholder="Ticker" id="sym" type="text" aria-describedby="adb" formControlName="researchSymbolControl">
                 </div>
-                <div *ngIf="researchSymbolControl!.errors!.minlength || researchSymbolControl!.errors!.maxlength">
-                    Symbol must be between 1 and 8 characters long.
-                </div>
-            </div> -->
-
-            <!-- <form class="form-inline" [formGroup]="researchForm" (ngSubmit)="onGetData()">
-                <div class="col-sm-12 col-xs-12 col-lg-2 col-md-4">
-                    <div class="row align-items-center">
-                        <div class="form-inline align-items-center">
-                            <label for="sym">Symbol: </label>
-                            <input class="form-control" placeholder="Ticker" id="sym" type="text" aria-describedby="adb" formControlName="researchSymbolControl">
-                        </div>
-                        <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Get Data</button>
-                    </div>
-                </div>
-            </form> -->
+                <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Get Data</button>
+            </div>
+        </div>
+    </form> -->
 
 
-    <div [hidden]="!visible" class="chart-container" #chartContainer></div>
+    <div [hidden]="!visible" class="chart-container pe-2" #chartContainer></div>
     
     <!-- <div>
         <table class="table">
             <tr>
-                 <th> Total Equity </th> 
+                <th> Total Equity </th> 
                 <th> Date </th>
                 <th> Volume </th>
                 <th> Open </th>
@@ -62,7 +56,7 @@
             </tr> 
         
             <tr *ngFor="let row of historicalStockData">
-                 <td>{{port.totalMarketValue}}</td> 
+                <td>{{port.totalMarketValue}}</td> 
                 <td>{{ConvertDate(row.time)}}</td>
                 <td>{{row.volume.toLocaleString()}}</td>
                 <td>{{row.open}}</td>

@@ -1,2 +1,9 @@
-<div class="container-fluid">
+<div class="ticker-wrap">
+    <div class="ticker">
+        <!-- <div *ngFor="let trade of trades" class="scrolling-stock">{{trade.symbol}}</div> -->
+        <div *ngFor="let trade of trades "class="ticker__item">{{trade.price + " (" + trade.symbol + ") "}}</div>
+        <!-- <div class="ticker__item">{{trades[0].price + " (" + trades[0].symbol + ") "}}</div>
+        <div class="ticker__item">{{trades[1].price + " (" + trades[1].symbol + ") "}}</div>
+        <div class="ticker__item">{{trades[2].price + " (" + trades[2].symbol + ") "}}</div> -->
+    </div>
 </div>

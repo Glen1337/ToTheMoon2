@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { formatDate, Location } from '@angular/common';
 import { FiFormatPipe } from '../Utilities/fi-format.pipe';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 
 @Component({
@@ -19,17 +21,13 @@ import { FiFormatPipe } from '../Utilities/fi-format.pipe';
   styleUrls: ['./options.component.css'],
   providers: [FiFormatPipe]
 })
-export class OptionsComponent implements OnInit, OnDestroy {
+export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
-  public errorMsg: string = '';
-  public otherMsg = '';
   public expiryDates: string[] = [];
   //public optionChainByExp: Chain = {} as Chain;
   public optionChain: RefOption[] = [];
   public callSideChain: RefOption[] = [];
   public putSideChain: RefOption[] = [];
-  // public chooseMsg: string = '';
   public selectedOption: RefOption | undefined = {} as RefOption;
   public portfolios: Portfolio[] = [];
   public currentlyLoadingChain: boolean = false;
@@ -64,13 +62,15 @@ export class OptionsComponent implements OnInit, OnDestroy {
     ])
   });
 
-  constructor(private location: Location,
-              private optionsDataService: OptionsDataService,
-              private holdingService: HoldingService,
-              private route: ActivatedRoute,
-              private fiFormat: FiFormatPipe) { 
-                this.optionExpiryControl?.disable();
-              }
+  constructor(public location: Location,
+    private optionsDataService: OptionsDataService,
+    private holdingService: HoldingService,
+    private route: ActivatedRoute,
+    private fiFormat: FiFormatPipe,
+    public dateConverter: DateConverter) {
+      super(); 
+      this.optionExpiryControl?.disable();
+  }
 
   get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
 
@@ -101,25 +101,6 @@ export class OptionsComponent implements OnInit, OnDestroy {
         console.log('(component)portfolios retrieved for options component');
       }
     });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-    this.otherMsg = '';
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) {
-          sub.unsubscribe();
-        }
-      });
-    }
   }
 
   public onExpiryChange(input: string): void{
@@ -227,7 +208,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
     if (this.selectedOption) {
       this.orderNameControl?.setValue(this.selectedOption.symbol);
       this.orderStrikeControl?.setValue(this.fiFormat.transform(this.selectedOption.strike, '$', '', false, true));
-      this.orderExpControl?.setValue(this.formatDate(this.selectedOption.expirationDate));
+      this.orderExpControl?.setValue(this.dateConverter.formatDate(this.selectedOption.expirationDate));
     }
   }
 
@@ -257,7 +238,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
 
     sub = this.holdingService.addHolding(optionHolding).subscribe({
       next: (data) => { console.log(data);
-        this.otherMsg = 'Option purchased';
+        this.noticeMsg = 'Option purchased';
       },
       error: (error) => {
         console.log('(component)Error getting options chain: ', error);
@@ -268,27 +249,8 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  // TODO use similar method in upcoming events to make this into pipe
-  public formatDate(input: string): string {
-    //let tempDate: Date = new Date(input);
-    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
-    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
-  }
-
-  public formatTime(input: string): string {
-    return "";
-  }
-
-  public refresh(): void {
-    location.reload();
-  }
-
   // public displayExpirationDate(input: string): string {
   //   let output = input.toLocaleString();
   //   return output;
-  // }
-
-  // convertDate(date?: Date): string{
-  //   return(date ? new Date(date).toLocaleString() : '');
   // }
 }

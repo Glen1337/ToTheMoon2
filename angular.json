@@ -28,10 +28,10 @@
             ],
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
+              "src/css-from-sass/custom.css",
               "src/styles.css"
             ],
             "scripts": [
-              "jquery/dist/jquery.min.js",
               "bootstrap/dist/js/bootstrap.min.js"
             ],
             "vendorChunk": true,
@@ -108,15 +108,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
@@ -135,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "DegenAppUI"
+  "defaultProject": "DegenAppUI",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

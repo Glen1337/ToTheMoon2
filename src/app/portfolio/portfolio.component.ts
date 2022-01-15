@@ -7,18 +7,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
-export class PortfolioComponent implements OnInit, OnDestroy {
+export class PortfolioComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   public portfolio: Portfolio = {} as Portfolio;
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
   public buyingPower: number = 0;
 
   public holdingForm = new FormGroup({
@@ -34,12 +33,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     holdingDividendControl: new FormControl('')
   });
 
-  constructor(private location: Location, private route: ActivatedRoute, private holdingService: HoldingService) {
-  }
-
-  messageClick(): void{
-    this.refreshMsg = '';
-    this.errorMsg = '';
+  constructor(public location: Location, private route: ActivatedRoute, private holdingService: HoldingService, public dateConverter: DateConverter) {
+    super();
   }
 
   ngOnInit(): void {
@@ -49,7 +44,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         if (Object.keys(data.portfolio).length === 0) {
           this.errorMsg = 'Could not load Portfolio';
         }else {
-          // data.portfolio.holdings = data.portfolio.holdings;
           this.buyingPower = data.balance;
           this.portfolio = data.portfolio;
         }
@@ -60,7 +54,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       complete: () => { console.log('Portfolio retrieved'); }
     });
-
     this.subscriptions.push(subscription1);
   }
 
@@ -69,14 +62,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
 
   get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
-  }
 
   onSubmitHolding(): void {
     let sub: Subscription = new Subscription();
@@ -96,18 +81,18 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     console.log('(component)Sending order to API: ', holding);
 
     // is holding in list of holdings already?
-    let found = this.portfolio.holdings.find(existingHolding => existingHolding.symbol === holding.symbol);
+    let retrievedHolding = this.portfolio.holdings.find(existingHolding => existingHolding.symbol === holding.symbol);
 
-    if (found) {
-      holding.holdingId = found.holdingId;
-      order$ = this.holdingService.updateHolding(holding, found.holdingId!)
+    if (retrievedHolding) {
+      holding.holdingId = retrievedHolding.holdingId;
+      order$ = this.holdingService.updateHolding(holding, retrievedHolding.holdingId!)
     } else {
       order$ = this.holdingService.addHolding(holding);
     }
 
     sub = order$.subscribe({
       next: (returnedHolding) => {
-        if (!found) {
+        if (!retrievedHolding) {
           this.portfolio.holdings.push(returnedHolding);
 
           let totalMarketValueAddition = 0;
@@ -124,7 +109,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           this.portfolio.totalMarketValue += totalMarketValueAddition;
           this.buyingPower -= buyingPowerSubtraction;
         }else{
-          let index: number = this.portfolio.holdings.indexOf(found);
+          let index: number = this.portfolio.holdings.indexOf(retrievedHolding);
           let transactionPrice = (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
           this.portfolio.totalMarketValue += transactionPrice;
           this.portfolio.holdings[index] = returnedHolding;
@@ -167,19 +152,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       },
       complete: () => { console.log(`(component)deleting holding - complete`); }
     });
-
     this.subscriptions.push(sub);
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
-  }
-
-  ConvertDate(date?: Date): string{
-    return(date ? new Date(date).toLocaleString() : '');
-  }
 }

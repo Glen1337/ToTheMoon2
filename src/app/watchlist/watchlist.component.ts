@@ -6,17 +6,15 @@ import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-watchlist',
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent implements OnInit, OnDestroy{
+export class WatchlistComponent extends FinancialPage implements OnInit, OnDestroy{
 
-  subscriptions: Subscription[] = [];
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
 
@@ -28,7 +26,8 @@ export class WatchlistComponent implements OnInit, OnDestroy{
     watchItemOutlookControl: new FormControl('', [Validators.required])
   });
 
-  constructor(private route: ActivatedRoute, private location: Location, private watchListService: WatchlistService) {
+  constructor(private route: ActivatedRoute, public location: Location, private watchListService: WatchlistService) {
+    super();
   }
 
   get watchItemSymbolControl(): AbstractControl | null { return this.watchItemForm.get('watchItemSymbolControl'); }
@@ -41,7 +40,7 @@ export class WatchlistComponent implements OnInit, OnDestroy{
         this.watchList = data.watchList;
         console.log(data.watchList);
         if (!data.watchList.length){
-          // this.errorMsg = "Could not retrieve watchlist from server"
+          this.errorMsg = "Could not retrieve watchlist from server"
         }
       },
       error: (error) => {
@@ -55,11 +54,6 @@ export class WatchlistComponent implements OnInit, OnDestroy{
 
   Select(event: any): void {
     // console.log(event.target.value);
-  }
-
-  messageClick(): void {
-    this.refreshMsg = '';
-    this.errorMsg = '';
   }
 
   onSubmitWatchItem(): void{
@@ -80,31 +74,15 @@ export class WatchlistComponent implements OnInit, OnDestroy{
       },
       complete: () => {
         console.log('(component)watch item added to watchlist');
-        this.refreshMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
+        this.noticeMsg = `${watchItem.symbol.trim().toUpperCase()} added to watchlist`;
       }
     });
 
     this.subscriptions.push(sub);
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
-  }
-
   isPredictionCorrect(item: WatchItem): boolean {
     return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'));
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  refresh(): void {
-    location.reload();
   }
 
 }

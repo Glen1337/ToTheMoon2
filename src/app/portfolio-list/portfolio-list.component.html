@@ -1,14 +1,10 @@
-<div class="">
-  <div class="row flex-row align-items-center mx-1 my-2">
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="goBack()">Back</button>
-    <button class="mr-2 btn btn-sm btn-outline-primary" (click)="refresh()">Refresh</button>
-    <h2><i class="far fa-list-alt"></i> Portfolios</h2>
-  </div>
+<div>
+  <app-heading [location]="location" title="Portfolio List" iconClass="far fa-list-alt"></app-heading>
   <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
-  <div class="row mt-2">
-    <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+  <div class="row">
+    <div class="my-2 col-lg-8 col-md-8 col-sm-12 col-12">
       <div class="table-responsive">
-        <table class="table table-sm table-hover">
+        <table class="table table-sm table-hover align-middle">
           <thead>
             <tr>
               <!-- <th> Total Equity </th> -->
@@ -27,11 +23,11 @@
             <tr *ngFor="let port of portfolios">
               <!-- <td>{{port.totalMarketValue}}</td> -->
               <td>
-                <h6 class="diplay-4" style="display:inline;"><a [routerLink]="['/portfolio', port.portfolioId]">{{port.title}}</a></h6>
+                <h6><a [routerLink]="['/portfolio', port.portfolioId]">{{port.title}}</a></h6>
                 <!-- <a [routerLink]="['/portfolio', port.portfolioId]">&nbsp;Details</a> -->
               </td>
               <td>{{port.type}}</td>
-              <td>{{ConvertDate(port.creationDate)}}</td>
+              <td>{{dateConverter.ConvertDateTime(port.creationDate)}}</td>
               <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
               <td>{{GetOptionCount(port.portfolioId)}}</td>
               <td>{{GetEquityCount(port.portfolioId)}}</td>
@@ -43,52 +39,54 @@
         </table>
       </div>
     </div>
-  
-  
   </div>
   
-  <div class="row">
+  <div class="row mt-4">
     <div class="col-12 col-sm-12">
-      <p class="lead">Create A New Portfolio</p>
+      <h4>Create A New Portfolio</h4>
     </div>
   </div>
 
-  <form class="form-group" [formGroup]="portfolioForm" (ngSubmit)="onSubmitPortfolio()">
-    <div class="form-row">
+  <form [formGroup]="portfolioForm" (ngSubmit)="onSubmitPortfolio()">
+    <div class="row">
       
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2">
-        <label for="sym">Name: </label>
-        <input id="sym" aria-describedby="adb" class="form-control" type="text" [ngClass]="{ 'is-invalid': portfolioTitleControl!.invalid && (portfolioTitleControl!.dirty || portfolioTitleControl!.touched)}"  formControlName="portfolioTitleControl">
-        <div class="invalid-feedback" *ngIf="portfolioTitleControl!.invalid && (portfolioTitleControl!.dirty || portfolioTitleControl!.touched)">
+      <!-- Name -->
+      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
+        <label class="form-label" for="sym">Name</label>
+        <input placeholder="Test Portfolio" id="sym" class="form-control" type="text" [ngClass]="{ 'is-invalid': portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)}"  formControlName="portfolioTitleControl">
+        <div class="invalid-feedback" *ngIf="portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)">
           <div *ngIf="portfolioTitleControl!.errors!.required">
             Title is required.
           </div>
-          <div *ngIf="portfolioTitleControl!.errors!.minlength || portfolioTitleControl!.errors!.maxlength">
+          <div *ngIf="portfolioTitleControl?.errors?.minlength || portfolioTitleControl?.errors?.maxlength">
             Symbol must be between 1 and 20 characters long.
         </div>
         </div>
       </div>
 
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2">
-        <label for="type">Type: </label>
-        <select id="type" aria-describedby="adb" class="form-control" [ngClass]="{ 'is-invalid': portfolioTypeControl!.invalid && (portfolioTypeControl!.dirty || portfolioTypeControl!.touched)}"  formControlName="portfolioTypeControl">
+      <!-- Type -->
+      <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
+        <label class="form-label" for="type">Type</label>
+        <select id="type" class="form-select" [ngClass]="{ 'is-invalid': portfolioTypeControl?.invalid && (portfolioTypeControl?.dirty || portfolioTypeControl?.touched)}"  formControlName="portfolioTypeControl">
           <option value="" disabled selected >Choose a Type</option>
           <option *ngFor="let type of portfolioTypes" [ngValue]="type">{{type}}</option>
         </select>
-        <div class="invalid-feedback" *ngIf="portfolioTypeControl!.invalid && (portfolioTypeControl!.dirty || portfolioTypeControl!.touched)">
-          <div *ngIf="portfolioTypeControl!.errors!.required">
+        <div class="invalid-feedback" *ngIf="portfolioTypeControl?.invalid && (portfolioTypeControl?.dirty || portfolioTypeControl?.touched)">
+          <div *ngIf="portfolioTypeControl?.errors?.required">
             Portfolio Type Required.
           </div>
-          <div *ngIf="portfolioTypeControl!.errors!.min || portfolioTypeControl!.errors!.max">
+          <div *ngIf="portfolioTypeControl?.errors?.min || portfolioTypeControl?.errors?.max">
             Portfolio Type must be between 1 and 30 characters long..
           </div>
         </div>
       </div>
-
     </div>
-    <div class="form-row mt-2">
-      <div class="col-12 col-sm-12 col-md-8 col-lg-4">
-        <button class="btn btn-block btn-primary" type="submit" [disabled]="!portfolioForm.valid">Create</button>
+
+    <div class="row mt-2">
+      <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-1">
+        <div class="d-grid">
+          <button class="btn btn-primary" type="submit" [disabled]="!portfolioForm.valid">Create</button>
+        </div>
       </div>
     </div>
 

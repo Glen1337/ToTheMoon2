@@ -10,6 +10,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarWeekViewAllDayEvent,
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -22,6 +23,8 @@ import {
   addHours,
 } from 'date-fns';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 const colors: any = {
   red: {
@@ -38,63 +41,40 @@ const colors: any = {
   },
 };
 
-const BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - 7))
-const EndDate: Date = new Date(new Date().setDate(new Date().getDate() + 8))
+const daysBehind: number = 7;
+const daysAhead: number = 7;
 
 @Component({
   selector: 'app-upcoming-events',
   templateUrl: './upcoming-events.component.html',
   styleUrls: ['./upcoming-events.component.css']
 })
-export class UpcomingEventsComponent implements OnInit, OnDestroy {
+export class UpcomingEventsComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  public errorMsg: string = '';
-  public refreshMsg: string = '';
-  private subscriptions: Subscription[] = [];
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
   public currentlyLoading: boolean = false;
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.calendarEvents = this.calendarEvents.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
+  public static readonly daysBehind: number = daysAhead;
+  public static readonly daysAhead: number = daysBehind;
+
+  private BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - daysBehind))
+  private EndDate: Date = new Date(new Date().setDate(new Date().getDate() + daysAhead))
   
   view: CalendarView = CalendarView.Week;
 
-  CalendarView = CalendarView;
-
+  // Sets calendar current date
   viewDate: Date = new Date();
 
-  refresh: Subject<any> = new Subject();
-
   calendarEvents: CalendarEvent[] = [];
-
-  handleEvent(action: string, event: CalendarEvent): void {
-
-  }
 
   public upcomingEventsForm = new FormGroup({
     startDateControl: new FormControl(this.getInitialStartDate(), [Validators.required]),
     endDateControl: new FormControl(this.getInitialEndDate(), [Validators.required])
   });
 
-  constructor(private location: Location,
-              private researchService: ResearchDataService,
-              private route: ActivatedRoute) {
-              }
+  constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute, public dateService: DateConverter) {
+    super();
+  }
 
   ngOnInit(): void {
     this.currentlyLoading = true;
@@ -107,14 +87,14 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
             foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
-            foundCalendarEvent.title.fontcolor("green");
+            //foundCalendarEvent.title.fontcolor("green");
           }
         });
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
             foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>IPO: ${ipo.symbol}`;
-            foundCalendarEvent.title.fontcolor("ff6347");
+            // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
         this.currentlyLoading = false;
@@ -128,6 +108,14 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
       complete: () => {console.log('Finsished retrieving upcoming event data'); }
     });
     this.subscriptions.push(sub$);
+  }
+
+  private getInitialStartDate(): string {
+    return this.BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
+  }
+
+  private getInitialEndDate(): string{
+    return this.EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
   get startDateControl(): AbstractControl { return this.upcomingEventsForm.get('startDateControl')!; }
@@ -157,29 +145,8 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(upcomingEvents$);
   }
 
-  private getInitialStartDate(): string {
-    return BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
-  }
-
-  private getInitialEndDate(): string{
-    return EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
-  }
-
-  messageClick(): void {
-    this.refreshMsg = '';
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-  this.location.back();
-  }
-
-  refreshPage(): void {
-    location.reload();
-  }
-
   private createDays(): CalendarEvent[]{
-    let days: CalendarEvent[] = []
+    let days: CalendarEvent[] = [];
 
     for (let i = -7; i <=7; i++) {
       let day = {
@@ -197,28 +164,6 @@ export class UpcomingEventsComponent implements OnInit, OnDestroy {
       days.push(day)
     }
     return days;
-  }
-
-  //TODO: make this into pipe
-  public formatDate(input: any): string {
-    if(!input) {
-      return '';
-    }
-    if (typeof input === typeof Date) {
-      input = input.toLocaleString('');
-    }
-    //let tempDate: Date = new Date(input);
-    //return `${tempDate.getUTCMonth()+1}/${tempDate.getUTCDate()}/${tempDate.getUTCFullYear()}`
-    return formatDate(input, 'MM/dd/yyyy', 'en-US', 'UTC')
-    // return formatDate(date , 'MM/dd/yyyy hh:mm aa', 'en-US', 'UTC');
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }

@@ -16,7 +16,6 @@ export class ResearchDataService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  // move this to environment config
   private baseUrl = environment.baseApiUrl;
 
   constructor(private http: HttpClient) { }

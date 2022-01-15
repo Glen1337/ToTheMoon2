@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
@@ -21,6 +21,7 @@ export class MarketDataResolverService implements Resolve<MarketData | {}> {
   }
 
   private handleError(error: HttpErrorResponse) {
+    //return throwError(() => new Error(error.message))
     return of({});
   }
 }

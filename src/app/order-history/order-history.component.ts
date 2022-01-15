@@ -3,19 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '../Models/Order';
 import { of, Subscription } from 'rxjs';
+import { FinancialPage } from '../Common/FinancialPage';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.css']
 })
-export class OrderHistoryComponent implements OnInit, OnDestroy {
+export class OrderHistoryComponent extends FinancialPage implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   public orders: Order[] = [];
-  public errorMsg: string = '';
 
-  constructor(private route: ActivatedRoute, private location: Location) {
+  constructor(private route: ActivatedRoute, public location: Location, public dateConverter: DateConverter) {
+    super();
   }
 
   ngOnInit(): void {
@@ -35,29 +36,5 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(subscription1)
   }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  ConvertDate(date?: Date){
-    return(date ? new Date(date).toLocaleString() : '');
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
-  }
-
-  refresh(): void {
-    location.reload();
-  }
-
+  
 }

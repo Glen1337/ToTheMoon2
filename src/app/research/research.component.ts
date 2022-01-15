@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
@@ -7,18 +7,17 @@ import { IAgg } from '../Models/ResearchData';
 // import  'anychart';
 import { Subscription } from 'rxjs';
 import '../../../node_modules/anychart/';
+import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
   selector: 'app-research',
   templateUrl: './research.component.html',
   styleUrls: ['./research.component.css']
 })
-export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   private chart: anychart.charts.Stock;
-  private subscriptions: Subscription[] = [];
   public historicalStockData: IAgg[] = [];
-  public errorMsg: string = '';
   public visible: boolean = false;
 
   @ViewChild('chartContainer') container!: ElementRef;
@@ -31,13 +30,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ])
   });
 
-  constructor(private researchService: ResearchDataService, private location: Location, private route: ActivatedRoute) {
+  constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
+    super();
     this.chart = anychart.stock();
   }
-
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void{ }
 
   get researchSymbolControl() { return this.researchForm.get('researchSymbolControl'); }
 
@@ -156,37 +152,12 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chart.draw();
   }
 
-
   ConvertIAggArrayToArrayOfArrays(inputArray: IAgg[]): any[][]{
     let arrayOfArrays: any[][] = [];
     inputArray.forEach((agg) => {
       arrayOfArrays.push([ new Date(agg.timeUtc).toLocaleDateString(), agg.open, agg.high, agg.low, agg.close, agg.volume]);
     });
     return arrayOfArrays;
-  }
-
-  ConvertDate(date: Date): string{
-    return new Date(date).toLocaleDateString();
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  messageClick(): void {
-    this.errorMsg = '';
-  }
-
-  refresh(): void {
-    location.reload();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions && this.subscriptions.length > 0) {
-      this.subscriptions.forEach((sub) => {
-        if (!sub.closed) { sub.unsubscribe(); }
-      });
-    }
   }
 
 }
