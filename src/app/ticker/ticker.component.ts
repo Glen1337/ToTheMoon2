@@ -45,7 +45,17 @@ export class TickerComponent extends FinancialPage implements OnInit {
       timestampUtc: new Date(),
       tape: 'tape1'
     };
-    this.trades.push(trade1, trade2, trade3);
+    let trade4: Trade = {
+      symbol: 'O',
+      exchange: 'NYSE',
+      price: 46.20,
+      conditions: ['v'],
+      tradeId: 53450,
+      size: 800,
+      timestampUtc: new Date(),
+      tape: 'tape1'
+    };
+    this.trades.push(trade1, trade2, trade3, trade4);
   }
 
   ngOnInit(): void {
@@ -56,7 +66,9 @@ export class TickerComponent extends FinancialPage implements OnInit {
 
     let sub = this.tickerService.quoteObservable$.subscribe({
       next: (quote => {
-        //this.trades.push(quote);
+        this.trades.push(quote);
+        let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
+        setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 10_000);
         console.log((new Date).toTimeString(), quote);
       })
     });

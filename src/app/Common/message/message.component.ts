@@ -32,6 +32,10 @@ export class MessageComponent implements OnChanges {
   // to avoid bugs when another message appears but the OK button was NOT clicked to dismiss the previous message
   ngOnChanges(): void{
 
+    //TODO
+    // can this simpler method be used instead?
+    window.scrollTo(0, 0);
+
     this.scroll.scrollToPosition([0,0]);
 
     if (this.inputErrorMessage){
