@@ -36,7 +36,7 @@ export class NavBarComponent implements OnInit {
         lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
           this.lookupResults = [];
           searchResults.forEach((result) => {
-            result.securityName = result.securityName.substring(0,32);
+            result.securityName = result.securityName.substring(0,24);
             this.lookupResults.push(result);
           });
           //this.lookupResults = searchResults
