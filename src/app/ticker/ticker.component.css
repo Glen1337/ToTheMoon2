@@ -1,0 +1,68 @@
+
+/* Top Right Bottom Left */
+
+.ticker-wrap{
+    /* position: fixed; */
+    background-color: black;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: content-box;
+    /* height: 3rem; */
+    margin-top: 1rem;
+}
+
+.ticker {
+  overflow: hidden;
+  display: inline-block;
+  /* height: 4rem; */
+  /* line-height: 4rem; */
+  white-space: nowrap;
+  box-sizing: content-box;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: ticker;
+  animation-name: ticker;
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+}
+
+.ticker__item {
+  font-weight: bold;
+  color: greenyellow;
+  font-size: 1.5rem;
+  display: inline-block;
+  padding: 0rem 2rem 0rem 2rem;
+}
+
+/* Safari and Chrome  */
+@-webkit-keyframes ticker {
+  from{
+    -webkit-transform: translateX(500%);
+    transform: translateX(500%);
+    visibility: visible;
+
+  }
+  to {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+/* Edge */
+@keyframes ticker {
+  from {
+    -webkit-transform: translateX(500%);
+    transform: translateX(500%);
+    visibility: visible;
+  }
+  to {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.ticker:hover {
+    animation-play-state: paused;
+} 

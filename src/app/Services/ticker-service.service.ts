@@ -23,16 +23,20 @@ export class TickerService implements OnDestroy{
 
     this.hubConnection
     .start()
-    .then(() => console.log('Connection started'))
+    .then(() => console.log('Hub Connection Started'))
     .catch(err => console.log('Error while starting connection: ' + err))
 
     this.quoteObservable$ = this.tradeReceived
       .pipe(
-        //Only accept 1 trade per half second
-        //(throttleTime(500)),
+        //Only accept 1 trade per second at most
+        (throttleTime(1000)),
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );
+
+      this.hubConnection.onclose(error => {
+        console.log(`Closing Hub Connection ${error ? error.message : ''}`);
+      });
   }
 
   public addQuoteListener = () => {
@@ -44,7 +48,7 @@ export class TickerService implements OnDestroy{
 
   public callApi(): void {
     this.http.get(`${this.baseUrl}watchitems/realtime`).subscribe(res => {
-      console.log("API Response: " + res);
+      console.log("API Response: ", res);
     });
   }
 
