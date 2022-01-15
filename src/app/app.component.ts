@@ -1,16 +1,20 @@
-import { AfterViewChecked, Component } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ToTheMoon'
   public currentlyLoading: boolean = true;
 
   constructor(){
     //this.currentlyLoading = true;
+  }
+
+  ngOnInit(){
+    // introJs().start();
   }
 
   // ngAfterViewChecked(){
