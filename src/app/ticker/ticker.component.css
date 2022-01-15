@@ -1,0 +1,40 @@
+.ticker-bar{
+    background-color: black;
+    color: black;
+    display: inline-block; 
+    height: 3rem;
+    margin: .5rem -1rem;
+    min-width: 100vw;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Make it move */
+@keyframes marquee {
+    0%  {
+        /* transform: translateX(0%);  */
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+    }
+    100% { 
+        transform: translateX(100%);
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.scrolling-stock { 
+    animation-name: marquee; 
+    animation-timing-function: linear;
+    animation-duration: 31s;
+    animation-iteration-count: infinite;
+    color:rgb(76, 221, 76);
+    font-weight: bold;
+    padding-top: .5rem;
+    /* display: inline-block; */
+}
+
+.scrolling-stock:hover {
+    animation-play-state: paused;
+}

@@ -29,7 +29,7 @@ export class TickerService implements OnDestroy{
     this.quoteObservable$ = this.tradeReceived
       .pipe(
         //Only accept 1 trade per half second
-        //(throttleTime(500)),
+        (throttleTime(500)),
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );
@@ -44,7 +44,7 @@ export class TickerService implements OnDestroy{
 
   public callApi(): void {
     this.http.get(`${this.baseUrl}watchitems/realtime`).subscribe(res => {
-      console.log("API Response: " + res);
+      console.log("API Response: ", res);
     });
   }
 
