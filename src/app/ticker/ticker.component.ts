@@ -56,7 +56,7 @@ export class TickerComponent extends FinancialPage implements OnInit {
 
     let sub = this.tickerService.quoteObservable$.subscribe({
       next: (quote => {
-        this.trades.push(quote);
+        //this.trades.push(quote);
         console.log((new Date).toTimeString(), quote);
       })
     });
