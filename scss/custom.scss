@@ -1,8 +1,11 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-// $navbar-dark-color:                 rgba($blue, .9) ;
-$navbar-dark-hover-color:           rgba(204, 255, 255, 1);
-$navbar-dark-active-color:          $blue;
+$navbar-dark-color:                 $gray-500;
+$navbar-dark-hover-color:           rgba(158, 190, 224, 1);
+$navbar-dark-active-color:          $light;
+$navbar-dark-disabled-color:  rgb(206, 138, 36);
+$navbar-light-disabled-color:  rgb(206, 138, 36);
+
 // $navbar-dark-disabled-color:        rgba($blue, .9);
 // $navbar-dark-toggler-border-color:  rgba($blue, .9) ;
 

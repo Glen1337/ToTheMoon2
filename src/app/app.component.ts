@@ -1,5 +1,6 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+declare function introJs(): any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,14 +12,11 @@ export class AppComponent implements OnInit{
 
   constructor(){
     //this.currentlyLoading = true;
+    
   }
-
-  ngOnInit(){
-    // introJs().start();
+  ngOnInit(): void {
+    // Start tour
+    introJs().start();
   }
-
-  // ngAfterViewChecked(){
-  //   this.currentlyLoading = false;
-  // }
 
 }

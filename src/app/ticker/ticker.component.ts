@@ -4,7 +4,7 @@ import { Trade } from '../Models/Quote';
 import { TickerService } from '../Services/ticker-service.service';
 
 @Component({
-  selector: 'ticker',
+  selector: 'app-ticker',
   templateUrl: './ticker.component.html',
   styleUrls: ['./ticker.component.css']
 })

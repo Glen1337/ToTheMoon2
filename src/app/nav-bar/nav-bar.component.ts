@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { take } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
@@ -10,7 +10,7 @@ import { SymbolLookupService } from '../Services/symbol-lookup.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
 
   public lookupResults: SymbolLookup[] = [];// string = '';
   
@@ -36,7 +36,7 @@ export class NavBarComponent implements OnInit {
         lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
           this.lookupResults = [];
           searchResults.forEach((result) => {
-            result.securityName = result.securityName.substring(0,32);
+            result.securityName = result.securityName.substring(0,24);
             this.lookupResults.push(result);
           });
           //this.lookupResults = searchResults
@@ -56,7 +56,5 @@ export class NavBarComponent implements OnInit {
                   Security Type: ${companySelection.securityType}\n
                   Symbol: ${companySelection.symbol}`);
   }
-
-  ngOnInit(): void { }
 
 }

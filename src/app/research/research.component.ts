@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
@@ -14,7 +14,7 @@ import { FinancialPage } from '../Common/FinancialPage';
   templateUrl: './research.component.html',
   styleUrls: ['./research.component.css']
 })
-export class ResearchComponent extends FinancialPage implements OnInit, AfterViewInit, OnDestroy {
+export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   private chart: anychart.charts.Stock;
   public historicalStockData: IAgg[] = [];
@@ -34,10 +34,6 @@ export class ResearchComponent extends FinancialPage implements OnInit, AfterVie
     super();
     this.chart = anychart.stock();
   }
-
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void{ }
 
   get researchSymbolControl() { return this.researchForm.get('researchSymbolControl'); }
 

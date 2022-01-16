@@ -23,7 +23,7 @@ import { MarketComponent } from './market/market.component';
 import { OptionsComponent } from './options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { environment } from 'src/environments/environment';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+//import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { FiFormatPipe } from './Utilities/fi-format.pipe';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
