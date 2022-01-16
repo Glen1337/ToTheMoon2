@@ -9,22 +9,28 @@
     white-space: nowrap;
     box-sizing: content-box;
     /* height: 3rem; */
-    margin-top: 1rem;
+    margin-top: .5rem;
 }
 
 .ticker {
   overflow: hidden;
   display: inline-block;
-  /* height: 4rem; */
-  /* line-height: 4rem; */
+
   white-space: nowrap;
   box-sizing: content-box;
+
+    /* height: 4rem; */
+  /* line-height: 4rem; */
+
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
+  
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
+  
   -webkit-animation-name: ticker;
   animation-name: ticker;
+  
   -webkit-animation-duration: 10s;
   animation-duration: 10s;
 }
@@ -40,29 +46,29 @@
 /* Safari and Chrome  */
 @-webkit-keyframes ticker {
   from{
-    -webkit-transform: translateX(500%);
-    transform: translateX(500%);
+    -webkit-transform: translateX(300%);
+    transform: translateX(300%);
     visibility: visible;
 
   }
   to {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
 /* Edge */
 @keyframes ticker {
   from {
-    -webkit-transform: translateX(500%);
-    transform: translateX(500%);
+    -webkit-transform: translateX(300%);
+    transform: translateX(300%);
     visibility: visible;
   }
   to {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
 
 .ticker:hover {
-    animation-play-state: paused;
+  animation-play-state: paused;
 } 
