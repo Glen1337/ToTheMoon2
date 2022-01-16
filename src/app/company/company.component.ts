@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
-import { financialifyNumber } from '../Utilities/utilities';
+//import { financialifyNumber } from '../Utilities/utilities';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
@@ -29,7 +29,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
 
   constructor(public location: Location, private researchService: ResearchDataService, public dateConverter: DateConverter) {
     super();
-    this.financiafy = financialifyNumber;
+    //this.financiafy = financialifyNumber;
   }
 
   get companySymbolControl(): AbstractControl | null { return this.companyResearchForm.get('companySymbolControl'); }
@@ -56,6 +56,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
         this.currentlyLoading = false;
       }
     });
+    this.subscriptions.push(sub);
   }
 
 }

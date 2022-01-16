@@ -21,7 +21,6 @@ export class MarketDataResolverService implements Resolve<MarketData | {}> {
   }
 
   private handleError(error: HttpErrorResponse) {
-    //return throwError(() => new Error(error.message))
     return of({});
   }
 }
