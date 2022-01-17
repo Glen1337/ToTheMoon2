@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "comment1": "Added publichost flag to npm start cause zone.js/sockjs-node error was appearing in browser console",
-    "start": "ng serve --public-host=localhost:4200",
-    "build": "ng build",
+    "start": "ng serve --public-host=localhost:4200 --open",
+    "build": "ng build  --source-map --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
