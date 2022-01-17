@@ -3,12 +3,12 @@
 
 .ticker-wrap{
     /* position: fixed; */
+    /* height: 3rem; */
     background-color: black;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     box-sizing: content-box;
-    /* height: 3rem; */
     margin-top: .5rem;
 }
 
@@ -46,8 +46,8 @@
 /* Safari and Chrome  */
 @-webkit-keyframes ticker {
   from{
-    -webkit-transform: translateX(300%);
-    transform: translateX(300%);
+    -webkit-transform: translateX(200%);
+    transform: translateX(200%);
     visibility: visible;
 
   }
@@ -59,8 +59,8 @@
 /* Edge */
 @keyframes ticker {
   from {
-    -webkit-transform: translateX(300%);
-    transform: translateX(300%);
+    -webkit-transform: translateX(200%);
+    transform: translateX(200%);
     visibility: visible;
   }
   to {

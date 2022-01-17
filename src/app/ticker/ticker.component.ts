@@ -55,7 +55,27 @@ export class TickerComponent extends FinancialPage implements OnInit {
       timestampUtc: new Date(),
       tape: 'tape1'
     };
-    this.trades.push(trade1, trade2, trade3, trade4);
+    let trade5: Trade = {
+      symbol: 'DASH',
+      exchange: 'NYSE',
+      price: 49.53,
+      conditions: ['v'],
+      tradeId: 50,
+      size: 900,
+      timestampUtc: new Date(),
+      tape: 'tape1'
+    };
+    let trade6: Trade = {
+      symbol: 'OCGN',
+      exchange: 'NYSE',
+      price: 5.62,
+      conditions: ['v'],
+      tradeId: 200,
+      size: 1200,
+      timestampUtc: new Date(),
+      tape: 'tape1'
+    };
+    this.trades.push(trade1, trade2, trade3, trade4, trade5, trade6);
   }
 
   ngOnInit(): void {
