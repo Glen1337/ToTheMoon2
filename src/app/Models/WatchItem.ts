@@ -4,4 +4,5 @@ export interface WatchItem {
     symbol: string;
     percentChange?: number;
     priceChange?: number;
+    previousClose?: number;
 }

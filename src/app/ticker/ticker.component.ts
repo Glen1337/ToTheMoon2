@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FinancialPage } from '../Common/FinancialPage';
 import { Trade } from '../Models/Quote';
+import { WatchItem } from '../Models/WatchItem';
 import { TickerService } from '../Services/ticker-service.service';
 
 @Component({
@@ -11,6 +12,8 @@ import { TickerService } from '../Services/ticker-service.service';
 export class TickerComponent extends FinancialPage implements OnInit {
 
   public trades: Trade[] = [];
+
+  @Input() watchList: WatchItem[] = [];
 
   constructor(private tickerService: TickerService) { 
     super();
@@ -84,11 +87,24 @@ export class TickerComponent extends FinancialPage implements OnInit {
     this.tickerService.addQuoteListener();
     this.tickerService.callApi();
 
+    //console.log("WatchItems: ", this.watchList);
+
     let sub = this.tickerService.quoteObservable$.subscribe({
       next: (quote => {
+        // push quote to array and remove 9 seconds later
         this.trades.push(quote);
         let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
-        setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 10_000);
+        setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 9_000);
+
+        let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
+        if(watchItem && watchItem.priceChange){
+          if(watchItem.priceChange >= 0){
+            //green up arrow
+          }else{
+            //red down arrow
+          }
+        }
+
         console.log((new Date).toTimeString(), quote);
       })
     });

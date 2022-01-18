@@ -69,8 +69,8 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     sub = this.watchListService.addWatchItem(watchItem).subscribe({
       next: (addedWatchItem) => { this.watchList.push(addedWatchItem); },
       error: (error) => {
-        console.log('(component)Error in watchlist submit:', error);
-        this.errorMsg = `${error.error}`;
+        console.log('(component)Error in watchlist submit:', error.message);
+        this.errorMsg = `${error.message}`;
       },
       complete: () => {
         console.log('(component)watch item added to watchlist');

@@ -54,7 +54,7 @@ export class WatchlistService {
     }
     // Return an observable with a user-facing error message.
     //return throwError(error);
-    return throwError(() => new Error(error.message));
+    return throwError(() => new Error(error.error));
   }
 
 }
