@@ -8,4 +8,5 @@ export interface Trade {
     tape: string;
     tradeId: number;
     conditions: string[];
+    isUp?: boolean
 }
