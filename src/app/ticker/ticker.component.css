@@ -45,8 +45,8 @@
 /* Safari and Chrome  */
 @-webkit-keyframes ticker {
   from{
-    -webkit-transform: translateX(200%);
-    transform: translateX(200%);
+    -webkit-transform: translateX(150%);
+    transform: translateX(150%);
     visibility: visible;
 
   }
@@ -58,8 +58,8 @@
 /* Edge */
 @keyframes ticker {
   from {
-    -webkit-transform: translateX(200%);
-    transform: translateX(200%);
+    -webkit-transform: translateX(150%);
+    transform: translateX(150%);
     visibility: visible;
   }
   to {

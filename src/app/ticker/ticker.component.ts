@@ -91,15 +91,17 @@ export class TickerComponent extends FinancialPage implements OnInit {
 
     let sub = this.tickerService.quoteObservable$.subscribe({
       next: (quote => {
-        // push quote to array and remove 9 seconds later
-        let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
-        setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 9_000);
 
         let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
-        if(watchItem && watchItem.priceChange){
-          quote.isUp = (watchItem.priceChange >= 0) ? true : false;
+        if(watchItem && watchItem.previousClose){
+          quote.isUp = (quote.price > watchItem.previousClose) ? true : false;
         }
-        this.trades.push(quote);
+
+       // this.trades.push(quote);
+
+        // push quote to array and remove 9 seconds later
+        //let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
+          //setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 7_000);
 
         console.log((new Date).toTimeString(), quote);
       })
