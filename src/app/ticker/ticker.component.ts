@@ -12,7 +12,7 @@ import { TickerService } from '../Services/ticker-service.service';
 export class TickerComponent extends FinancialPage implements OnInit {
 
   public trades: Trade[] = [];
-
+  public tradeBuffer: Trade[] = [];
   @Input() watchList: WatchItem[] = [];
 
   constructor(private tickerService: TickerService) { 
@@ -89,22 +89,26 @@ export class TickerComponent extends FinancialPage implements OnInit {
 
     //console.log("WatchItems: ", this.watchList);
 
+    //setTimeout(() => { this.trades = []}, 8_000);
+
     let sub = this.tickerService.quoteObservable$.subscribe({
-      next: (quote => {
+      next: (quote) => {
 
         let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
         if(watchItem && watchItem.previousClose){
-          quote.isUp = (quote.price > watchItem.previousClose) ? true : false;
+          quote.isUp = (quote.price >= watchItem.previousClose) ? true : false;
         }
 
-       // this.trades.push(quote);
-
+        //this.trades.push(quote);
+        //this.tradeBuffer.push(quote);
         // push quote to array and remove 9 seconds later
         //let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
           //setTimeout(()=> { this.trades.splice(indexOfAddedTrade, 1)} , 7_000);
 
         console.log((new Date).toTimeString(), quote);
-      })
+      },
+      error: (error) => {console.log(error);},
+      complete: () => {console.log("complete");}
     });
     this.subscriptions.push(sub);
   }
