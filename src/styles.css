@@ -2,12 +2,6 @@
 /* @import '~bootstrap/dist/css/bootstrap.min.css'; */
 
 /* body {
-    background: rgb(163, 163, 163); 
-    background: radial-gradient(circle, rgba(110,110,110,1) 5%, rgba(123,191,127,1) 40%, rgba(74,74,74,1) 70%);
-    background: radial-gradient(circle, rgba(37,48,97,1) 8%, rgba(117,150,189,1) 69%);
-    background: radial-gradient(circle, rgba(100,108,147,1) 0%, rgba(202,219,233,1) 82%);
-    background: rgb(154,167,184);
-    background: radial-gradient(circle, rgba(154,167,184,1) 0%, rgba(160,176,196,1) 30%, rgba(177,198,214,1) 60%, rgba(187,221,230,1) 88%, rgba(228,250,255,1) 100%);
     margin-bottom: 80px;
 } */
 
@@ -22,8 +16,4 @@ footer {
     position: absolute;
     width: 100%;
     height: 8rem;
-}
-
-header {
-    background-color: rgb(194,194,194);
 }

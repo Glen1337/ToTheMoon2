@@ -28,8 +28,8 @@ export class TickerService implements OnDestroy{
 
     this.quoteObservable$ = this.tradeReceived
       .pipe(
-        //Only accept 1 trade per second at most
-        (throttleTime(1000)),
+        //Only accept 1 trade per .1 second at most
+        (throttleTime(100)),
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );

@@ -1,9 +1,9 @@
 <div class="ticker-wrap">
     <div class="ticker">
         <div *ngFor="let trade of trades "class="ticker__item">
-            <span [ngClass]="trade.isUp ? 'text-success' : 'text-danger' ">{{trade.price + " (" + trade.symbol + ") "}}</span>
-            <i *ngIf="trade.isUp" class="fas fa-caret-up"></i>
-            <i *ngIf="!trade.isUp" class="fas fa-caret-down"></i>
+            <span [ngClass]="trade.isUp ? 'text-success' : 'text-danger' ">${{trade.price + " (" + trade.symbol + ") "}}</span>
+            <i *ngIf="trade.isUp" [ngClass]="['fas fa-caret-up', 'text-success']"></i>
+            <i *ngIf="!trade.isUp" [ngClass]="['fas fa-caret-down', 'text-danger']"></i>
         </div>
     </div>
 </div>

@@ -13,7 +13,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiFormatPipe implements PipeTransform {
 
-  transform(input: number | bigint, prepend: string = '', append: string = '', sign: boolean = false, decimals: boolean = false): string {
+  transform(input: number | bigint | undefined, prepend: string = '', append: string = '', sign: boolean = false, decimals: boolean = false): string {
+
+    if (input === undefined){
+      return '';
+    }
 
     // Warning
     if (typeof input === 'bigint'){
