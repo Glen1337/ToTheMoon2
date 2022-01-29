@@ -19,6 +19,9 @@
   white-space: nowrap;
   box-sizing: content-box;
 
+   /* To keep empty ticker scroller the same size when values are cleared */
+  min-height: 2.5rem;
+
     /* height: 4rem; */
   /* line-height: 4rem; */
 
