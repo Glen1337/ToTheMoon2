@@ -9,6 +9,7 @@ import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
+import { secondsToHours } from 'date-fns';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,6 +20,10 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
 
   public portfolio: Portfolio = {} as Portfolio;
   public buyingPower: number = 0;
+
+  get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
+  get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
+  get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
   public holdingForm = new FormGroup({
     holdingSymbolControl: new FormControl('', [
@@ -46,6 +51,7 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
         }else {
           this.buyingPower = data.balance;
           this.portfolio = data.portfolio;
+          this.createChart();
         }
       },
       error: (error) => {
@@ -55,20 +61,15 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
       complete: () => { console.log('Portfolio retrieved'); }
     });
     this.subscriptions.push(subscription1);
+
   }
-
-  get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
-
-  get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
-
-  get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
   onSubmitHolding(): void {
     let sub: Subscription = new Subscription();
     let order$: Observable<Holding>;
 
     let holding: Holding = {
-      userId: '-1',
+      //userId: '-1',
       costBasis: 0,
       currentPrice: 0,
       quantity: this.quantityControl?.value,
@@ -153,6 +154,42 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
       complete: () => { console.log(`(component)deleting holding - complete`); }
     });
     this.subscriptions.push(sub);
+  }
+
+  public percentageOfPort(holding: Holding): number {
+    let holdingValue = (holding.quantity * holding.currentPrice);
+    if(holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
+      holdingValue = holdingValue * 100;
+    }
+    return ((holdingValue)/this.portfolio.totalMarketValue) * 100;
+  }
+
+  private createChart(): void {
+    let portCashValue = 0;
+
+    let data = this.portfolio.holdings.map(holding => { 
+      return {
+        x: holding.symbol,
+        value: (this.percentageOfPort(holding))
+      }
+    });
+    // create data
+    // var data = [
+    //   {x: "A", value: 637166},
+    //   {x: "B", value: 721630},
+    //   {x: "C", value: 148662},
+    //   {x: "D", value: 78662},
+    //   {x: "E", value: 90000}
+    // ];
+
+    // create a chart and set the data
+    let chart = anychart.pie(data);
+
+    // set the container id
+    chart.container("container");
+
+    // initiate drawing the chart
+    chart.draw();
   }
 
 }

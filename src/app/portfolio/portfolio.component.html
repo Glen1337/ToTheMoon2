@@ -61,7 +61,7 @@
                             <td>{{holding.costBasis | fiFormat : '$' : '' : false : true}}</td>
                             <td>{{holding.currentPrice | fiFormat : '$' : '' : false : true}}</td>
                             <td>{{holding.quantity}}</td>
-                            <td>{{(((holding.quantity * holding.currentPrice)/portfolio.totalMarketValue) * 100).toFixed(2)}}%</td>
+                            <td>{{percentageOfPort(holding).toFixed(2)}}%</td>
                             <td>{{holding.securityType}}</td>
                             <td>{{holding.reinvestDivs ? 'Yes' : 'No'}}</td>
                             <td>{{dateConverter.ConvertDateTime(holding.transactionDate)}}</td>
@@ -89,6 +89,14 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+            <div [ngStyle]="{'background-color' : '#1A1A1A'}" #container id="container">
+
             </div>
         </div>
     </div>
