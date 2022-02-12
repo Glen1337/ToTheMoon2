@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { bufferCount, distinct, Observable, Subject, throttleTime } from 'rxjs';
+import { buffer, bufferCount, bufferTime, distinct, Observable, Subject, take, throttleTime } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -29,19 +29,20 @@ export class TickerService implements OnDestroy{
 
     this.quoteObservable$ = this.tradeReceived
       .pipe(
-        //Only accept 1 trade per .1 second at most
-        (throttleTime(100)),
+        //Only accept 1 trade per given time length, in ms
+        (throttleTime(1000)),
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );
 
     this.bufferedQuoteObservable$ = this.tradeReceived
     .pipe(
-      //Only accept 1 trade per .1 second at most
-      //Only accept trades with unique trade ids
+      // Add trades to buffer until 8 seconds go by, then emit first 8 trades at once
       (distinct((e: Trade) => e.tradeId)),
-      (throttleTime(8000)),
-      (bufferCount(8))
+      (bufferTime(8000)),
+      (take(8))
+      //(throttleTime(8000)),
+      //(bufferCount(8))
     );
 
       this.hubConnection.onclose(error => {
