@@ -78,7 +78,7 @@ export class TickerComponent extends FinancialPage implements OnInit {
       timestampUtc: new Date(),
       tape: 'tape1'
     };
-    this.trades.push(trade1, trade2, trade3, trade4, trade5, trade6);
+   // this.trades.push(trade1, trade2, trade3, trade4, trade5, trade6);
   }
 
   ngOnInit(): void {
@@ -94,12 +94,9 @@ export class TickerComponent extends FinancialPage implements OnInit {
     let sub = this.tickerService.quoteObservable$.subscribe({
       next: (quote) => {
 
-        let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
-        if(watchItem && watchItem.previousClose){
-          quote.isUp = (quote.price >= watchItem.previousClose) ? true : false;
-        }
+        quote = this.MarkAsUpOrDown(quote);
 
-        //this.trades.push(quote);
+        this.trades.push(quote);
         //this.tradeBuffer.push(quote);
         // push quote to array and remove 9 seconds later
         //let indexOfAddedTrade: number = this.trades.findIndex((trade) => {return trade.tradeId == quote.tradeId});
@@ -110,7 +107,28 @@ export class TickerComponent extends FinancialPage implements OnInit {
       error: (error) => {console.log(error);},
       complete: () => {console.log("complete");}
     });
+
+    let bufferedSub = this.tickerService.bufferedQuoteObservable$.subscribe({
+      next: (quoteArray) => {
+        quoteArray =  quoteArray.map((trade) => this.MarkAsUpOrDown(trade))
+        this.trades = quoteArray;
+      },
+      error: (error) => {console.log(error);},
+      complete: () => {console.log("complete");}
+    })
+
+    this.subscriptions.push(bufferedSub);
     this.subscriptions.push(sub);
+  }
+
+  private MarkAsUpOrDown(quote: Trade){
+    let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
+    
+    if(watchItem && watchItem.previousClose){
+      quote.isUp = (quote.price >= watchItem.previousClose) ? true : false;
+    }
+
+    return quote;
   }
   
 }

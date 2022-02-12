@@ -9,7 +9,6 @@ import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
-import { secondsToHours } from 'date-fns';
 
 @Component({
   selector: 'app-portfolio',
@@ -161,6 +160,9 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
     if(holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
       holdingValue = holdingValue * 100;
     }
+    if(this.portfolio.totalMarketValue == 0){
+      return 0;
+    }
     return ((holdingValue)/this.portfolio.totalMarketValue) * 100;
   }
 
@@ -174,6 +176,8 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
     });
 
     let chart = anychart.pie(data);
+
+    chart.title(`${this.portfolio.title} Breakdown`);
 
     chart.container("container");
 
