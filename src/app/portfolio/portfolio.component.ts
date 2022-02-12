@@ -160,6 +160,9 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
     if(holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
       holdingValue = holdingValue * 100;
     }
+    if(this.portfolio.totalMarketValue == 0){
+      return 0;
+    }
     return ((holdingValue)/this.portfolio.totalMarketValue) * 100;
   }
 
