@@ -9,7 +9,6 @@ import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
-import { secondsToHours } from 'date-fns';
 
 @Component({
   selector: 'app-portfolio',
@@ -174,6 +173,8 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
     });
 
     let chart = anychart.pie(data);
+
+    chart.title(`${this.portfolio.title} Breakdown`);
 
     chart.container("container");
 

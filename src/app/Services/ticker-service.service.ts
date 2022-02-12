@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { distinct, Observable, Subject, throttleTime } from 'rxjs';
+import { bufferCount, distinct, Observable, Subject, throttleTime } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,7 @@ export class TickerService implements OnDestroy{
   private tradeReceived = new Subject<Trade>();
 
   public quoteObservable$: Observable<Trade> = new Observable<Trade>();
+  public bufferedQuoteObservable$: Observable<Trade[]> = new Observable<Trade[]>();
 
   constructor(private http: HttpClient){
 
@@ -33,6 +34,15 @@ export class TickerService implements OnDestroy{
         //Only accept trades with unique trade ids
         (distinct((e: Trade) => e.tradeId)),
       );
+
+    this.bufferedQuoteObservable$ = this.tradeReceived
+    .pipe(
+      //Only accept 1 trade per .1 second at most
+      //Only accept trades with unique trade ids
+      (distinct((e: Trade) => e.tradeId)),
+      (throttleTime(8000)),
+      (bufferCount(8))
+    );
 
       this.hubConnection.onclose(error => {
         console.log(`Closing Hub Connection ${error ? error.message : ''}`);
