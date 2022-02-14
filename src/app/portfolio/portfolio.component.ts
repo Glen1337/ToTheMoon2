@@ -170,16 +170,17 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
 
     let data = this.portfolio.holdings.map(holding => { 
       return {
-        x: holding.symbol,
+        x: `${holding.symbol} ${(holding.contractName) ? 'Option' : 'Shares'}`,
         value: (this.percentageOfPort(holding))
       }
     });
 
     let chart = anychart.pie(data);
 
-    chart.title(`${this.portfolio.title} Breakdown`);
-
+    chart.title(`Breakdown of ${this.portfolio.title}`);
+    chart.background().fill('#9EBEE0');
     chart.container("container");
+    chart.labels().position('inside');
 
     chart.draw();
   }
