@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { take } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
 import { SymbolLookup } from '../Models/SymbolLookup';
 import { SymbolLookupService } from '../Services/symbol-lookup.service';
@@ -29,20 +29,25 @@ export class NavBarComponent {
       { label: 'Options', link: ['/options'] }, { label: 'Events', link: ['/events'] }
     ];
 
-    this.lookupControl.valueChanges.subscribe(input => {
-      if(!input.trim()){
-        this.lookupResults = [];
-      }else{
-        lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
+    this.lookupControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(input => {
+        if(!input.trim()){
           this.lookupResults = [];
-          searchResults.forEach((result) => {
-            result.securityName = result.securityName.substring(0,24);
-            this.lookupResults.push(result);
+        }else{
+          lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
+            this.lookupResults = [];
+            searchResults.forEach((result) => {
+              result.securityName = result.securityName.substring(0,24);
+              this.lookupResults.push(result);
+            });
+            //this.lookupResults = searchResults
           });
-          //this.lookupResults = searchResults
-        });
-      } 
-    });
+        } 
+      });
 
   }
 
