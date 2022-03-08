@@ -26,6 +26,7 @@ export class TickerService implements OnDestroy{
 
     this.bufferedQuoteObservable$ = this.tradeReceived
       .pipe(
+          tap(trade => console.log("recieving trade: ",  trade)),
           distinct((e: Trade) => e.tradeId),
           // Buffer for 1 seconds
           bufferTime(10000),
@@ -57,10 +58,8 @@ export class TickerService implements OnDestroy{
     });
   }
 
-  public callApi(): void {
-    this.http.get(`${this.baseUrl}watchitems/realtime`).subscribe(res => {
-      console.log("API Response: ", res);
-    });
+  public callApi(): Observable<any> {
+    return this.http.get(`${this.baseUrl}watchitems/realtime`);
   }
 
   ngOnDestroy(){
