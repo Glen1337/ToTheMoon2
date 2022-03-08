@@ -9,7 +9,7 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-6 col-lg-4 col-sm-8 col-12">
+        <div class="col-md-6 col-lg-4 col-sm-10 col-12">
             <h2 [ngClass]="portfolio.gainLoss < 0 ? 'text-danger' : 'text-success' ">
                 Gain/Loss: {{(portfolio.gainLoss >= 0 ? '+' : '-')}}{{portfolio.gainLoss | fiFormat : '$' : '' : false : true}}
                 ({{(portfolio.gainLoss >= 0 ? '+' : '-')}}{{(portfolio.gainLoss * 100/(portfolio.totalMarketValue - portfolio.gainLoss)) | fiFormat : '' : '%' : false : true}})

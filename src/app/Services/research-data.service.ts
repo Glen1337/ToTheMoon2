@@ -41,7 +41,6 @@ export class ResearchDataService {
 
     return this.http.get<IAgg[]>(`${this.baseUrl}research/chart`, options)
     .pipe(
-      // map((agg) => [agg.] ),
       tap(_ => console.log(`Getting data for: ${ticker}`)),
       retry(2),
       catchError(this.handleError)

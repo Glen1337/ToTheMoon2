@@ -38,7 +38,7 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     sub = this.route.data.subscribe({
       next: (data) => {
         this.watchList = data.watchList;
-        console.log(data.watchList);
+        //console.log(data.watchList);
         if (!data.watchList.length){
           this.errorMsg = "Could not retrieve watchlist from server"
         }
