@@ -31,7 +31,7 @@ export class TickerService implements OnDestroy{
           // Buffer for 1 seconds
           bufferTime(10000),
           // Only emit the last 5 values from the buffer.
-          map(buffer => buffer.slice(-5))
+          map(buffer => buffer.slice(-6))
 
         // Add trades to buffer until 8 seconds go by, then emit first 8 trades as an array. Then clear/ignore all of the trades(if any) that
         //are waiting to be added into the buffer.
