@@ -95,19 +95,16 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
         if (!retrievedHolding) {
           this.portfolio.holdings.push(returnedHolding);
 
-          let totalMarketValueAddition = 0;
-          let buyingPowerSubtraction = 0;
+          let holdingCost = 0;
 
-          totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
-          buyingPowerSubtraction = totalMarketValueAddition;
+          holdingCost = (returnedHolding.quantity * returnedHolding.costBasis);
 
           if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType === SecurityConstants.Put){
-            totalMarketValueAddition *= 100;
-            buyingPowerSubtraction *= 100;
+            holdingCost *= 100;
           }
 
-          this.portfolio.totalMarketValue += totalMarketValueAddition;
-          this.buyingPower -= buyingPowerSubtraction;
+          this.portfolio.totalMarketValue += holdingCost;
+          this.buyingPower -= holdingCost;
         }else{
           let index: number = this.portfolio.holdings.indexOf(retrievedHolding);
           let transactionPrice = (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;

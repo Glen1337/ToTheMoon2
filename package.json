@@ -2,6 +2,7 @@
   "name": "degen-app-ui",
   "version": "0.0.0",
   "scripts": {
+    "comment0": "run these with: npm run <command>",
     "ng": "ng",
     "comment1": "Added publichost flag to npm start cause zone.js/sockjs-node error was appearing in browser console",
     "start": "ng serve --public-host=localhost:4200 --open",

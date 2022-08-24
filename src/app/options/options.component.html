@@ -118,7 +118,7 @@
                     <tbody>
                         <tr (click)="choose($event, option.symbol)" *ngFor="let option of callSideChain">
                             <td>{{option.strike | fiFormat : '$' : '' : false }}</td>
-                            <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false }}</td>
+                            <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false : true }}</td>
                             <td>{{dateConverter.formatDate(option.expirationDate)}}</td>
                             <!-- <td>{{formatDate(option.lastUpdated)}}</td> -->
                             <td>{{dateConverter.formatDate(option.lastTradeDate)}}</td>
@@ -139,7 +139,7 @@
                         <h4>Puts</h4>
                         <tr>
                             <th> Strike Price </th>
-                            <th> Closing Price </th>
+                            <th> Price </th>
                             <th> Expiration Date </th>
                             <!-- <th> Last Updated </th> -->
                             <th> Last Trade Date </th>
@@ -153,7 +153,7 @@
                     <tbody>
                         <tr (click)="choose($event, option.symbol)" *ngFor="let option of putSideChain">
                             <td>{{option.strike | fiFormat : '$' : '' : false }}</td>
-                            <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false }}</td>
+                            <td>{{option.currentMarketPrice | fiFormat : '$' : '' : false : true}}</td>
                             <td>{{dateConverter.formatDate(option.expirationDate)}}</td>
                             <!-- <td>{{formatDate(option.lastUpdated)}}</td>    -->
                             <td>{{dateConverter.formatDate(option.lastTradeDate)}}</td>
