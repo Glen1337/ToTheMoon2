@@ -83,13 +83,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
     sub$ = this.route.data.subscribe({
       next: (data) => {
         this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
-        this.upcomingEvents.earnings.forEach((announcement) => {
-          let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
-          if(foundCalendarEvent){
-            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
-            //foundCalendarEvent.title.fontcolor("green");
-          }
-        });
+
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
@@ -97,6 +91,15 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
             // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
+
+        this.upcomingEvents.earnings.forEach((announcement) => {
+          let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
+          if(foundCalendarEvent){
+            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
+            //foundCalendarEvent.title.fontcolor("green");
+          }
+        });
+        
         this.currentlyLoading = false;
         console.log(this.upcomingEvents);
       },
