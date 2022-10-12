@@ -3,6 +3,7 @@ npm outdated
 npm upgrade
 npm update
 npm update xml2js
+npm show <package> versions
 
 angular specific-----
 https://update.angular.io/?v=11.0-12.0

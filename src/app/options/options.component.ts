@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
 import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
@@ -32,32 +32,32 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
   public portfolios: Portfolio[] = [];
   public currentlyLoadingChain: boolean = false;
 
-  public optionsForm = new FormGroup({
-    optionSymbolControl: new FormControl('', [
+  public optionsForm = new UntypedFormGroup({
+    optionSymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
     ]),
-    optionExpiryControl: new FormControl('', [
+    optionExpiryControl: new UntypedFormControl('', [
       Validators.required
     ])
   });
 
-  public orderForm = new FormGroup({
-    orderNameControl: new FormControl('', [
+  public orderForm = new UntypedFormGroup({
+    orderNameControl: new UntypedFormControl('', [
       Validators.required
     ]),
-    orderStrikeControl: new FormControl('', [
+    orderStrikeControl: new UntypedFormControl('', [
       Validators.required
     ]),
-    orderExpControl: new FormControl('', [
+    orderExpControl: new UntypedFormControl('', [
       Validators.required
     ]),
-    orderQuantityControl: new FormControl(1, [
+    orderQuantityControl: new UntypedFormControl(1, [
       Validators.required,
       Validators.min(1)
     ]),
-    orderPortfolioControl: new FormControl('', [
+    orderPortfolioControl: new UntypedFormControl('', [
       Validators.required
     ])
   });

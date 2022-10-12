@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
@@ -24,17 +24,17 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
   get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
   get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
-  public holdingForm = new FormGroup({
-    holdingSymbolControl: new FormControl('', [
+  public holdingForm = new UntypedFormGroup({
+    holdingSymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
     ]),
-    holdingQuantityControl: new FormControl('', [
+    holdingQuantityControl: new UntypedFormControl('', [
       Validators.required,
       Validators.min(1.00)
     ]),
-    holdingDividendControl: new FormControl('')
+    holdingDividendControl: new UntypedFormControl('')
   });
 
   constructor(public location: Location, private route: ActivatedRoute, private holdingService: HoldingService, public dateConverter: DateConverter) {

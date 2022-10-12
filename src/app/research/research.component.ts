@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
@@ -22,8 +22,8 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   @ViewChild('chartContainer') container!: ElementRef;
 
-  public researchForm = new FormGroup({
-    researchSymbolControl: new FormControl('', [
+  public researchForm = new UntypedFormGroup({
+    researchSymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
