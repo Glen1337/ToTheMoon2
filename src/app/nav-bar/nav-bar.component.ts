@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
 import { SymbolLookup } from '../Models/SymbolLookup';
@@ -14,13 +14,13 @@ export class NavBarComponent {
 
   public lookupResults: SymbolLookup[] = [];// string = '';
   
-  lookupControl : FormControl;
+  lookupControl : UntypedFormControl;
 
   public NavItems: Array<{ label: string, link: string[] }>;
   public title = 'ToTheMoon';
 
   constructor(private lookupService: SymbolLookupService) {
-    this.lookupControl = new FormControl('');
+    this.lookupControl = new UntypedFormControl('');
     
     this.NavItems = [
       { label: 'Portfolios', link: ['/portfolios'] }, { label: 'Research', link: ['/research'] },

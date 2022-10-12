@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
@@ -18,12 +18,12 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
 
-  public watchItemForm = new FormGroup({
-    watchItemSymbolControl: new FormControl('', [
+  public watchItemForm = new UntypedFormGroup({
+    watchItemSymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(8)
     ]),
-    watchItemOutlookControl: new FormControl('', [Validators.required])
+    watchItemOutlookControl: new UntypedFormControl('', [Validators.required])
   });
 
   constructor(private route: ActivatedRoute, public location: Location, private watchListService: WatchlistService) {

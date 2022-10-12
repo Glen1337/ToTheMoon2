@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
@@ -20,8 +20,8 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
   public financiafy: any;
   public currentlyLoading: boolean = false;
 
-  public companyResearchForm = new FormGroup({
-    companySymbolControl: new FormControl('', [
+  public companyResearchForm = new UntypedFormGroup({
+    companySymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(8)
     ])
