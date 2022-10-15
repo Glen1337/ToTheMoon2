@@ -28,10 +28,10 @@
               </td>
               <td>{{port.type}}</td>
               <td>{{dateConverter.ConvertDateTime(port.creationDate)}}</td>
-              <td>{{port.holdings?.length ? port.holdings?.length : 0}}</td>
+              <td>{{port.holdings.length ? port.holdings.length : 0}}</td>
               <td>{{GetOptionCount(port.portfolioId)}}</td>
               <td>{{GetEquityCount(port.portfolioId)}}</td>
-              <td>{{port.orders?.length ? port.orders?.length : 0}}</td>
+              <td>{{port.orders.length ? port.orders.length : 0}}</td>
               <!-- <td><a [routerLink]="['/portfolio', port.portfolioId]"><button class="btn btn-primary">Portfolio Details</button></a></td> -->
               <td><button class="btn btn-danger" (click)="deletePortfolio($event, port.portfolioId)">Remove</button></td>
             </tr>
