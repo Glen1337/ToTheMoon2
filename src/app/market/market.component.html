@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-12 col-sm-12 col-md-8 col-lg-4 col-xl-3">
             <ul class="list-group border border-2 rounded">
-                <li class="list-group-item"><i class="fab fa-bitcoin"></i><strong>Bitcoin: {{"$" + marketData.crypto?.price?.toLocaleString()}}</strong></li>
+                <li class="list-group-item"><i class="fab fa-bitcoin"></i><strong>Bitcoin: {{"$" + marketData.crypto.price.toLocaleString()}}</strong></li>
                 <li class="list-group-item"><strong>Recession Factor: {{marketData.recessionProbability}}</strong></li>
                 <li class="list-group-item"><strong>Federal Funds Rate: {{marketData.federalFundsRate + "%"}}</strong></li>
                 <li class="list-group-item"><strong>Weekly Institutional Funds: {{ (marketData.instFunds | fiFormat : '$' : ' bil' : false)}}</strong></li>
