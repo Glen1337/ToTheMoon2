@@ -12,7 +12,7 @@ import { SymbolLookupService } from '../Services/symbol-lookup.service';
 })
 export class NavBarComponent {
 
-  public lookupResults: SymbolLookup[] = [];// string = '';
+  public lookupResults: SymbolLookup[] = [];
   
   lookupControl : UntypedFormControl;
 
@@ -23,10 +23,15 @@ export class NavBarComponent {
     this.lookupControl = new UntypedFormControl('');
     
     this.NavItems = [
-      { label: 'Portfolios', link: ['/portfolios'] }, { label: 'Research', link: ['/research'] },
-      { label: 'Orders', link: ['/orders'] }, { label: 'Company', link: ['/company'] },
-      { label: 'Market', link: ['/market'] }, { label: 'Watchlist', link: ['/watchlist'] },
-      { label: 'Options', link: ['/options'] }, { label: 'Events', link: ['/events'] }
+      { label: 'Portfolios', link: ['/portfolios'] },
+      { label: 'Research', link: ['/research'] },
+      { label: 'Orders', link: ['/orders'] },
+      { label: 'Company', link: ['/company'] },
+      { label: 'Market', link: ['/market'] },
+      { label: 'Watchlist', link: ['/watchlist'] },
+      { label: 'Options', link: ['/options'] },
+      { label: 'Events', link: ['/events'] },
+      { label: 'Machine Learning', link: ['/prediction'] }
     ];
 
     this.lookupControl.valueChanges

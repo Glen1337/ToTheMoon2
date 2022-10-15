@@ -20,6 +20,7 @@ import { OptionsResolverService } from './options/options-resolver.service';
 import { BalanceResolver } from './Services/Balance/balance-resolver.resolver';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { UpcomingEventsResolverService } from './upcoming-events/upcoming-events.resolver';
+import { PredictionComponent } from './prediction/prediction.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
   { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService}, canActivate: [AuthGuard] },
   { path: 'events', component: UpcomingEventsComponent, resolve: {upcomingEvents: UpcomingEventsResolverService}},
+  { path: 'prediction', component:PredictionComponent},
   { path: '**', component: PageNotFoundComponent }
 ];
 

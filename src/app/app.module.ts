@@ -30,6 +30,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { HeadingComponent } from './Common/heading/heading.component';
 import { DateConverter } from './Utilities/DateConverter';
+import { PredictionComponent } from './prediction/prediction.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DateConverter } from './Utilities/DateConverter';
     FooterComponent,
     UpcomingEventsComponent,
     FiFormatPipe,
-    HeadingComponent
+    HeadingComponent,
+    PredictionComponent
   ],
   imports: [
     BrowserModule,
