@@ -11,7 +11,7 @@
     <form [formGroup]="optionsForm" (ngSubmit)="submitForm()">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-2 mb-2">
-                <input class="form-control" id="sym" type="text" placeholder="Stock Symbol"
+                <input spellcheck="false" class="form-control" id="sym" type="text" placeholder="Stock Symbol"
                     [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
                 <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="invalid-feedback">
                     <div *ngIf="optionSymbolControl?.errors?.required">Please type a Stock Symbol.</div>

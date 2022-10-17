@@ -8,11 +8,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from '@auth0/auth0-angular'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthModule, AuthHttpInterceptor  } from '@auth0/auth0-angular'
 import { AuthButtonComponent } from './auth/login-button';
-import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { ResearchComponent } from './research/research.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { MessageComponent } from './Common/message/message.component';

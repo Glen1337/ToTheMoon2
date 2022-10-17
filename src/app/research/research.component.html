@@ -5,7 +5,7 @@
     <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-2 col-xl-1 mb-2">
-                <input id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
+                <input spellcheck="false" id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
                     [ngClass]="{ 'is-invalid': researchSymbolControl?.invalid && (researchSymbolControl?.dirty || researchSymbolControl?.touched) }" formControlName="researchSymbolControl">
                 <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback">
                     <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>

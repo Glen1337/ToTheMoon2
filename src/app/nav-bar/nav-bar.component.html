@@ -15,9 +15,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
             <!-- Nav Items -->
-            <ul class="navbar-nav mb-0">
+            <ul class="navbar-nav  mb-0">
                 <li *ngFor="let navItem of NavItems" class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLinkActive="active" [routerLink]="navItem.link">{{navItem.label}}</a>
+                    <strong>
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLinkActive]="['active']" [routerLink]="navItem.link">{{navItem.label}}</a>
+                    </strong>
                 </li>
             </ul>
 

@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
   { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService}, canActivate: [AuthGuard] },
   { path: 'events', component: UpcomingEventsComponent, resolve: {upcomingEvents: UpcomingEventsResolverService}},
-  { path: 'prediction', component:PredictionComponent},
+  { path: 'prediction', component: PredictionComponent},
   { path: '**', component: PageNotFoundComponent }
 ];
 
