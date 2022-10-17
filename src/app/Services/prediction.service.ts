@@ -22,7 +22,7 @@ export class PredictionService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
     
-    return this.http.get(`${this.baseUrl}stockpredict/getprediction`, options)
+    return this.http.get(`${this.baseUrl}StockPredict/GetPrediction`, options)
     .pipe(
       tap(_ => console.log(`(service)Getting ML predictions for: ${ticker}`)),
       retry(2),
