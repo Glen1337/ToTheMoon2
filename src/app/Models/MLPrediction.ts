@@ -23,7 +23,7 @@ export interface Prediction{
 
 export interface PredictionEvaluation {
     predictionDayDate: Date;
-    actualdate: Date;
+    actualDate: Date;
     predictedNextDayClosingPrice: number;
     actualClosingPrice: number;
     percentError: number;

@@ -32,7 +32,15 @@
 
 <div class="row mt-4" *ngIf="!IsResultEmpty()">
     <h1 class="display-6">
-        As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, {{this.predictionResult.combinedShouldYouBuy ? "you should buy." : "you shouldn't buy."}}
+        <span>
+            As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, you
+        </span>
+        <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
+            {{this.predictionResult.combinedShouldYouBuy ? "should buy." : "shouldn't buy."}}
+        </span>
+    </h1>
+    <h1 class="display-6">
+        Last Closing Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
     </h1>
     <h1 class="display-6">
         Predicted Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
@@ -46,9 +54,34 @@
                 {{strategy.algorithm}} Strategy
             </h5>
             <div class="card-body">
-            <h6 class="card-title">Special title treatment</h6>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item">
+                        <h5 class="card-title mb-4">Quality Metrics Evaluation</h5>
+                        <p class="card-text">Mean Absolute Loss Error: {{strategy.qualityMetricsEvaluation.meanAbsoluteLossError.toFixed(2)}}</p>
+                        <p class="card-text">Root Mean Squared Error: {{strategy.qualityMetricsEvaluation.rootMeanSquaredError.toFixed(2)}}</p>
+                        <p class="card-text">R Squared Score Error: {{strategy.qualityMetricsEvaluation.rSquaredScore.toFixed(2)}}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title mb-4">Prediction Evaluation</h5>
+                        <p class="card-text">Day of Prediction: {{dateConverter.formatDate(strategy.predictionEvaluation.predictionDayDate)}}</p>
+                        <p class="card-text">Price Prediction: {{strategy.predictionEvaluation.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                        <p class="card-text">Actual Date: {{dateConverter.formatDate(strategy.predictionEvaluation.actualDate)}}</p>
+                        <p class="card-text">Actual Closing Price: {{strategy.predictionEvaluation.actualClosingPrice}}</p>
+                        <p class="card-text">Percentage Error: {{strategy.predictionEvaluation.percentError | fiFormat : '' : '%' : true : true}}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title mb-4">Prediction</h5>
+                        <p class="card-text">Last Date: {{dateConverter.formatDate(strategy.prediction.lastDayDate)}}</p>
+                        <p class="card-text">Last Closing Price: {{strategy.prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                        <p class="card-text">Predicted Next Day Price: {{strategy.prediction.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                        <p class="card-text">Should you buy? {{strategy.prediction.shouldYouBuy ? 'Yes' : 'No'}}</p>
+
+
+                    </li>
+                </ul>
+                <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> -->
             </div>
         </div>
     </div>
