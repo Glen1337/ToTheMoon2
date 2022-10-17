@@ -24,7 +24,7 @@ export class PredictionService {
     
     return this.http.get(`${this.baseUrl}stockpredict/getprediction`, options)
     .pipe(
-      tap(_ => console.log(`Getting ML predictions for: ${ticker}`)),
+      tap(_ => console.log(`(service)Getting ML predictions for: ${ticker}`)),
       retry(2),
       catchError(this.handleError)
     );

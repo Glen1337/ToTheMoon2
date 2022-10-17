@@ -4,7 +4,8 @@ import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PredictionService } from '../Services/prediction.service';
-
+import { MLPrediction } from '../Models/MLPrediction';
+import { DateConverter } from '../Utilities/DateConverter';
 
 @Component({
   selector: 'app-prediction',
@@ -15,8 +16,9 @@ export class PredictionComponent extends FinancialPage{
 
   public currentlyLoading: boolean = false;
   public predictionForm: FormGroup;
+  public predictionResult: MLPrediction = {} as MLPrediction;
 
-  constructor(public location: Location, private predictionService: PredictionService) {
+  constructor(public location: Location, public dateConverter: DateConverter, private predictionService: PredictionService) {
     super(); 
 
     this.predictionForm = new FormGroup({
@@ -37,7 +39,8 @@ export class PredictionComponent extends FinancialPage{
     
     sub = this.predictionService.getPredictionResults(symbol).subscribe({
       next: (data) => {
-        console.log(data);
+        this.predictionResult = data as MLPrediction;
+        console.log(this.predictionResult);
       },
       error: (error) => {
         console.log('(component)Error getting ML prediction: ', error);
@@ -51,4 +54,9 @@ export class PredictionComponent extends FinancialPage{
     this.subscriptions.push(sub);
   }
 
+  public IsResultEmpty(): boolean{
+    return Object.keys(this.predictionResult).length === 0;
+  }
+
+  
 }
