@@ -43,6 +43,7 @@ export class PredictionComponent extends FinancialPage{
         console.log(this.predictionResult);
       },
       error: (error) => {
+        this.errorMsg = error.error;
         console.log('(component)Error getting ML prediction: ', error);
       },
       complete: () =>{

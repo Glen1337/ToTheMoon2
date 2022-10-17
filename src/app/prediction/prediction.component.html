@@ -37,6 +37,8 @@
         </span>
         <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
             {{this.predictionResult.combinedShouldYouBuy ? "should buy." : "shouldn't buy."}}
+            <i *ngIf="this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-up text-success align-self-center"></i>
+            <i *ngIf="!this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-down text-danger align-self-center"></i>
         </span>
     </h1>
     <h1 class="display-6">
