@@ -131,9 +131,5 @@
         }
       }
     }
-  },
-  "defaultProject": "DegenAppUI",
-  "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
   }
 }

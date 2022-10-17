@@ -20,6 +20,35 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "no-dupe-args": "warn",
+        "no-constructor-return": "warn",
+        "no-dupe-class-members": "warn",
+        "no-duplicate-imports": "warn",
+        "wrap-iife": "warn",
+        "no-multiple-empty-lines": "warn",
+        "no-debugger": "warn",
+        "no-func-assign": "warn",
+        "no-inner-declarations": "warn",
+        "no-import-assign": "warn",
+        "no-loss-of-precision": "warn",
+        "no-obj-calls": "warn",
+        "no-unreachable": "warn",
+        "no-unreachable-loop": "warn",
+        "no-unsafe-negation": "warn",
+        "no-unsafe-finally": "warn",
+        "no-unsafe-optional-chaining": "warn",
+        "for-direction": "warn",
+        "getter-return": "warn",
+        "no-cond-assign": "warn",
+        "no-dupe-keys": "warn",
+        "no-irregular-whitespace": "warn",
+        "no-new-symbol": "warn",
+        "no-unused-private-class-members": "warn",
+        // "no-unused-vars": "warn",
+        "use-isnan": "warn",
+        "valid-typeof": "warn",
+
+
         "@angular-eslint/component-selector": [
           "error",
           {

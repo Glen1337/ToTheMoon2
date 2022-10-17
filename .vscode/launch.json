@@ -7,20 +7,21 @@
         {
             "name": "Launch Chrome - simple",
             "request": "launch",
-            "type": "pwa-chrome",
+            "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
         },
         {
-            "type": "pwa-chrome",
+            "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome - complex",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}",
-            "breakOnLoad": true,
-            "justMyCode": true,
             "sourceMaps": true,
-            "trace": true
+            "trace": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${workspaceRoot}/*"
+            }
         }
             // "sourceMapPathOverrides": {
             //     // "webpack:///c:/Users/glen4/DegenAppUI/*": "${workspaceRoot}/*",

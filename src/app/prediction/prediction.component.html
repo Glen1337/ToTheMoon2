@@ -2,5 +2,28 @@
     <app-heading [location]="location" title="ML Prediction" iconClass="fa-solid fa-brain"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
 
-    <p>prediction works!</p>
+    <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
+        <label class="form-label" for="sym">Stock Symbol</label>
+        
+        <div class="row mb-2">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+                <input spellcheck="false" [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }" formControlName="predictionControl" id="sym" type="text" class="form-control">
+                <div *ngIf="predictionForm.invalid && (predictionForm.dirty || predictionForm.touched)" class="invalid-feedback">
+                    <div *ngIf="predictionControl!.errors?.['required']">
+                        Symbol is required
+                    </div>
+                    <div *ngIf="predictionControl!.errors?.['maxlength']">
+                        Symbol is too long
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <button [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
+    <span class="sr-only">Loading...</span>
 </div>

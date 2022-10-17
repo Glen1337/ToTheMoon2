@@ -5,8 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
-import { PortfolioTypes } from '../Models/Constants';
-import { SecurityConstants } from '../Models/Constants';
+import { PortfolioTypes, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
