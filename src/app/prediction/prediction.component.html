@@ -4,10 +4,9 @@
 
     <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
         <label class="form-label" for="sym">Stock Symbol</label>
-        
         <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
-                <input spellcheck="false" [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }" formControlName="predictionControl" id="sym" type="text" class="form-control">
+                <input placeholder="TSLA" spellcheck="false" [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }" formControlName="predictionControl" id="sym" type="text" class="form-control">
                 <div *ngIf="predictionForm.invalid && (predictionForm.dirty || predictionForm.touched)" class="invalid-feedback">
                     <div *ngIf="predictionControl!.errors?.['required']">
                         Symbol is required
@@ -31,22 +30,30 @@
 </div>
 
 <div class="row mt-4" *ngIf="!IsResultEmpty()">
-    <h1 class="display-6">
-        <span>
-            As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, you
-        </span>
-        <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
-            {{this.predictionResult.combinedShouldYouBuy ? "should buy." : "shouldn't buy."}}
-            <i *ngIf="this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-up text-success align-self-center"></i>
-            <i *ngIf="!this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-down text-danger align-self-center"></i>
-        </span>
-    </h1>
-    <h1 class="display-6">
-        Last Closing Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
-    </h1>
-    <h1 class="display-6">
-        Predicted Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
-    </h1>
+    <div class="d-flex">
+        <h1 class="display-6">
+            <span>
+                As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, you
+            </span>
+            <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
+                {{this.predictionResult.combinedShouldYouBuy ? "should buy" : "shouldn't buy"}}
+                <i *ngIf="this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-up text-success align-self-center"></i>
+                <i *ngIf="!this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-down text-danger align-self-center"></i>
+            </span>
+        </h1>
+    </div>
+    <div class="d-flex">
+        <h1 data-toggle="tooltip" title="Angular 13" class="display-6">
+            Last Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
+        </h1>
+        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+    </div>
+    <div class="d-flex">
+        <h1 class="display-6">
+            Predicted Next Day Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
+        </h1>
+        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+    </div>
 </div>
 
 <div class="row mt-4 justify-content-center">
@@ -57,7 +64,7 @@
             </h5>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"></li>
+                    <li class="list-group-item">
                     <li class="list-group-item">
                         <h5 class="card-title mb-4">Quality Metrics Evaluation</h5>
                         <p class="card-text">Mean Absolute Loss Error: {{strategy.qualityMetricsEvaluation.meanAbsoluteLossError.toFixed(2)}}</p>
@@ -78,9 +85,8 @@
                         <p class="card-text">Last Closing Price: {{strategy.prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
                         <p class="card-text">Predicted Next Day Price: {{strategy.prediction.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
                         <p class="card-text">Should you buy? {{strategy.prediction.shouldYouBuy ? 'Yes' : 'No'}}</p>
-
-
                     </li>
+                    <li class="list-group-item">
                 </ul>
                 <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                 <a href="#" class="btn btn-primary">Go somewhere</a> -->
