@@ -4,6 +4,7 @@ export interface MLPrediction {
     combinedShouldYouBuy: boolean;
     lastDay: Date;
     lastClosePrice: number;
+    stocksymbol: string;
 }
 
 export interface Strategy
@@ -17,6 +18,7 @@ export interface Strategy
 export interface Prediction{
     lastDayDate: Date;
     lastDayClosingPrice: number;
+    nextDayDate: Date;
     predictedNextDayClosingPrice: number;
     shouldYouBuy: boolean;
 }
