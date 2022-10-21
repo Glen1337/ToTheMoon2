@@ -13,6 +13,13 @@ export class DateConverter {
         return(date ? new Date(date).toLocaleDateString() : '');
     }
 
+    public GetMonthAndDay(inputDate: Date): string {
+        let date = new Date(inputDate);
+        let month = date?.getMonth()+1;
+        let day = date?.getDate();
+        return `${month}/${day}`;
+    }
+
     public formatDate(input: any): string {
         //remove these ifs?
         if(!input) {
