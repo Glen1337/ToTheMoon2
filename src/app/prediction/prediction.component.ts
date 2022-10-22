@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { FinancialPage } from '../Common/FinancialPage';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -23,18 +23,20 @@ export class PredictionComponent extends FinancialPage{
   private popoverList = new Array<any>();
   
   ngOnInit(){
-            // Bootstrap tooltip initialization
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            const tooltipListNewTooltips = tooltipTriggerList.map(tooltipTriggerEl => {
-              return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-            this.tooltipList.push(...tooltipListNewTooltips);
-              
-            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-              return new bootstrap.Popover(popoverTriggerEl)
-            })
-            this.popoverList.push(...popoverList);
+    // Bootstrap tooltip initialization
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    this.tooltipList.push(...tooltipList);
+      
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+    
+    this.popoverList.push(...popoverList);
   }
 
   constructor(public location: Location, public dateConverter: DateConverter, private predictionService: PredictionService) {
@@ -46,7 +48,6 @@ export class PredictionComponent extends FinancialPage{
         Validators.maxLength(8),
       ])
     });
-
   }
 
   get predictionControl() { return this.predictionForm.get('predictionControl'); }
@@ -66,20 +67,17 @@ export class PredictionComponent extends FinancialPage{
         this.errorMsg = error.error;
         console.log('(component)Error getting ML prediction: ', error);
       },
-      complete: () =>{
+      complete: () => {
         '(component)ML prediction result received';
         this.currentlyLoading = false;
-
-
       }
     });
-
+    
     this.subscriptions.push(sub);
   }
 
   public IsResultEmpty(): boolean{
     return Object.keys(this.predictionResult).length === 0;
   }
-
   
 }

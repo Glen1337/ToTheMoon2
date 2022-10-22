@@ -5,7 +5,8 @@
     <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
         <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
-                <input spellcheck="false" id="sym" type="text" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched) }" class="form-control" formControlName="companySymbolControl">
+                <input spellcheck="false" id="sym" type="text" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched), 'is-valid': companyResearchForm.valid && (companyResearchForm.dirty || companyResearchForm.touched) }"
+                    class="form-control" formControlName="companySymbolControl">
                 <div *ngIf="companyResearchForm!.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched)" class="invalid-feedback" >
                     <div *ngIf="companySymbolControl!.errors!.required">Symbol is required.</div>
                     <div *ngIf="companySymbolControl!.errors!.maxlength">Symbol must be less than 8 characters long.</div>

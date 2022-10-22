@@ -12,18 +12,25 @@
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-2 mb-2">
                 <input spellcheck="false" class="form-control" id="sym" type="text" placeholder="Stock Symbol"
-                    [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched) }" formControlName="optionSymbolControl" novalidate>
+                    [ngClass]="{ 'is-invalid': optionSymbolControl!.invalid && (optionSymbolControl!.dirty || optionSymbolControl!.touched), 'is-valid': optionSymbolControl.valid && (optionSymbolControl!.dirty || optionSymbolControl!.touched)  }"
+                    formControlName="optionSymbolControl" novalidate>
                 <div *ngIf="optionSymbolControl?.invalid && (optionSymbolControl?.dirty || optionSymbolControl?.touched)" class="invalid-feedback">
                     <div *ngIf="optionSymbolControl?.errors?.required">Please type a Stock Symbol.</div>
                     <div *ngIf="optionSymbolControl?.errors?.maxlength || optionSymbolControl?.errors?.minlength">Symbol must be between 1 and 8 characters long.</div>
                 </div>
             </div>
             <div class="col-6 col-sm-4 col-md-2 col-lg-1 col-xl-1">   
-                <button onmousedown="event.preventDefault()" class="btn btn-primary" type="button" [disabled]="optionSymbolControl?.invalid" (click)="getExpirys()">Submit</button>
+                <button onmousedown="event.preventDefault()" class="btn btn-primary" type="button" [disabled]="optionSymbolControl.invalid" (click)="getExpirys()">Submit</button>
             </div>
         </div>
 
-        <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status"></div>
+        <!-- <div *ngIf="currentlyLoadingChain" class="mt-2 spinner-grow text-secondary" role="status"></div> -->
+
+        <div class="d-flex justify-content-center mt-2">
+            <div *ngIf="currentlyLoadingChain" style="width: 4rem; height: 4rem;" class="mt-2 spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
 
         <div class="row my-2 " >
             <label for="sym">Choose an Exp. Date</label>

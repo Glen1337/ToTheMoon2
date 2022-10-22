@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
@@ -22,12 +22,15 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   @ViewChild('chartContainer') container!: ElementRef;
 
-  public researchForm = new UntypedFormGroup({
-    researchSymbolControl: new UntypedFormControl('', [
+  public researchForm = new FormGroup({
+    researchSymbolControl: new FormControl('', {
+      validators: [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
-    ])
+      ],
+      nonNullable: true
+    })
   });
 
   constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
@@ -35,7 +38,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     this.chart = anychart.stock();
   }
 
-  get researchSymbolControl() { return this.researchForm.get('researchSymbolControl'); }
+  get researchSymbolControl() { return this.researchForm.get('researchSymbolControl')!; }
 
   onGetData(): void {
     let subscription1: Subscription = new Subscription();

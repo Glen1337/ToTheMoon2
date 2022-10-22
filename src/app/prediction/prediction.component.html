@@ -6,7 +6,9 @@
         <label class="form-label" for="sym">Stock Symbol</label>
         <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
-                <input placeholder="TSLA" spellcheck="false" [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }" formControlName="predictionControl" id="sym" type="text" class="form-control">
+                <input placeholder="TSLA" spellcheck="false"
+                    [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }"
+                    formControlName="predictionControl" id="sym" type="text" class="form-control">
                 <div *ngIf="predictionForm.invalid && (predictionForm.dirty || predictionForm.touched)" class="invalid-feedback">
                     <div *ngIf="predictionControl!.errors?.['required']">
                         Symbol is required
@@ -17,13 +19,14 @@
                 </div>
             </div>
             <div class="col">
-                <button data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
+                <button data-bs-toggle="tooltip" data-bs-title="Default tooltip" [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
 
 </div>
-<div class="d-flex justify-content-center">
+
+<div class="d-flex justify-content-center mt-2">
     <div *ngIf="currentlyLoading" style="width: 4rem; height: 4rem;" class="mt-2 spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
     </div>
@@ -47,14 +50,14 @@
             Last {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.lastDayDate)}}
             Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
         </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+        <i data-bs-toggle="tooltip" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
     </div>
     <div class="d-flex">
         <h1 class="display-6">
             Predicted {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.nextDayDate)}}
             Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
         </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+        <i data-bs-toggle="popover" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
     </div>
 </div>
 

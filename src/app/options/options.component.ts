@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OptionsDataService } from '../Services/options-data.service';
 import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
@@ -32,15 +32,21 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
   public portfolios: Portfolio[] = [];
   public currentlyLoadingChain: boolean = false;
 
-  public optionsForm = new UntypedFormGroup({
-    optionSymbolControl: new UntypedFormControl('', [
+  public optionsForm = new FormGroup({
+    optionSymbolControl: new FormControl('', {
+      validators: [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
-    ]),
-    optionExpiryControl: new UntypedFormControl('', [
+      ],
+      nonNullable: true
+    }),
+    optionExpiryControl: new FormControl('', {
+      validators: [
       Validators.required
-    ])
+      ],
+      nonNullable: true
+    })
   });
 
   public orderForm = new UntypedFormGroup({
@@ -72,9 +78,9 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
       this.optionExpiryControl?.disable();
   }
 
-  get optionSymbolControl(): AbstractControl | null { return this.optionsForm.get('optionSymbolControl'); }
+  get optionSymbolControl() { return this.optionsForm.get('optionSymbolControl')!; }
 
-  get optionExpiryControl(): AbstractControl | null { return this.optionsForm.get('optionExpiryControl'); }
+  get optionExpiryControl() { return this.optionsForm.get('optionExpiryControl')!; }
 
   get orderNameControl(): AbstractControl | null { return this.orderForm.get('orderNameControl'); }
 
@@ -110,7 +116,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
   public getExpirys(): void {
     this.currentlyLoadingChain = true;
     let sub: Subscription = new Subscription();
-    let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
+    let symbol = this.optionSymbolControl!.value.trim().toUpperCase();
     sub = this.optionsDataService.getExpirys(symbol).subscribe({
       next: (exps) => {
         this.expiryDates = exps;
@@ -179,8 +185,8 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
 
     let sub: Subscription = new Subscription();
 
-    let symbol: string = this.optionSymbolControl?.value.trim().toUpperCase();
-    let expiry: string = this.optionExpiryControl?.value.trim().replaceAll('-','');
+    let symbol: string = this.optionSymbolControl.value.trim().toUpperCase();
+    let expiry: string = this.optionExpiryControl.value.trim().replace('-','');
 
     sub = this.optionsDataService.getChain(symbol, expiry).subscribe({
       next: (chain) => {
