@@ -70,7 +70,7 @@ export class PredictionComponent extends FinancialPage{
           });
           
           this.popoverList.push(...popoverList);
-        }, 2000)
+        }, 400)
       }
     });
     
