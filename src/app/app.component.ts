@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+
 declare function introJs(): any;
 @Component({
   selector: 'app-root',
@@ -7,14 +8,18 @@ declare function introJs(): any;
 })
 export class AppComponent implements OnInit{
   title = 'ToTheMoon'
-  public currentlyLoading: boolean = true;
+  public currentlyLoading: boolean = false;
 
   constructor(){
-    //this.currentlyLoading = true;
-    
   }
+
+  // ngAfterViewInit(){
+  //   this.currentlyLoading = false;
+  // }
   ngOnInit(): void {
     // Start tour
+    //this.currentlyLoading = true;
+
     introJs().start();
   }
 
