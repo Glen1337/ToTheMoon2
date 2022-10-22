@@ -22,22 +22,6 @@ export class PredictionComponent extends FinancialPage{
   private tooltipList = new Array<any>();
   private popoverList = new Array<any>();
   
-  ngOnInit(){
-    // Bootstrap tooltip initialization
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
-      return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-
-    this.tooltipList.push(...tooltipList);
-      
-    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl)
-    })
-    
-    this.popoverList.push(...popoverList);
-  }
 
   constructor(public location: Location, public dateConverter: DateConverter, private predictionService: PredictionService) {
     super();
@@ -70,6 +54,23 @@ export class PredictionComponent extends FinancialPage{
       complete: () => {
         '(component)ML prediction result received';
         this.currentlyLoading = false;
+
+        setTimeout(() => {
+          // Bootstrap tooltip initialization
+          const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+          const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+    
+          this.tooltipList.push(...tooltipList);
+            
+          var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+          var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+          });
+          
+          this.popoverList.push(...popoverList);
+        }, 2000)
       }
     });
     
