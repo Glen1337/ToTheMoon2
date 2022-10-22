@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col">
-                <button data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
+                <button data-bs-toggle="tooltip" data-bs-title="Default tooltip" [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
@@ -50,14 +50,14 @@
             Last {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.lastDayDate)}}
             Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
         </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+        <i data-bs-toggle="tooltip" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
     </div>
     <div class="d-flex">
         <h1 class="display-6">
             Predicted {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.nextDayDate)}}
             Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
         </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
+        <i data-bs-toggle="popover" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { FinancialPage } from '../Common/FinancialPage';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -25,15 +25,17 @@ export class PredictionComponent extends FinancialPage{
   ngOnInit(){
     // Bootstrap tooltip initialization
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipListNewTooltips = tooltipTriggerList.map(tooltipTriggerEl => {
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-    this.tooltipList.push(...tooltipListNewTooltips);
+
+    this.tooltipList.push(...tooltipList);
       
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
       return new bootstrap.Popover(popoverTriggerEl)
     })
+    
     this.popoverList.push(...popoverList);
   }
 
@@ -65,20 +67,17 @@ export class PredictionComponent extends FinancialPage{
         this.errorMsg = error.error;
         console.log('(component)Error getting ML prediction: ', error);
       },
-      complete: () =>{
+      complete: () => {
         '(component)ML prediction result received';
         this.currentlyLoading = false;
-
-
       }
     });
-
+    
     this.subscriptions.push(sub);
   }
 
   public IsResultEmpty(): boolean{
     return Object.keys(this.predictionResult).length === 0;
   }
-
   
 }
