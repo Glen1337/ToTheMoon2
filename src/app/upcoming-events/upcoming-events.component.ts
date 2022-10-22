@@ -4,7 +4,7 @@ import { Subscriber, Subscription, Subject } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -67,9 +67,9 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
   calendarEvents: CalendarEvent[] = [];
 
-  public upcomingEventsForm = new FormGroup({
-    startDateControl: new FormControl(this.getInitialStartDate(), [Validators.required]),
-    endDateControl: new FormControl(this.getInitialEndDate(), [Validators.required])
+  public upcomingEventsForm = new UntypedFormGroup({
+    startDateControl: new UntypedFormControl(this.getInitialStartDate(), [Validators.required]),
+    endDateControl: new UntypedFormControl(this.getInitialEndDate(), [Validators.required])
   });
 
   constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute, public dateService: DateConverter) {
@@ -83,13 +83,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
     sub$ = this.route.data.subscribe({
       next: (data) => {
         this.upcomingEvents = data.upcomingEvents as UpcomingEvents;
-        this.upcomingEvents.earnings.forEach((announcement) => {
-          let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
-          if(foundCalendarEvent){
-            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
-            //foundCalendarEvent.title.fontcolor("green");
-          }
-        });
+
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if(foundCalendarEvent){
@@ -97,6 +91,15 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
             // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
+
+        this.upcomingEvents.earnings.forEach((announcement) => {
+          let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
+          if(foundCalendarEvent){
+            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
+            //foundCalendarEvent.title.fontcolor("green");
+          }
+        });
+        
         this.currentlyLoading = false;
         console.log(this.upcomingEvents);
       },

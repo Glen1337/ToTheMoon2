@@ -1,10 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
-import { financialifyNumber } from '../Utilities/utilities';
+//import { financialifyNumber } from '../Utilities/utilities';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
@@ -20,8 +20,8 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
   public financiafy: any;
   public currentlyLoading: boolean = false;
 
-  public companyResearchForm = new FormGroup({
-    companySymbolControl: new FormControl('', [
+  public companyResearchForm = new UntypedFormGroup({
+    companySymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(8)
     ])
@@ -29,7 +29,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
 
   constructor(public location: Location, private researchService: ResearchDataService, public dateConverter: DateConverter) {
     super();
-    this.financiafy = financialifyNumber;
+    //this.financiafy = financialifyNumber;
   }
 
   get companySymbolControl(): AbstractControl | null { return this.companyResearchForm.get('companySymbolControl'); }
@@ -56,6 +56,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
         this.currentlyLoading = false;
       }
     });
+    this.subscriptions.push(sub);
   }
 
 }

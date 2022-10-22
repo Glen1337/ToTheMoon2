@@ -82,7 +82,7 @@ export class HoldingService {
         `body was: ${error.message}`);
     }
     // Return an observable with a user-facing error message.
-    return throwError(error);
+    return throwError(() => new Error(error.message));
   }
 }
   // private handleError<T>(operation = 'operation', result?: T) {

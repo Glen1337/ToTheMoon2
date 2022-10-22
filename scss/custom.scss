@@ -1,8 +1,12 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-// $navbar-dark-color:                 rgba($blue, .9) ;
-$navbar-dark-hover-color:           rgba(204, 255, 255, 1);
-$navbar-dark-active-color:          $blue;
+$navbar-dark-color:                 $gray-500;
+$navbar-dark-hover-color:           rgb(168, 153, 255);
+$navbar-dark-active-color:           rgb(189, 232, 255);
+// $navbar-dark-active-color:          $light;
+$navbar-dark-disabled-color:  rgb(206, 138, 36);
+$navbar-light-disabled-color:  rgb(206, 138, 36);
+
 // $navbar-dark-disabled-color:        rgba($blue, .9);
 // $navbar-dark-toggler-border-color:  rgba($blue, .9) ;
 
@@ -12,7 +16,7 @@ $navbar-dark-active-color:          $blue;
 // $navbar-light-disabled-color:       rgba($blue, .9);
 // $navbar-light-toggler-border-color: rgba($blue, .9);
 
-// $body-bg: rgb(154,167,184);
-$body-bg: rgb(158, 190, 224, 1);
+$body-bg: rgb(173, 179, 224);
+//$body-bg: rgb(158, 190, 224, 1);
 
 @import "../node_modules/bootstrap/scss/bootstrap";

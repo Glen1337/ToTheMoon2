@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { take } from 'rxjs';
+import { UntypedFormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
 import { SymbolLookup } from '../Models/SymbolLookup';
 import { SymbolLookupService } from '../Services/symbol-lookup.service';
@@ -12,37 +12,47 @@ import { SymbolLookupService } from '../Services/symbol-lookup.service';
 })
 export class NavBarComponent {
 
-  public lookupResults: SymbolLookup[] = [];// string = '';
+  public lookupResults: SymbolLookup[] = [];
   
-  lookupControl : FormControl;
+  lookupControl : UntypedFormControl;
 
   public NavItems: Array<{ label: string, link: string[] }>;
   public title = 'ToTheMoon';
 
   constructor(private lookupService: SymbolLookupService) {
-    this.lookupControl = new FormControl('');
+    this.lookupControl = new UntypedFormControl('');
     
     this.NavItems = [
-      { label: 'Portfolios', link: ['/portfolios'] }, { label: 'Research', link: ['/research'] },
-      { label: 'Orders', link: ['/orders'] }, { label: 'Company', link: ['/company'] },
-      { label: 'Market', link: ['/market'] }, { label: 'Watchlist', link: ['/watchlist'] },
-      { label: 'Options', link: ['/options'] }, { label: 'Events', link: ['/events'] }
+      { label: 'Portfolios', link: ['/portfolios'] },
+      { label: 'Research', link: ['/research'] },
+      { label: 'Orders', link: ['/orders'] },
+      { label: 'Company', link: ['/company'] },
+      { label: 'Market', link: ['/market'] },
+      { label: 'Watchlist', link: ['/watchlist'] },
+      { label: 'Options', link: ['/options'] },
+      { label: 'Events', link: ['/events'] },
+      { label: 'Machine Learning', link: ['/prediction'] }
     ];
 
-    this.lookupControl.valueChanges.subscribe(input => {
-      if(!input.trim()){
-        this.lookupResults = [];
-      }else{
-        lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
+    this.lookupControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(input => {
+        if(!input.trim()){
           this.lookupResults = [];
-          searchResults.forEach((result) => {
-            result.securityName = result.securityName.substring(0,24);
-            this.lookupResults.push(result);
+        }else{
+          lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
+            this.lookupResults = [];
+            searchResults.forEach((result) => {
+              result.securityName = result.securityName.substring(0,24);
+              this.lookupResults.push(result);
+            });
+            //this.lookupResults = searchResults
           });
-          //this.lookupResults = searchResults
-        });
-      } 
-    });
+        } 
+      });
 
   }
 

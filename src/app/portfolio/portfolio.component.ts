@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
 import { OrderConstants, SecurityConstants } from '../Models/Constants';
@@ -20,17 +20,21 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
   public portfolio: Portfolio = {} as Portfolio;
   public buyingPower: number = 0;
 
-  public holdingForm = new FormGroup({
-    holdingSymbolControl: new FormControl('', [
+  get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
+  get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
+  get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
+
+  public holdingForm = new UntypedFormGroup({
+    holdingSymbolControl: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(8)
     ]),
-    holdingQuantityControl: new FormControl('', [
+    holdingQuantityControl: new UntypedFormControl('', [
       Validators.required,
       Validators.min(1.00)
     ]),
-    holdingDividendControl: new FormControl('')
+    holdingDividendControl: new UntypedFormControl('')
   });
 
   constructor(public location: Location, private route: ActivatedRoute, private holdingService: HoldingService, public dateConverter: DateConverter) {
@@ -46,6 +50,7 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
         }else {
           this.buyingPower = data.balance;
           this.portfolio = data.portfolio;
+          this.createChart();
         }
       },
       error: (error) => {
@@ -55,20 +60,15 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
       complete: () => { console.log('Portfolio retrieved'); }
     });
     this.subscriptions.push(subscription1);
+
   }
-
-  get symbolControl() { return this.holdingForm.get('holdingSymbolControl'); }
-
-  get quantityControl() { return this.holdingForm.get('holdingQuantityControl'); }
-
-  get dividendControl() { return this.holdingForm.get('holdingDividendControl'); }
 
   onSubmitHolding(): void {
     let sub: Subscription = new Subscription();
     let order$: Observable<Holding>;
 
     let holding: Holding = {
-      userId: '-1',
+      //userId: '-1',
       costBasis: 0,
       currentPrice: 0,
       quantity: this.quantityControl?.value,
@@ -95,19 +95,16 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
         if (!retrievedHolding) {
           this.portfolio.holdings.push(returnedHolding);
 
-          let totalMarketValueAddition = 0;
-          let buyingPowerSubtraction = 0;
+          let holdingCost = 0;
 
-          totalMarketValueAddition = (returnedHolding.quantity * returnedHolding.costBasis);
-          buyingPowerSubtraction = totalMarketValueAddition;
+          holdingCost = (returnedHolding.quantity * returnedHolding.costBasis);
 
           if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType === SecurityConstants.Put){
-            totalMarketValueAddition *= 100;
-            buyingPowerSubtraction *= 100;
+            holdingCost *= 100;
           }
 
-          this.portfolio.totalMarketValue += totalMarketValueAddition;
-          this.buyingPower -= buyingPowerSubtraction;
+          this.portfolio.totalMarketValue += holdingCost;
+          this.buyingPower -= holdingCost;
         }else{
           let index: number = this.portfolio.holdings.indexOf(retrievedHolding);
           let transactionPrice = (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
@@ -153,6 +150,36 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
       complete: () => { console.log(`(component)deleting holding - complete`); }
     });
     this.subscriptions.push(sub);
+  }
+
+  public percentageOfPort(holding: Holding): number {
+    let holdingValue = (holding.quantity * holding.currentPrice);
+    if(holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
+      holdingValue = holdingValue * 100;
+    }
+    if(this.portfolio.totalMarketValue == 0){
+      return 0;
+    }
+    return ((holdingValue)/this.portfolio.totalMarketValue) * 100;
+  }
+
+  private createChart(): void {
+
+    let data = this.portfolio.holdings.map(holding => { 
+      return {
+        x: `${holding.symbol} ${(holding.contractName) ? 'Option' : 'Shares'}`,
+        value: (this.percentageOfPort(holding))
+      }
+    });
+
+    let chart = anychart.pie(data);
+
+    chart.title(`Breakdown of ${this.portfolio.title}`);
+    chart.background().fill('#9EBEE0');
+    chart.container("container");
+    chart.labels().position('inside');
+
+    chart.draw();
   }
 
 }

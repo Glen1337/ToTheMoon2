@@ -1,34 +1,33 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, take, throwError } from 'rxjs';
-import { SymbolLookup } from '../Models/SymbolLookup';
+import { catchError, retry, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class SymbolLookupService {
+export class PredictionService {
 
   private baseUrl = environment.baseApiUrl;
 
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+  }
 
   constructor(private http: HttpClient) { }
 
-  public lookupSymbol(input: string): Observable<SymbolLookup[]> {
-
-    let options =  {
-      headers: { 'Content-Type': 'application/json' },
-      params: new HttpParams().set('input', input)
-    };
-
-    return this.http.get<SymbolLookup[]>(`${this.baseUrl}Research/market/lookup`, options)
-      .pipe(
-        (take(10)),
-        catchError(this.handleError)
-      );
+  public getPredictionResults(ticker: string){
+    let options = { params: new HttpParams().set('symbol', ticker),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    
+    return this.http.get(`${this.baseUrl}StockPredict/GetPrediction`, options)
+    .pipe(
+      tap(_ => console.log(`(service)Getting ML predictions for: ${ticker}`)),
+      retry(2),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -45,6 +44,6 @@ export class SymbolLookupService {
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error(error.message));
-    //return throwError(error);
   }
+  
 }

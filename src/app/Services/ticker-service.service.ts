@@ -1,9 +1,9 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { distinct, Observable, Subject, throttleTime } from 'rxjs';
+import { buffer, bufferCount, bufferTime, concatMap, distinct, filter, first, from, map, mergeMap, Observable, of, Subject, switchMap, take, tap, throttle, throttleTime } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Trade } from '../Models/Quote';
+import { Trade } from '../Models/Trade';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,11 @@ export class TickerService implements OnDestroy{
 
   private hubConnection: signalR.HubConnection;
   private baseUrl = environment.baseApiUrl;
-  //private quoteReceived = new EventEmitter<Trade>();
   private tradeReceived = new Subject<Trade>();
 
-  public quoteObservable$: Observable<Trade> = new Observable<Trade>();
+  public bufferedQuoteObservable$: Observable<Trade[]> = new Observable<Trade[]>();
 
   constructor(private http: HttpClient){
-
     this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${this.baseUrl}hub`).build();
 
     this.hubConnection
@@ -26,12 +24,27 @@ export class TickerService implements OnDestroy{
     .then(() => console.log('Hub Connection Started'))
     .catch(err => console.log('Error while starting connection: ' + err))
 
-    this.quoteObservable$ = this.tradeReceived
+    this.bufferedQuoteObservable$ = this.tradeReceived
       .pipe(
-        //Only accept 1 trade per second at most
-        (throttleTime(1000)),
-        //Only accept trades with unique trade ids
-        (distinct((e: Trade) => e.tradeId)),
+          tap(trade => console.log("recieving trade: ",  trade)),
+          distinct((e: Trade) => e.tradeId),
+          // Buffer for 1 seconds
+          bufferTime(10000),
+          // Only emit the last 5 values from the buffer.
+          map(buffer => buffer.slice(-6))
+
+        // Add trades to buffer until 8 seconds go by, then emit first 8 trades as an array. Then clear/ignore all of the trades(if any) that
+        //are waiting to be added into the buffer.
+        // tap(v => console.log('pipe-start: ', v)),
+        // distinct((e: Trade) => e.tradeId),
+        // bufferTime(10000),
+        // concatMap((tradeArray) => {
+        //   return from(tradeArray);
+        // }),
+        // tap(v => console.log("Count post concat-map: " + v)),
+        // bufferCount(5),
+        // tap(v => console.log('pipe-end: ', v))
+
       );
 
       this.hubConnection.onclose(error => {
@@ -41,19 +54,21 @@ export class TickerService implements OnDestroy{
 
   public addQuoteListener = () => {
     this.hubConnection.on('ReceiveQuote', (quote: Trade) => {
-      //this.quoteReceived.emit(quote);
       this.tradeReceived.next(quote);
     });
   }
 
-  public callApi(): void {
-    this.http.get(`${this.baseUrl}watchitems/realtime`).subscribe(res => {
-      console.log("API Response: ", res);
-    });
+  public callApi(): Observable<any> {
+    return this.http.get(`${this.baseUrl}watchitems/realtime`);
   }
 
   ngOnDestroy(){
     this.hubConnection.stop();
+  }
+
+  filterTradesByCount(counter: number, max: number): boolean {
+    counter++;
+    return (counter <= max);
   }
 
 }

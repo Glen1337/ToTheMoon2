@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Portfolio } from '../Models/Portfolio';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
-import { PortfolioTypes } from '../Models/Constants';
-import { SecurityConstants } from '../Models/Constants';
+import { PortfolioTypes, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
@@ -19,13 +18,13 @@ export class PortfolioListComponent extends FinancialPage implements OnInit, OnD
 
   public portfolios: Array<Portfolio> = [];
 
-  public portfolioForm = new FormGroup({
-    portfolioTitleControl: new FormControl('', [
+  public portfolioForm = new UntypedFormGroup({
+    portfolioTitleControl: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(20)
     ]),
-    portfolioTypeControl: new FormControl('', [
+    portfolioTypeControl: new UntypedFormControl('', [
       Validators.min(1.00),
       Validators.maxLength(30),
       Validators.required

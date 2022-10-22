@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /.angular/cache
+src/css-from-sass/custom.css
 # Only exists if Bazel was run
 /bazel-out
 
