@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { CompanyResearch } from '../Models/CompanyResearch';
@@ -20,11 +20,14 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
   public financiafy: any;
   public currentlyLoading: boolean = false;
 
-  public companyResearchForm = new UntypedFormGroup({
-    companySymbolControl: new UntypedFormControl('', [
-      Validators.required,
-      Validators.maxLength(8)
-    ])
+  public companyResearchForm = new FormGroup({
+    companySymbolControl: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.maxLength(8)
+      ],
+      nonNullable: true
+    })
   });
 
   constructor(public location: Location, private researchService: ResearchDataService, public dateConverter: DateConverter) {
@@ -32,13 +35,13 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
     //this.financiafy = financialifyNumber;
   }
 
-  get companySymbolControl(): AbstractControl | null { return this.companyResearchForm.get('companySymbolControl'); }
+  get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl')!; }
 
   public submitForm(): void {
     this.currentlyLoading = true;
 
     let sub: Subscription = new Subscription();
-    let symbol: string = this.companySymbolControl?.value.trim().toUpperCase();
+    let symbol: string = this.companySymbolControl.value.trim().toUpperCase();
 
     sub = this.researchService.getCompanyStats(symbol).subscribe({
       next: (data) => {
