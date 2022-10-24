@@ -1,8 +1,14 @@
 <div>
     <app-heading [location]="location" title="Company Info" iconClass="fas fa-building"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
+
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+            <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
+        </div>
+    </div>
     
-    <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
+    <!-- <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
         <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
                 <input spellcheck="false" id="sym" type="text" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': companyResearchForm.invalid && (companyResearchForm!.dirty || companyResearchForm!.touched), 'is-valid': companyResearchForm.valid && (companyResearchForm.dirty || companyResearchForm.touched) }"
@@ -16,10 +22,12 @@
                 <button type="submit" onmousedown="event.preventDefault()" [disabled]="!companyResearchForm.valid" class="btn btn-primary">Submit</button>
             </div>
         </div>
-    </form>
+    </form> -->
 
-    <div *ngIf="currentlyLoading" class="mt-2 spinner-grow text-secondary" role="status">
-        <span class="sr-only">Loading...</span>
+    <div class="d-flex justify-content-center mt-2">
+        <div *ngIf="currentlyLoading" style="width: 4rem; height: 4rem;" class="mt-2 spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
     
     <div *ngIf="companyResearch.advStats">
