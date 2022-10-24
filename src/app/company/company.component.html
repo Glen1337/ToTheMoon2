@@ -2,8 +2,12 @@
     <app-heading [location]="location" title="Company Info" iconClass="fas fa-building"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
 
-    <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
-
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+            <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
+        </div>
+    </div>
+    
     <!-- <form [formGroup]="companyResearchForm" (ngSubmit)="submitForm()" novalidate>
         <div class="row mb-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
