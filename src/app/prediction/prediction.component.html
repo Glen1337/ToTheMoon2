@@ -3,7 +3,13 @@
         <app-heading [location]="location" title="Next Day Price Prediction" iconClass="fa-solid fa-brain"></app-heading>
         <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
 
-        <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
+        <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+                <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
+            </div>
+        </div>
+
+        <!-- <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
             <label class="form-label" for="sym">Stock Symbol</label>
             <div class="row mb-2">
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
@@ -23,7 +29,7 @@
                     <button [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
-        </form>
+        </form> -->
     </div>
 
     <div class="d-flex justify-content-center mt-2">
