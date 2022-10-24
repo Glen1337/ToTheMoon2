@@ -95,6 +95,7 @@ export class TickerComponent extends FinancialPage implements OnInit {
         let tr: Trade = { symbol: error.error, timestampUtc: new Date(), exchange: '', size: -20, tradeId: 0, conditions: [''], price: 0, tape: '' };
         this.trades.push(tr); 
         closeTicker = true;
+        console.log(`Watchlist api call ERROR while setting up signalR realtime: ${error} : ${error.error}`);
       },
     });
 
@@ -105,7 +106,7 @@ export class TickerComponent extends FinancialPage implements OnInit {
           if(quoteArray.length < 1 && this.trades[0].size===-20){
             throw('market is closed!');
           }
-          console.log('consuming array', quoteArray);
+          console.log('consuming array: ', quoteArray);
           quoteArray =  quoteArray.map((trade) => this.MarkAsUpOrDown(trade))
           this.trades = quoteArray;
         },

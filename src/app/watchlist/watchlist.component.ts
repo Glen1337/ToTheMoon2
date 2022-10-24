@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
@@ -41,7 +41,6 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     sub = this.route.data.subscribe({
       next: (data) => {
         this.watchList = data.watchList;
-        //console.log(data.watchList);
         if (!data.watchList.length){
           this.errorMsg = "Could not retrieve watchlist from server"
         }

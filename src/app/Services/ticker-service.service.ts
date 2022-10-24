@@ -28,7 +28,7 @@ export class TickerService implements OnDestroy{
       .pipe(
           tap(trade => console.log("recieving trade: ",  trade)),
           distinct((e: Trade) => e.tradeId),
-          // Buffer for 1 seconds
+          // Buffer for 10 seconds
           bufferTime(10000),
           // Only emit the last 5 values from the buffer.
           map(buffer => buffer.slice(-6))
