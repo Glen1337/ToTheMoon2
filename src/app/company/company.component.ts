@@ -35,13 +35,13 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
     //this.financiafy = financialifyNumber;
   }
 
-  get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl')!; }
+  public OnSymbolSubmit(inputSymbol: string){
+    console.log(inputSymbol);
 
-  public submitForm(): void {
     this.currentlyLoading = true;
 
     let sub: Subscription = new Subscription();
-    let symbol: string = this.companySymbolControl.value.trim().toUpperCase();
+    let symbol: string = inputSymbol.trim().toUpperCase();
 
     sub = this.researchService.getCompanyStats(symbol).subscribe({
       next: (data) => {
@@ -60,6 +60,33 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
       }
     });
     this.subscriptions.push(sub);
+  }
+
+  get companySymbolControl() { return this.companyResearchForm.get('companySymbolControl')!; }
+
+  public submitForm(): void {
+    // this.currentlyLoading = true;
+
+    // let sub: Subscription = new Subscription();
+    // let symbol: string = this.companySymbolControl.value.trim().toUpperCase();
+
+    // sub = this.researchService.getCompanyStats(symbol).subscribe({
+    //   next: (data) => {
+    //     this.companyResearch = data;
+    //     this.imgUrl = data.logo.url;
+    //     console.log(this.companyResearch);
+    //   },
+    //   error:(error) => {
+    //     console.log('(component)Error getting company research: ', error);
+    //     this.errorMsg = `${error.error}`;
+    //     this.currentlyLoading = false;
+    //   },
+    //   complete:() => {
+    //     '(component)Company Research complete';
+    //     this.currentlyLoading = false;
+    //   }
+    // });
+    // this.subscriptions.push(sub);
   }
 
 }

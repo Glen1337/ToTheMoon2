@@ -29,6 +29,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { HeadingComponent } from './Common/heading/heading.component';
 import { DateConverter } from './Utilities/DateConverter';
 import { PredictionComponent } from './prediction/prediction.component';
+import { SymbolControlComponent } from './Common/symbol-control/symbol-control.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PredictionComponent } from './prediction/prediction.component';
     UpcomingEventsComponent,
     FiFormatPipe,
     HeadingComponent,
-    PredictionComponent
+    PredictionComponent,
+    SymbolControlComponent
   ],
   imports: [
     BrowserModule,
