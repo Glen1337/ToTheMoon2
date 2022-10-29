@@ -17,12 +17,26 @@ export class TickerService implements OnDestroy{
   public bufferedQuoteObservable$: Observable<Trade[]> = new Observable<Trade[]>();
 
   constructor(private http: HttpClient){
-    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${this.baseUrl}hub`).build();
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(`${this.baseUrl}hub`)
+      .withAutomaticReconnect()
+      .build();
 
     this.hubConnection
     .start()
     .then(() => console.log('Hub Connection Started'))
     .catch(err => console.log('Error while starting connection: ' + err))
+
+    this.hubConnection.onclose((err?: Error) => {
+      if (err) {
+          // An error occurs
+          console.log(`Closing Hub Connection ${err ? err.message : ''}`);
+          this.tradeReceived.error(err); 
+      } else {
+          // No more events to be sent.
+          this.tradeReceived.complete();
+      }
+    });
 
     this.bufferedQuoteObservable$ = this.tradeReceived
       .pipe(
@@ -45,11 +59,10 @@ export class TickerService implements OnDestroy{
         // bufferCount(5),
         // tap(v => console.log('pipe-end: ', v))
 
+      // this.hubConnection.onclose(error => {
+      //   console.log(`Closing Hub Connection ${error ? error.message : ''}`);
+      // });
       );
-
-      this.hubConnection.onclose(error => {
-        console.log(`Closing Hub Connection ${error ? error.message : ''}`);
-      });
   }
 
   public addQuoteListener = () => {
