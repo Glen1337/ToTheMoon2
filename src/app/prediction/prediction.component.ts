@@ -14,7 +14,7 @@ declare var bootstrap: any
   templateUrl: './prediction.component.html',
   styleUrls: ['./prediction.component.css']
 })
-export class PredictionComponent extends FinancialPage{
+export class PredictionComponent extends FinancialPage {
 
   public currentlyLoading: boolean = false;
   //public predictionForm: FormGroup;
@@ -35,12 +35,12 @@ export class PredictionComponent extends FinancialPage{
   // get predictionControl() { return this.predictionForm.get('predictionControl'); }
 
   public OnSymbolSubmit(inputSymbol: string) {
-    
+
     let sub: Subscription = new Subscription();
     let symbol: string = inputSymbol.trim().toUpperCase();
-    
+
     this.currentlyLoading = true;
-    
+
     sub = this.predictionService.getPredictionResults(symbol).subscribe({
       next: (data) => {
         this.predictionResult = data as MLPrediction;
@@ -60,32 +60,32 @@ export class PredictionComponent extends FinancialPage{
           const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
             return new bootstrap.Tooltip(tooltipTriggerEl);
           });
-    
+
           this.tooltipList.push(...tooltipList);
-            
+
           var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
           var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             return new bootstrap.Popover(popoverTriggerEl)
           });
-          
+
           this.popoverList.push(...popoverList);
         }, 400)
       }
     });
-    
+
     this.subscriptions.push(sub);
   }
 
-  public IsResultEmpty(): boolean{
+  public IsResultEmpty(): boolean {
     return Object.keys(this.predictionResult).length === 0;
   }
 
   // public submitForm(): void {
   //   this.currentlyLoading = true;
-    
+
   //   let sub: Subscription = new Subscription();
   //   let symbol: string = this.predictionControl?.value.trim().toUpperCase();
-    
+
   //   sub = this.predictionService.getPredictionResults(symbol).subscribe({
   //     next: (data) => {
   //       this.predictionResult = data as MLPrediction;
@@ -105,19 +105,19 @@ export class PredictionComponent extends FinancialPage{
   //         const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
   //           return new bootstrap.Tooltip(tooltipTriggerEl);
   //         });
-    
+
   //         this.tooltipList.push(...tooltipList);
-            
+
   //         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
   //         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   //           return new bootstrap.Popover(popoverTriggerEl)
   //         });
-          
+
   //         this.popoverList.push(...popoverList);
   //       }, 400)
   //     }
   //   });
-    
+
   //   this.subscriptions.push(sub);
   // }
 }

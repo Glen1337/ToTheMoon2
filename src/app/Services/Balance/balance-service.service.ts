@@ -16,7 +16,7 @@ export class BalanceService {
   getBalance(): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}UserBalance`).pipe(
       tap(_ => console.log('(service)Getting balance ')),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }

@@ -19,11 +19,11 @@ export class OrderHistoryDataService {
 
   constructor(private http: HttpClient) { }
 
-  getAllOrders(): Observable<Array<Order>>{
+  getAllOrders(): Observable<Array<Order>> {
     return this.http.get<Array<Order>>(`${this.baseUrl}orders`, this.httpOptions)
     .pipe(
-      tap(_ => {console.log('(service)Getting list of historical orders');}),
-      retry(2),
+      tap(_ => { console.log('(service)Getting list of historical orders'); }),
+      retry(1),
       catchError(this.handleError)
     );
   }

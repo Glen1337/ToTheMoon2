@@ -10,7 +10,7 @@ import { BalanceService } from './balance-service.service';
 })
 export class BalanceResolver implements Resolve<number | {}> {
 
-  constructor(private balanceService: BalanceService, private router: Router){ }
+  constructor(private balanceService: BalanceService, private router: Router) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<number> | Observable<{}> {
     return this.balanceService.getBalance()

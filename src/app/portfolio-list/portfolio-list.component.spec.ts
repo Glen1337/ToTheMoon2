@@ -8,7 +8,7 @@ describe('PortfolioListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PortfolioListComponent ]
+      declarations: [PortfolioListComponent]
     })
     .compileComponents();
   });

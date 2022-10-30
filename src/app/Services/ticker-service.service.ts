@@ -8,7 +8,7 @@ import { Trade } from '../Models/Trade';
 @Injectable({
   providedIn: 'root'
 })
-export class TickerService implements OnDestroy{
+export class TickerService implements OnDestroy {
 
   private hubConnection: signalR.HubConnection;
   private baseUrl = environment.baseApiUrl;
@@ -16,19 +16,33 @@ export class TickerService implements OnDestroy{
 
   public bufferedQuoteObservable$: Observable<Trade[]> = new Observable<Trade[]>();
 
-  constructor(private http: HttpClient){
-    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${this.baseUrl}hub`).build();
+  constructor(private http: HttpClient) {
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(`${this.baseUrl}hub`)
+      .withAutomaticReconnect()
+      .build();
 
     this.hubConnection
     .start()
     .then(() => console.log('Hub Connection Started'))
     .catch(err => console.log('Error while starting connection: ' + err))
 
+    this.hubConnection.onclose((err?: Error) => {
+      if (err) {
+          // An error occurs
+          console.log(`Closing Hub Connection ${err ? err.message : ''}`);
+          this.tradeReceived.error(err);
+      } else {
+          // No more events to be sent.
+          this.tradeReceived.complete();
+      }
+    });
+
     this.bufferedQuoteObservable$ = this.tradeReceived
       .pipe(
           tap(trade => console.log("recieving trade: ",  trade)),
           distinct((e: Trade) => e.tradeId),
-          // Buffer for 1 seconds
+          // Buffer for 10 seconds
           bufferTime(10000),
           // Only emit the last 5 values from the buffer.
           map(buffer => buffer.slice(-6))
@@ -45,11 +59,10 @@ export class TickerService implements OnDestroy{
         // bufferCount(5),
         // tap(v => console.log('pipe-end: ', v))
 
+      // this.hubConnection.onclose(error => {
+      //   console.log(`Closing Hub Connection ${error ? error.message : ''}`);
+      // });
       );
-
-      this.hubConnection.onclose(error => {
-        console.log(`Closing Hub Connection ${error ? error.message : ''}`);
-      });
   }
 
   public addQuoteListener = () => {
@@ -62,13 +75,13 @@ export class TickerService implements OnDestroy{
     return this.http.get(`${this.baseUrl}watchitems/realtime`);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.hubConnection.stop();
   }
 
   filterTradesByCount(counter: number, max: number): boolean {
     counter++;
-    return (counter <= max);
+    return counter <= max;
   }
 
 }
@@ -89,4 +102,3 @@ export class TickerService implements OnDestroy{
   // private getEventSource(url: string): EventSource {
   //   return new EventSource(url);
   // }
-  

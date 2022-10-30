@@ -8,7 +8,7 @@ describe('SymbolControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SymbolControlComponent ]
+      declarations: [SymbolControlComponent]
     })
     .compileComponents();
 

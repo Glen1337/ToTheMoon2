@@ -10,7 +10,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
-  CalendarWeekViewAllDayEvent,
+  CalendarWeekViewAllDayEvent
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -20,7 +20,7 @@ import {
   endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours,
+  addHours
 } from 'date-fns';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
 import { FinancialPage } from '../Common/FinancialPage';
@@ -29,16 +29,16 @@ import { DateConverter } from '../Utilities/DateConverter';
 const colors: any = {
   red: {
     primary: '#ad2121',
-    secondary: '#FAE3E3',
+    secondary: '#FAE3E3'
   },
   blue: {
     primary: '#1e90ff',
-    secondary: '#D1E8FF',
+    secondary: '#D1E8FF'
   },
   yellow: {
     primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
+    secondary: '#FDF1BA'
+  }
 };
 
 const daysBehind: number = 7;
@@ -59,7 +59,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
   private BeginDate: Date = new Date(new Date().setDate(new Date().getDate() - daysBehind))
   private EndDate: Date = new Date(new Date().setDate(new Date().getDate() + daysAhead))
-  
+
   view: CalendarView = CalendarView.Week;
 
   // Sets calendar current date
@@ -92,20 +92,20 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
-          if(foundCalendarEvent){
-            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>IPO: ${ipo.symbol}`;
+          if (foundCalendarEvent) {
+            foundCalendarEvent!.title = foundCalendarEvent!.title += `<br>IPO: ${ipo.symbol}`;
             // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
 
         this.upcomingEvents.earnings.forEach((announcement) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
-          if(foundCalendarEvent){
-            foundCalendarEvent!.title = foundCalendarEvent!.title+=`<br>Earnings: ${announcement.symbol}`;
+          if (foundCalendarEvent) {
+            foundCalendarEvent!.title = foundCalendarEvent!.title += `<br>Earnings: ${announcement.symbol}`;
             //foundCalendarEvent.title.fontcolor("green");
           }
         });
-        
+
         this.currentlyLoading = false;
         console.log(this.upcomingEvents);
       },
@@ -114,7 +114,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
         this.errorMsg = `${error.error}`;
         this.currentlyLoading = false;
       },
-      complete: () => {console.log('Finsished retrieving upcoming event data'); }
+      complete: () => { console.log('Finsished retrieving upcoming event data'); }
     });
     this.subscriptions.push(sub$);
   }
@@ -123,7 +123,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
     return this.BeginDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
-  private getInitialEndDate(): string{
+  private getInitialEndDate(): string {
     return this.EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
@@ -131,7 +131,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
   get endDateControl() { return this.upcomingEventsForm.get('endDateControl')!; }
 
-  submitForm(): void{
+  submitForm(): void {
     //add calendar event object for each day by default
     this.currentlyLoading = true;
     let startDate = this.startDateControl.value;
@@ -140,7 +140,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
       next: (events) => {
         this.upcomingEvents = events;
         console.log(this.upcomingEvents);
-        
+
       },
       error: (error) => {
         this.currentlyLoading = false;
@@ -154,21 +154,21 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
     this.subscriptions.push(upcomingEvents$);
   }
 
-  private createDays(): CalendarEvent[]{
+  private createDays(): CalendarEvent[] {
     let days: CalendarEvent[] = [];
 
-    for (let i = -7; i <=7; i++) {
+    for (let i = -7; i <= 7; i++) {
       let day = {
-        start: startOfDay(addDays(new Date(),i)),
-        end: endOfDay(addDays(new Date(),i)),
+        start: startOfDay(addDays(new Date(), i)),
+        end: endOfDay(addDays(new Date(), i)),
         title: "<strong><u>IPOs & Earnings</u></strong>",
         color: colors.blue,
         allDay: false,
         resizable: {
             beforeStart: false,
-            afterEnd: false,
+            afterEnd: false
         },
-        draggable: false,
+        draggable: false
       }
       days.push(day)
     }

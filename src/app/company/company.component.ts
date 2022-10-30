@@ -35,7 +35,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
     //this.financiafy = financialifyNumber;
   }
 
-  public OnSymbolSubmit(inputSymbol: string){
+  public OnSymbolSubmit(inputSymbol: string) {
     console.log(inputSymbol);
 
     this.currentlyLoading = true;
@@ -49,12 +49,12 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
         this.imgUrl = data.logo.url;
         console.log(this.companyResearch);
       },
-      error:(error) => {
+      error: (error) => {
         console.log('(component)Error getting company research: ', error);
         this.errorMsg = `${error.error}`;
         this.currentlyLoading = false;
       },
-      complete:() => {
+      complete: () => {
         '(component)Company Research complete';
         this.currentlyLoading = false;
       }

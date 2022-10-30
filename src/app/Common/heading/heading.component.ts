@@ -12,7 +12,7 @@ export class HeadingComponent {
   @Input() title: string;
   @Input() iconClass: string;
 
-  constructor() { 
+  constructor() {
     this.location = {} as Location;
     this.title = '';
     this.iconClass = '';

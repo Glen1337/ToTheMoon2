@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
@@ -13,7 +13,7 @@ import { FinancialPage } from '../Common/FinancialPage';
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent extends FinancialPage implements OnInit, OnDestroy{
+export class WatchlistComponent extends FinancialPage implements OnInit, OnDestroy {
 
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
@@ -26,7 +26,7 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
       ],
       nonNullable: true
     }),
-    watchItemOutlookControl: new FormControl('', { validators: [Validators.required], nonNullable: true})
+    watchItemOutlookControl: new FormControl('', { validators: [Validators.required], nonNullable: true })
   });
 
   constructor(private route: ActivatedRoute, public location: Location, private watchListService: WatchlistService) {
@@ -41,8 +41,7 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     sub = this.route.data.subscribe({
       next: (data) => {
         this.watchList = data.watchList;
-        //console.log(data.watchList);
-        if (!data.watchList.length){
+        if (!data.watchList.length) {
           this.errorMsg = "Could not retrieve watchlist from server"
         }
       },
@@ -59,14 +58,14 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     // console.log(event.target.value);
   }
 
-  onSubmitWatchItem(): void{
+  onSubmitWatchItem(): void {
     let sub: Subscription = new Subscription();
     console.log('Adding item to watchlist: ', this.watchItemSymbolControl?.value.trim().toUpperCase());
     console.log(this.watchItemOutlookControl?.value);
 
     let watchItem: WatchItem = {
-      outlook : this.watchItemOutlookControl!.value,
-      symbol : this.watchItemSymbolControl!.value
+      outlook: this.watchItemOutlookControl!.value,
+      symbol: this.watchItemSymbolControl!.value
     };
 
     sub = this.watchListService.addWatchItem(watchItem).subscribe({
@@ -85,7 +84,7 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
   }
 
   isPredictionCorrect(item: WatchItem): boolean {
-    return ((item.priceChange! >= 0 && item.outlook === 'Positive') || (item.priceChange! <= 0 && item.outlook === 'Negative'));
+    return item.priceChange! >= 0 && item.outlook === 'Positive' || item.priceChange! <= 0 && item.outlook === 'Negative';
   }
 
 }

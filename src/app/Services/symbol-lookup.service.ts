@@ -26,7 +26,7 @@ export class SymbolLookupService {
 
     return this.http.get<SymbolLookup[]>(`${this.baseUrl}Research/market/lookup`, options)
       .pipe(
-        (take(10)),
+        take(10),
         catchError(this.handleError)
       );
   }

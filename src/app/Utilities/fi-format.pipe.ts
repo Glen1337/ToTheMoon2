@@ -15,35 +15,35 @@ export class FiFormatPipe implements PipeTransform {
 
   transform(input: number | bigint | undefined, prepend: string = '', append: string = '', sign: boolean = false, decimals: boolean = false): string {
 
-    if (input === undefined){
+    if (input === undefined) {
       return '';
     }
 
     // Warning
-    if (typeof input === 'bigint'){
+    if (typeof input === 'bigint') {
       input = Number(input);
     }
-    if (input === undefined || input === null){
+    if (input === undefined || input === null) {
       return '';
     }
 
     let numberString = "";
 
     if (input > 0) {
-      if (decimals){
+      if (decimals) {
         numberString = Number(input).toFixed(2).toLocaleString();
-      }else{
+      } else {
         numberString = Number(input).toLocaleString();
       }
-        return `${(sign ? '+' : '')}${prepend}${numberString}${append}`;
+        return `${sign ? '+' : ''}${prepend}${numberString}${append}`;
     }
     if (input < 0) {
-      if(decimals) {
+      if (decimals) {
         numberString = Number(Math.abs(input)).toFixed(2).toLocaleString();
-        return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
-      }else{
+        return `${sign ? '-' : ''}${prepend}${numberString}${append}`;
+      } else {
         numberString = Number(Math.abs(input)).toLocaleString();
-        return `${(sign ? '-' : '')}${prepend}${numberString}${append}`;
+        return `${sign ? '-' : ''}${prepend}${numberString}${append}`;
       }
     } else {
       return `${prepend}0${append}`;

@@ -25,7 +25,7 @@ export class WatchlistService {
     return this.http.get<Array<WatchItem>>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('(service)Getting watchlist')),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -36,7 +36,7 @@ export class WatchlistService {
     return this.http.post<WatchItem>(url, watchItem, this.httpOptions)
     .pipe(
       tap(() => console.log(`(service)Adding a new watch item: ${watchItem.symbol}`)),
-      retry(2),
+      retry(1),
       catchError<WatchItem, Observable<WatchItem>>(this.handleError)
     );
   }

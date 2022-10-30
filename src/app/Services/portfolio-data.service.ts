@@ -23,7 +23,7 @@ export class PortfolioDataService {
     return this.http.get<Array<Portfolio>>(`${this.baseUrl}portfolios`, this.httpOptions)
     .pipe(
       tap(_ => console.log('(service)Getting list of portfolios')),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -32,8 +32,8 @@ export class PortfolioDataService {
     return this.http.get<Portfolio>(`${this.baseUrl}portfolios/${id}`, this.httpOptions)
     .pipe(
       // map(p => ({...p, creationDateString: p.creationDate?.toLocaleString() })),
-      tap(_ => console.log('(service)Getting portfolio '+id)),
-      retry(2),
+      tap(_ => console.log('(service)Getting portfolio ' + id)),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -44,17 +44,17 @@ export class PortfolioDataService {
     return this.http.post<Portfolio>(url, portfolio, this.httpOptions)
     .pipe(
       tap((newPortfolio) => console.log(`(service)Added a new holding with id: ${newPortfolio.portfolioId}`)),
-      retry(2),
+      retry(1),
       catchError<Portfolio, Observable<Portfolio>>(this.handleError)
     );
   }
 
-  deletePortfolio(id: number): Observable<Portfolio>{
+  deletePortfolio(id: number): Observable<Portfolio> {
     let url = `${this.baseUrl}portfolios/${id}`;
     console.log('(service)Sending delete request to API for portfolio: ' + id);
     return this.http.delete<Portfolio>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting portfolio with id: ${id}`)),
-      retry(2),
+      retry(1),
       catchError<Portfolio, Observable<Portfolio>>(this.handleError)
     );
   }

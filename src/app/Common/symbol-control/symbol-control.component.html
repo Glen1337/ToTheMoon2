@@ -1,4 +1,4 @@
-<div class="my-4">
+<div class="my-2">
     <form (ngSubmit)="submitForm()" [formGroup]="form" novalidate>
         <div class="d-flex flex-column">
             <div class="">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ms-4">
+                <div class="ms-3">
                     <button [disabled]="!form.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
                 </div>
             </div>

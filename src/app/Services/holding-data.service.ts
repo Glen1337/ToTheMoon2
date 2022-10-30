@@ -25,7 +25,7 @@ export class HoldingService {
     return this.http.post<Holding>(url, optionHolding, this.httpOptions)
     .pipe(
       tap((newHolding) => console.log(`(service)Adding a new option with id: ${newHolding.holdingId}`)),
-      retry(2),
+      retry(1),
       catchError<Holding, Observable<Holding>>(this.handleError)
     )
   }
@@ -35,7 +35,7 @@ export class HoldingService {
       // headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
     const hOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json'
       }),
       withCredentials: true
     };
@@ -45,7 +45,7 @@ export class HoldingService {
     return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
       tap((newHolding) => console.log(`(service)Adding a new holding with id: ${newHolding.holdingId}`)),
-      retry(2),
+      retry(1),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }
@@ -55,7 +55,7 @@ export class HoldingService {
 
     return this.http.put<Holding>(url, holding, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Updating holding with id: ${id}`)),
-      retry(2),
+      retry(1),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }
@@ -65,7 +65,7 @@ export class HoldingService {
     console.log('(service)Sending delete request to API for holding: ' + id);
     return this.http.delete<Holding>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting holding with id: ${id}`)),
-      retry(2),
+      retry(1),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }

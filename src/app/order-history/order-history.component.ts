@@ -36,5 +36,5 @@ export class OrderHistoryComponent extends FinancialPage implements OnInit, OnDe
 
     this.subscriptions.push(subscription1)
   }
-  
+
 }

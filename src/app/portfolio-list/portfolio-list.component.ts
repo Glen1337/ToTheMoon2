@@ -19,7 +19,7 @@ export class PortfolioListComponent extends FinancialPage implements OnInit, OnD
   public portfolios: Array<Portfolio> = [];
 
   public portfolioForm = new FormGroup({
-    portfolioTitleControl: new FormControl('', { 
+    portfolioTitleControl: new FormControl('', {
       validators: [
         Validators.required,
         Validators.minLength(1),
@@ -43,7 +43,7 @@ export class PortfolioListComponent extends FinancialPage implements OnInit, OnD
     PortfolioTypes.Retirement,
     PortfolioTypes.SwingTrading,
     PortfolioTypes.Other,
-    PortfolioTypes.Speculation,
+    PortfolioTypes.Speculation
   ];
 
   constructor(private route: ActivatedRoute, public location: Location, private portfolioDataService: PortfolioDataService, public dateConverter: DateConverter) {
@@ -60,7 +60,7 @@ export class PortfolioListComponent extends FinancialPage implements OnInit, OnD
     sub = this.route.data.subscribe({
       next: (data) => {
         this.portfolios = data.portfolios;
-        if (data.portfolios.length === 0){
+        if (data.portfolios.length === 0) {
         // this.errorMsg = "Could not retrieve portfolios from server"
         }
       },
@@ -68,13 +68,13 @@ export class PortfolioListComponent extends FinancialPage implements OnInit, OnD
         console.log(`(component)Error getting portfolio list:${error}`);
         this.errorMsg = error.error;
       },
-      complete: () => { console.log('Completed retrieval of portfolio list');}
+      complete: () => { console.log('Completed retrieval of portfolio list'); }
     });
 
     this.subscriptions.push(sub)
   }
 
-  deletePortfolio(event: any, portfolioId: number): void{
+  deletePortfolio(event: any, portfolioId: number): void {
     let subscription3: Subscription = new Subscription();
     subscription3 = this.portfolioDataService.deletePortfolio(portfolioId).subscribe({
       next: (response) => {

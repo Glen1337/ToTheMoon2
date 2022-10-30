@@ -41,7 +41,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   // get researchSymbolControl() { return this.researchForm.get('researchSymbolControl')!; }
 
-  public OnSymbolSubmit(inputSymbol: string){
+  public OnSymbolSubmit(inputSymbol: string) {
     let subscription1: Subscription = new Subscription();
     let symbol: string = inputSymbol.trim().toUpperCase();
 
@@ -56,7 +56,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
         console.log('(component)Error in getting research: ', error);
         this.errorMsg = `${error.error}`;
       },
-      complete: () => {'(component)Research retrieval complete'}
+      complete: () => { '(component)Research retrieval complete' }
     });
 
     this.subscriptions.push(subscription1);
@@ -82,11 +82,11 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
   //   this.subscriptions.push(subscription1);
   // }
 
-  private ChartData(inputData: any[]): void{
+  private ChartData(inputData: any[]): void {
     const fontWeight = 1000;
 
     // Clear existing chart
-    if(this.chart) {
+    if (this.chart) {
       this.chart.dispose();
     }
 
@@ -105,7 +105,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     // Begin charts
 
     //plot0: candlestick
-    let quoteMapping = table.mapAs({'open':1, 'high':2, 'low':3, 'close':4, 'value':4});
+    let quoteMapping = table.mapAs({ 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'value': 4 });
     let plot0 = this.chart.plot(0);
     plot0.candlestick(quoteMapping).name(this.ticker)
       .risingFill('#66ff66')
@@ -134,12 +134,12 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     let ema20 = plot0.ema(quoteMapping, 20).series();
 
     // plot1: volume
-    let volMapping = table.mapAs({'value': 5});
+    let volMapping = table.mapAs({ 'value': 5 });
     let plot1 = this.chart.plot(1);
     plot1.column(volMapping).name('Volume').fill('#3cbda9');
 
     // plot1 settings
-    plot1.yGrid().stroke({dash: '2 14'});
+    plot1.yGrid().stroke({ dash: '2 14' });
     plot1.title(`${this.ticker} Volume`);
     plot1.title().fontWeight(fontWeight).fontSize(16);
     plot1.xAxis().ticks(true).minorTicks(true);
@@ -175,10 +175,10 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     this.chart.draw();
   }
 
-  ConvertIAggArrayToArrayOfArrays(inputArray: IAgg[]): any[][]{
+  ConvertIAggArrayToArrayOfArrays(inputArray: IAgg[]): any[][] {
     let arrayOfArrays: any[][] = [];
     inputArray.forEach((agg) => {
-      arrayOfArrays.push([ new Date(agg.timeUtc).toLocaleDateString(), agg.open, agg.high, agg.low, agg.close, agg.volume]);
+      arrayOfArrays.push([new Date(agg.timeUtc).toLocaleDateString(), agg.open, agg.high, agg.low, agg.close, agg.volume]);
     });
     return arrayOfArrays;
   }

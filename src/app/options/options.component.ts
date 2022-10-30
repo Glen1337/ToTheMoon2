@@ -74,7 +74,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
     private route: ActivatedRoute,
     private fiFormat: FiFormatPipe,
     public dateConverter: DateConverter) {
-      super(); 
+      super();
       this.optionExpiryControl?.disable();
   }
 
@@ -103,13 +103,13 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
         console.log(`(component)Error getting portoflios for options page: ${error}`);
         this.errorMsg = `${error.error.title}`;
       },
-      complete: () => { 
+      complete: () => {
         console.log('(component)portfolios retrieved for options component');
       }
     });
   }
 
-  public onExpiryChange(input: string): void{
+  public onExpiryChange(input: string): void {
     this.submitForm();
   }
 
@@ -186,13 +186,13 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
     let sub: Subscription = new Subscription();
 
     let symbol: string = this.optionSymbolControl.value.trim().toUpperCase();
-    let expiry: string = this.optionExpiryControl.value.trim().replace('-','');
+    let expiry: string = this.optionExpiryControl.value.trim().replace('-', '');
 
     sub = this.optionsDataService.getChain(symbol, expiry).subscribe({
       next: (chain) => {
         this.currentlyLoadingChain = false;
         this.optionChain = chain;
-        this.callSideChain = chain.filter(o => o.side === SecurityConstants.Call ).sort((n1, n2) =>  n1.strike - n2.strike);
+        this.callSideChain = chain.filter(o => o.side === SecurityConstants.Call).sort((n1, n2) =>  n1.strike - n2.strike);
         this.putSideChain = chain.filter(o => o.side === SecurityConstants.Put).sort((n1, n2) =>  n1.strike - n2.strike);
       },
       error: (error) => {
@@ -235,7 +235,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
       symbol: this.selectedOption!.underlying,
       quantity: this.orderQuantityControl?.value,
       expirationDate: expiration,
-      securityType: this.selectedOption!.side,//(this.selectedOption?.side.toLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
+      securityType: this.selectedOption!.side, //(this.selectedOption?.side.toLowerCase().trim() === 'call' ) ? SecurityConstants.Call : SecurityConstants.Put,
       reinvestDivs: false,
       currentPrice: this.selectedOption!.currentMarketPrice,
       costBasis: this.selectedOption!.currentMarketPrice,
@@ -250,7 +250,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
         console.log('(component)Error getting options chain: ', error);
         this.errorMsg = `${error.error}`;
       },
-      complete: () => {'(component)Option added'; }
+      complete: () => { '(component)Option added'; }
     });
     this.subscriptions.push(sub);
   }

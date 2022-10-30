@@ -6,11 +6,11 @@ import { Subscription } from "rxjs";
 // })
 @Injectable()
 export class FinancialPage implements OnDestroy {
-    
+
     public errorMsg: string = '';
     public noticeMsg: string = '';
     public warningMsg: string = '';
-    
+
     public subscriptions: Subscription[] = [];
 
     constructor() {

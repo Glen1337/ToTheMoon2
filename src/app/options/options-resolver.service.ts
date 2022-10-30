@@ -16,7 +16,7 @@ export class OptionsResolverService implements Resolve<Portfolio[]> {
   resolve(): Observable<Portfolio[]> | Observable<never> {
     return this.portfolioDataService.getAllPortfolios()
     .pipe(
-      catchError(this.handleError),
+      catchError(this.handleError)
     );
   }
   private handleError(error: HttpErrorResponse) {

@@ -11,7 +11,7 @@ import { ResearchDataService } from '../Services/research-data.service';
 })
 export class MarketDataResolverService implements Resolve<MarketData | {}> {
 
-  constructor(private researchDataService: ResearchDataService){ }
+  constructor(private researchDataService: ResearchDataService) { }
 
   resolve(): Observable<MarketData> | Observable<{}> {
     return this.researchDataService.getMarketInfo()
