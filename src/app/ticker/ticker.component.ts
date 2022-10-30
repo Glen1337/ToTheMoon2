@@ -84,38 +84,34 @@ export class TickerComponent extends FinancialPage implements OnInit {
   }
 
   ngOnInit(): void {
-    let closeTicker: boolean = false;
     console.log('ticker watchlist being initialized from within watchlist component');
 
     // Add safe, URL encoded search parameter if there is a search term
     this.tickerService.addQuoteListener();
-    this.tickerService.callApi().subscribe({
+    let api$ = this.tickerService.callApi();
+    let apiSub = api$.subscribe({
       next: (val) => { console.log(`Watchlist api call complete for setting up signalR realtime: ${val}`); },
       error: (error: HttpErrorResponse) => { 
-        let tr: Trade = { symbol: error.error, timestampUtc: new Date(), exchange: '', size: -20, tradeId: 0, conditions: [''], price: 0, tape: '' };
-        this.trades.push(tr); 
-        closeTicker = true;
+        this.trades.push( { symbol: error.error, timestampUtc: new Date(), exchange: '', size: -1, tradeId: 0, conditions: [''], price: 0, tape: '' } as Trade); 
         console.log(`Watchlist api call ERROR while setting up signalR realtime: ${error} : ${error.error}`);
       },
     });
 
-    if(!closeTicker){
-      let bufferedSub = this.tickerService.bufferedQuoteObservable$.subscribe({
-        next: (quoteArray) => {
-          //TODO: fix this
-          if(quoteArray.length < 1 && this.trades[0].size===-20){
-            throw('market is closed!');
-          }
-          console.log('consuming array: ', quoteArray);
-          quoteArray =  quoteArray.map((trade) => this.MarkAsUpOrDown(trade))
-          this.trades = quoteArray;
-        },
-        error: (error) => {console.log(error);},
-        complete: () => {console.log("done listening to ticker service's observable");}
-      })
+    let bufferedSub = this.tickerService.bufferedQuoteObservable$.subscribe({
+      next: (quoteArray) => {
+        //TODO: fix this
+        if(quoteArray.length < 1 && this.trades[0].size === -1){
+          throw('market is closed!');
+        }
+        console.log('consuming array: ', quoteArray);
+        this.trades = quoteArray.map((trade) => this.MarkAsUpOrDown(trade));
+      },
+      error: (error) => {console.log(error);},
+      complete: () => {console.log("done listening to ticker service's observable");}
+    })
 
-      this.subscriptions.push(bufferedSub);
-    }
+    this.subscriptions.push(apiSub);
+    this.subscriptions.push(bufferedSub);
   }
 
   private MarkAsUpOrDown(quote: Trade){
