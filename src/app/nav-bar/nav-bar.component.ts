@@ -13,7 +13,7 @@ import { SymbolLookupService } from '../Services/symbol-lookup.service';
 export class NavBarComponent {
 
   public lookupResults: SymbolLookup[] = [];
-  
+
   lookupControl : UntypedFormControl;
 
   public NavItems: Array<{ label: string, link: string[] }>;
@@ -21,7 +21,7 @@ export class NavBarComponent {
 
   constructor(private lookupService: SymbolLookupService) {
     this.lookupControl = new UntypedFormControl('');
-    
+
     this.NavItems = [
       { label: 'Portfolios', link: ['/portfolios'] },
       { label: 'Research', link: ['/research'] },
@@ -40,23 +40,23 @@ export class NavBarComponent {
         distinctUntilChanged()
       )
       .subscribe(input => {
-        if(!input.trim()){
+        if (!input.trim()) {
           this.lookupResults = [];
-        }else{
+        } else {
           lookupService.lookupSymbol(input).subscribe((searchResults: SymbolLookup[]) => {
             this.lookupResults = [];
             searchResults.forEach((result) => {
-              result.securityName = result.securityName.substring(0,24);
+              result.securityName = result.securityName.substring(0, 24);
               this.lookupResults.push(result);
             });
             //this.lookupResults = searchResults
           });
-        } 
+        }
       });
 
   }
 
-  public selectCompany(event: any, companySelection: SymbolLookup){
+  public selectCompany(event: any, companySelection: SymbolLookup) {
     console.log(event);
     console.log(companySelection);
     window.alert(`Company: ${companySelection.securityName}\n

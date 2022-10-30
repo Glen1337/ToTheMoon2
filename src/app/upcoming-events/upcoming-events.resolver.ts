@@ -17,7 +17,7 @@ import { UpcomingEventsComponent } from './upcoming-events.component';
 })
 export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
 
-  constructor(private researchService: ResearchDataService, private router: Router){
+  constructor(private researchService: ResearchDataService, private router: Router) {
 
   }
 

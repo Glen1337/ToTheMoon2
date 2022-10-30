@@ -1,28 +1,27 @@
 import { Injectable } from "@angular/core";
 import { formatDate } from '@angular/common';
 
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class DateConverter {
 
     public ConvertDateTime(date?: Date): string {
-        return(date ? new Date(date).toLocaleString() : '');
+        return date ? new Date(date).toLocaleString() : '';
     }
 
-    public ConvertDateRemoveTime(date?: Date): string{
-        return(date ? new Date(date).toLocaleDateString() : '');
+    public ConvertDateRemoveTime(date?: Date): string {
+        return date ? new Date(date).toLocaleDateString() : '';
     }
 
     public GetMonthAndDay(inputDate: Date): string {
         let date = new Date(inputDate);
-        let month = date?.getMonth()+1;
+        let month = date?.getMonth() + 1;
         let day = date?.getDate();
         return `${month}/${day}`;
     }
 
     public formatDate(input: any): string {
         //remove these ifs?
-        if(!input) {
+        if (!input) {
             return '';
         }
         if (typeof input === typeof Date) {

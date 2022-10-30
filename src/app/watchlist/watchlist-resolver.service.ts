@@ -13,11 +13,11 @@ export class WatchlistResolverService {
 
   constructor(private watchListService: WatchlistService, private router: Router) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<WatchItem>> | Observable<never>{
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<WatchItem>> | Observable<never> {
     // console.log(route.paramMap);
     return this.watchListService.getWatchList()
     .pipe(
-      catchError(this.handleError) 
+      catchError(this.handleError)
     );
   }
 

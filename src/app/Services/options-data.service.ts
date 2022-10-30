@@ -39,7 +39,7 @@ export class OptionsDataService {
     const params = new HttpParams()
       .set('symbol', symbol.trim());
 
-    return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, {params}).pipe(
+    return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, { params }).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
       retry(1),
       catchError(this.handleError)
@@ -52,7 +52,7 @@ export class OptionsDataService {
       .set('symbol', symbol.trim())
       .set('expiration', expiration);
 
-    return this.http.get<RefOption[]>(`${this.baseUrl}Options/AllOptions`, {params}).pipe(
+    return this.http.get<RefOption[]>(`${this.baseUrl}Options/AllOptions`, { params }).pipe(
       tap(_ => console.log(`(service)Getting options chain for ${symbol}`)),
       retry(1),
       catchError(this.handleError)

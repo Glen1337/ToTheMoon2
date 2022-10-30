@@ -47,7 +47,7 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
       next: (data) => {
         if (Object.keys(data.portfolio).length === 0) {
           this.errorMsg = 'Could not load Portfolio';
-        }else {
+        } else {
           this.buyingPower = data.balance;
           this.portfolio = data.portfolio;
           this.createChart();
@@ -97,15 +97,15 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
 
           let holdingCost = 0;
 
-          holdingCost = (returnedHolding.quantity * returnedHolding.costBasis);
+          holdingCost = returnedHolding.quantity * returnedHolding.costBasis;
 
-          if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType === SecurityConstants.Put){
+          if (returnedHolding.securityType === SecurityConstants.Call || returnedHolding.securityType === SecurityConstants.Put) {
             holdingCost *= 100;
           }
 
           this.portfolio.totalMarketValue += holdingCost;
           this.buyingPower -= holdingCost;
-        }else{
+        } else {
           let index: number = this.portfolio.holdings.indexOf(retrievedHolding);
           let transactionPrice = (returnedHolding.quantity - this.portfolio.holdings[index].quantity) * returnedHolding.currentPrice;
           this.portfolio.totalMarketValue += transactionPrice;
@@ -133,12 +133,12 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
         this.portfolio.holdings.forEach((holding, index) => {
           if (holding.holdingId === holdingId) {
             this.portfolio.holdings.splice(index, 1);
-            if (holding.securityType === SecurityConstants.Call || holding.securityType === SecurityConstants.Put){
-              this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice) * 100;
-              this.buyingPower += (holding.quantity * holding.currentPrice) * 100;
-            }else{
-              this.portfolio.totalMarketValue -= (holding.quantity * holding.currentPrice);
-              this.buyingPower += (holding.quantity * holding.currentPrice);
+            if (holding.securityType === SecurityConstants.Call || holding.securityType === SecurityConstants.Put) {
+              this.portfolio.totalMarketValue -= holding.quantity * holding.currentPrice * 100;
+              this.buyingPower += holding.quantity * holding.currentPrice * 100;
+            } else {
+              this.portfolio.totalMarketValue -= holding.quantity * holding.currentPrice;
+              this.buyingPower += holding.quantity * holding.currentPrice;
             }
           }
         });
@@ -153,22 +153,22 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
   }
 
   public percentageOfPort(holding: Holding): number {
-    let holdingValue = (holding.quantity * holding.currentPrice);
-    if(holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put){
+    let holdingValue = holding.quantity * holding.currentPrice;
+    if (holding.securityType == SecurityConstants.Call || holding.securityType == SecurityConstants.Put) {
       holdingValue = holdingValue * 100;
     }
-    if(this.portfolio.totalMarketValue == 0){
+    if (this.portfolio.totalMarketValue == 0) {
       return 0;
     }
-    return ((holdingValue)/this.portfolio.totalMarketValue) * 100;
+    return holdingValue / this.portfolio.totalMarketValue * 100;
   }
 
   private createChart(): void {
 
-    let data = this.portfolio.holdings.map(holding => { 
+    let data = this.portfolio.holdings.map(holding => {
       return {
-        x: `${holding.symbol} ${(holding.contractName) ? 'Option' : 'Shares'}`,
-        value: (this.percentageOfPort(holding))
+        x: `${holding.symbol} ${holding.contractName ? 'Option' : 'Shares'}`,
+        value: this.percentageOfPort(holding)
       }
     });
 

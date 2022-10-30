@@ -35,7 +35,7 @@ export class HoldingService {
       // headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
     const hOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json'
       }),
       withCredentials: true
     };

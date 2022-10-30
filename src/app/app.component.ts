@@ -6,12 +6,11 @@ declare function introJs(): any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'ToTheMoon'
   public currentlyLoading: boolean = false;
 
-  constructor(){
-  }
+  constructor() {}
 
   // ngAfterViewInit(){
   //   this.currentlyLoading = false;

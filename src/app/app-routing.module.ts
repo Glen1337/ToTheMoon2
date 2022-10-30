@@ -31,17 +31,17 @@ const routes: Routes = [
   },
   { path: 'portfolio/:id',
     component: PortfolioComponent,
-    resolve: { portfolio: PortfolioResolverService, balance: BalanceResolver},
+    resolve: { portfolio: PortfolioResolverService, balance: BalanceResolver },
     canActivate: [AuthGuard]
   },
   { path: 'orders', component: OrderHistoryComponent, resolve: { orders: OrderHistoryResolverService }, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, resolve: { watchList: WatchlistResolverService }, canActivate: [AuthGuard] },
   { path: 'research', component: ResearchComponent },
   { path: 'company', component: CompanyComponent },
-  { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService} },
-  { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService}, canActivate: [AuthGuard] },
-  { path: 'events', component: UpcomingEventsComponent, resolve: {upcomingEvents: UpcomingEventsResolverService}},
-  { path: 'prediction', component: PredictionComponent},
+  { path: 'market', component: MarketComponent, resolve: { marketData: MarketDataResolverService } },
+  { path: 'options', component: OptionsComponent, resolve: { portfolios: OptionsResolverService }, canActivate: [AuthGuard] },
+  { path: 'events', component: UpcomingEventsComponent, resolve: { upcomingEvents: UpcomingEventsResolverService } },
+  { path: 'prediction', component: PredictionComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

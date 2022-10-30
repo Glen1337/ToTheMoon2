@@ -23,17 +23,17 @@ export class MarketComponent extends FinancialPage implements OnInit, OnDestroy 
     let sub1: Subscription = this.route.data.subscribe({
       next: (data) => {
         console.log(data.marketData);
-        if(!data.marketData){
+        if (!data.marketData) {
           this.errorMsg = "Could not get Market Data from IEX"
-        }else{
+        } else {
           this.marketData = data.marketData;
         }
       },
-      error:(error) => {
+      error: (error) => {
         this.errorMsg = `${error.name}`;
         console.log('(component)Error getting market perf. data');
       },
-      complete:() => { console.log('Market Perf. Data retrieved'); }
+      complete: () => { console.log('Market Perf. Data retrieved'); }
     });
     this.subscriptions.push(sub1);
   }

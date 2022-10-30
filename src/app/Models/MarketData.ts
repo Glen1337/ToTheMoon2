@@ -41,7 +41,7 @@ export interface Crypt {
 //     numberOfEstimates:	number;
 //     EPSSurpriseDollar:	number;
 //     EPSReportDate:	string;
-//     fiscalPeriod:	string;	
+//     fiscalPeriod:	string;
 //     fiscalEndDate:	string;
 //     yearAgo:	number;
 //     yearAgoChangePercent:	number;

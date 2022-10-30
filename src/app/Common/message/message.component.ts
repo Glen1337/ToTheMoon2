@@ -19,26 +19,26 @@ export class MessageComponent implements OnChanges {
   isWarning: boolean = false;
 
   pageYoffset = 0;
-  @HostListener('window:scroll', ['$event']) onScroll(event: ElementRef): void{
+  @HostListener('window:scroll', ['$event']) onScroll(event: ElementRef): void {
     this.pageYoffset = window.pageYOffset;
   }
 
   constructor(private scroll: ViewportScroller) {}
 
-  okClick(): void{
+  okClick(): void {
     this.okClickEvent.emit('ok');
   }
 
   // to avoid bugs when another message appears but the OK button was NOT clicked to dismiss the previous message
-  ngOnChanges(): void{
+  ngOnChanges(): void {
 
     //TODO
     // can this simpler method be used instead?
     window.scrollTo(0, 0);
 
-    this.scroll.scrollToPosition([0,0]);
+    this.scroll.scrollToPosition([0, 0]);
 
-    if (this.inputErrorMessage){
+    if (this.inputErrorMessage) {
         this.isError = true;
         this.isWarning = false;
         this.isNotice = false;
@@ -46,14 +46,14 @@ export class MessageComponent implements OnChanges {
         this.inputNoticeMessage = '';
 
     }
-    if (this.inputNoticeMessage){
+    if (this.inputNoticeMessage) {
         this.isNotice = true;
         this.isWarning = false;
         this.isError = false;
         this.inputErrorMessage = '';
         this.inputWarningMessage = '';
     }
-    if (this.inputWarningMessage){
+    if (this.inputWarningMessage) {
         this.isWarning = true;
         this.isError = false;
         this.isNotice = false;

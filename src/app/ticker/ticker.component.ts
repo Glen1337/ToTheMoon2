@@ -17,7 +17,7 @@ export class TickerComponent extends FinancialPage implements OnInit {
   public trades: Trade[] = [];
   @Input() watchList: WatchItem[] = [];
 
-  constructor(private tickerService: TickerService) { 
+  constructor(private tickerService: TickerService) {
     super();
 
     let trade1: Trade = {
@@ -91,37 +91,37 @@ export class TickerComponent extends FinancialPage implements OnInit {
     let api$ = this.tickerService.callApi();
     let apiSub = api$.subscribe({
       next: (val) => { console.log(`Watchlist api call complete for setting up signalR realtime: ${val}`); },
-      error: (error: HttpErrorResponse) => { 
-        this.trades.push( { symbol: error.error, timestampUtc: new Date(), exchange: '', size: -1, tradeId: 0, conditions: [''], price: 0, tape: '' } as Trade); 
+      error: (error: HttpErrorResponse) => {
+        this.trades.push({ symbol: error.error, timestampUtc: new Date(), exchange: '', size: -1, tradeId: 0, conditions: [''], price: 0, tape: '' } as Trade);
         console.log(`Watchlist api call ERROR while setting up signalR realtime: ${error} : ${error.error}`);
-      },
+      }
     });
 
     let bufferedSub = this.tickerService.bufferedQuoteObservable$.subscribe({
       next: (quoteArray) => {
         //TODO: fix this
-        if(quoteArray.length < 1 && this.trades[0].size === -1){
-          throw('market is closed!');
+        if (quoteArray.length < 1 && this.trades[0].size === -1) {
+          throw 'market is closed!';
         }
         console.log('consuming array: ', quoteArray);
         this.trades = quoteArray.map((trade) => this.MarkAsUpOrDown(trade));
       },
-      error: (error) => {console.log(error);},
-      complete: () => {console.log("done listening to ticker service's observable");}
+      error: (error) => { console.log(error); },
+      complete: () => { console.log("done listening to ticker service's observable"); }
     })
 
     this.subscriptions.push(apiSub);
     this.subscriptions.push(bufferedSub);
   }
 
-  private MarkAsUpOrDown(quote: Trade){
-    let watchItem = this.watchList.find(watchItem => watchItem.symbol===quote.symbol)
-    
-    if(watchItem && watchItem.previousClose){
-      quote.isUp = (quote.price >= watchItem.previousClose) ? true : false;
+  private MarkAsUpOrDown(quote: Trade) {
+    let watchItem = this.watchList.find(watchItem => watchItem.symbol === quote.symbol)
+
+    if (watchItem && watchItem.previousClose) {
+      quote.isUp = quote.price >= watchItem.previousClose;
     }
 
     return quote;
   }
-  
+
 }

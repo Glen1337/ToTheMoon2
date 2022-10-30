@@ -33,7 +33,7 @@ import { DOCUMENT } from '@angular/common';
         </ul>
     </div>
   `,
-  styles: [],
+  styles: []
 })
 export class AuthButtonComponent implements OnInit {
     profileJson: string = 'null';
@@ -51,7 +51,7 @@ export class AuthButtonComponent implements OnInit {
       console.log('Is Authed? ', isAuth);
   });
 
-    this.auth.idTokenClaims$.subscribe((claims) => { 
+    this.auth.idTokenClaims$.subscribe((claims) => {
         console.log('ID Token Claims (Claims within the provided ID Token:)', claims);
     });
   }

@@ -17,11 +17,11 @@ export class PredictionService {
 
   constructor(private http: HttpClient) { }
 
-  public getPredictionResults(ticker: string){
+  public getPredictionResults(ticker: string) {
     let options = { params: new HttpParams().set('symbol', ticker),
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
-    
+
     return this.http.get(`${this.baseUrl}StockPredict/GetPrediction`, options)
     .pipe(
       tap(_ => console.log(`(service)Getting ML predictions for: ${ticker}`)),
@@ -45,5 +45,5 @@ export class PredictionService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error(error.message));
   }
-  
+
 }
