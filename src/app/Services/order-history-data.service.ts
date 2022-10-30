@@ -23,7 +23,7 @@ export class OrderHistoryDataService {
     return this.http.get<Array<Order>>(`${this.baseUrl}orders`, this.httpOptions)
     .pipe(
       tap(_ => {console.log('(service)Getting list of historical orders');}),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }

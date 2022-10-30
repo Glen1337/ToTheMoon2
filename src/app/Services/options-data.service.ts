@@ -29,7 +29,7 @@ export class OptionsDataService {
     return this.http.get<{ [key: string]: Array<RefOption> }>(`${this.baseUrl}Options/AllOptions`, paramOptions)
     .pipe(
       tap(_ => console.log('(service)Getting option chain by expiration for ' + symbol)),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -41,7 +41,7 @@ export class OptionsDataService {
 
     return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, {params}).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -54,7 +54,7 @@ export class OptionsDataService {
 
     return this.http.get<RefOption[]>(`${this.baseUrl}Options/AllOptions`, {params}).pipe(
       tap(_ => console.log(`(service)Getting options chain for ${symbol}`)),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }

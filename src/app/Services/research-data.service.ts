@@ -42,7 +42,7 @@ export class ResearchDataService {
     return this.http.get<IAgg[]>(`${this.baseUrl}research/chart`, options)
     .pipe(
       tap(_ => console.log(`Getting data for: ${ticker}`)),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -55,7 +55,7 @@ export class ResearchDataService {
 
     return this.http.get<CompanyResearch>(`${this.baseUrl}research/CompanyStats`, options).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
-      retry(2),
+      retry(1),
       catchError(this.handleError)
     );
   }
