@@ -1,12 +1,12 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+// bootstrap sass overrides
 $navbar-dark-color:                 $gray-500;
 $navbar-dark-hover-color:           rgb(168, 153, 255);
 $navbar-dark-active-color:           rgb(189, 232, 255);
-// $navbar-dark-active-color:          $light;
 $navbar-dark-disabled-color:  rgb(206, 138, 36);
 $navbar-light-disabled-color:  rgb(206, 138, 36);
-
+// $navbar-dark-active-color:          $light;
 // $navbar-dark-disabled-color:        rgba($blue, .9);
 // $navbar-dark-toggler-border-color:  rgba($blue, .9) ;
 
@@ -18,5 +18,12 @@ $navbar-light-disabled-color:  rgb(206, 138, 36);
 
 $body-bg: rgb(138, 144, 184);
 //$body-bg: rgb(158, 190, 224, 1);
+$font-family-base: 'Heebo', sans-serif;
+//mdb overides
+
+// .btn {
+//     text-transform: unset !important;
+//     box-shadow: none !important;
+// }
 
 @import "../node_modules/bootstrap/scss/bootstrap";
