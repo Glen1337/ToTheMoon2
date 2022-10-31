@@ -1,1 +1,4 @@
-.navbar-nav>li>.dropdown-menu { width: 22rem; }
+/* .navbar-nav>li>.dropdown-menu { width: 22rem; } */
+h4{
+    margin-bottom: 0;
+}
