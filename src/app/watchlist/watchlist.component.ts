@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
 import { OutlookConstants } from '../Models/Constants';
@@ -18,20 +18,23 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
   public dropDownOptions = [OutlookConstants.Positive, OutlookConstants.Negative];
   public watchList: WatchItem[] = [];
 
-  public watchItemForm = new UntypedFormGroup({
-    watchItemSymbolControl: new UntypedFormControl('', [
-      Validators.required,
-      Validators.maxLength(8)
-    ]),
-    watchItemOutlookControl: new UntypedFormControl('', [Validators.required])
+  public watchItemForm = new FormGroup({
+    watchItemSymbolControl: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.maxLength(8)
+      ],
+      nonNullable: true
+    }),
+    watchItemOutlookControl: new FormControl('', { validators: [Validators.required], nonNullable: true})
   });
 
   constructor(private route: ActivatedRoute, public location: Location, private watchListService: WatchlistService) {
     super();
   }
 
-  get watchItemSymbolControl(): AbstractControl | null { return this.watchItemForm.get('watchItemSymbolControl'); }
-  get watchItemOutlookControl(): AbstractControl | null  { return this.watchItemForm.get('watchItemOutlookControl'); }
+  get watchItemSymbolControl() { return this.watchItemForm.get('watchItemSymbolControl'); }
+  get watchItemOutlookControl() { return this.watchItemForm.get('watchItemOutlookControl'); }
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
@@ -62,8 +65,8 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     console.log(this.watchItemOutlookControl?.value);
 
     let watchItem: WatchItem = {
-      outlook : this.watchItemOutlookControl?.value,
-      symbol : this.watchItemSymbolControl?.value
+      outlook : this.watchItemOutlookControl!.value,
+      symbol : this.watchItemSymbolControl!.value
     };
 
     sub = this.watchListService.addWatchItem(watchItem).subscribe({

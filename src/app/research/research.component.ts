@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
@@ -19,30 +19,35 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
   private chart: anychart.charts.Stock;
   public historicalStockData: IAgg[] = [];
   public visible: boolean = false;
+  private ticker: string = '';
 
   @ViewChild('chartContainer') container!: ElementRef;
 
-  public researchForm = new UntypedFormGroup({
-    researchSymbolControl: new UntypedFormControl('', [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(8)
-    ])
-  });
+  // public researchForm = new FormGroup({
+  //   researchSymbolControl: new FormControl('', {
+  //     validators: [
+  //     Validators.required,
+  //     Validators.minLength(1),
+  //     Validators.maxLength(8)
+  //     ],
+  //     nonNullable: true
+  //   })
+  // });
 
   constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
     super();
     this.chart = anychart.stock();
   }
 
-  get researchSymbolControl() { return this.researchForm.get('researchSymbolControl'); }
+  // get researchSymbolControl() { return this.researchForm.get('researchSymbolControl')!; }
 
-  onGetData(): void {
+  public OnSymbolSubmit(inputSymbol: string){
     let subscription1: Subscription = new Subscription();
-    let symbol: string = this.researchSymbolControl!.value;
+    let symbol: string = inputSymbol.trim().toUpperCase();
 
     subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe({
       next: (data) => {
+        this.ticker = symbol;
         this.historicalStockData = data;
         this.ChartData(data);
         this.visible = true;
@@ -57,10 +62,28 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     this.subscriptions.push(subscription1);
   }
 
+  // onGetData(): void {
+  //   let subscription1: Subscription = new Subscription();
+  //   let symbol: string = this.researchSymbolControl!.value;
+
+  //   subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe({
+  //     next: (data) => {
+  //       this.historicalStockData = data;
+  //       this.ChartData(data);
+  //       this.visible = true;
+  //     },
+  //     error: (error) => {
+  //       console.log('(component)Error in getting research: ', error);
+  //       this.errorMsg = `${error.error}`;
+  //     },
+  //     complete: () => {'(component)Research retrieval complete'}
+  //   });
+
+  //   this.subscriptions.push(subscription1);
+  // }
+
   private ChartData(inputData: any[]): void{
     const fontWeight = 1000;
-
-    let ticker: string = String(this.researchSymbolControl?.value).trim().toUpperCase();
 
     // Clear existing chart
     if(this.chart) {
@@ -84,7 +107,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     //plot0: candlestick
     let quoteMapping = table.mapAs({'open':1, 'high':2, 'low':3, 'close':4, 'value':4});
     let plot0 = this.chart.plot(0);
-    plot0.candlestick(quoteMapping).name(ticker)
+    plot0.candlestick(quoteMapping).name(this.ticker)
       .risingFill('#66ff66')
       .risingStroke('#66ff66')
       .fallingFill('#ff3300')
@@ -92,7 +115,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
     // plot0 settings
     plot0.yMinorGrid().palette(['LightGrey', null]);
-    plot0.title(`${ticker} Price`);
+    plot0.title(`${this.ticker} Price`);
     plot0.title().fontWeight(fontWeight).fontSize(16);
     plot0.xAxis().ticks(true).minorTicks(true);
     plot0.yAxis().ticks(true).minorTicks(true);
@@ -117,7 +140,7 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
     // plot1 settings
     plot1.yGrid().stroke({dash: '2 14'});
-    plot1.title(`${ticker} Volume`);
+    plot1.title(`${this.ticker} Volume`);
     plot1.title().fontWeight(fontWeight).fontSize(16);
     plot1.xAxis().ticks(true).minorTicks(true);
     plot1.yAxis().ticks(true).minorTicks(true);

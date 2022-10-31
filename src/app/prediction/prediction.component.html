@@ -1,97 +1,107 @@
-<div>
-    <app-heading [location]="location" title="Next Day Price Prediction" iconClass="fa-solid fa-brain"></app-heading>
-    <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
+<div>  
+    <div>
+        <app-heading [location]="location" title="Next Day Price Prediction" iconClass="fa-solid fa-brain"></app-heading>
+        <app-message (okClickEvent)="messageClick()" [inputNoticeMessage]="noticeMsg" [inputErrorMessage]="errorMsg"></app-message>
 
-    <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
-        <label class="form-label" for="sym">Stock Symbol</label>
-        <div class="row mb-2">
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
-                <input placeholder="TSLA" spellcheck="false" [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }" formControlName="predictionControl" id="sym" type="text" class="form-control">
-                <div *ngIf="predictionForm.invalid && (predictionForm.dirty || predictionForm.touched)" class="invalid-feedback">
-                    <div *ngIf="predictionControl!.errors?.['required']">
-                        Symbol is required
-                    </div>
-                    <div *ngIf="predictionControl!.errors?.['maxlength']">
-                        Symbol is too long
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <button [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
+        <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+                <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
             </div>
         </div>
-    </form>
 
-</div>
-<div class="d-flex justify-content-center">
-    <div *ngIf="currentlyLoading" style="width: 4rem; height: 4rem;" class="mt-2 spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
+        <!-- <form (ngSubmit)="submitForm()" [formGroup]="predictionForm" novalidate>
+            <label class="form-label" for="sym">Stock Symbol</label>
+            <div class="row mb-2">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+                    <input placeholder="TSLA" spellcheck="false"
+                        [ngClass]="{'is-valid': predictionForm.valid && (predictionForm.dirty || predictionForm.touched), 'is-invalid': predictionForm.invalid && (predictionForm!.dirty || predictionForm!.touched) }"
+                        formControlName="predictionControl" id="sym" type="text" class="form-control">
+                    <div *ngIf="predictionForm.invalid && (predictionForm.dirty || predictionForm.touched)" class="invalid-feedback">
+                        <div *ngIf="predictionControl!.errors?.['required']">
+                            Symbol is required
+                        </div>
+                        <div *ngIf="predictionControl!.errors?.['maxlength']">
+                            Symbol is too long
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <button [disabled]="!predictionForm.valid" type="submit" onmousedown="event.preventDefault()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form> -->
     </div>
-</div>
 
-<div class="row mt-4" *ngIf="!IsResultEmpty()">
-    <div class="d-flex">
-        <h1 class="display-6">
-            <span>
-                As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, you
-            </span>
-            <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
-                {{this.predictionResult.combinedShouldYouBuy ? "should buy" : "shouldn't buy"}}
-                <i *ngIf="this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-up text-success align-self-center"></i>
-                <i *ngIf="!this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-down text-danger align-self-center"></i>
-            </span>
-        </h1>
+    <div class="d-flex justify-content-center mt-2">
+        <div *ngIf="currentlyLoading" style="width: 4rem; height: 4rem;" class="mt-2 spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-    <div class="d-flex">
-        <h1 data-toggle="tooltip" title="Angular 13" class="display-6">
-            Last {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.lastDayDate)}}
-            Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
-        </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
-    </div>
-    <div class="d-flex">
-        <h1 class="display-6">
-            Predicted {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.nextDayDate)}}
-            Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
-        </h1>
-        <i data-bs-toggle="tooltip" data-toggle="tooltip" title="tooltip here" data-bs-title="Default tooltip" class="fa-regular fa-circle-question"></i>
-    </div>
-</div>
 
-<div class="row mt-4 justify-content-center">
-    <div class="card-group col-lg-4 col-md-8 col-sm-12 col-12" *ngFor="let strategy of this.predictionResult.strategies">
-        <div class="card">
-            <h5 class="card-header">
-                {{strategy.algorithm}} Strategy
-            </h5>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                    <li class="list-group-item">
-                        <h5 class="card-title mb-4">Quality Metrics Evaluation</h5>
-                        <p class="card-text">Mean Absolute Loss Error: {{strategy.qualityMetricsEvaluation.meanAbsoluteLossError.toFixed(2)}}</p>
-                        <p class="card-text">Root Mean Squared Error: {{strategy.qualityMetricsEvaluation.rootMeanSquaredError.toFixed(2)}}</p>
-                        <p class="card-text">R Squared Score Error: {{strategy.qualityMetricsEvaluation.rSquaredScore.toFixed(2)}}</p>
-                    </li>
-                    <li class="list-group-item">
-                        <h5 class="card-title mb-4">Prediction Evaluation</h5>
-                        <p class="card-text">Day of Prediction: {{dateConverter.formatDate(strategy.predictionEvaluation.predictionDayDate)}}</p>
-                        <p class="card-text">Price Prediction: {{strategy.predictionEvaluation.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
-                        <p class="card-text">Actual Date: {{dateConverter.formatDate(strategy.predictionEvaluation.actualDate)}}</p>
-                        <p class="card-text">Actual Closing Price: {{strategy.predictionEvaluation.actualClosingPrice}}</p>
-                        <p class="card-text">Percentage Error: {{strategy.predictionEvaluation.percentError | fiFormat : '' : '%' : true : true}}</p>
-                    </li>
-                    <li class="list-group-item">
-                        <h5 class="card-title mb-4">Prediction</h5>
-                        <p class="card-text">Last Date: {{dateConverter.formatDate(strategy.prediction.lastDayDate)}}</p>
-                        <p class="card-text">Last Closing Price: {{strategy.prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
-                        <p class="card-text">Predicted Next Day Price: {{strategy.prediction.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
-                        <p class="card-text">Should you buy? {{strategy.prediction.shouldYouBuy ? 'Yes' : 'No'}}</p>
-                    </li>
-                    <li class="list-group-item">
-                </ul>
-                <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a> -->
+    <div class="row mt-4" *ngIf="!IsResultEmpty()">
+        <div class="d-flex">
+            <h1 class="display-6">
+                <span>
+                    As of {{dateConverter.formatDate(this.predictionResult.lastDay)}}, you
+                </span>
+                <span [ngClass]="{'text-success': this.predictionResult.combinedShouldYouBuy, 'text-danger': !this.predictionResult.combinedShouldYouBuy }">
+                    {{this.predictionResult.combinedShouldYouBuy ? "should buy" : "shouldn't buy"}}
+                    <i *ngIf="this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-up text-success align-self-center"></i>
+                    <i *ngIf="!this.predictionResult.combinedShouldYouBuy" class="fa-solid fa-arrow-trend-down text-danger align-self-center"></i>
+                </span>
+            </h1>
+        </div>
+        <div class="d-flex">
+            <h1 class="display-6">
+                Last {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.lastDayDate)}}
+                Price: {{this.predictionResult.strategies[0].prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}
+            </h1>
+            <i data-bs-toggle="tooltip" data-bs-title="Latest price or yesterday's close price" class="fa-regular fa-circle-question"></i>
+        </div>
+        <div class="d-flex">
+            <h1 class="display-6">
+                Predicted {{dateConverter.GetMonthAndDay(this.predictionResult.strategies[0].prediction.nextDayDate)}}
+                Price: {{this.predictionResult.combinedStrategyForecastPrice | fiFormat : '$' : '' : false : true }}
+            </h1>
+            <i data-bs-toggle="tooltip" data-bs-title="Predicted next market day's closing price" class="fa-regular fa-circle-question"></i>
+        </div>
+    </div>
+
+    <div class="row mt-4 justify-content-center">
+        <div class="card-group col-lg-4 col-md-8 col-sm-12 col-12" *ngFor="let strategy of this.predictionResult.strategies">
+            <div class="card">
+                <h5 class="card-header">
+                    {{strategy.algorithm}} Strategy
+                </h5>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <!-- <li class="list-group-item"> -->
+                        <li class="list-group-item">
+                            <h5 class="card-title mb-4">Quality Metrics Evaluation</h5>
+                            <p class="card-text">Mean Absolute Loss Error: {{strategy.qualityMetricsEvaluation.meanAbsoluteLossError.toFixed(2)}}</p>
+                            <p class="card-text">Root Mean Squared Error: {{strategy.qualityMetricsEvaluation.rootMeanSquaredError.toFixed(2)}}</p>
+                            <p class="card-text">R Squared Score Error: {{strategy.qualityMetricsEvaluation.rSquaredScore.toFixed(2)}}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="card-title mb-4">Prediction Evaluation</h5>
+                            <p class="card-text">Day of Prediction: {{dateConverter.formatDate(strategy.predictionEvaluation.predictionDayDate)}}</p>
+                            <p class="card-text">Price Prediction: {{strategy.predictionEvaluation.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                            <p class="card-text">Actual Date: {{dateConverter.formatDate(strategy.predictionEvaluation.actualDate)}}</p>
+                            <p class="card-text">Actual Closing Price: {{strategy.predictionEvaluation.actualClosingPrice}}</p>
+                            <p class="card-text">Percentage Error: {{strategy.predictionEvaluation.percentError | fiFormat : '' : '%' : true : true}}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="card-title mb-4">Prediction</h5>
+                            <p class="card-text">Last Date: {{dateConverter.formatDate(strategy.prediction.lastDayDate)}}</p>
+                            <p class="card-text">Last Closing Price: {{strategy.prediction.lastDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                            <p class="card-text">Predicted Next Day Price: {{strategy.prediction.predictedNextDayClosingPrice | fiFormat : '$' : '' : false : true}}</p>
+                            <p class="card-text">Should you buy? {{strategy.prediction.shouldYouBuy ? 'Yes' : 'No'}}</p>
+                        </li>
+                        <!-- <li class="list-group-item"> -->
+                    </ul>
+                    <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
             </div>
         </div>
     </div>

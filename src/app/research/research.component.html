@@ -2,11 +2,17 @@
     <app-heading [location]="location" title="Stock Chart" iconClass="fas fa-chart-area"></app-heading>
     <app-message (okClickEvent)="messageClick()" [inputErrorMessage]="errorMsg"></app-message>
     
-    <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+            <app-symbol-control (stockSymbolEvent)="OnSymbolSubmit($event)" ></app-symbol-control>
+        </div>
+    </div>
+
+    <!-- <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-2 col-xl-1 mb-2">
                 <input spellcheck="false" id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
-                    [ngClass]="{ 'is-invalid': researchSymbolControl?.invalid && (researchSymbolControl?.dirty || researchSymbolControl?.touched) }" formControlName="researchSymbolControl">
+                    [ngClass]="{ 'is-invalid': researchSymbolControl.invalid && (researchSymbolControl.dirty || researchSymbolControl.touched), 'is-valid':  researchSymbolControl.valid && (researchSymbolControl.dirty || researchSymbolControl.touched)}" formControlName="researchSymbolControl">
                 <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback">
                     <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>
                     <div *ngIf="researchSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters.</div>
@@ -16,7 +22,7 @@
                 <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
             </div>
         </div>
-    </form>
+    </form> -->
 
     <!--symbol validation messages-->
     <!-- <div *ngIf="researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched)" class="alert alert-danger">

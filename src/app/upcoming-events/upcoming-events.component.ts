@@ -4,7 +4,7 @@ import { Subscriber, Subscription, Subject } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -67,9 +67,15 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
 
   calendarEvents: CalendarEvent[] = [];
 
-  public upcomingEventsForm = new UntypedFormGroup({
-    startDateControl: new UntypedFormControl(this.getInitialStartDate(), [Validators.required]),
-    endDateControl: new UntypedFormControl(this.getInitialEndDate(), [Validators.required])
+  public upcomingEventsForm = new FormGroup({
+    startDateControl: new FormControl(this.getInitialStartDate(), {
+      validators: [Validators.required],
+      nonNullable: true
+    }),
+    endDateControl: new FormControl(this.getInitialEndDate(), {
+      validators: [Validators.required],
+      nonNullable: true
+    })
   });
 
   constructor(public location: Location, private researchService: ResearchDataService, private route: ActivatedRoute, public dateService: DateConverter) {
@@ -121,9 +127,9 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
     return this.EndDate.toISOString().split('T')[0]; // .replace(/-/g, '');
   }
 
-  get startDateControl(): AbstractControl { return this.upcomingEventsForm.get('startDateControl')!; }
+  get startDateControl() { return this.upcomingEventsForm.get('startDateControl')!; }
 
-  get endDateControl(): AbstractControl | null { return this.upcomingEventsForm.get('endDateControl')!; }
+  get endDateControl() { return this.upcomingEventsForm.get('endDateControl')!; }
 
   submitForm(): void{
     //add calendar event object for each day by default

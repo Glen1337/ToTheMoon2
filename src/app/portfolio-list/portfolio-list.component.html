@@ -53,7 +53,7 @@
       <!-- Name -->
       <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
         <label class="form-label" for="sym">Name</label>
-        <input placeholder="Test Portfolio" id="sym" class="form-control" type="text" [ngClass]="{ 'is-invalid': portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)}"  formControlName="portfolioTitleControl">
+        <input placeholder="Test Portfolio" id="sym" class="form-control" type="text" [ngClass]="{ 'is-invalid': portfolioTitleControl.invalid && (portfolioTitleControl.dirty || portfolioTitleControl.touched)}"  formControlName="portfolioTitleControl">
         <div class="invalid-feedback" *ngIf="portfolioTitleControl?.invalid && (portfolioTitleControl?.dirty || portfolioTitleControl?.touched)">
           <div *ngIf="portfolioTitleControl!.errors!.required">
             Title is required.
@@ -67,7 +67,7 @@
       <!-- Type -->
       <div class="col-12 col-sm-8 col-md-4 col-lg-2 col-xl-2">
         <label class="form-label" for="type">Type</label>
-        <select id="type" class="form-select" [ngClass]="{ 'is-invalid': portfolioTypeControl?.invalid && (portfolioTypeControl?.dirty || portfolioTypeControl?.touched)}"  formControlName="portfolioTypeControl">
+        <select id="type" class="form-select" [ngClass]="{ 'is-invalid': portfolioTypeControl.invalid && (portfolioTypeControl.dirty || portfolioTypeControl.touched)}"  formControlName="portfolioTypeControl">
           <option value="" disabled selected >Choose a Type</option>
           <option *ngFor="let type of portfolioTypes" [ngValue]="type">{{type}}</option>
         </select>
