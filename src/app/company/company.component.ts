@@ -19,7 +19,6 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
   public companyResearch: CompanyResearch = {} as CompanyResearch;
   public imgUrl: string = '';
   public financiafy: any;
-  public currentlyLoading: boolean = false;
 
   public companyResearchForm = new FormGroup({
     companySymbolControl: new FormControl('', {

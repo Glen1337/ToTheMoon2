@@ -11,6 +11,8 @@ export class FinancialPage implements OnDestroy {
     public noticeMsg: string = '';
     public warningMsg: string = '';
 
+    public currentlyLoading: boolean = false;
+
     public subscriptions: Subscription[] = [];
 
     constructor() {

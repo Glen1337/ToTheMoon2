@@ -28,8 +28,6 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     this.chart = anychart.stock();
   }
 
-  // get researchSymbolControl() { return this.researchForm.get('researchSymbolControl')!; }
-
   public OnSymbolSubmit(inputSymbol: string) {
     let subscription1: Subscription = new Subscription();
     let symbol: string = inputSymbol.trim().toUpperCase();

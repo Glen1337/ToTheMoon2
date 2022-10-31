@@ -52,7 +52,6 @@ const daysAhead: number = 7;
 export class UpcomingEventsComponent extends FinancialPage implements OnInit, OnDestroy {
 
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
-  public currentlyLoading: boolean = false;
 
   public static readonly daysBehind: number = daysAhead;
   public static readonly daysAhead: number = daysBehind;

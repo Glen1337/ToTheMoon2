@@ -15,7 +15,6 @@ declare let bootstrap: any
 })
 export class PredictionComponent extends FinancialPage {
 
-  public currentlyLoading: boolean = false;
   //public predictionForm: FormGroup;
   public predictionResult: MLPrediction = {} as MLPrediction;
   private tooltipList = new Array<any>();
@@ -29,10 +28,10 @@ export class PredictionComponent extends FinancialPage {
 
   public OnSymbolSubmit(inputSymbol: string) {
 
+    this.currentlyLoading = true;
+
     let sub: Subscription = new Subscription();
     let symbol: string = inputSymbol.trim().toUpperCase();
-
-    this.currentlyLoading = true;
 
     sub = this.predictionService.getPredictionResults(symbol).subscribe({
       next: (data) => {
