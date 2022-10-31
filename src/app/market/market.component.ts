@@ -15,7 +15,7 @@ export class MarketComponent extends FinancialPage implements OnInit, OnDestroy 
 
   public marketData: MarketData = {} as MarketData;
 
-  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {
+  constructor(private route: ActivatedRoute, public location: Location) {
     super();
   }
 
