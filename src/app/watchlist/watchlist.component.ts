@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WatchlistService } from '../Services/watchlist.service';
 import { WatchItem } from '../Models/WatchItem';
-import { OutlookConstants } from '../Models/Constants';
+import { MAX_STOCK_LENGTH, OutlookConstants } from '../Models/Constants';
 import { ActivatedRoute } from '@angular/router';
 import { FinancialPage } from '../Common/FinancialPage';
 
@@ -22,7 +22,7 @@ export class WatchlistComponent extends FinancialPage implements OnInit, OnDestr
     watchItemSymbolControl: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.maxLength(8)
+        Validators.maxLength(MAX_STOCK_LENGTH)
       ],
       nonNullable: true
     }),

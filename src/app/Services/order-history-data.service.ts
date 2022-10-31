@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { Order } from '../Models/Order';
 import { environment } from 'src/environments/environment';
+import { RETRY_COUNT } from '../Models/Constants';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class OrderHistoryDataService {
     return this.http.get<Array<Order>>(`${this.baseUrl}orders`, this.httpOptions)
     .pipe(
       tap(_ => { console.log('(service)Getting list of historical orders'); }),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }

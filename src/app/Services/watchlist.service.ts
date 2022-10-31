@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { RETRY_COUNT } from '../Models/Constants';
 import { WatchItem } from '../Models/WatchItem';
 
 @Injectable({
@@ -25,7 +26,7 @@ export class WatchlistService {
     return this.http.get<Array<WatchItem>>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('(service)Getting watchlist')),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }
@@ -36,7 +37,7 @@ export class WatchlistService {
     return this.http.post<WatchItem>(url, watchItem, this.httpOptions)
     .pipe(
       tap(() => console.log(`(service)Adding a new watch item: ${watchItem.symbol}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError<WatchItem, Observable<WatchItem>>(this.handleError)
     );
   }

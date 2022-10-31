@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAX_STOCK_LENGTH } from 'src/app/Models/Constants';
 
 @Component({
   selector: 'app-symbol-control',
@@ -12,7 +13,7 @@ export class SymbolControlComponent {
     formControl: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.maxLength(8)
+        Validators.maxLength(MAX_STOCK_LENGTH)
       ],
       nonNullable: true
     })

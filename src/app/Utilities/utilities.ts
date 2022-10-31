@@ -17,7 +17,7 @@ export function financialifyNumber(input: number, prependSymbol: string = '', ad
   }
   if (num < 0) {
     return `${addSign ? '-' : ''}${prependSymbol}${Math.abs(num).toLocaleString()}`;
-  } else {
-    return `${prependSymbol}0`;
   }
+    return `${prependSymbol}0`;
+
 }

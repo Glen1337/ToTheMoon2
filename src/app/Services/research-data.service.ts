@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CompanyResearch } from '../Models/CompanyResearch';
+import { RETRY_COUNT } from '../Models/Constants';
 import { MarketData } from '../Models/MarketData';
 import { IAgg, ResearchData } from '../Models/ResearchData';
 
@@ -42,7 +43,7 @@ export class ResearchDataService {
     return this.http.get<IAgg[]>(`${this.baseUrl}research/chart`, options)
     .pipe(
       tap(_ => console.log(`Getting data for: ${ticker}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }
@@ -55,7 +56,7 @@ export class ResearchDataService {
 
     return this.http.get<CompanyResearch>(`${this.baseUrl}research/CompanyStats`, options).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }

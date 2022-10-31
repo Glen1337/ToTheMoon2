@@ -17,9 +17,7 @@ import { UpcomingEventsComponent } from './upcoming-events.component';
 })
 export class UpcomingEventsResolverService implements Resolve<UpcomingEvents> {
 
-  constructor(private researchService: ResearchDataService, private router: Router) {
-
-  }
+  constructor(private researchService: ResearchDataService, private router: Router) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UpcomingEvents> {
     let begin = new Date(new Date().setDate(new Date().getDate() - UpcomingEventsComponent.daysBehind)).toISOString().split('T')[0]; // .replace(/-/g, '');

@@ -25,7 +25,7 @@ export class TickerService implements OnDestroy {
     this.hubConnection
     .start()
     .then(() => console.log('Hub Connection Started'))
-    .catch(err => console.log('Error while starting connection: ' + err))
+    .catch(err => console.log(`Error while starting connection: ${err}`))
 
     this.hubConnection.onclose((err?: Error) => {
       if (err) {

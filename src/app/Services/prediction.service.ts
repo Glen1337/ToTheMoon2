@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { catchError, retry, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { RETRY_COUNT } from '../Models/Constants';
 
 
 @Injectable({
@@ -25,7 +26,7 @@ export class PredictionService {
     return this.http.get(`${this.baseUrl}StockPredict/GetPrediction`, options)
     .pipe(
       tap(_ => console.log(`(service)Getting ML predictions for: ${ticker}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }

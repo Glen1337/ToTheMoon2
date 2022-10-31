@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -22,17 +23,6 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
   private ticker: string = '';
 
   @ViewChild('chartContainer') container!: ElementRef;
-
-  // public researchForm = new FormGroup({
-  //   researchSymbolControl: new FormControl('', {
-  //     validators: [
-  //     Validators.required,
-  //     Validators.minLength(1),
-  //     Validators.maxLength(8)
-  //     ],
-  //     nonNullable: true
-  //   })
-  // });
 
   constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
     super();

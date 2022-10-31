@@ -11,7 +11,7 @@
     "build:prod": "ng build --configuration production --optimization true",
     "comment3": "these ng test, ng lint , ng e2e commands are defined in angular.json",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint DegenAppUI",
     "e2e": "ng e2e",
     "comment2": "Below command compiles sass into css. See Angular.json file",
     "scss": "sass --watch scss/custom.scss src/css-from-sass/custom.css"

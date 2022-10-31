@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, UntypedFormControl, UntypedFor
 import { OptionsDataService } from '../Services/options-data.service';
 import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
-import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { MAX_STOCK_LENGTH, OrderConstants, SecurityConstants } from '../Models/Constants';
 import { Holding } from '../Models/Holding';
 import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +37,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
       validators: [
       Validators.required,
       Validators.minLength(1),
-      Validators.maxLength(8)
+      Validators.maxLength(MAX_STOCK_LENGTH)
       ],
       nonNullable: true
     }),

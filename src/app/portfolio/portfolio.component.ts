@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Holding } from '../Models/Holding';
 import { HoldingService } from '../Services/holding-data.service';
-import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { MAX_STOCK_LENGTH, MIN_STOCK_LENGTH, OrderConstants, SecurityConstants } from '../Models/Constants';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
 
@@ -27,8 +27,8 @@ export class PortfolioComponent extends FinancialPage implements OnInit, OnDestr
   public holdingForm = new UntypedFormGroup({
     holdingSymbolControl: new UntypedFormControl('', [
       Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(8)
+      Validators.minLength(MIN_STOCK_LENGTH),
+      Validators.maxLength(MAX_STOCK_LENGTH)
     ]),
     holdingQuantityControl: new UntypedFormControl('', [
       Validators.required,

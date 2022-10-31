@@ -7,6 +7,7 @@ import { CompanyResearch } from '../Models/CompanyResearch';
 //import { financialifyNumber } from '../Utilities/utilities';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
+import { MAX_STOCK_LENGTH } from '../Models/Constants';
 
 @Component({
   selector: 'app-company',
@@ -24,7 +25,7 @@ export class CompanyComponent extends FinancialPage implements OnDestroy {
     companySymbolControl: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.maxLength(8)
+        Validators.maxLength(MAX_STOCK_LENGTH)
       ],
       nonNullable: true
     })

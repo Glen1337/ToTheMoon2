@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { RefOption } from '../Models/Option';
 import { environment } from 'src/environments/environment';
+import { RETRY_COUNT } from '../Models/Constants';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class OptionsDataService {
 
     return this.http.get<{ [key: string]: Array<RefOption> }>(`${this.baseUrl}Options/AllOptions`, paramOptions)
     .pipe(
-      tap(_ => console.log('(service)Getting option chain by expiration for ' + symbol)),
-      retry(1),
+      tap(_ => console.log(`(service)Getting option chain by expiration for ${symbol}`)),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }
@@ -41,7 +42,7 @@ export class OptionsDataService {
 
     return this.http.get<string[]>(`${this.baseUrl}Options/Expiry`, { params }).pipe(
       tap(_ => console.log('(service)Getting options chain ')),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }
@@ -54,7 +55,7 @@ export class OptionsDataService {
 
     return this.http.get<RefOption[]>(`${this.baseUrl}Options/AllOptions`, { params }).pipe(
       tap(_ => console.log(`(service)Getting options chain for ${symbol}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }

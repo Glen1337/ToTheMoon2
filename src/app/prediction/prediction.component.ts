@@ -23,13 +23,7 @@ export class PredictionComponent extends FinancialPage {
   private popoverList = new Array<any>();
 
   constructor(public location: Location, public dateConverter: DateConverter, private predictionService: PredictionService) {
-  super();
-    //   this.predictionForm = new FormGroup({
-    //     predictionControl: new FormControl('', [
-    //       Validators.required,
-    //       Validators.maxLength(8),
-    //     ])
-    //   });
+    super();
   }
 
   // get predictionControl() { return this.predictionForm.get('predictionControl'); }
@@ -63,8 +57,8 @@ export class PredictionComponent extends FinancialPage {
 
           this.tooltipList.push(...tooltipList);
 
-          var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-          var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+          let popoverList = popoverTriggerList.map((popoverTriggerEl) => {
             return new bootstrap.Popover(popoverTriggerEl)
           });
 
