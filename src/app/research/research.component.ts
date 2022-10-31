@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';

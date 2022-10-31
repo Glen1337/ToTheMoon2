@@ -1,7 +1,6 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FinancialPage } from '../Common/FinancialPage';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PredictionService } from '../Services/prediction.service';
 import { MLPrediction } from '../Models/MLPrediction';

@@ -3,7 +3,7 @@ import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({

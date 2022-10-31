@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscriber, Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CalendarEvent,
   CalendarEventAction,

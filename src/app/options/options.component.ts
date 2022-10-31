@@ -6,7 +6,6 @@ import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
 import { MAX_STOCK_LENGTH, OrderConstants, SecurityConstants } from '../Models/Constants';
 import { Holding } from '../Models/Holding';
-import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { formatDate, Location } from '@angular/common';

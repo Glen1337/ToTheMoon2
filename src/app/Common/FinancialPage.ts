@@ -1,4 +1,4 @@
-import { Component, Directive, Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
 // @Component({
