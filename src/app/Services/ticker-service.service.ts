@@ -1,5 +1,5 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { buffer, bufferCount, bufferTime, concatMap, distinct, filter, first, from, map, mergeMap, Observable, of, Subject, switchMap, take, tap, throttle, throttleTime } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { bufferTime, distinct, map, Observable, Subject, tap } from 'rxjs';
 import * as signalR from "@microsoft/signalr";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -25,7 +25,7 @@ export class TickerService implements OnDestroy {
     this.hubConnection
     .start()
     .then(() => console.log('Hub Connection Started'))
-    .catch(err => console.log('Error while starting connection: ' + err))
+    .catch(err => console.log(`Error while starting connection: ${err}`))
 
     this.hubConnection.onclose((err?: Error) => {
       if (err) {
@@ -80,6 +80,7 @@ export class TickerService implements OnDestroy {
   }
 
   filterTradesByCount(counter: number, max: number): boolean {
+    // eslint-disable-next-line no-param-reassign
     counter++;
     return counter <= max;
   }

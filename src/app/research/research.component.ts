@@ -1,5 +1,5 @@
+/* eslint-disable no-magic-numbers */
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
@@ -23,23 +23,10 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
   @ViewChild('chartContainer') container!: ElementRef;
 
-  // public researchForm = new FormGroup({
-  //   researchSymbolControl: new FormControl('', {
-  //     validators: [
-  //     Validators.required,
-  //     Validators.minLength(1),
-  //     Validators.maxLength(8)
-  //     ],
-  //     nonNullable: true
-  //   })
-  // });
-
   constructor(private researchService: ResearchDataService, public location: Location, private route: ActivatedRoute) {
     super();
     this.chart = anychart.stock();
   }
-
-  // get researchSymbolControl() { return this.researchForm.get('researchSymbolControl')!; }
 
   public OnSymbolSubmit(inputSymbol: string) {
     let subscription1: Subscription = new Subscription();
@@ -61,26 +48,6 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
 
     this.subscriptions.push(subscription1);
   }
-
-  // onGetData(): void {
-  //   let subscription1: Subscription = new Subscription();
-  //   let symbol: string = this.researchSymbolControl!.value;
-
-  //   subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe({
-  //     next: (data) => {
-  //       this.historicalStockData = data;
-  //       this.ChartData(data);
-  //       this.visible = true;
-  //     },
-  //     error: (error) => {
-  //       console.log('(component)Error in getting research: ', error);
-  //       this.errorMsg = `${error.error}`;
-  //     },
-  //     complete: () => {'(component)Research retrieval complete'}
-  //   });
-
-  //   this.subscriptions.push(subscription1);
-  // }
 
   private ChartData(inputData: any[]): void {
     const fontWeight = 1000;

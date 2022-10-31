@@ -110,7 +110,11 @@ import { SymbolControlComponent } from './Common/symbol-control/symbol-control.c
   ],
 
   // , {provide: LocationStrategy, useClass: HashLocationStrategy}
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }, DateConverter],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    DateConverter
+    // { provide: MAX_STOCK_LENGTH, useValue: MAXIMUM_STOCK_SYMBOL_LENGTH }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

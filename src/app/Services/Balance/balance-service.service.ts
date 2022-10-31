@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
+import { RETRY_COUNT } from 'src/app/Models/Constants';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,7 +17,7 @@ export class BalanceService {
   getBalance(): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}UserBalance`).pipe(
       tap(_ => console.log('(service)Getting balance ')),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError(this.handleError)
     );
   }

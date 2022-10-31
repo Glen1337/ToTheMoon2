@@ -21,6 +21,7 @@ export class FiFormatPipe implements PipeTransform {
 
     // Warning
     if (typeof input === 'bigint') {
+      // eslint-disable-next-line no-param-reassign
       input = Number(input);
     }
     if (input === undefined || input === null) {
@@ -35,18 +36,20 @@ export class FiFormatPipe implements PipeTransform {
       } else {
         numberString = Number(input).toLocaleString();
       }
-        return `${sign ? '+' : ''}${prepend}${numberString}${append}`;
+
+      return `${sign ? '+' : ''}${prepend}${numberString}${append}`;
     }
     if (input < 0) {
       if (decimals) {
         numberString = Number(Math.abs(input)).toFixed(2).toLocaleString();
         return `${sign ? '-' : ''}${prepend}${numberString}${append}`;
-      } else {
-        numberString = Number(Math.abs(input)).toLocaleString();
-        return `${sign ? '-' : ''}${prepend}${numberString}${append}`;
       }
-    } else {
-      return `${prepend}0${append}`;
+      numberString = Number(Math.abs(input)).toLocaleString();
+      return `${sign ? '-' : ''}${prepend}${numberString}${append}`;
+
     }
+
+    return `${prepend}0${append}`;
+
   }
 }

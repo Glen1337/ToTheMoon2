@@ -8,45 +8,6 @@
         </div>
     </div>
 
-    <!-- <form class="" [formGroup]="researchForm" (ngSubmit)="onGetData()">
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-3 col-lg-2 col-xl-1 mb-2">
-                <input spellcheck="false" id="sym" type="text" class="form-control" placeholder="Ticker" formControlName="researchSymbolControl"
-                    [ngClass]="{ 'is-invalid': researchSymbolControl.invalid && (researchSymbolControl.dirty || researchSymbolControl.touched), 'is-valid':  researchSymbolControl.valid && (researchSymbolControl.dirty || researchSymbolControl.touched)}" formControlName="researchSymbolControl">
-                <div *ngIf="researchForm?.invalid && (researchForm?.dirty || researchForm?.touched)" class="invalid-feedback">
-                    <div *ngIf="researchSymbolControl?.errors?.required">Symbol is required.</div>
-                    <div *ngIf="researchSymbolControl?.errors?.maxlength">Symbol must be less than 8 characters.</div>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-2 col-lg-1 col-xl-1">   
-                <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Submit</button>
-            </div>
-        </div>
-    </form> -->
-
-    <!--symbol validation messages-->
-    <!-- <div *ngIf="researchSymbolControl!.invalid && (researchSymbolControl!.dirty || researchSymbolControl!.touched)" class="alert alert-danger">
-        <div *ngIf="researchSymbolControl!.errors!.required">
-            Symbol is required.
-        </div>
-        <div *ngIf="researchSymbolControl!.errors!.minlength || researchSymbolControl!.errors!.maxlength">
-            Symbol must be between 1 and 8 characters long.
-        </div>
-    </div> -->
-
-    <!-- <form class="form-inline" [formGroup]="researchForm" (ngSubmit)="onGetData()">
-        <div class="col-sm-12 col-xs-12 col-lg-2 col-md-4">
-            <div class="row align-items-center">
-                <div class="form-inline align-items-center">
-                    <label for="sym">Symbol: </label>
-                    <input class="form-control" placeholder="Ticker" id="sym" type="text" aria-describedby="adb" formControlName="researchSymbolControl">
-                </div>
-                <button class="btn btn-primary" type="submit" [disabled]="!researchForm.valid">Get Data</button>
-            </div>
-        </div>
-    </form> -->
-
-
     <div [hidden]="!visible" class="chart-container pe-2" #chartContainer></div>
     
     <!-- <div>

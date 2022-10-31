@@ -1,4 +1,4 @@
-import { Component, Directive, Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
 // @Component({
@@ -10,6 +10,8 @@ export class FinancialPage implements OnDestroy {
     public errorMsg: string = '';
     public noticeMsg: string = '';
     public warningMsg: string = '';
+
+    public currentlyLoading: boolean = false;
 
     public subscriptions: Subscription[] = [];
 

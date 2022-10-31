@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Injectable } from "@angular/core";
 import { formatDate } from '@angular/common';
 

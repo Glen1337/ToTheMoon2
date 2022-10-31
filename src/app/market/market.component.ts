@@ -3,7 +3,7 @@ import { MarketData } from '../Models/MarketData';
 import { ResearchDataService } from '../Services/research-data.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FinancialPage } from '../Common/FinancialPage';
 
 @Component({
@@ -15,7 +15,7 @@ export class MarketComponent extends FinancialPage implements OnInit, OnDestroy 
 
   public marketData: MarketData = {} as MarketData;
 
-  constructor(private route: ActivatedRoute, private researchdataService: ResearchDataService, public location: Location) {
+  constructor(private route: ActivatedRoute, public location: Location) {
     super();
   }
 

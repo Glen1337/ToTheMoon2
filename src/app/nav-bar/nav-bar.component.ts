@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, take } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthButtonComponent } from '../auth/login-button';
 import { SymbolLookup } from '../Models/SymbolLookup';
 import { SymbolLookupService } from '../Services/symbol-lookup.service';

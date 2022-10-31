@@ -1,3 +1,7 @@
+export const MAX_STOCK_LENGTH: number = 8;
+export const MIN_STOCK_LENGTH: number = 8;
+export const RETRY_COUNT: number = 1;
+
 export class OrderConstants {
     static readonly Buy = 'Buy';
     static readonly Sell = 'Sell';

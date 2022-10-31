@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { Holding } from '../Models/Holding';
 import { environment } from 'src/environments/environment';
+import { RETRY_COUNT } from '../Models/Constants';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class HoldingService {
     return this.http.post<Holding>(url, optionHolding, this.httpOptions)
     .pipe(
       tap((newHolding) => console.log(`(service)Adding a new option with id: ${newHolding.holdingId}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError<Holding, Observable<Holding>>(this.handleError)
     )
   }
@@ -45,7 +46,7 @@ export class HoldingService {
     return this.http.post<Holding>(url, holding, hOptions)
     .pipe(
       tap((newHolding) => console.log(`(service)Adding a new holding with id: ${newHolding.holdingId}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }
@@ -55,17 +56,17 @@ export class HoldingService {
 
     return this.http.put<Holding>(url, holding, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Updating holding with id: ${id}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }
 
   deleteHolding(id: number): Observable<Holding> {
     let url = `${this.baseUrl}holdings/${id}`;
-    console.log('(service)Sending delete request to API for holding: ' + id);
+    console.log(`(service)Sending delete request to API for holding: ${id}`);
     return this.http.delete<Holding>(url, this.httpOptions).pipe(
       tap(_ => console.log(`(service)Deleting holding with id: ${id}`)),
-      retry(1),
+      retry(RETRY_COUNT),
       catchError<Holding, Observable<Holding>>(this.handleError)
     );
   }

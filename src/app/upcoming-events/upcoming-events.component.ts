@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscriber, Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ResearchDataService } from '../Services/research-data.service';
 import { formatDate, Location } from '@angular/common';
 import { UpcomingEvents } from '../Models/UpcomingEvents';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -52,7 +52,6 @@ const daysAhead: number = 7;
 export class UpcomingEventsComponent extends FinancialPage implements OnInit, OnDestroy {
 
   public upcomingEvents: UpcomingEvents = {} as UpcomingEvents;
-  public currentlyLoading: boolean = false;
 
   public static readonly daysBehind: number = daysAhead;
   public static readonly daysAhead: number = daysBehind;
@@ -93,7 +92,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if (foundCalendarEvent) {
-            foundCalendarEvent!.title = foundCalendarEvent!.title += `<br>IPO: ${ipo.symbol}`;
+            foundCalendarEvent!.title = `${foundCalendarEvent!.title}<br>IPO: ${ipo.symbol}`;
             // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });
@@ -101,7 +100,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
         this.upcomingEvents.earnings.forEach((announcement) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(announcement.reportDate).getDate() == day.start.getDate());
           if (foundCalendarEvent) {
-            foundCalendarEvent!.title = foundCalendarEvent!.title += `<br>Earnings: ${announcement.symbol}`;
+            foundCalendarEvent!.title = `${foundCalendarEvent!.title}<br>Earnings: ${announcement.symbol}`;
             //foundCalendarEvent.title.fontcolor("green");
           }
         });

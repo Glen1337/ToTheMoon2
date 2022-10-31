@@ -4,16 +4,14 @@ import { AbstractControl, FormControl, FormGroup, UntypedFormControl, UntypedFor
 import { OptionsDataService } from '../Services/options-data.service';
 import { RefOption } from '../Models/Option';
 import { HoldingService } from '../Services/holding-data.service';
-import { OrderConstants, SecurityConstants } from '../Models/Constants';
+import { MAX_STOCK_LENGTH, OrderConstants, SecurityConstants } from '../Models/Constants';
 import { Holding } from '../Models/Holding';
-import { PortfolioDataService } from '../Services/portfolio-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../Models/Portfolio';
 import { formatDate, Location } from '@angular/common';
 import { FiFormatPipe } from '../Utilities/fi-format.pipe';
 import { FinancialPage } from '../Common/FinancialPage';
 import { DateConverter } from '../Utilities/DateConverter';
-
 
 @Component({
   selector: 'app-options',
@@ -37,7 +35,7 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
       validators: [
       Validators.required,
       Validators.minLength(1),
-      Validators.maxLength(8)
+      Validators.maxLength(MAX_STOCK_LENGTH)
       ],
       nonNullable: true
     }),
@@ -82,15 +80,15 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
 
   get optionExpiryControl() { return this.optionsForm.get('optionExpiryControl')!; }
 
-  get orderNameControl(): AbstractControl | null { return this.orderForm.get('orderNameControl'); }
+  get orderNameControl() { return this.orderForm.get('orderNameControl')!; }
 
-  get orderStrikeControl(): AbstractControl | null { return this.orderForm.get('orderStrikeControl'); }
+  get orderStrikeControl() { return this.orderForm.get('orderStrikeControl')!; }
 
-  get orderExpControl(): AbstractControl | null { return this.orderForm.get('orderExpControl'); }
+  get orderExpControl() { return this.orderForm.get('orderExpControl')!; }
 
-  get orderQuantityControl(): AbstractControl | null { return this.orderForm.get('orderQuantityControl'); }
+  get orderQuantityControl() { return this.orderForm.get('orderQuantityControl')!; }
 
-  get orderPortfolioControl(): AbstractControl | null { return this.orderForm.get('orderPortfolioControl'); }
+  get orderPortfolioControl() { return this.orderForm.get('orderPortfolioControl')!; }
 
   ngOnInit(): void {
     let sub: Subscription = new Subscription();
@@ -122,23 +120,6 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
         this.expiryDates = exps;
         this.currentlyLoadingChain = false;
         this.optionExpiryControl?.enable();
-        //this.optionChainByExp.optionsByExp = chainByExp;
-        ///console.log(Object.keys(chainByExp));
-        // Array.prototype.forEach.call(this.optionChainByExp.optionsByExp, optionsForDate =>{
-        //   expirys.push(optionsForDate.key);
-        //  // this.expiryDates.push(optionsForDate.key);
-        //   console.log(optionsForDate);
-        // });
-        // Array.prototype.forEach.call(chainByExp, (optionsForDate) =>{
-        //   expirys.push(optionsForDate.key);
-        //  // this.expiryDates.push(optionsForDate.key);
-        //   console.log(optionsForDate);
-        // });
-        //this.expiryDates = expirys;
-        //console.log(expirys);
-        //this.optionChainByExp.optionsByExp.map(function(a){return a.key; });
-        //this.expiryDates = this.optionChainByExp.optionsByExp. map(function(a) {return a.key; });
-        // this.chooseMsg = "Choose an Exp. Date";
       },
       error: (error) => {
         console.log('(component)Error getting options chain: ', error);
@@ -152,33 +133,6 @@ export class OptionsComponent extends FinancialPage implements OnInit, OnDestroy
     });
     this.subscriptions.push(sub);
   }
-
-  // public getExpirys(): void {
-  //   this.currentlyLoadingChain = true;
-  //   let sub: Subscription = new Subscription();
-  //   let expirys: string[] = [];
-  //   let symbol = this.optionSymbolControl?.value.trim().toUpperCase();
-  //   sub = this.optionsDataService.getOptionsChainByExp(symbol).subscribe(
-  //     (chainByExp) => {
-  //       this.optionChainByExp.optionsByExp = chainByExp;
-  //       console.log(Object.keys(chainByExp));
-  //       Array.prototype.forEach.call(this.optionChainByExp.optionsByExp, optionsForDate =>{
-  //         expirys.push(optionsForDate.key);
-  //        // this.expiryDates.push(optionsForDate.key);
-  //         console.log(optionsForDate);
-  //       });
-  //       Array.prototype.forEach.call(chainByExp, (optionsForDate) =>{
-  //         expirys.push(optionsForDate.key);
-  //        // this.expiryDates.push(optionsForDate.key);
-  //         console.log(optionsForDate);
-  //       });
-  //       this.currentlyLoadingChain = false;
-  //       //this.expiryDates = expirys;
-  //       //console.log(expirys);
-  //       //this.optionChainByExp.optionsByExp.map(function(a){return a.key; });
-  //       //this.expiryDates = this.optionChainByExp.optionsByExp. map(function(a) {return a.key; });
-  //       // this.chooseMsg = "Choose an Exp. Date";
-  //     },
 
   public submitForm(): void {
     this.currentlyLoadingChain = true;
