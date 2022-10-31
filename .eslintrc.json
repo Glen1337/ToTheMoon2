@@ -125,7 +125,7 @@
         // "function-call-argument-newline": ["warn", "never"],
         // "padded-blocks": ["warn", "never"],
         // "arrow-parens": "warn",
-        "no-unused-vars": "warn",
+        //"no-unused-vars": "warn",
         // "no-useless-constructor": "warn",
         // "quote-props": "warn",
         // "prefer-const": "warn",

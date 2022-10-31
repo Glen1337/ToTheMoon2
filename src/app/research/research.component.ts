@@ -51,26 +51,6 @@ export class ResearchComponent extends FinancialPage implements OnDestroy {
     this.subscriptions.push(subscription1);
   }
 
-  // onGetData(): void {
-  //   let subscription1: Subscription = new Subscription();
-  //   let symbol: string = this.researchSymbolControl!.value;
-
-  //   subscription1 = this.researchService.getHistoricalstockData(symbol).subscribe({
-  //     next: (data) => {
-  //       this.historicalStockData = data;
-  //       this.ChartData(data);
-  //       this.visible = true;
-  //     },
-  //     error: (error) => {
-  //       console.log('(component)Error in getting research: ', error);
-  //       this.errorMsg = `${error.error}`;
-  //     },
-  //     complete: () => {'(component)Research retrieval complete'}
-  //   });
-
-  //   this.subscriptions.push(subscription1);
-  // }
-
   private ChartData(inputData: any[]): void {
     const fontWeight = 1000;
 
