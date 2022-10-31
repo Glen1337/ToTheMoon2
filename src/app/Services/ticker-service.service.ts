@@ -80,6 +80,7 @@ export class TickerService implements OnDestroy {
   }
 
   filterTradesByCount(counter: number, max: number): boolean {
+    // eslint-disable-next-line no-param-reassign
     counter++;
     return counter <= max;
   }

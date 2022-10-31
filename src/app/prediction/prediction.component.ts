@@ -7,7 +7,7 @@ import { PredictionService } from '../Services/prediction.service';
 import { MLPrediction } from '../Models/MLPrediction';
 import { DateConverter } from '../Utilities/DateConverter';
 
-declare var bootstrap: any
+declare let bootstrap: any
 
 @Component({
   selector: 'app-prediction',

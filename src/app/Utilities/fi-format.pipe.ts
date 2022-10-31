@@ -21,6 +21,7 @@ export class FiFormatPipe implements PipeTransform {
 
     // Warning
     if (typeof input === 'bigint') {
+      // eslint-disable-next-line no-param-reassign
       input = Number(input);
     }
     if (input === undefined || input === null) {

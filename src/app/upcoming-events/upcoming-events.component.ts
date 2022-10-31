@@ -93,7 +93,7 @@ export class UpcomingEventsComponent extends FinancialPage implements OnInit, On
         this.upcomingEvents.ipo.forEach((ipo) => {
           let foundCalendarEvent = this.calendarEvents.find(day => new Date(ipo.offeringDate).getDate() == day.start.getDate());
           if (foundCalendarEvent) {
-            foundCalendarEvent!.title = foundCalendarEvent!.title += `<br>IPO: ${ipo.symbol}`;
+            foundCalendarEvent!.title = `${foundCalendarEvent!.title}<br>IPO: ${ipo.symbol}`;
             // foundCalendarEvent.title. fontcolor("ff6347");
           }
         });

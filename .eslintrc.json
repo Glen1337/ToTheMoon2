@@ -97,7 +97,6 @@
         "no-invalid-this": "warn",
         "no-labels": "warn",
         "no-lonely-if": "warn",
-        "no-magic-numbers": "warn",
         "no-loop-func": "warn",
         "no-multi-assign": "warn",
         "no-multi-str": "warn",
@@ -131,7 +130,7 @@
         // "quote-props": "warn",
         // "prefer-const": "warn",
         // "no-empty-function": "warn",
-
+        // "no-magic-numbers": "warn",
 
         "@angular-eslint/component-selector": [
           "error",
