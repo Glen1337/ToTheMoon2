@@ -5,12 +5,12 @@
     
     <div class="row mt-2">
         <div class="col-12 col-sm-12">
-            <p class="lead">Add an equity to your watchlist</p>
+            <div class="lead mb-2">Add an equity to your watchlist</div>
         </div>
     </div>
 
     <form [formGroup]="watchItemForm" (ngSubmit)="onSubmitWatchItem()">
-        <div class="form-row">
+        <div class="row">
             <div class="col-sm-6 col-6 col-lg-2 col-md-4">
                 <label for="sym">Symbol:</label>
                 <input spellcheck="false" id="sym" type="text" aria-describedby="adb" placeholder="Stock Symbol" [ngClass]="{ 'is-invalid': watchItemSymbolControl!.invalid && (watchItemSymbolControl!.dirty || watchItemSymbolControl!.touched)}" class="form-control" formControlName="watchItemSymbolControl">
