@@ -15,14 +15,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
             <!-- Nav Items -->
-            <ul class="navbar-nav  mb-0">
+            <ul class="navbar-nav me-auto mb-0">
                 <li *ngFor="let navItem of NavItems" class="nav-item">
                     <strong>
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLinkActive]="['active']" [routerLink]="navItem.link">{{navItem.label}}</a>
+                        <a class="nav-link" data-bs-toggle="collapse" [routerLinkActive]="['active']" [routerLink]="navItem.link">{{navItem.label}}</a>
                     </strong>
                 </li>
             </ul>
 
+            <!-- Stock Lookup -->
             <ul class="navbar-nav flex-grow-1 justify-content-center">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
@@ -36,7 +37,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <form class="d-flex">
+                            <form class="d-flex input-group w-auto">
                                 <input class="form-control mb-2" [formControl]='lookupControl' maxlength="20" type="search" placeholder="Search">
                                 <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
                             </form>
@@ -51,6 +52,7 @@
                 </li>
             </ul>
 
+            <!-- Log in/out -->
             <ul class="ms-auto navbar-nav">
                 <li class="nav-item">
                     <app-auth-button></app-auth-button>
