@@ -1,11 +1,38 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-
+@import "../node_modules/bootstrap/scss/variables.scss";
 // bootstrap sass overrides
 $navbar-dark-color:                 $gray-500;
 $navbar-dark-hover-color:           rgb(168, 153, 255);
 $navbar-dark-active-color:           rgb(189, 232, 255);
 $navbar-dark-disabled-color:  rgb(206, 138, 36);
 $navbar-light-disabled-color:  rgb(206, 138, 36);
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacer: 1rem;
+$spacers: ( 0:0);
+@for $i from 1 through 150 {
+    $spacers: map-merge($spacers, (
+        $i: ($i * $spacer)
+    ));
+}
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge(
+    (
+        0: 0,
+        1: ($spacer * .25),    //4px
+        2: ($spacer * .5),     //8px
+        3: $spacer,            //16px
+        4: ($spacer * 1.5),    //24px
+        5: ($spacer * 3),      //48px
+        6: ($spacer * 4),      //64px
+        7: ($spacer * 5),      //80px
+        8: ($spacer * 6.25),   //100px
+        9: ($spacer * 7.5),    //120px
+        10: ($spacer * 9.375)  //150px
+        ),
+    $spacers
+);
 // $navbar-dark-active-color:          $light;
 // $navbar-dark-disabled-color:        rgba($blue, .9);
 // $navbar-dark-toggler-border-color:  rgba($blue, .9) ;
