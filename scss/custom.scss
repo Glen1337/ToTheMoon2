@@ -1,11 +1,13 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../node_modules/bootstrap/scss/variables.scss";
+
 // bootstrap sass overrides
 $navbar-dark-color:                 $gray-500;
 $navbar-dark-hover-color:           rgb(168, 153, 255);
 $navbar-dark-active-color:           rgb(189, 232, 255);
 $navbar-dark-disabled-color:  rgb(206, 138, 36);
-$navbar-light-disabled-color:  rgb(206, 138, 36);
+$navbar-dark-bg: rgb(206, 138, 36);
+$navbar-default-bg: rgb(206, 138, 36);
+$navbar-default-border: rgb(206, 138, 36);
 
 // stylelint-disable-next-line scss/dollar-variable-default
 $spacer: 1rem;
@@ -36,7 +38,6 @@ $spacers: map-merge(
 // $navbar-dark-active-color:          $light;
 // $navbar-dark-disabled-color:        rgba($blue, .9);
 // $navbar-dark-toggler-border-color:  rgba($blue, .9) ;
-
 // $navbar-light-color:                rgba($blue, .9);
 // $navbar-light-hover-color:          rgba($blue, .9);
 // $navbar-light-active-color:         rgba($blue, .9);
@@ -44,7 +45,7 @@ $spacers: map-merge(
 // $navbar-light-toggler-border-color: rgba($blue, .9);
 
 $body-bg: rgb(138, 144, 184);
-//$body-bg: rgb(158, 190, 224, 1);
+$body-bg: rgb(158, 190, 224, 1);
 $font-family-base: 'Heebo', sans-serif;
 //mdb overides
 
@@ -52,5 +53,4 @@ $font-family-base: 'Heebo', sans-serif;
 //     text-transform: unset !important;
 //     box-shadow: none !important;
 // }
-
 @import "../node_modules/bootstrap/scss/bootstrap";
